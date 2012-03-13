@@ -1,0 +1,116 @@
+
+#bracket_holder {
+  position: relative;
+}
+
+#bracket_holder #tweet_button {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+#bracket_holder.completed #tweet_button {
+  display: block;
+}
+
+#bracket .completed {
+  opacity: 0.5;
+}
+
+#bracket .region {
+  overflow: hidden;
+}
+
+#bracket .region h2 { 
+	margin: 1em 0.5em 0 0.5em;
+	color: #006;
+	clear: left;
+}
+#bracket .round h3 { 
+	font-size: 0.9em;
+	text-align: center;
+	min-height: 2.5em;
+	margin-bottom: 0;
+}
+
+/* bracket positioning styles */
+
+#bracket div.round { 
+	width: 19%;
+	float: left;
+	margin-bottom: 3em; 
+}
+
+#bracket ol, #bracket ol ul { 
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* invisible top border prevents IE from adding margin between lists */
+#bracket ol li { 
+	border-top: 1px solid #fff;
+}
+
+/* general pairing styles, including border lines */
+#bracket ol ul li,
+#bracket .national-champion ol li,
+#bracket .region-final-four ol li  { 
+	border-bottom: 1px solid #000;
+	margin: 0;
+	padding: 0;	
+	line-height: 2em;
+	padding-left: 0.25em;
+}
+
+#bracket li.bottom { 
+	border-right: 1px solid #000;
+}
+
+#bracket .round1,
+#bracket .final-four { 
+	margin: 0;
+	padding: 0;
+	margin-left: 1em;
+}
+
+/* top margins of each column (round) */
+#bracket .round2 ol,
+#bracket .national-championship ol { 
+	margin-top: 1em;
+}
+#bracket .sweet-sixteen ol,
+#bracket .national-champion ol { 
+	margin-top: 3em;
+}
+#bracket .elite-eight ol { 
+	margin-top: 7em;
+}
+#bracket .region-final-four ol { 
+	margin-top: 15em;
+}
+
+/* expand height of each bracket cell for higher rounds 
+	by increasing top padding of the bottom team in each pairing
+*/ 
+#bracket .round2 li.bottom,
+#bracket .national-championship li.bottom { 
+	padding-top: 2.25em;
+}
+#bracket .sweet-sixteen li.bottom { 
+	padding-top: 6.5em;	
+}
+#bracket .elite-eight li.bottom { 
+	padding-top: 15.5em;
+}
+
+/* expand margin-bottom of each pairing in higher rounds */
+#bracket .round2 ol ul { 
+	margin-bottom: 2em;
+}
+#bracket .sweet-sixteen ol ul { 
+	margin-bottom: 6.5em;
+}
+
+#bracket a.pickable {text-decoration: none;}

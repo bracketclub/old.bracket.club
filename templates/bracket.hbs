@@ -1,0 +1,34 @@
+<div id="bracket_holder">
+  
+{{#if isError}}
+  {{#each messages}}
+  <p class="error">{{this}}</p>  
+  {{/each}}
+{{else}}
+  <div id="bracket">
+  {{#each regions}}
+    <div id="{{id}}_region" class="region {{classes}}">
+      <h2 class="region-title">{{name}} Region</h2>
+      {{#each rounds}}
+      <div class="{{class}} round">
+        <h3>{{title}}</h3>
+        <ol>
+          <li>
+            {{#each teams}}
+              {{#if startMatchup}}<ul>{{/if}}
+                {{#if classes}}<li class="{{classes}}">{{/if}}
+                  {{#if editable}}<a href="#" class="pickable" data-from-region="{{fromRegion}}">{{/if}}
+                    {{#if seed}}<span class='seed'>({{seed}})</span>{{/if}}&nbsp;{{name}}
+                  {{#if editable}}</a>{{/if}}
+                {{#if classes}}</li>{{/if}}
+              {{#if endMatchup}}</ul>{{/if}}
+            {{/each}}
+          </li>
+        </ol>
+      </div>
+      {{/each}}
+    </div>
+  {{/each}}
+  </div>
+{{/if}}
+</div>

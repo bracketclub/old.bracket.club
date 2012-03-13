@@ -1,0 +1,91 @@
+{
+  "regions": {
+    "E": {
+      "sameSideAs": "W",
+      "teams": {
+        "1": "Ohio State",
+        "16": "UTSA",
+        "8": "George Mason",
+        "9": "Villanova",
+        "5": "West Virginia",
+        "12": "Clemson",
+        "4": "Kentucky",
+        "13": "Princeton",
+        "6": "Xavier",
+        "11": "Marquette",
+        "3": "Syracuse",
+        "14": "Indiana State",
+        "7": "Washington",
+        "10": "Georgia",
+        "2": "North Carolina",
+        "15": "Long Island"
+      }
+    },
+    "W": {
+      "sameSideAs": "E",
+      "teams": {
+        "1": "Duke",
+        "16": "Hampton",
+        "8": "Michigan",
+        "9": "Tennessee",
+        "5": "Arizona",
+        "12": "Memphis",
+        "4": "Texas",
+        "13": "Oakland",
+        "6": "Cincinnati",
+        "11": "Missouri",
+        "3": "Connecticut",
+        "14": "Bucknell",
+        "7": "Temple",
+        "10": "Penn State",
+        "2": "San Diego State",
+        "15": "Northern Colorado"
+      }
+    },
+    "SW": {
+      "sameSideAs": "SE",
+      "teams": {
+        "1": "Kansas",
+        "16": "Boston University",
+        "8": "UNLV",
+        "9": "Illinois",
+        "5": "Vanderbilt",
+        "12": "Richmond",
+        "4": "Louisville",
+        "13": "Morehead State",
+        "6": "Georgetown",
+        "11": "VCU",
+        "3": "Purdue",
+        "14": "Saint Peter's",
+        "7": "Texas A&M",
+        "10": "Florida State",
+        "2": "Notre Dame",
+        "15": "Akron"
+      }
+    },
+    "SE": {
+      "sameSideAs": "SW",
+      "teams": {
+        "1": "Pittsburgh",
+        "16": "UNC-Asheville",
+        "8": "Butler",
+        "9": "Old Dominion",
+        "5": "Kansas State",
+        "12": "Utah State",
+        "4": "Wisconsin",
+        "13": "Belmont",
+        "6": "St. John's",
+        "11": "Gonzaga",
+        "3": "Brigham Young",
+        "14": "Wofford",
+        "7": "UCLA",
+        "10": "Michigan State",
+        "2": "Florida",
+        "15": "UC Santa Barbara"
+      }
+    }
+  },
+  "FF": {
+    "name": "Final Four"
+  }
+}
