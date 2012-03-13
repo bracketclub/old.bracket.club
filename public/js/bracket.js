@@ -85,16 +85,17 @@
     }
 
     function updateTweet() {
-      var message = "I made my NCAA picks with tweetyourbracket.com",
-          mandatoryMessage = window.location.hash+' #tybrkt';
+      var message = "I made my picks!",
+          mandatoryMessage = window.location.hash+' #tybrkt',
+          userMessage = ((mandatoryMessage.length + message.length < 140) ? message+' ' : '') + mandatoryMessage;
           
       var tweet = $("<a/>", {
-        href: "https://twitter.com/share",
+        href: "https://twitter.com/intent/tweet",
         "class": "twitter-share-button",
-        text: "Tweet",
-        "data-text": ((mandatoryMessage.length + message.length < 140) ? message+' ' : '') + mandatoryMessage,
+        "text": "Tweet",
+        "data-text": userMessage,
         "data-size": "large",
-        "data-url": ""
+        "data-url": "tweetyourbracket.com"
       });
       removeTweet();
       $('#bracket_holder').prepend(tweet);
