@@ -85,7 +85,7 @@
     }
 
     function updateTweet() {
-      var message = "I made my picks!",
+      var message = "I made my picks with tweetyourbracket.com",
           mandatoryMessage = window.location.hash+' #tybrkt',
           userMessage = ((mandatoryMessage.length + message.length < 140) ? message+' ' : '') + mandatoryMessage;
           
