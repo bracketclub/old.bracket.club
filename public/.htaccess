@@ -1,0 +1,17 @@
+# This is the .htaccess file in our document root.
+Options +FollowSymLinks -Indexes -MultiViews
+
+<IfModule mod_rewrite.c>
+    
+    RewriteEngine on
+    
+    # Redirect a whole subdirectory:
+    RewriteRule ^/$ http://tweetyourbracket.com:8000/ [P]
+    
+    # Redirect a whole subdirectory:
+    RewriteRule ^/user/(.+) http://tweetyourbracket.com:8000/user/$1 [P]
+    
+    # Redirect a whole subdirectory:
+    RewriteRule ^/validate/(.+) http://tweetyourbracket.com:8000/validate/$1 [P]
+    
+</IfModule>
