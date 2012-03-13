@@ -2,15 +2,11 @@
 	margin-top: 70px;
 }
 
-#bracket_holder {
-  position: relative;
-}
-
-#bracket_holder .twitter-share-button {
+#navigation .twitter-share-button {
   display: block;
-  position: fixed;
-  top: 20px;
-  right: 20px;
+  position: absolute;
+  top: 6px;
+  right: 10%;
 }
 
 #bracket .completed {

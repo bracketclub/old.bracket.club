@@ -98,7 +98,7 @@
         "data-url": "tweetyourbracket.com"
       });
       removeTweet();
-      $('#bracket_holder').prepend(tweet);
+      $('#navigation .navbar-inner').append(tweet);
       if (typeof twttr !== 'undefined') twttr.widgets.load();
     }
     
