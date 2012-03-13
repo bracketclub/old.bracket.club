@@ -23,21 +23,21 @@ Displays a users bracket if it exists in the DB
 ### Sitemap
 
 - / [DONE]
--- Modal message talking giving details
--- Blank bracket to fill out
--- Ends with tweet button (come up with different messages based on string length)
+  * Modal message talking giving details
+  * Blank bracket to fill out
+  *Ends with tweet button (come up with different messages based on string length)
 
 - /results
--- Show Top 100 scores
--- Updates after every game
+  * Show Top 100 scores
+  * Updates after every game
 
 - /rules
--- Show scoring rules
+  * Show scoring rules
 
 - /terms
--- Come up with some basic language saying that it might not work well, etc
+  * Come up with some basic language saying that it might not work well, etc
 
 - /user/USERNAME
--- Query bracket display to display bracket, score, rank [DONE]
--- Link in nav is only available if twitter oauth validated
--- Editable if before first game and validated via oauth
+  * Query bracket display to display bracket, score, rank [DONE]
+  * Link in nav is only available if twitter oauth validated
+  * Editable if before first game and validated via oauth
