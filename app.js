@@ -30,12 +30,6 @@ app.use(flatiron.plugins.http, {
   }
 });
 
-var pg = require('pg').native, connectionString = process.env.DATABASE_URL, client, query;
-client = new pg.Client(connectionString);
-client.connect();
-query = client.query("INSERT INTO brackets (userName, score, bracket) VALUES('lukekarrys', 0, 'S195463721432121W185463721462122E1854631021532131MW195463721532122FFSES')");
-query.on('end', function() { client.end(); });
-
 app.use(handlebarsPlugin, {
   templates: __dirname + "/templates",
   defaultLayout: 'layouts/default',
