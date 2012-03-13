@@ -3,15 +3,11 @@
   position: relative;
 }
 
-#bracket_holder #tweet_button {
-  display: none;
+#bracket_holder .twitter-share-button {
+  display: block;
   position: fixed;
   top: 20px;
   right: 20px;
-}
-
-#bracket_holder.completed #tweet_button {
-  display: block;
 }
 
 #bracket .completed {

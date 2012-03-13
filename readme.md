@@ -17,7 +17,7 @@ Takes the selected games from the visual bracket and creates the formatted brack
 ### Twitter Streaming API Watcher
 Watches for #tybrkt tweets, if they contain a valid bracket hashtag then save it to a DB
 
-### Mongo DB [DONE]
+### Postgres DB [DONE]
 Displays a users bracket if it exists in the DB
 
 ### Sitemap
@@ -25,7 +25,7 @@ Displays a users bracket if it exists in the DB
 - / [DONE]
   * Modal message talking giving details
   * Blank bracket to fill out
-  *Ends with tweet button (come up with different messages based on string length)
+  * Ends with tweet button (come up with different messages based on string length)
 
 - /results
   * Show Top 100 scores
@@ -39,5 +39,4 @@ Displays a users bracket if it exists in the DB
 
 - /user/USERNAME
   * Query bracket display to display bracket, score, rank [DONE]
-  * Link in nav is only available if twitter oauth validated
-  * Editable if before first game and validated via oauth
+  * TODO: Fix DB so it stops breaking when bad usernames are requested

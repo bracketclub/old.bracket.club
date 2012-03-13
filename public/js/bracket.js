@@ -56,7 +56,7 @@
             new RegExp('('+regionIds.join('|')+')')
           )
         ), regionIds),
-        allPicks = _.flatten(regionPicks);
+        allPicks = _.flatten(regionPicks).join('');
         
       _.each(regionPicks, function(regionPick, regionId) {
         var $region = $content.find(region).eq(regionId);
@@ -64,20 +64,19 @@
           $region.addClass('completed');
         } else {
           $region.removeClass('completed');
-          
         }
       });
       
-      if (allPicks[0].indexOf('X') === -1) {
+      if (allPicks.indexOf('X') === -1) {
         $content.find('#FF_region').addClass('completed');
         $content.find('#bracket').addClass('completed');
         $content.find('#bracket_holder').addClass('completed');
         updateTweet();
       } else {
         removeTweet();
-        $content.find('#FF_region').remove('completed');
-        $content.find('#bracket').remove('completed');
-        $content.find('#bracket_holder').remove('completed');
+        $content.find('#FF_region').removeClass('completed');
+        $content.find('#bracket').removeClass('completed');
+        $content.find('#bracket_holder').removeClass('completed');
       }
     }
     

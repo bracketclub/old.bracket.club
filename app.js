@@ -33,7 +33,6 @@ app.use(flatiron.plugins.http, {
 app.use(handlebarsPlugin, {
   templates: __dirname + "/templates",
   defaultLayout: 'layouts/default',
-  blockHelpers: require('./lib/blockHelpers'),
   cacheTemplates: false
 });
 app.use(routes);
