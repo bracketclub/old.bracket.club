@@ -17,6 +17,10 @@
     "api-easy": "0.3.2",
     "vows": "0.6.1"
   },
+  "engines": {
+    "node": "0.6.10",
+    "npm":  "1.1.1"
+  },
   "scripts": {
     "test": "vows --spec",
     "start": "node app.js"
