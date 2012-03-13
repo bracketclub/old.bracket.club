@@ -30,14 +30,10 @@ app.use(flatiron.plugins.http, {
   }
 });
 
-var pg = require('pg').native
-  , connectionString = process.env.DATABASE_URL
-  , client
-  , query;
-
+var pg = require('pg').native, connectionString = process.env.DATABASE_URL, client, query;
 client = new pg.Client(connectionString);
 client.connect();
-query = client.query('CREATE TABLE brackets (userName varchar(50) CONSTRAINT PRIMARY KEY, bracket varchar(140) NOT NULL, score integer)');
+query = client.query('CREATE TABLE brackets (bracket varchar(140) NOT NULL, score integer, userName varchar(100) NOT NULL PRIMARY KEY)');
 query.on('end', function() { client.end(); });
 
 app.use(handlebarsPlugin, {
