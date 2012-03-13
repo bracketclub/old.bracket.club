@@ -6,20 +6,29 @@
     <meta charset="utf-8" />
 
     <title>{{title}} | tweetyourbracket.com</title>
-    
+
+    <link href="/css/bootstrap.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="/css/bracket.css" media="screen" rel="stylesheet" type="text/css" />
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
   </head>
   <body>
     <header>
     </header>
-    <nav id="navigation">
-      <ul>
-        <li><a href="/" title="Create Your Bracket" class="{{home}}">Create Your Bracket</a></li>
-        {{#if twitterId}}<li><a href="/user/{{twitterId}}" title="My Bracket" class="{{user}}">My Bracket</a></li>{{/if}}
-      </ul>
+    <nav id="navigation" class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">Tweet Your Bracket</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="/" title="Create Your Bracket" class="{{home}}">Create Your Bracket</a></li>
+              {{#if twitterId}}<li><a href="/user/{{twitterId}}" title="My Bracket" class="{{user}}">My Bracket</a></li>{{/if}}
+            </ul>
+          </div>
+        </div>
+      </div>
     </nav>
-    <div id="content">
+    <div id="content" class="container">
       {{{ body }}}
     </div>
     <footer>
