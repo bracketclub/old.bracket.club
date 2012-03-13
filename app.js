@@ -9,8 +9,6 @@ var flatiron = require('flatiron'),
 
 var port = process.env.PORT || 3050;
 
-app.config.file({ file: path.join(__dirname, 'config', 'config.json') });
-
 app.use(flatiron.plugins.http, {
   
   before: [
