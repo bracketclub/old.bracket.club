@@ -83,7 +83,7 @@
     function removeTweet() {
       $('.twitter-share-button').remove();
     }
-    
+
     function updateTweet() {
       var message = "I made my NCAA picks with tweetyourbracket.com",
           mandatoryMessage = window.location.hash+' #tybrkt';
@@ -93,7 +93,8 @@
         "class": "twitter-share-button",
         text: "Tweet",
         "data-text": ((mandatoryMessage.length + message.length < 140) ? message+' ' : '') + mandatoryMessage,
-        "data-size": "large"
+        "data-size": "large",
+        "data-url": ""
       });
       removeTweet();
       $('#bracket_holder').prepend(tweet);
