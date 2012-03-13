@@ -37,11 +37,7 @@ var pg = require('pg').native
 
 client = new pg.Client(connectionString);
 client.connect();
-query = client.query('CREATE TABLE brackets (
-  userName  varchar(50) CONSTRAINT firstkey PRIMARY KEY,
-  bracket   varchar(140) NOT NULL
-  score     integer
-)');
+query = client.query('CREATE TABLE brackets (userName varchar(50) CONSTRAINT PRIMARY KEY, bracket varchar(140) NOT NULL, score integer)');
 query.on('end', function() { client.end(); });
 
 app.use(handlebarsPlugin, {
