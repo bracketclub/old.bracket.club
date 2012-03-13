@@ -43,5 +43,5 @@ app.start(port, function(err) {
   app.log.info("TweetYourBracket Version 0.1");
   app.log.info("started at :", Date());
   app.log.info("   on port :", port);
-  app.log.info("   in mode :", (process.env.port) ? 'production' : app.env);
+  app.log.info("   in mode :", (NODE_ENV) ? NODE_ENV : app.env);
 });
