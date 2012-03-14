@@ -97,11 +97,11 @@
           mandatoryMessage = window.location.hash+' #tybrkt',
           userMessage = ((mandatoryMessage.length + message.length < 140) ? message+' ' : '') + mandatoryMessage;
 
-          
       var tweet = $("<a/>", {
         "href": "https://twitter.com/intent/tweet",
         "class": "twitter-share-button",
         "text": "Tweet",
+        "data-url": window.location.href,
         "data-text": "I made my NCAA picks!",
         "data-size": "large",
         "data-hashtags": "tybrkt",
