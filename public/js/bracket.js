@@ -93,17 +93,19 @@
     }
 
     function updateTweet() {
-      var message = "I made my picks with tweetyourbracket.com",
+      var message = "I made my NCAA picks:",
           mandatoryMessage = window.location.hash+' #tybrkt',
           userMessage = ((mandatoryMessage.length + message.length < 140) ? message+' ' : '') + mandatoryMessage;
+
           
       var tweet = $("<a/>", {
-        href: "https://twitter.com/intent/tweet",
+        "href": "https://twitter.com/intent/tweet",
         "class": "twitter-share-button",
         "text": "Tweet",
-        "data-text": userMessage,
+        "data-text": "I made my NCAA picks!",
         "data-size": "large",
-        "data-url": "tweetyourbracket.com"
+        "data-hashtags": "tybrkt",
+        "data-via": "TweetTheBracket"
       });
       removeTweet();
       $tweetHolder
