@@ -93,10 +93,6 @@
     }
 
     function updateTweet() {
-      var message = "I made my NCAA picks:",
-          mandatoryMessage = window.location.hash+' #tybrkt',
-          userMessage = ((mandatoryMessage.length + message.length < 140) ? message+' ' : '') + mandatoryMessage;
-
       var tweet = $("<a/>", {
         "href": "https://twitter.com/intent/tweet",
         "class": "twitter-share-button",
