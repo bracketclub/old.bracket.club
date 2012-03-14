@@ -6,6 +6,8 @@ var flatiron = require('flatiron'),
     handlebarsPlugin = require('./lib/plugins/handlebars'),
     connect = require('connect'),
     app = flatiron.app;
+    
+require('./lib/plugins/twitter.js');
 
 var port = process.env.PORT || 3050;
 
