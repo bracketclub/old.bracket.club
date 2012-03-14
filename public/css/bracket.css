@@ -3,15 +3,9 @@
 }
 
 .footer {
-  color: #fff;
-  margin-top: 40px;
-}
-
-.footer .navbar-inner {
-  padding: 20px 10px 10px;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
+  color: #000;
+  margin-top: 120px;
+  padding: 0px 4% 10px;
 }
 
 .footer a {
@@ -23,11 +17,37 @@
   padding-right: 10px;
 }
 
-#navigation .twitter-share-button {
+#navigation .tweet-button-holder {
   display: block;
   position: absolute;
   top: 6px;
-  right: 10%;
+  right: 2%;
+}
+
+#navigation .tweet-button-holder .before-message {
+  position: relative;
+  top: 5px;
+}
+
+#navigation .before-message {
+  display: block;
+}
+
+#navigation .ready .before-message {
+  display: none;
+}
+
+#navigation .alert-success {
+  display: none;
+  position: absolute;
+  top: 40px;
+  left: -27px;
+  text-align: center;
+  padding: 5px 21px;
+}
+
+#navigation .ready .alert-success {
+  display: block;
 }
 
 #bracket .completed {

@@ -1,8 +1,11 @@
 <div id="bracket_holder">
-{{#if isError}}
+{{#if error}}
+  <div class="alert alert-error">
+    <strong>Bracket Display Error</strong>
   {{#each messages}}
-  <p class="error">{{this}}</p>  
+  <br/>{{this}}  
   {{/each}}
+  </div>
 {{else}}
   <div id="bracket">
   {{#each regions}}

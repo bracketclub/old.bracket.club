@@ -5,7 +5,8 @@
         round = '.round',
         pickable = 'a.pickable',
         finalFour = '#FF_region',
-        $content = $('#content');
+        $content = $('#content'),
+        $tweetHolder = $('#navigation .tweet-button-holder');
     
     
     $content.on('click', 'a.pickable', function(e) {
@@ -21,6 +22,10 @@
           $nextGame = $nextRound.find(pickable).eq(gameIndex),
           previousWinner = $.trim($nextGame.text()),
           winner = $.trim($winner.text());
+          
+      if ($content.find('.alert-error').length > 0) {
+        $content.find('.alert-error').slideUp();
+      }
       
       if (previousWinner && previousWinner !== winner) {
         if (regionId !== 'FF') {
@@ -81,7 +86,10 @@
     }
     
     function removeTweet() {
-      $('.twitter-share-button').remove();
+      $tweetHolder
+        .removeClass('ready')
+        .addClass('not-ready')
+        .find('.twitter-share-button').remove();
     }
 
     function updateTweet() {
@@ -98,7 +106,10 @@
         "data-url": "tweetyourbracket.com"
       });
       removeTweet();
-      $('#navigation .navbar-inner').append(tweet);
+      $tweetHolder
+        .addClass('ready')
+        .removeClass('not-ready')
+        .append(tweet);
       if (typeof twttr !== 'undefined') twttr.widgets.load();
     }
     
@@ -133,8 +144,18 @@
       $.ajax({
         url: '/validate/' + window.location.hash.replace('#', ''),
         success: function(data) {
-          $content.find('#bracket_holder').html($(data).html());
-          checkCompletion();
+          var $data = $(data),
+              $error = $data.find('.alert-error'),
+              $bracketHolder = $content.find('#bracket_holder');
+
+          if ($error.length > 0) {
+            $error.append('<br/><strong>This bracket identifier is invalid. A blank bracket has been provided.</strong>');
+            $bracketHolder.prepend($error);
+          } else {
+            $bracketHolder.html($data.html());
+            checkCompletion();
+          }
+          
         }
       });
     }
