@@ -32,8 +32,7 @@ app.use(flatiron.plugins.http, {
 
 app.use(handlebarsPlugin, {
   templates: __dirname + "/templates",
-  defaultLayout: 'layouts/default',
-  cacheTemplates: false
+  defaultLayout: 'layouts/default'
 });
 app.use(routes);
 
