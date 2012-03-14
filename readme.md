@@ -16,12 +16,13 @@ I never got Postgres working locally. It's currently using Postgres 8.1 shared D
 
 ## TODOs
 
-- Make it not look like crap (using Bootstrap)
+- Add subnav with
+  - Scrollspy for regions
+  - Progress bar for picks
+- Add modal for first time bracket completion, after add notification in top nav
 - Add some cooler interactions during the bracket (drag ‘n’ drop, keyboard shortcuts, auto scrolling)
-- Mobile ready with some media queries
 - Make the Postgres DB not break when a row doesn’t exist (sounds easy, so no idea why I couldn’t get it to work)
 - Get Postgres working locally with a default schema and data
-- Better hosting (for now it’s on a free Heroku instance)
 - Make it actually do what was advertised and setup the Twitter Streaming API watcher
 - Get server side scoring done to take a bracket and output the score and to add right/wrong colors to bracket display
 - Add `/results` and `/rules`
