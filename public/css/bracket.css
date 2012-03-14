@@ -20,8 +20,7 @@
 }
 
 .navbar form {
-  margin-bottom: 0px;
-  margin-top: 5px;
+  margin: 5px 0 0 10px;
 }
 
 #navigation .tweet-button-holder {

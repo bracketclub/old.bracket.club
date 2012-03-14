@@ -6,7 +6,7 @@
       var val = $(this).find('input').val();
       console.log(val);
       if (val) {
-        window.location.href = "/" + val;
+        window.location.href = "/user/" + val;
       }
     });
     

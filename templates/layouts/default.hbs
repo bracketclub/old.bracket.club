@@ -19,9 +19,8 @@
           <div class="container"><a class="brand active" href="/">Tweet Your Bracket</a>
             <div class="nav-collapse">
               <ul class="nav">
-                {{#if username}}
-                <li class="{{user}}"><a href="/user/{{username}}" title="@{{username}}">@{{username}}</a></li>
-                {{/if}}
+                <li class="{{results}}"><a href="/results" title="Results">Results</a></li>
+                <li class="{{questions}}"><a href="/questions" title="Questions">Questions</a></li>
                 <li><form class="form-inline" id="nav-search">
                   <input type="text" class="input-medium" placeholder="Twitter Username">
                   <button type="submit" class="btn">Find a Bracket</button>
@@ -30,7 +29,7 @@
             </div>
           </div>
           <div class="tweet-button-holder not-ready">
-            <span class="before-message">Complete Your Bracket To Tweet!</span>
+            <span class="before-message">Your Bracket is Incomplete!</span>
             <div class="alert alert-success">Tweet Your Bracket!</div>
           </div>
         </div>
@@ -42,6 +41,7 @@
     <footer class="footer container">
       <p>Follow <a href="http://twitter.com/tweetthebracket">@TweetTheBracket</a> on Twitter for updates</p>
       <p>A <a href="http://lukecod.es">Luke Codes</a> Project | Built by <a href="http://twitter.com/lukekarrys">@lukekarrys</a> with help from <a href="http://twitter.com/richardiii">@richardiii</a></p>
+      <p>Curious as to how this works? <a href="https://gist.github.com/2028007#file_readme.md">Here's an explanation</a></p>
     </footer>
   </body>
   
