@@ -11,7 +11,9 @@
     "handlebars": "1.0.5beta",
     "js-yaml": "0.3.6",
     "underscore": "1.3.1",
-    "pg": "0.6.14"
+    "pg": "0.6.14",
+    "twitter": "0.1.18",
+    "date-utils": "1.2.10"
   },
   "engines": {
     "node": "0.6.10",
