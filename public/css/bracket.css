@@ -1,5 +1,17 @@
 #content {
-	margin-top: 70px;
+	margin: 5% 2% 0;
+}
+
+.footer {
+  color: #fff;
+  margin-top: 40px;
+}
+
+.footer .navbar-inner {
+  padding: 20px 0px 10px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
 
 #navigation .twitter-share-button {
@@ -32,7 +44,7 @@
 /* bracket positioning styles */
 
 #bracket div.round { 
-	width: 19%;
+	width: 19.5%;
 	float: left;
 	margin-bottom: 3em; 
 }

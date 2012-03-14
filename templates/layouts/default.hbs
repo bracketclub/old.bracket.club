@@ -14,24 +14,32 @@
   </head>
   <body>
     <header>
-    </header>
-    <nav id="navigation" class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="brand" href="/">Tweet Your Bracket</a>
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li class="active"><a href="/" title="Create Your Bracket" class="{{home}}">Create Your Bracket</a></li>
-              {{#if twitterId}}<li><a href="/user/{{twitterId}}" title="My Bracket" class="{{user}}">My Bracket</a></li>{{/if}}
-            </ul>
+      <nav id="navigation" class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="/">Tweet Your Bracket</a>
+            <div class="nav-collapse">
+              <ul class="nav">
+                <li class="{{home}}"><a href="/" title="Create Your Bracket">Create Your Bracket</a></li>
+                {{#if userName}}<li class="{{user}}"><a href="/user/{{twitterId}}" title="My Bracket">@{{userName}}'s Bracket</a></li>{{/if}}
+                <li class="twitter"><a href="http://twitter.com/tweetthebracket">Follow @TweetTheBracket</a></li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
-    <div id="content" class="container">
+      </nav>
+    </header>
+    <div id="content">
       {{{ body }}}
     </div>
-    <footer>
+    <footer class="footer">
+      <div class="navbar-inner">
+        <div class="container">
+      <p>A <a href="http://lukecod.es">lukecodes</a> project | Built by <a href="http://twitter.com/lukekarrys">@lukekarrys</a> with help from <a href="http://twitter.com/richardiii">@richardiii</a>.</p>
+      <p>Hosted on <a href="http://www.heroku.com/">Heroku</a> | Built with <a href="http://nodejs.org/">Node</a>, <a href="http://flatironjs.org/">Flatiron</a> &amp; <a href="http://handlebarsjs.com/">Handlebars</a>.</p>
+      <p>Check out the source on <a href="https://github.com/lukekarrys/tweetyourbracket.com">GitHub</a>.</p>
+        </div>
+      </div>
     </footer>
   </body>
   
