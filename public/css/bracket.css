@@ -192,3 +192,26 @@
 }
 
 #bracket a.pickable {text-decoration: none;}
+
+@media (max-width: 768px) {
+  #navigation .tweet-button-holder {
+    top: 42px;
+  }
+  .navbar-inner {
+    padding-bottom: 35px;
+  }
+}
+
+@media (max-width: 635px) {
+  #navigation form {
+    top: 35px;
+    position: fixed;
+    left: 0px;
+  }
+}
+
+@media (max-width: 480px) {
+  #navigation form input {
+    width: 90px;
+  }
+}

@@ -1,7 +1,7 @@
 (function(window, $, undefined) {
   $(document).ready(function() {
     
-    $('#nav-search, #hero-search').submit(function(e) {
+    $('.user-search').submit(function(e) {
       e.preventDefault();
       var val = $(this).find('input').val();
       console.log(val);
