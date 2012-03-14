@@ -11,8 +11,7 @@
 
 ## Notes
 
-I never got Postgres working locally. It's currently using Postgres 8.1 shared DB in production on Heroku. Postgres is used to fill requests for `/user/username` but it currently only works in production for valid usernames and fails otherwise (bringing down the whole app).
-
+- User pages don't work locally
 
 ## TODOs
 
@@ -21,8 +20,6 @@ I never got Postgres working locally. It's currently using Postgres 8.1 shared D
   - Progress bar for picks
 - Add modal for first time bracket completion, after add notification in top nav
 - Add some cooler interactions during the bracket (drag ‘n’ drop, keyboard shortcuts, auto scrolling)
-- Make the Postgres DB not break when a row doesn’t exist (sounds easy, so no idea why I couldn’t get it to work)
 - Get Postgres working locally with a default schema and data
-- Make it actually do what was advertised and setup the Twitter Streaming API watcher
 - Get server side scoring done to take a bracket and output the score and to add right/wrong colors to bracket display
 - Add `/results` and `/rules`
