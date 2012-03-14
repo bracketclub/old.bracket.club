@@ -81,7 +81,7 @@
         }
       });
       
-      if (allPicks.indexOf('X') === -1) {
+      if (allPicks && allPicks.indexOf('X') === -1) {
         $content.find('#FF_region').addClass('completed');
         $content.find('#bracket').addClass('completed');
         $content.find('#bracket_holder').addClass('completed');
@@ -150,7 +150,7 @@
     }
     
     
-    if (window.location.hash) {
+    if (window.location.hash && $content.find('#bracket_holder').length > 0) {
       $.ajax({
         url: '/tybrkt_renderBracket/' + window.location.hash.replace('#', ''),
         success: function(data) {
@@ -168,6 +168,11 @@
           
         }
       });
+    } else if ($content.find('#bracket_holder').length > 0) {
+      stringBuilder();
+    } else {
+      $tweetHolder.remove();
     }
+    
   });
 })(window, jQuery);
