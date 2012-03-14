@@ -1,6 +1,15 @@
 (function(window, $, undefined) {
   $(document).ready(function() {
     
+    $('#nav-search, #hero-search').submit(function(e) {
+      e.preventDefault();
+      var val = $(this).find('input').val();
+      console.log(val);
+      if (val) {
+        window.location.href = "/" + val;
+      }
+    });
+    
     var region = '.region',
         round = '.round',
         pickable = 'a.pickable',
@@ -93,11 +102,12 @@
     }
 
     function updateTweet() {
+      
       var tweet = $("<a/>", {
         "href": "https://twitter.com/intent/tweet",
         "class": "twitter-share-button",
         "text": "Tweet",
-        "data-url": window.location.href,
+        "data-url": "http://" + window.location.host + "/" + window.location.hash,
         "data-text": "I made my NCAA picks!",
         "data-size": "large",
         "data-hashtags": "tybrkt",
@@ -108,6 +118,8 @@
         .addClass('ready')
         .removeClass('not-ready')
         .append(tweet);
+        
+      
       if (typeof twttr !== 'undefined') twttr.widgets.load();
     }
     
@@ -140,7 +152,7 @@
     
     if (window.location.hash) {
       $.ajax({
-        url: '/validate/' + window.location.hash.replace('#', ''),
+        url: '/tybrkt_renderBracket/' + window.location.hash.replace('#', ''),
         success: function(data) {
           var $data = $(data),
               $error = $data.find('.alert-error'),

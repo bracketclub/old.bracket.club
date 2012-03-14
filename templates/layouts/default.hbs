@@ -16,14 +16,16 @@
     <header>
       <nav id="navigation" class="navbar navbar-fixed-top">
         <div class="navbar-inner">
-          <div class="container"><a class="brand" href="/">Tweet Your Bracket</a>
+          <div class="container"><a class="brand active" href="/">Tweet Your Bracket</a>
             <div class="nav-collapse">
               <ul class="nav">
-                <li class="{{home}}"><a href="/" title="Create Your Bracket">Create Your Bracket</a></li>
                 {{#if username}}
                 <li class="{{user}}"><a href="/user/{{username}}" title="@{{username}}">@{{username}}</a></li>
                 {{/if}}
-                <li class="twitter"><a href="http://twitter.com/tweetthebracket">Follow @TweetTheBracket</a></li>
+                <li><form class="form-inline" id="nav-search">
+                  <input type="text" class="input-medium" placeholder="Twitter Username">
+                  <button type="submit" class="btn">Find a Bracket</button>
+                </form></li>
               </ul>
             </div>
           </div>
@@ -38,7 +40,8 @@
       {{{ body }}}
     </div>
     <footer class="footer container">
-          <p>A <a href="http://lukecod.es">Luke Codes</a> Project | Built by <a href="http://twitter.com/lukekarrys">@lukekarrys</a> with help from <a href="http://twitter.com/richardiii">@richardiii</a></p>
+      <p>Follow <a href="http://twitter.com/tweetthebracket">@TweetTheBracket</a> on Twitter for updates</p>
+      <p>A <a href="http://lukecod.es">Luke Codes</a> Project | Built by <a href="http://twitter.com/lukekarrys">@lukekarrys</a> with help from <a href="http://twitter.com/richardiii">@richardiii</a></p>
     </footer>
   </body>
   
