@@ -108,7 +108,7 @@
         "class": "twitter-share-button",
         "text": "Tweet",
         "data-url": "http://" + window.location.host + "/" + window.location.hash,
-        "data-text": "I made my NCAA picks!",
+        "data-text": "I filled out my NCAA tournament bracket!",
         "data-size": "large",
         "data-hashtags": "tybrkt",
         "data-via": "TweetTheBracket"
