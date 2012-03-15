@@ -28,10 +28,10 @@
               </ul>
             </div>
           </div>
-          <div class="tweet-button-holder not-ready">
+          {{#if editable}}<div class="tweet-button-holder not-ready">
             <span class="before-message">Your Bracket is Incomplete!</span>
             <div class="alert alert-success">Tweet Your Bracket!</div>
-          </div>
+          </div>{{/if}}
         </div>
       </nav>
     </header>
@@ -47,7 +47,8 @@
   
   <script src="/js/jquery-1.7.1.min.js"></script>
   <script src="/js/underscore-min.js"></script>
-  <script src="/js/bracket.js"></script>
+  {{#if editable}}<script src="/js/bracket.js"></script>{{/if}}
+  <script src="/js/misc.js"></script>
   <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-8402584-9']);

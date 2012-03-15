@@ -3,11 +3,15 @@ title: Create and Share Your Bracket Through Twitter
 home: active
 ---
 <div class="hero-unit">
+  
   <h1>Tweet Your Bracket!</h1>
 
   <p>TweetYourBracket.com is the fastest and easiest way to share your March Madness picks with friends, family, followers and the world, all through Twitter! Make your picks, tweet 'em, and start bragging about your bracket!</p>
   
+  
+  {{#if editable}}
   <h2>How?</h2>
+
   <ol>
     <li>Fill out your bracket</li>
     <li>Click the Tweet button in the top right corner</li>
@@ -16,6 +20,15 @@ home: active
   </ol>
   
   <p><em>*Make sure to keep the <a href="http://twitter.com/search/%23tybrkt">#tybrkt</a> hashtag and bracket URL in the tweet so we can find and save your bracket.</em></p>
+  
+  {{else}}
+  
+  <div class="alert alert-error alert-block">
+    <strong>Sorry but the brackets have closed for this year.</strong> Check out the <a href="/results">results</a> to see who's winning!<br/>
+    The <a href="#bracket">bracket below</a> will display the winning teams as the games are completed.
+  </div>
+  
+  {{/if}}
   
   <h2 class="margin-top">Already Tweeted your bracket?</h2>
   

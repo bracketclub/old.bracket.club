@@ -5,7 +5,14 @@ user: active
 <div class="hero-unit">
 <h1>@{{username}}</h1>
 
-<p>This is the latest bracket for <a href="http://twitter.com/{{username}}">@{{username}}</a>. Anyone can edit it (until the games start) and tweet it as their own. Don't worry nothing will happen to @{{username}}'s bracket.</p>
+
+<p>This is the {{#if editable}}latest{{/if}} bracket for <a href="http://twitter.com/{{username}}">@{{username}}</a>.
+{{#if editable}}
+  Anyone can edit it (until the games start) and tweet it as their own. Don't worry nothing will happen to @{{username}}'s bracket.
+{{else}}
+  See how they are doing and how many points they have. Check the <a href="/results">results</a> to see how they stack up against the rest.
+{{/if}}
+</p>
 
 <h2>Is this your bracket? Brag about it</h2>
 <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://tweetyourbracket.com/{{username}}" data-text="Check out my completed bracket!" data-via="TweetTheBracket" data-size="large">Tweet</a>
