@@ -20,7 +20,7 @@
               {{#if startMatchup}}<ul>{{/if}}
                 {{#if classes}}<li class="{{classes}}">{{/if}}
                   {{#if editable}}<a href="#" class="pickable" data-from-region="{{fromRegion}}">{{/if}}
-                    {{#if seed}}<span class='seed'>({{seed}})</span>{{/if}}&nbsp;{{name}}
+                    <span class="{{resultClass}}">{{#if seed}}<span class='seed'>({{seed}})</span>{{/if}}&nbsp;{{name}}</span>
                   {{#if editable}}</a>{{/if}}
                 {{#if classes}}</li>{{/if}}
               {{#if endMatchup}}</ul>{{/if}}
