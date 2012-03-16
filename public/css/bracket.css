@@ -130,6 +130,16 @@
   border-top: 1px solid #fff;
 }
 
+#bracket ol li .correct {
+  background: #dff0d8;
+  display: block;
+}
+
+#bracket ol li .incorrect {
+  background: #f2dede;
+  display: block;
+}
+
 /* general pairing styles, including border lines */
 #bracket ol ul li,
 #bracket .national-champion ol li,
