@@ -4,6 +4,29 @@ results: active
 ---
 
 <div class="hero-unit">
+{{#if editable}}
 <h1>Almost...</h1>
 <p>Check back once the first round games start to see where you rank.</p>
+{{else}}
+<h1>Results</h1>
+<p>Check to see where you rank. Click other brackets to see the games they missed.</p>
+{{/if}}
 </div>
+
+
+<table class="table table-striped">
+  <thead>
+    <th>Rank</th>
+    <th>Username</th>
+    <th>Score</th>
+  </thead>
+  <tbody>
+  {{#each scores}}
+  <tr>
+    <td>{{count}}</td>
+    <td><a href="/user/{{username}}">@{{username}}</a></td>
+    <td>{{score}} points</td>
+  </tr>
+  {{/each}}
+  </tbody>
+</table>
