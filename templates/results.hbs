@@ -1,4 +1,4 @@
----
+-
 title: Results
 results: active
 ---
@@ -18,14 +18,23 @@ results: active
   <thead>
     <th>Rank</th>
     <th>Username</th>
-    <th>Score</th>
+    <th>Rd1</th>
+    <th>Rd2</th>
+    <th>S16</th>
+    <th>E8</th>
+    <th>FF</th>
+    <th>NCG</th>
+    <th>Total</th>
   </thead>
   <tbody>
   {{#each scores}}
   <tr>
     <td>{{count}}</td>
     <td><a href="/user/{{username}}">@{{username}}</a></td>
-    <td>{{score}} points</td>
+    {{#each scores.roundScores}}
+    <td>{{this}}</td>
+    {{/each}}
+    <td>{{scores.total}} points</td>
   </tr>
   {{/each}}
   </tbody>
