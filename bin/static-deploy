@@ -1,0 +1,3 @@
+#!/bin/bash
+
+scp -r static/$1/* linode:/home/lkarrys/www/tweetyourbracket.com/public_html/$1
