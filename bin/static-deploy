@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-# TODO: Create clone of site (spin up server, follow all links to download all pages, normalize paths)
+# TODO: Create clone of site (spin up server, follow all links to download all pages, normalize paths, 404)
 # TODO: Optionally call bin/dns -s to reset dns for static site
-scp -r static/$1/* linode:/home/lkarrys/www/tweetyourbracket.com/public_html/$1
-echo "Don't forget to pause the jitsu server!"
+# If dns -server jitsu echo "Don't forget to pause the jitsu server!"
+rsync -avze 'ssh -p 22' --delete static/$1/ linode:www/tweetyourbracket.com/public_html/$1/
