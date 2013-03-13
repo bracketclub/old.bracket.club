@@ -1,45 +1,41 @@
+#!/usr/bin/env node
 
-var flatiron = require('flatiron'),
-    _ = require('underscore'),
-    path = require('path'),
-    routes = require('./lib/plugins/routes'),
-    handlebarsPlugin = require('./lib/plugins/handlebars'),
-    connect = require('connect'),
-    app = flatiron.app;
-    
-require('./lib/plugins/twitter.js');
+/*global console */
 
-var port = process.env.PORT || 3050;
+/**
+ * Module dependencies.
+ */
 
-app.use(flatiron.plugins.http, {
-  
-  before: [
-    connect.static(__dirname + '/public', {maxAge: 86400000}),
-    connect.staticCache()
-  ],
+var express = require('express'),
+    routes = require('./routes'),
+    http = require('http'),
+    path = require('path');
 
-  after: [
-    // Add post-response middleware here
-  ],
+var app = express();
 
-  onError: function(err) {
-    if(err) {
-      this.res.writeHead(404, { "Content-Type": "text/html" });
-      this.res.end(app.render('404'));
-    }
-  }
+app.configure(function () {
+  app.set('port', 8080);
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'jade');
+  app.use(express.favicon());
+  app.use(express.logger('dev'));
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(app.router);
+  app.use(express['static'](path.join(__dirname, 'public')));
 });
 
-app.use(handlebarsPlugin, {
-  templates: __dirname + "/templates",
-  defaultLayout: 'layouts/default'
+app.configure('development', function () {
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
-app.use(routes);
 
-app.start(port, function(err) {
-  if(err) throw err;
-  app.log.info("TweetYourBracket Version 0.1");
-  app.log.info("started at :", Date());
-  app.log.info("   on port :", port);
-  app.log.info("   in mode :", (process.env.PORT) ? 'production' : app.env);
+app.configure('production', function () {
+  app.use(express.errorHandler());
 });
+
+app.get('/', routes.index);
+
+http.createServer(app).listen(app.get('port'), function () {
+  console.log("Express server listening on port %d in %s mode", app.get('port'), app.settings.env);
+});
+
