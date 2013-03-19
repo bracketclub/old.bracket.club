@@ -1,231 +1,78 @@
-#content {
-  margin: 5% 2% 0;
-}
-
-.footer {
-  color: #000;
-  margin-top: 150px;
-  padding: 0px 4% 40px;
-  text-align: center;
-  width: auto;
-}
-
-.navbar .navbar-inner {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.navbar .btn {
-  margin-top: 0px;
-}
-
-.navbar form {
-  margin: 5px 0 0 10px;
-}
-
-#navigation .tweet-button-holder {
-  display: block;
-  position: absolute;
-  top: 6px;
-  right: 2%;
-}
-
-#navigation .tweet-button-holder .before-message {
-  position: relative;
-  top: 5px;
-}
-
-#navigation .before-message {
-  display: block;
-}
-
-#navigation .ready .before-message {
-  display: none;
-}
-
-#navigation .alert-success {
-  display: none;
-  position: absolute;
-  top: 40px;
-  left: -27px;
-  text-align: center;
-  padding: 5px 21px;
-}
-
-.hero-unit h1 {
-  margin-bottom: 20px;
-}
-
-.hero-unit .margin-top {
-  margin-top: 20px;
-}
-
-.margin-top {
-  margin-top: 20px;
-}
-
-.hero-unit ol li {
-  font-size: 1.5em;
-  line-height: 1.5em;
-  margin-left: 20px;
-}
-
-#navigation .ready .alert-success {
-  display: block;
-}
-
-#bracket .completed {
-  opacity: 0.5;
-}
-
-#bracket h2 span.is-complete {
-  display: none;
-  color: red;
-}
-
-#bracket .completed h2 span.is-complete {
-  display: inline;
-}
-
-#bracket .region {
-  overflow: hidden;
-}
-
-#bracket .region h2 { 
-  margin: 1em 0.5em 0 0.5em;
-  color: #006;
-  clear: left;
-}
-#bracket .round h3 { 
-  font-size: 0.9em;
-  text-align: center;
-  height: 2.5em;
-  margin-bottom: 0;
-}
-
 /* bracket positioning styles */
+.bracket {
+  padding-top: 82px; }
+  .bracket .round {
+    width: 20%;
+    float: left; }
+    .bracket .round ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0; }
+      .bracket .round ul li {
+        border-bottom: 1px solid #000;
+        margin: 0;
+        padding: 1em 0 0 0;
+        overflow: hidden; }
+        .bracket .round ul li:last-child {
+          border-right: 1px solid #000; }
+        .bracket .round ul li a {
+          padding-left: 0.25em;
+          display: block;
+          white-space: nowrap;
+          cursor: pointer; }
+          .bracket .round ul li a:hover, .bracket .round ul li a.selected {
+            text-decoration: none; }
+    .bracket .round:nth-of-type(3) ul {
+      margin-top: 1.3em;
+      margin-bottom: 2.8em; }
+      .bracket .round:nth-of-type(3) ul li:last-child {
+        padding-top: 3.25em; }
+    .bracket .round:nth-of-type(4) ul {
+      margin-top: 4em;
+      margin-bottom: 7.3em; }
+      .bracket .round:nth-of-type(4) ul li:last-child {
+        padding-top: 8.25em; }
+    .bracket .round:nth-of-type(5) ul {
+      margin-top: 9em; }
+      .bracket .round:nth-of-type(5) ul li:last-child {
+        padding-top: 18.25em; }
+    .bracket .round:nth-of-type(6) ul {
+      margin-top: 19em; }
+      .bracket .round:nth-of-type(6) ul li:last-child {
+        border-right: none; }
 
-#bracket .round { 
-  width: 19%;
-  float: left;
-  margin-bottom: 3em;
-}
+#FF {
+  padding-bottom: 142px; }
+  #FF .round {
+    width: 33%; }
+  #FF .round:nth-of-type(4) ul {
+    margin-top: 4.5em;
+    margin-bottom: 0; }
+    #FF .round:nth-of-type(4) ul li:last-child {
+      border-right: none;
+      padding-top: 0; }
 
-#bracket #FF_region .round {
-  width: 30%;
-}
+#main-menu-left li:first-child {
+  border-left: 1px solid rgba(0, 0, 0, 0.2); }
+#main-menu-left .navbar-search {
+  margin-left: 10px; }
+  #main-menu-left .navbar-search .input-prepend {
+    margin: 0; }
 
-#bracket .region-final-four {
-  width: 16%;
-}
+#tweet-button.disabled {
+  opacity: 0.65;
+  filter: alpha(opacity=65); }
+  #tweet-button.disabled:hover {
+    color: #dd4814;
+    cursor: default; }
 
-#bracket ol, #bracket ol ul { 
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
+header h1 {
+  line-height: 60px; }
 
-/* invisible top border prevents IE from adding margin between lists */
-#bracket ol li { 
-  border-top: 1px solid #fff;
-}
+@media (max-width: 979px) {
+  .nav-collapse #main-menu-left .navbar-search {
+    margin: 0;
+    padding: 9px 15px; }
 
-#bracket ol li .correct {
-  background: #dff0d8;
-  display: block;
-}
-
-#bracket ol li .incorrect {
-  background: #f2dede;
-  display: block;
-}
-
-/* general pairing styles, including border lines */
-#bracket ol ul li,
-#bracket .national-champion ol li,
-#bracket .region-final-four ol li  { 
-  border-bottom: 1px solid #000;
-  margin: 0;
-  padding: 0;  
-  line-height: 2em;
-  padding-left: 0.25em;
-}
-
-#bracket #FF_region .round li {
-  text-align: center;
-}
-
-#bracket li.bottom { 
-  border-right: 1px solid #000;
-}
-
-#bracket .round1,
-#bracket .final-four { 
-  margin: 0;
-  padding: 0;
-  margin-left: 0.5;
-  min-width: 100px;
-}
-
-/* top margins of each column (round) */
-#bracket .round2 ol,
-#bracket .national-championship ol { 
-  margin-top: 1em;
-}
-#bracket .sweet-sixteen ol,
-#bracket .national-champion ol { 
-  margin-top: 3em;
-}
-#bracket .elite-eight ol { 
-  margin-top: 7em;
-}
-#bracket .region-final-four ol { 
-  margin-top: 15em;
-}
-
-/* expand height of each bracket cell for higher rounds 
-  by increasing top padding of the bottom team in each pairing
-*/ 
-#bracket .round2 li.bottom,
-#bracket .national-championship li.bottom { 
-  padding-top: 2.25em;
-}
-#bracket .sweet-sixteen li.bottom { 
-  padding-top: 6.5em;  
-}
-#bracket .elite-eight li.bottom { 
-  padding-top: 15.5em;
-}
-
-/* expand margin-bottom of each pairing in higher rounds */
-#bracket .round2 ol ul { 
-  margin-bottom: 2em;
-}
-#bracket .sweet-sixteen ol ul { 
-  margin-bottom: 6.5em;
-}
-
-#bracket a.pickable {text-decoration: none;}
-
-@media (max-width: 768px) {
-  #navigation .tweet-button-holder {
-    top: 42px;
-  }
-  .navbar-inner {
-    padding-bottom: 35px;
-  }
-}
-
-@media (max-width: 635px) {
-  #navigation form {
-    top: 35px;
-    position: fixed;
-    left: 0px;
-  }
-}
-
-@media (max-width: 480px) {
-  #navigation form input {
-    width: 90px;
-  }
-}
+  #main-menu-left li:first-child {
+    border-left: none; } }

@@ -1,0 +1,37 @@
+extend layout
+block content
+  header#overview.jumbotron.subhead
+    .row
+      .span12
+        h1 Results
+  - if (isOpen)
+    h3 Check back once the first round games start to see where you rank.
+  - else if (!hasScores)
+    h3 We'll have the first results up soon.
+  - else
+    h3 Check to see where you rank. Click other brackets to see the games they missed
+
+    table.table.table-striped
+      thead
+        th Rank
+        th Username
+        th Rd1
+        th Rd2
+        th S16
+        th E8
+        th FF
+        th NCG
+        th Total
+      tbody
+        - for (var i = 0; i <= 0; i++)
+          tr
+            td= i
+            td
+              a(href="/user/" + i) @{#i}
+            td= i
+            td= i
+            td= i
+            td= i
+            td= i
+            td= i
+            td= i

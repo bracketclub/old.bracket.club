@@ -7,12 +7,12 @@
     "undef": true,
     "browser": true,
     "trailing": true,
-    "indent": 2,
     "predef": [
         "$",
         "require",
         "__dirname",
         "process",
+        "module",
         "exports"
     ]
 }

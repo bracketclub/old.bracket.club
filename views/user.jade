@@ -1,0 +1,22 @@
+extend layout
+block content
+  header#overview.jumbotron.subhead
+    .row
+      .span12
+        h1 @#{entry.username}
+
+  - if (live)
+    h3 Is this your bracket?
+    p Is so, sweet! You're in.
+    h3 Not your bracket?
+    p Start picking! You could even edit this bracket any way you like and then tweet it. Don't worry nothing will happen to @#{entry.username}'s bracket.
+  - else
+    p
+      | This is the final bracket. Check the 
+      a(href="/results") results 
+      | to see how they stack up against the rest.
+
+  a(href="https://twitter.com/share", class="twitter-share-button", data-url="http://tweetyourbracket.com/user/" + entry.username, data-text="Check out my completed bracket!", data-via="TweetTheBracket", data-size="large") Tweet
+
+  include includes/bracket/bracket
+

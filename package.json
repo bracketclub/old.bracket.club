@@ -19,15 +19,14 @@
   },
   "dependencies": {
     "async": "~0.2.6",
-    "getconfig": "0.0.5",
-    "configs": "0.0.1",
     "underscore": "~1.4.4",
     "twit": "~1.1.5",
-    "mongodb": "~1.2.13",
-    "realurl": "~0.1.2",
     "express": "~3.1.0",
     "jade": "~0.28.2",
-    "bracket-validator": "*"
+    "bracket-validator": "0.0.x",
+    "scores": "git+ssh://git@github.com:lukekarrys/scores.git",
+    "mongoose": "~3.6.0",
+    "winston": "~0.6.2"
   },
   "devDependencies": {
     "linode-api": "~0.1.2",
