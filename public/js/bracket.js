@@ -15,6 +15,7 @@ var BracketRouter = Backbone.Router.extend({
   },
   bracket: function(bracket) {
 
+    if (!bracket && window.location.href.indexOf('/user/') > -1) return;
     if (bracket === '#' || bracket === 'X') bracket = '';
     var v = new BracketValidator({flatBracket:bracket, notEmpty: (!bracket) ? false: true});
 

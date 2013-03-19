@@ -118,7 +118,7 @@ app.get('/user/:username', function(req, res) {
   });
 });
 
-if (app.settings.env === 'product') {
+if (app.settings.env === 'production') {
   twitter.start();
 }
 
