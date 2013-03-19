@@ -12,7 +12,7 @@ var express = require('express'),
     log = require('./lib/log'),
 
     appPackage = require('./package'),
-    config = require('./config'),
+    config = require('./config/index.js'),
     TwitterWatcher = require('./lib/twitter'),
 
     currentYear = new Date().getFullYear(),
