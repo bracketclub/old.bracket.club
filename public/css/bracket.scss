@@ -108,7 +108,7 @@
   filter: alpha(opacity=65);
   &:hover {
     color: #dd4814;
-    cursor: default;
+    cursor: not-allowed;
   }
 }
 
@@ -165,6 +165,17 @@ to { background-color: #d44413; -webkit-box-shadow: 0 0 2px #d44413; }
     }
     .short-name {
       display: inline;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .subnav {
+    .long-name {
+      display: inline;
+    }
+    .short-name {
+      display: none;
     }
   }
 }
