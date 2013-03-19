@@ -36,7 +36,7 @@ var BracketRouter = Backbone.Router.extend({
       $('#tweet-button').attr('href', '').click(function(e){return false;});
     } else {
       $('#tweet-button').removeClass('disabled').addClass('ready');
-      $('#tweet-button').unbind().attr('href', href + encodeURIComponent(window.location.href));
+      $('#tweet-button').unbind().attr('href', href + encodeURIComponent(window.location.origin + '/' + window.location.hash));
     }
   }
 });
