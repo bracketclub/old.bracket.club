@@ -64,7 +64,7 @@
   filter: alpha(opacity=65); }
   #tweet-button.disabled:hover {
     color: #dd4814;
-    cursor: default; }
+    cursor: not-allowed; }
 
 header h1 {
   line-height: 60px; }
@@ -112,3 +112,8 @@ header h1 {
     display: none; }
   .subnav .short-name {
     display: inline; } }
+@media (max-width: 768px) {
+  .subnav .long-name {
+    display: inline; }
+  .subnav .short-name {
+    display: none; } }
