@@ -69,6 +69,27 @@
 header h1 {
   line-height: 60px; }
 
+@-webkit-keyframes greenPulse {
+  from {
+    background-color: #d44413;
+    -webkit-box-shadow: 0 0 2px #d44413; }
+
+  50% {
+    background-color: #ff4100;
+    -webkit-box-shadow: 0 0 18px #d44413; }
+
+  to {
+    background-color: #d44413;
+    -webkit-box-shadow: 0 0 2px #d44413; } }
+
+#tweet-button.ready {
+  -webkit-animation-name: greenPulse;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+  background: #d44413;
+  color: #fff;
+  border-left: none; }
+
 @media (max-width: 979px) {
   .nav-collapse #main-menu-left .navbar-search {
     margin: 0;

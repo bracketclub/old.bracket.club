@@ -1,0 +1,10 @@
+.subnav
+  ul.nav.nav-pills
+    - for (var region in regions)
+      li
+        a(href="#" + region)= regions[region].name
+    li
+      a(href= "#" + finalRegion.id)= finalRegion.name
+    - if (live)
+      li
+        a.disabled(id= "tweet-button", href="#") Tweet It!
