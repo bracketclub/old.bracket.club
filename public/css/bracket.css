@@ -91,10 +91,24 @@ header h1 {
   border-left: 1px solid #d44413;
   border-right: 1px solid #d44413; }
 
+.subnav .short-name {
+  display: none; }
+
+.subhead .tweet-btn {
+  border-radius: 4px;
+  padding: 4px;
+  background: #d44413;
+  color: #fff; }
+
 @media (max-width: 979px) {
   .nav-collapse #main-menu-left .navbar-search {
     margin: 0;
     padding: 9px 15px; }
 
   #main-menu-left li:first-child {
-    border-left: none; } }
+    border-left: none; }
+
+  .subnav .long-name {
+    display: none; }
+  .subnav .short-name {
+    display: inline; } }

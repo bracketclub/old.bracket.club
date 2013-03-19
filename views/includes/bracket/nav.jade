@@ -2,12 +2,16 @@
   ul.nav.nav-pills
     - for (var region in regions)
       li
-        a.scroll(href="#" + region)= regions[region].name
+        a.scroll(href="#" + region)
+          span.long-name= regions[region].name
+          span.short-name= region
     li
-      a.scroll(href= "#" + finalRegion.id)= finalRegion.name
+      a.scroll(href= "#" + finalRegion.id)
+        span.long-name= finalRegion.name
+        span.short-name= finalRegion.id
     - if (live)
       li
-        a.disabled(id= "tweet-button", href="#") Tweet It!
+        a.disabled(id= "tweet-button", href="#") Tweet Your Bracket!
       li
         a(href= "#X") Reset
       li
