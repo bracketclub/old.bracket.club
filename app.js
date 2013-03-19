@@ -84,7 +84,7 @@ app.get('/results', function(req, res) {
 });
 
 app.get('/user/:username', function(req, res) {
-  var username = req.params.username;
+  var username = req.params.username.toLowerCase();
   Entry.findOne({username: username}, function(err, entry) {
     if (err || !entry) {
       res.status(404);
