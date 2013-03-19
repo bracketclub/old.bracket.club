@@ -2,7 +2,8 @@
 
 
 var app,
-    BracketValidator = window.Validator;
+    BracketValidator = window.Bracket.Validator,
+    BracketGenerator = window.Bracket.Generator;
 
 var BracketRouter = Backbone.Router.extend({
   routes: {
@@ -10,10 +11,12 @@ var BracketRouter = Backbone.Router.extend({
   },
   initialize: function() {
     new BracketView();
+    new SubNavView();
   },
   bracket: function(bracket) {
 
-    var v = new BracketValidator({flatBracket:bracket, notEmpty: true});
+    if (bracket === '#' || bracket === 'X') bracket = '';
+    var v = new BracketValidator({flatBracket:bracket, notEmpty: (!bracket) ? false: true});
 
     v.validate(function(err, res) {
       if (err) return;
@@ -24,6 +27,7 @@ var BracketRouter = Backbone.Router.extend({
       }));
     });
 
+
     var href = 'https://twitter.com/intent/tweet?hashtags=tybrkt&via=tweetthebracket&url=';
 
     if (!bracket || bracket.indexOf('X') > -1) {
@@ -33,6 +37,18 @@ var BracketRouter = Backbone.Router.extend({
       $('#tweet-button').removeClass('disabled').addClass('ready');
       $('#tweet-button').unbind().attr('href', href + encodeURIComponent(window.location.href));
     }
+  }
+});
+
+var SubNavView = Backbone.View.extend({
+  el: '.subnav',
+  events: {
+    'click a.random': 'random'
+  },
+  random: function(e) {
+    e.preventDefault();
+
+    app.navigate('#' + new BracketGenerator().flatBracket(), {trigger: true});
   }
 });
 
@@ -54,23 +70,29 @@ var BracketView = Backbone.View.extend({
         $nextRounds = $thisRound.nextAll(),
         $winnerGoesTo = $nextRound.find('a').eq($matchup.index());
 
-    if ($winnerGoesTo.data('seed') && $target.data('seed') !== $winnerGoesTo.data('seed')) {
-      $nextRounds.find('[data-seed="' + $winnerGoesTo.data('seed') + '"]').replaceWith('<a>&nbsp;</a>');
-      this.$el.find('.bracket').last()
-        .find('[data-seed="' + $winnerGoesTo.data('seed') + '"][data-from-region="' + $winnerGoesTo.data('from-region') + '"]')
-        .replaceWith('<a>&nbsp;</a>');
-    }
+    if (!isFinal) {
+      if ($winnerGoesTo.data('seed') && $target.data('seed') !== $winnerGoesTo.data('seed')) {
+        $nextRounds.find('[data-seed="' + $winnerGoesTo.data('seed') + '"]').replaceWith('<a>&nbsp;</a>');
+        this.$el.find('.bracket').last()
+          .find('[data-seed="' + $winnerGoesTo.data('seed') + '"][data-from-region="' + $winnerGoesTo.data('from-region') + '"]')
+          .replaceWith('<a>&nbsp;</a>');
+      }
 
-    if ($nextRound.length > 0) {
-      $nextRound.find('a').eq($matchup.index()).replaceWith($target.clone());
-    }
+      if ($nextRound.length > 0) {
+        $nextRound.find('a').eq($matchup.index()).replaceWith($target.clone());
+      }
 
-    if ($nextRound.length === $nextRounds.length && !isFinal) {
-      this.$el.find('.bracket').last().find('a').eq($thisRegion.index()).replaceWith($target.clone());
-    }
+      if ($nextRound.length === $nextRounds.length && !isFinal) {
+        this.$el.find('.bracket').last().find('a').eq($thisRegion.index()).replaceWith($target.clone());
+      }
+    } else {
+      if (isFinal && $winnerGoesTo.data('from-region') && $target.data('from-region') !== $winnerGoesTo.data('from-region')) {
+        $nextRounds.find('[data-from-region="' + $winnerGoesTo.data('from-region') + '"]').replaceWith('<a>&nbsp;</a>');
+      }
 
-    if (isFinal && $winnerGoesTo.data('from-region') && $target.data('from-region') !== $winnerGoesTo.data('from-region')) {
-      $nextRounds.find('[data-from-region="' + $winnerGoesTo.data('from-region') + '"]').replaceWith('<a>&nbsp;</a>');
+      if ($nextRound.length > 0) {
+        $nextRound.find('a').eq($matchup.index()).replaceWith($target.clone());
+      }
     }
     var bc = this.getBracketCode();
     app.navigate('#' + bc, {trigger: false});
@@ -114,7 +136,7 @@ var BracketView = Backbone.View.extend({
       }
     });
 
-    $('.subnav a').smoothScroll();
+    $('.subnav a.scroll').smoothScroll();
 
     // fix sub nav on scroll
     var $win = $(window),

@@ -26,6 +26,11 @@ var express = require('express'),
     Entry = new require('./lib/entryModel'),
 
     BracketValidator = bracket.validator,
+    BracketGenerator = bracket.generator,
+    generatedBrackets = {
+      higher: new BracketGenerator({winners: 'higher'}).flatBracket(),
+      lower: new BracketGenerator({winners: 'lower'}).flatBracket()
+    },
     consts = bracket.consts,
     _ = require('underscore'),
 
@@ -65,7 +70,8 @@ app.get('/', function(req, res) {
       title: 'Create Your Bracket!',
       regions: _.omit(bracketData, consts.FINAL_ID),
       finalRegion: bracketData[consts.FINAL_ID],
-      live: isOpen()
+      live: isOpen(),
+      generatedBrackets: generatedBrackets
     });
   });
 });
@@ -103,7 +109,8 @@ app.get('/user/:username', function(req, res) {
             regions: _.omit(bracketData, consts.FINAL_ID),
             finalRegion: bracketData[consts.FINAL_ID],
             live: isOpen(),
-            entry: entry
+            entry: entry,
+            generatedBrackets: generatedBrackets
           });
         }
       });
@@ -111,7 +118,9 @@ app.get('/user/:username', function(req, res) {
   });
 });
 
-twitter.start();
+if (app.settings.env === 'product') {
+  twitter.start();
+}
 
 http.createServer(app).listen(app.get('port'), function () {
   log.debug('Express server listening', app.get('port'), app.settings.env);

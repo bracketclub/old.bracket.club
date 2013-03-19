@@ -2,9 +2,17 @@
   ul.nav.nav-pills
     - for (var region in regions)
       li
-        a(href="#" + region)= regions[region].name
+        a.scroll(href="#" + region)= regions[region].name
     li
-      a(href= "#" + finalRegion.id)= finalRegion.name
+      a.scroll(href= "#" + finalRegion.id)= finalRegion.name
     - if (live)
       li
         a.disabled(id= "tweet-button", href="#") Tweet It!
+      li
+        a(href= "#X") Reset
+      li
+        a.random(href= "#") Random
+      li
+        a(href= "#" + generatedBrackets.lower) No Upsets
+      li
+        a(href= "#" + generatedBrackets.higher) ALL UPSETS!

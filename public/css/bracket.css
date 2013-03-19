@@ -88,7 +88,8 @@ header h1 {
   -webkit-animation-iteration-count: infinite;
   background: #d44413;
   color: #fff;
-  border-left: none; }
+  border-left: 1px solid #d44413;
+  border-right: 1px solid #d44413; }
 
 @media (max-width: 979px) {
   .nav-collapse #main-menu-left .navbar-search {
