@@ -13,7 +13,7 @@ var express = require('express'),
     jadeBrowser = require('jade-browser'),
 
     appPackage = require('./package'),
-    config = require('./config/index.js'),
+    config = require('./config.js'),
     TwitterWatcher = require('./lib/twitter'),
 
     currentYear = new Date().getFullYear(),
