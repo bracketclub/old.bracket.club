@@ -1,26 +1,38 @@
-/*global Backbone, _ */
+/*global Backbone, _, jade */
 
 
-var app;
+var app,
+    BracketValidator = window.Validator;
 
 var BracketRouter = Backbone.Router.extend({
   routes: {
-    ':bracket': 'bracket'
+    '*bracket': 'bracket'
   },
   initialize: function() {
     new BracketView();
   },
   bracket: function(bracket) {
-    //console.log(bracket);
-  }
-});
 
-var BracketModel = Backbone.Model.extend({
-  defaults: {
+    var v = new BracketValidator({flatBracket:bracket, notEmpty: true});
 
-  },
-  initialize: function() {
-    this.listenTo('change', this.attrChange);
+    v.validate(function(err, res) {
+      if (err) return;
+      $('#bracket').html(jade.render('regions', {
+        regions: _.omit(res, 'FF'),
+        finalRegion: res.FF,
+        live: true
+      }));
+    });
+
+    var href = 'https://twitter.com/intent/tweet?hashtags=tybrkt&via=tweetthebracket&url=';
+
+    if (!bracket || bracket.indexOf('X') > -1) {
+      $('#tweet-button').addClass('disabled').removeClass('ready');
+      $('#tweet-button').attr('href', '').click(function(e){return false;});
+    } else {
+      $('#tweet-button').removeClass('disabled').addClass('ready');
+      $('#tweet-button').unbind().attr('href', href + encodeURIComponent(window.location.href));
+    }
   }
 });
 
@@ -65,13 +77,14 @@ var BracketView = Backbone.View.extend({
 
     var href = 'https://twitter.com/intent/tweet?hashtags=tybrkt&via=tweetthebracket&url=';
 
-    if (bc.indexOf('X') > -1) {
-      $('#tweet-button').addClass('disabled');
+    if (!bc || bc.indexOf('X') > -1) {
+      $('#tweet-button').addClass('disabled').removeClass('ready');
       $('#tweet-button').attr('href', '').click(function(e){return false;});
     } else {
-      $('#tweet-button').removeClass('disabled');
+      $('#tweet-button').removeClass('disabled').addClass('ready');
       $('#tweet-button').unbind().attr('href', href + encodeURIComponent(window.location.href));
     }
+
     return false;
   },
   getBracketCode: function() {

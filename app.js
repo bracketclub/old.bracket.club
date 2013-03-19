@@ -10,6 +10,7 @@ var express = require('express'),
     http = require('http'),
     path = require('path'),
     log = require('./lib/log'),
+    jadeBrowser = require('jade-browser'),
 
     appPackage = require('./package'),
     config = require('./config/index.js'),
@@ -39,6 +40,7 @@ app.configure(function () {
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(jadeBrowser('/js/templates.js', '**', {root: path.join(__dirname, 'views/includes/bracket'), minify: true}));
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(function(req, res, next){

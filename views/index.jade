@@ -6,9 +6,11 @@ block content
         h1 Tweet Your Bracket
         - if (live)
           ol
-            li Complete your bracket below
-            li Follow the instructions to post your tweet
+            li Complete your bracket below.
+            li Click the highlighted "Tweet It!" button.
+            li Post your tweet.
             li That's it!
+          .alert.alert-error Make sure to keep the hashtag and link in your tweet. That's how we find and enter your bracket.
         - else
           .alert.alert-error
             button.close(type= "button", data-dismiss= "alert", href="#") &times;
