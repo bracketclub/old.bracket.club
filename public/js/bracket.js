@@ -37,6 +37,7 @@ var BracketView = Backbone.View.extend({
         $matchup = $target.parents('.matchup'),
         $thisRound = $matchup.parents('.round'),
         $thisRegion = $thisRound.parents('.bracket'),
+        isFinal = ($thisRegion.attr('id') === 'FF'),
         $nextRound = $thisRound.next(),
         $nextRounds = $thisRound.nextAll(),
         $winnerGoesTo = $nextRound.find('a').eq($matchup.index());
@@ -52,10 +53,13 @@ var BracketView = Backbone.View.extend({
       $nextRound.find('a').eq($matchup.index()).replaceWith($target.clone());
     }
 
-    if ($nextRound.length === $nextRounds.length) {
+    if ($nextRound.length === $nextRounds.length && !isFinal) {
       this.$el.find('.bracket').last().find('a').eq($thisRegion.index()).replaceWith($target.clone());
     }
 
+    if (isFinal && $winnerGoesTo.data('from-region') && $target.data('from-region') !== $winnerGoesTo.data('from-region')) {
+      $nextRounds.find('[data-from-region="' + $winnerGoesTo.data('from-region') + '"]').replaceWith('<a>&nbsp;</a>');
+    }
     var bc = this.getBracketCode();
     app.navigate('#' + bc, {trigger: false});
 
