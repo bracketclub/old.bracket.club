@@ -1,0 +1,17 @@
+extend layout
+block content
+  header#overview.jumbotron.subhead
+    .row
+      .span12
+        h1 Tweet Your Bracket
+        - if (live)
+          ol
+            li Complete your bracket below
+            li Follow the instructions to post your tweet
+            li That's it!
+        - else
+          .alert.alert-error
+            button.close(type= "button", data-dismiss= "alert", href="#") &times;
+            strong Sorry, the brackets are closed for the year.
+
+  include includes/bracket/bracket

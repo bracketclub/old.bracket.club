@@ -1,0 +1,26 @@
+extend layout
+block content
+  header#overview.jumbotron.subhead
+    .row
+      .span12
+        h1 Frequently Asked Questions
+
+  h3 I tweeted my bracket but my user page isn't working. What happened?
+  p Wait a few minutes, if your page still isn't up, drop us a line on Twitter.
+
+  h3 I went to my user page but it says "Your Bracket is Incomplete!". Am I entered?
+  p If you tweeted a link to your bracket, then yes. If your user page exists you are entered. We keep those messages on every page because with tweetyourbracket.com anyone on Twitter can post their bracket from any page.
+
+  h3 I sent multiple tweets, which one will get entered?
+  p We use the latest tweet you send, up to the tipoff of the first Round of 64 game.
+
+  h3 When do entries close?
+  p Entries will close a few minutes before the tipoff of the first Round of 64 game. Or more precisely, #{timeToLocked} miliseconds from when you loaded this page.
+
+  h3 Play in games? Why is it called the Second Round now?
+  p We will update the bracket with the winners of the play-in/first round games as they happen on Tuesday and Wednesday. If you pick a bracket before any of those games are finished, you are essentially picking the seed you think will win that game.
+
+  h3 I have more questions!
+  p We'd love to answer it on Twitter. We assume you've heard of it. :)
+
+  a(href= "https://twitter.com/intent/tweet?screen_name=TweetTheBracket&text=I%20have%20a%20question", class="twitter-mention-button", data-size="large") Ask @TweetTheBracket a Question

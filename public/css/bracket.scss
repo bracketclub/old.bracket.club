@@ -1,0 +1,132 @@
+/* bracket positioning styles */
+
+.bracket {
+  padding-top: 82px;
+  .round {
+    width: 20%;
+    float: left;
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        border-bottom: 1px solid #000;
+        margin: 0;
+        padding: 1em 0 0 0;
+        overflow: hidden;
+
+        &:last-child {
+          border-right: 1px solid #000;
+        }
+
+        a {
+          padding-left: 0.25em;
+          display: block;
+          white-space: nowrap;
+          cursor: pointer;
+          &:hover, &.selected {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+
+    &:nth-of-type(3) {
+      ul {
+        margin-top: 1.3em;
+        margin-bottom: 2.8em;
+        li:last-child {
+          padding-top: 3.25em;
+        }
+      }
+    }
+
+    &:nth-of-type(4) {
+      ul {
+        margin-top: 4em;
+        margin-bottom: 7.3em;
+        li:last-child {
+          padding-top: 8.25em;
+        }
+      }
+    }
+
+    &:nth-of-type(5) {
+      ul {
+        margin-top: 9em;
+        li:last-child {
+          padding-top: 18.25em;
+        }
+      }
+    }
+
+    &:nth-of-type(6) {
+      ul {
+        margin-top: 19em;
+        li:last-child {
+          border-right: none;
+        }
+      }
+    }
+  }
+}
+
+#FF {
+  padding-bottom: 142px;
+  .round {
+    width: 33%;
+  }
+  .round:nth-of-type(4) ul {
+    margin-top: 4.5em;
+    margin-bottom: 0;
+    li:last-child {
+      border-right: none;
+      padding-top: 0;
+    }
+  }
+}
+
+#main-menu-left {
+  li:first-child {
+    border-left: 1px solid rgba(0,0,0,0.2);
+  }
+
+  .navbar-search {
+    margin-left: 10px;
+
+    .input-prepend {
+      margin: 0;
+    }
+  }
+
+}
+
+#tweet-button.disabled {
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  &:hover {
+    color: #dd4814;
+    cursor: default;
+  }
+}
+
+header {
+  h1 {
+    line-height: 60px;
+  }
+}
+
+@media (max-width: 979px) {
+  .nav-collapse #main-menu-left .navbar-search {
+    margin: 0;
+    padding: 9px 15px;
+  }
+
+  #main-menu-left {
+    li:first-child {
+      border-left: none;
+    }
+  }
+}
