@@ -88,7 +88,7 @@ header h1 {
   -webkit-animation-iteration-count: infinite;
   background: #d44413;
   color: #fff;
-  border-left: 1px solid #d44413;
+  border-left: 1px solid #fff;
   border-right: 1px solid #d44413; }
 
 .subnav .short-name {
