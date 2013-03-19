@@ -6,14 +6,13 @@
     "email": "luke@lukekarrys.com"
   },
   "scripts": {
-    "predeploy": "grunt init",
     "start": "node app.js"
   },
   "domains": [
     "tweetyourbracket.com",
     "www.tweetyourbracket.com"
   ],
-  "version": "0.0.0-1",
+  "version": "0.0.0-2",
   "engines": {
     "node": "0.8.x"
   },
@@ -24,7 +23,6 @@
     "express": "~3.1.0",
     "jade": "~0.28.2",
     "bracket-validator": "0.0.x",
-    "scores": "git+ssh://git@github.com:lukekarrys/scores.git",
     "mongoose": "~3.6.0",
     "winston": "~0.6.2"
   },
