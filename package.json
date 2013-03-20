@@ -6,14 +6,14 @@
     "email": "luke@lukekarrys.com"
   },
   "scripts": {
-    "predeploy": "grunt",
+    "predeploy": "browserify client_modules/bracket.js > public/js/BracketClass.js && grunt",
     "start": "node app.js"
   },
   "domains": [
     "tweetyourbracket.com",
     "www.tweetyourbracket.com"
   ],
-  "version": "0.0.0-26",
+  "version": "0.0.0-28",
   "engines": {
     "node": "0.8.x"
   },
