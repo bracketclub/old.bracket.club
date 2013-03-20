@@ -1,6 +1,5 @@
 /*global Backbone, _, jade */
 
-
 var app,
     BracketValidator = window.Bracket.Validator,
     BracketGenerator = window.Bracket.Generator;
