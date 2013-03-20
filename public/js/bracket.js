@@ -4,6 +4,10 @@ var app,
     BracketValidator = window.Bracket.Validator,
     BracketGenerator = window.Bracket.Generator;
 
+var crazy = function(howFast) {
+  return setInterval(function(){app.navigate('#'+new BracketGenerator().flatBracket(),{trigger:true});},howFast);
+};
+
 var BracketRouter = Backbone.Router.extend({
   routes: {
     '*bracket': 'bracket'
