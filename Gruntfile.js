@@ -11,6 +11,13 @@ module.exports = function(grunt) {
         }
       }
     },
+    sass: {
+      dist: {
+        files: {
+          'public/css/bracket.css': 'public/css/bracket.scss'
+        }
+      }
+    },
     cssmin: {
       bracket: {
         files: {
@@ -47,8 +54,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
   // Default task(s).
-  grunt.registerTask('default', ['uglify', 'cssmin', 'concat']);
+  grunt.registerTask('default', ['uglify', 'sass', 'cssmin', 'concat']);
 
 };
