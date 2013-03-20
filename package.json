@@ -13,7 +13,7 @@
     "tweetyourbracket.com",
     "www.tweetyourbracket.com"
   ],
-  "version": "0.0.0-28",
+  "version": "0.0.0-31",
   "engines": {
     "node": "0.8.x"
   },
@@ -26,7 +26,8 @@
     "bracket-validator": "0.0.x",
     "mongoose": "~3.6.0",
     "winston": "~0.6.2",
-    "jade-browser": "0.0.9"
+    "jade-browser": "0.0.9",
+    "scores": "~0.1.2"
   },
   "devDependencies": {
     "linode-api": "~0.1.2",
