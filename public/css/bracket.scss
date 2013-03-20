@@ -1,7 +1,12 @@
 /* bracket positioning styles */
 
+.bracket-holder {
+  overflow-x: auto;
+}
+
 .bracket {
   padding-top: 82px;
+  min-width: 625px;
   .round {
     width: 20%;
     float: left;
@@ -16,6 +21,16 @@
         margin: 0;
         padding: 1em 0 0 0;
         overflow: hidden;
+        position: relative;
+
+        .name-fadeout {
+          position: absolute;
+          right: -20px;
+          width: 20px;
+          box-shadow: -9px 0 13px white;
+          height: 24px;
+          bottom: 0px;
+        }
 
         &:last-child {
           border-right: 1px solid #000;
@@ -75,6 +90,7 @@
 
 #FF {
   padding-bottom: 142px;
+  min-width: 375px;
   .round {
     width: 33%;
   }
@@ -119,9 +135,9 @@ header {
 }
 
 @-webkit-keyframes greenPulse {
-from { background-color: #d44413; -webkit-box-shadow: 0 0 2px #d44413; }
-50% { background-color: rgb(255, 65, 0); -webkit-box-shadow: 0 0 18px #d44413; }
-to { background-color: #d44413; -webkit-box-shadow: 0 0 2px #d44413; }
+from { background-color: #d44413; -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); }
+50% { background-color: rgb(255, 65, 0); -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); }
+to { background-color: #d44413; -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); }
 }
 
 #tweet-button.ready {
@@ -145,6 +161,7 @@ to { background-color: #d44413; -webkit-box-shadow: 0 0 2px #d44413; }
   padding: 4px;
   background: #d44413;
   color: #fff;
+  white-space: nowrap;
 }
 
 @media (max-width: 979px) {
@@ -166,6 +183,18 @@ to { background-color: #d44413; -webkit-box-shadow: 0 0 2px #d44413; }
     .short-name {
       display: inline;
     }
+  }
+
+  #tweet-button.ready {
+    position: fixed;
+    top: -2px;
+    left: 0px;
+    width: 100%;
+    border: none;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 2em;
+    z-index: 100;
   }
 }
 

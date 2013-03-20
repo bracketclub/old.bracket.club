@@ -41,8 +41,6 @@ app.configure(function () {
   app.set('port', 8080);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
-  app.use(express.favicon());
-  app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(jadeBrowser('/js/templates.js', '**', {root: path.join(__dirname, 'views/includes/bracket'), minify: true}));
@@ -53,14 +51,18 @@ app.configure(function () {
     var userUrl = /\/user\/(.*)/.exec(req.url);
     res.render('404', {userUrl: (userUrl) ? userUrl[1] : '', title: '404'});
   });
+
 });
 
 app.configure('development', function () {
+  app.use(express.logger('dev'));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  app.locals.env = 'development';
 });
 
 app.configure('production', function () {
   app.use(express.errorHandler());
+  app.locals.env = 'production';
 });
 
 app.get('/', function(req, res) {
