@@ -59,11 +59,11 @@ html
 
     - if (env === 'production')
       script(src='/js/libs.js')
-      script(src='/js/misc.min.js')
+      script(src='/js/misc.min.js?#{version}')
       - if (live)
-        script(src='/js/bracket-libs.js')
-        script(src='/js/templates.js')
-        script(src='/js/bracket.min.js')
+        script(src='/js/bracket-libs.js?#{version}')
+        script(src='/js/templates.js?#{version}')
+        script(src='/js/bracket.min.js?#{version}')
     - else
       script(src='/js/jquery-1.9.1.min.js')
       script(src='/js/jquery.smooth-scroll.min.js')

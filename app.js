@@ -40,6 +40,7 @@ app.locals.generatedBrackets = {
   higher: new BracketGenerator({winners: 'higher'}).flatBracket(),
   lower: new BracketGenerator({winners: 'lower'}).flatBracket()
 };
+app.locals.version = appPackage.version;
 
 app.configure('development', function () {
   app.use(express.logger('dev'));

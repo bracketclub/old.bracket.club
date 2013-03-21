@@ -13,7 +13,7 @@
     "tweetyourbracket.com",
     "www.tweetyourbracket.com"
   ],
-  "version": "0.0.0-40",
+  "version": "0.0.0-42",
   "engines": {
     "node": "0.8.x"
   },
