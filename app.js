@@ -15,7 +15,6 @@ var express = require('express'),
     TwitterWatcher = require('./lib/twitter'),
     twitter = new TwitterWatcher({appName: appPackage.name, tag: config.twitter.hashtags[0]}),
     scoreTracker = require('./lib/scores'),
-    lock = require('./lib/lock'),
     BracketGenerator = require('bracket-validator')().generator,
 
     app = express();
@@ -35,7 +34,6 @@ app.configure(function () {
   });
 });
 
-app.locals.live = lock.isOpen();
 app.locals.generatedBrackets = {
   higher: new BracketGenerator({winners: 'higher'}).flatBracket(),
   lower: new BracketGenerator({winners: 'lower'}).flatBracket()
@@ -63,4 +61,3 @@ app.get('/user/:username', routes.user);
 http.createServer(app).listen(app.get('port'), function () {
   log.debug('Express server listening', app.get('port'), app.settings.env);
 });
-

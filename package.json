@@ -13,7 +13,7 @@
     "tweetyourbracket.com",
     "www.tweetyourbracket.com"
   ],
-  "version": "0.0.0-42",
+  "version": "0.0.0-51",
   "engines": {
     "node": "0.8.x"
   },
@@ -27,7 +27,7 @@
     "mongoose": "~3.6.0",
     "winston": "~0.6.2",
     "jade-browser": "0.0.9",
-    "scores": "~0.1.2",
+    "scores": "git+https://github.com/lukekarrys/scores.git#v1",
     "moment": "~2.0.0"
   },
   "devDependencies": {
