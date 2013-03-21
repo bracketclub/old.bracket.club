@@ -2,14 +2,14 @@ ul.matchup
   - if (matchup || matchup === null)
     li
       - if (matchup)
-        a.game(data-from-region= matchup.fromRegion, data-seed= matchup.seed, data-name= matchup.name)= '(' + matchup.seed + ') ' + matchup.name
+        - var team = matchup
+        include team
       - else
         a &nbsp;
-      .name-fadeout
   - if (matchup2 || matchup2 === null)
     li
       - if (matchup2)
-        a.game(data-from-region= matchup2.fromRegion, data-seed= matchup2.seed, data-name= matchup2.name)= '(' + matchup2.seed + ') ' + matchup2.name
+        - var team = matchup2
+        include team
       - else
         a &nbsp;
-      .name-fadeout
