@@ -58,7 +58,7 @@ var SubNavView = Backbone.View.extend({
 
 var BracketView = Backbone.View.extend({
   events: {
-    'click a.game': 'gameClick'
+    'click a.pickable.game': 'gameClick'
   },
   el: '#bracket',
   gameClick: function(e) {
@@ -68,8 +68,8 @@ var BracketView = Backbone.View.extend({
     var $target = $(e.target),
         $matchup = $target.parents('.matchup'),
         $thisRound = $matchup.parents('.round'),
-        $thisRegion = $thisRound.parents('.bracket'),
-        isFinal = ($thisRegion.attr('id') === 'FF'),
+        $thisRegion = $thisRound.parents('.bracket-holder'),
+        isFinal = ($thisRegion.find('.bracket').attr('id') === 'FF'),
         $nextRound = $thisRound.next(),
         $nextRounds = $thisRound.nextAll(),
         $winnerGoesTo = $nextRound.find('a').eq($matchup.index());
@@ -131,44 +131,6 @@ var BracketView = Backbone.View.extend({
 
     app = new BracketRouter();
     Backbone.history.start({pushState: false});
-
-    $('form.navbar-search').submit(function(e) {
-      e.preventDefault();
-      var username = $(this).find('input').val();
-      if (username) {
-        window.location.href = '/user/' + username;
-      }
-    });
-
-    $('.subnav a.scroll').smoothScroll();
-
-    // fix sub nav on scroll
-    var $win = $(window),
-        $body = $('body'),
-        $nav = $('.subnav'),
-        navHeight = $('.navbar').first().height(),
-        subnavTop = $('.subnav').length && $('.subnav').offset().top - navHeight,
-        isFixed = 0;
-
-    if ($('.subnav').length > 0) {
-      processScroll();
-
-      $win.on('scroll', processScroll);
-    }
-
-    function processScroll() {
-      var i, scrollTop = $win.scrollTop();
-
-      if (scrollTop >= subnavTop && !isFixed) {
-        isFixed = 1;
-        $nav.addClass('subnav-fixed');
-        $body.addClass('has-subnav-fixed');
-      } else if (scrollTop <= subnavTop && isFixed) {
-        isFixed = 0;
-        $nav.removeClass('subnav-fixed');
-        $body.removeClass('has-subnav-fixed');
-      }
-    }
 
   });
 

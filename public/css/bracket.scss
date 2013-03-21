@@ -6,7 +6,7 @@
 
 .bracket {
   padding-top: 82px;
-  min-width: 625px;
+  min-width: 750px;
   .round {
     width: 20%;
     float: left;
@@ -20,8 +20,8 @@
         border-bottom: 1px solid #000;
         margin: 0;
         padding: 1em 0 0 0;
-        overflow: hidden;
         position: relative;
+        overflow: hidden;
 
         .name-fadeout {
           position: absolute;
@@ -40,10 +40,45 @@
           padding-left: 0.25em;
           display: block;
           white-space: nowrap;
-          cursor: pointer;
+          color: #000;
           &:hover, &.selected {
             text-decoration: none;
           }
+
+          &.pickable {
+            cursor: pointer;
+            color: #dd4814;
+            &:hover, &.selected {
+              color: #97310e;
+            }
+          }
+
+          &.correct, &.incorrect {
+            background: #38b44a;
+            border-radius: 6px 6px 0 0;
+            color:#000;
+            text-shadow: 0 -1px 0 rgba(255,255,255,0.25);
+          }
+
+          &.incorrect {
+            background: #df382c;
+            text-decoration: line-through;
+            font-style: italic;
+          }
+
+          &.eliminated {
+            text-decoration: line-through;
+            font-style: italic;
+          }
+        }
+
+        span.should-be {
+          font-style: normal;
+          text-decoration: none;
+          position: absolute;
+          bottom: 18px;
+          right: 4px;
+          white-space: nowrap;
         }
       }
     }
@@ -90,7 +125,7 @@
 
 #FF {
   padding-bottom: 142px;
-  min-width: 375px;
+  min-width: 450px;
   .round {
     width: 33%;
   }

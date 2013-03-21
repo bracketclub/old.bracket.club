@@ -7,7 +7,8 @@ module.exports = function(grunt) {
       },
       bracket: {
         files: {
-          'public/js/bracket.min.js': ['public/js/BracketClass.js', 'public/js/bracket.js']
+          'public/js/bracket.min.js': ['public/js/BracketClass.js', 'public/js/bracket.js'],
+          'public/js/misc.min.js': ['public/js/misc.js']
         }
       }
     },
@@ -32,13 +33,22 @@ module.exports = function(grunt) {
         },
         src: [
           'public/js/jquery-1.9.1.min.js',
-          'public/js/underscore-min.js',
           'public/js/jquery.smooth-scroll.min.js',
-          'public/js/bootstrap.min.js',
+          'public/js/bootstrap.min.js'
+
+        ],
+        dest: 'public/js/libs.js'
+      },
+      bracketlibs: {
+        options: {
+          separator: ';'
+        },
+        src: [
+          'public/js/underscore-min.js',
           'public/js/backbone-min.js',
           'public/js/jade.min.js'
         ],
-        dest: 'public/js/libs.js'
+        dest: 'public/js/bracket-libs.js'
       },
       css: {
         src: [

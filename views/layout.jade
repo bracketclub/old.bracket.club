@@ -59,18 +59,23 @@ html
 
     - if (env === 'production')
       script(src='/js/libs.js')
-      script(src='/js/templates.js')
-      script(src='/js/bracket.min.js')
+      script(src='/js/misc.min.js')
+      - if (live)
+        script(src='/js/bracket-libs.js')
+        script(src='/js/templates.js')
+        script(src='/js/bracket.min.js')
     - else
       script(src='/js/jquery-1.9.1.min.js')
-      script(src='/js/underscore-min.js')
       script(src='/js/jquery.smooth-scroll.min.js')
       script(src='/js/bootstrap.min.js')
-      script(src='/js/backbone-min.js')
-      script(src='/js/jade.min.js')
-      script(src='/js/templates.js')
-      script(src='/js/BracketClass.js')
-      script(src='/js/bracket.js')
+      script(src='/js/misc.js')
+      - if (live)
+        script(src='/js/underscore-min.js')
+        script(src='/js/backbone-min.js')
+        script(src='/js/jade.min.js')
+        script(src='/js/templates.js')
+        script(src='/js/BracketClass.js')
+        script(src='/js/bracket.js')
 
     script
       window.twttr = (function (d,s,id) {

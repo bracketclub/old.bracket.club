@@ -14,8 +14,11 @@ block content
             li Post your tweet.
           .alert.alert-error Make sure to keep the hashtag and link in your tweet. That's how we find and enter your bracket.
         - else
-          .alert.alert-error
-            button.close(type= "button", data-dismiss= "alert", href="#") &times;
-            strong Sorry, the brackets are closed for the year.
+          .alert.alert-error Picks have locked for the year.
+          p
+           | Check out the bracket below for the latest results and the 
+           a(href="/results") results page
+           |  to see how each bracket ranks.
+
 
   include includes/bracket/bracket

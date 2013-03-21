@@ -4,7 +4,7 @@
 
 .bracket {
   padding-top: 82px;
-  min-width: 625px; }
+  min-width: 750px; }
   .bracket .round {
     width: 20%;
     float: left; }
@@ -16,8 +16,8 @@
         border-bottom: 1px solid #000;
         margin: 0;
         padding: 1em 0 0 0;
-        overflow: hidden;
-        position: relative; }
+        position: relative;
+        overflow: hidden; }
         .bracket .round ul li .name-fadeout {
           position: absolute;
           right: -20px;
@@ -31,9 +31,33 @@
           padding-left: 0.25em;
           display: block;
           white-space: nowrap;
-          cursor: pointer; }
+          color: #000; }
           .bracket .round ul li a:hover, .bracket .round ul li a.selected {
             text-decoration: none; }
+          .bracket .round ul li a.pickable {
+            cursor: pointer;
+            color: #dd4814; }
+            .bracket .round ul li a.pickable:hover, .bracket .round ul li a.pickable.selected {
+              color: #97310e; }
+          .bracket .round ul li a.correct, .bracket .round ul li a.incorrect {
+            background: #38b44a;
+            border-radius: 6px 6px 0 0;
+            color: #000;
+            text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.25); }
+          .bracket .round ul li a.incorrect {
+            background: #df382c;
+            text-decoration: line-through;
+            font-style: italic; }
+          .bracket .round ul li a.eliminated {
+            text-decoration: line-through;
+            font-style: italic; }
+        .bracket .round ul li span.should-be {
+          font-style: normal;
+          text-decoration: none;
+          position: absolute;
+          bottom: 18px;
+          right: 4px;
+          white-space: nowrap; }
     .bracket .round:nth-of-type(3) ul {
       margin-top: 1.3em;
       margin-bottom: 2.8em; }
@@ -55,7 +79,7 @@
 
 #FF {
   padding-bottom: 142px;
-  min-width: 375px; }
+  min-width: 450px; }
   #FF .round {
     width: 33%; }
   #FF .round:nth-of-type(4) ul {
