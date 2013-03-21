@@ -22,3 +22,16 @@ block content
       th NCG
       th Total
     tbody
+      - for (var i = 0, m = scores.length; i < m; i++)
+        - var score = scores[i]
+          tr
+            td= i+1
+            td
+              a(href= '/user/' + score.username)= score.username
+            td= score.rounds[0]
+            td= score.rounds[1]
+            td= score.rounds[2]
+            td= score.rounds[3]
+            td= score.rounds[4]
+            td= score.rounds[5]
+            td= score.totalScore
