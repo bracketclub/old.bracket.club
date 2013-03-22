@@ -25,7 +25,7 @@ block content
       - for (var i = 0, m = scores.length; i < m; i++)
         - var score = scores[i]
           tr
-            td= i+1
+            td= score.rank
             td
               a(href= '/user/' + score.username)= score.username
             td= score.rounds[0]
