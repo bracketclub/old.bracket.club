@@ -20,7 +20,6 @@
   "dependencies": {
     "async": "~0.2.6",
     "underscore": "~1.4.4",
-    "twit": "~1.1.5",
     "express": "~3.1.0",
     "jade": "~0.28.2",
     "bracket-validator": "0.1.x",
