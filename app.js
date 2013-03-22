@@ -12,9 +12,8 @@ var express = require('express'),
     appPackage = require('./package'),
     config = require('./config.js'),
     routes = require('./lib/routes'),
-    TwitterWatcher = require('./lib/twitter'),
-    twitter = new TwitterWatcher({appName: appPackage.name, tag: config.twitter.hashtags[0]}),
-    scoreTracker = require('./lib/scores'),
+    //TwitterWatcher = require('./lib/twitter'),
+    //twitter = new TwitterWatcher({appName: appPackage.name, tag: config.twitter.hashtags[0]}),
     BracketGenerator = require('bracket-validator')().generator,
 
     app = express();
@@ -44,13 +43,13 @@ app.configure('development', function () {
   app.use(express.logger('dev'));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.locals.env = 'development';
+  //twitter.start();
 });
 
 app.configure('production', function () {
   app.use(express.errorHandler());
   app.locals.env = 'production';
-  twitter.start();
-  scoreTracker.watch();
+  //twitter.start();
 });
 
 app.get('/', routes.index);
