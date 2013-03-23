@@ -5,7 +5,7 @@
 var express = require('express'),
     http = require('http'),
     path = require('path'),
-    log = require('./lib/log'),
+    log = require('simplest-log'),
     jadeBrowser = require('jade-browser'),
     _ = require('underscore'),
 
@@ -17,7 +17,7 @@ var express = require('express'),
     app = express();
 
 app.configure(function () {
-  app.set('port', 8080);
+  app.set('port', 8081);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
