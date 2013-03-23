@@ -23,9 +23,10 @@
     "express": "~3.1.0",
     "jade": "~0.28.2",
     "bracket-validator": "0.1.x",
-    "mongoose": "~3.6.0",
     "jade-browser": "0.0.9",
-    "moment": "~2.0.0"
+    "moment": "~2.0.0",
+    "tweetyourbracket-db": "0.x.x",
+    "simplest-log": "0.x.x"
   },
   "devDependencies": {
     "linode-api": "~0.1.2",
