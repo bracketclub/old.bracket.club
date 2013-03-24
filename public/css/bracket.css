@@ -170,6 +170,18 @@ header h1 {
   font-weight: normal;
   font-style: italic;
   margin-left: 2px; }
+.results th.tablesorter-header:hover, .results th.tablesorter-header.tablesorter-headerAsc, .results th.tablesorter-header.tablesorter-headerDesc {
+  cursor: pointer;
+  background: #d44413;
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.25); }
+.results th.tablesorter-header.sorter-false {
+  cursor: default;
+  background: #fff;
+  color: #000;
+  text-shadow: none;
+  box-shadow: none; }
 .results td.score {
   font-weight: bold; }
   .results td.score span {

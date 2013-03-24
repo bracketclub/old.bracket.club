@@ -250,6 +250,24 @@ to { background-color: #d44413; -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); 
     font-style: italic;
     margin-left: 2px;
   }
+  th.tablesorter-header {
+
+    &:hover, &.tablesorter-headerAsc, &.tablesorter-headerDesc {
+      cursor: pointer;
+      background: #d44413;
+      color: #fff;
+      text-shadow: 0 -1px 0 rgba(0,0,0,0.5);
+      box-shadow: inset 0px 0px 6px rgba(0,0,0,0.25);
+    }
+
+    &.sorter-false {
+      cursor: default;
+      background: #fff;
+      color: #000;
+      text-shadow: none;
+      box-shadow: none;
+    }
+  }
   td.score {
     font-weight: bold;
     span {
