@@ -10,16 +10,13 @@ block content
         - else
           h3 Check to see where you rank. Click other brackets to see the games they missed
 
-  table.table.table-striped
+  table.table.table-striped.results
     thead
       th Rank
       th Username
-      th Rd1
-      th Rd2
-      th S16
-      th E8
-      th FF
-      th NCG
+      - for (var i = 0, m = rounds.length; i < m; i++)
+        th= rounds[i]
+          span= '(x' + pointsPerRound[i] + ')'
       th Total
     tbody
       - for (var i = 0, m = scores.length; i < m; i++)
@@ -28,10 +25,7 @@ block content
             td= score.rank
             td
               a(href= '/user/' + score.username)= score.username
-            td= score.rounds[0]
-            td= score.rounds[1]
-            td= score.rounds[2]
-            td= score.rounds[3]
-            td= score.rounds[4]
-            td= score.rounds[5]
+            - for (var ii = 0, mm = score.rounds.length; ii < mm; ii++)
+              td.score= score.rounds[ii] * pointsPerRound[ii]
+                span= '(' + score.rounds[ii] + ')'
             td= score.totalScore

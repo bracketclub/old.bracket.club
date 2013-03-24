@@ -243,3 +243,19 @@ to { background-color: #d44413; -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); 
     }
   }
 }
+
+.results {
+  th span {
+    font-weight: normal;
+    font-style: italic;
+    margin-left: 2px;
+  }
+  td.score {
+    font-weight: bold;
+    span {
+      font-weight: normal;
+      font-style: italic;
+      margin-left: 2px;
+    }
+  }
+}
