@@ -12,10 +12,10 @@ html
     - if (env === 'production')
       link(rel='stylesheet', href='/css/all.css')
     - else
-      link(rel='stylesheet', href='/css/bootstrap.css')
-      link(rel='stylesheet', href='/css/bootstrap-responsive.min.css')
-      link(rel='stylesheet', href='/css/bootswatch.css')
-      link(rel='stylesheet', href='/css/bracket.css')
+      link(rel='stylesheet', href='/css/bootstrap.css?#{new Date().getTime()}')
+      link(rel='stylesheet', href='/css/bootstrap-responsive.min.css?#{new Date().getTime()}')
+      link(rel='stylesheet', href='/css/bootswatch.css?#{new Date().getTime()}')
+      link(rel='stylesheet', href='/css/bracket.css?#{new Date().getTime()}')
 
   body(id="top", data-spy="scroll", data-target=".subnav", data-offset="140")
     .navbar.navbar-fixed-top
@@ -65,17 +65,17 @@ html
         script(src='/js/templates.js?#{version}')
         script(src='/js/bracket.min.js?#{version}')
     - else
-      script(src='/js/jquery-1.9.1.min.js')
-      script(src='/js/jquery.smooth-scroll.min.js')
-      script(src='/js/bootstrap.min.js')
-      script(src='/js/misc.js')
+      script(src='/js/jquery-1.9.1.min.js?#{new Date().getTime()}')
+      script(src='/js/jquery.smooth-scroll.min.js?#{new Date().getTime()}')
+      script(src='/js/bootstrap.min.js?#{new Date().getTime()}')
+      script(src='/js/misc.js?#{new Date().getTime()}')
       - if (live)
-        script(src='/js/underscore-min.js')
-        script(src='/js/backbone-min.js')
-        script(src='/js/jade.min.js')
-        script(src='/js/templates.js')
-        script(src='/js/BracketClass.js')
-        script(src='/js/bracket.js')
+        script(src='/js/underscore-min.js?#{new Date().getTime()}')
+        script(src='/js/backbone-min.js?#{new Date().getTime()}')
+        script(src='/js/jade.min.js?#{new Date().getTime()}')
+        script(src='/js/templates.js?#{new Date().getTime()}')
+        script(src='/js/BracketClass.js?#{new Date().getTime()}')
+        script(src='/js/bracket.js?#{new Date().getTime()}')
     block moreScripts
 
     script
