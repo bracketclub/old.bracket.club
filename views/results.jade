@@ -29,3 +29,10 @@ block content
               td.score= score.rounds[ii] * pointsPerRound[ii]
                 span= '(' + score.rounds[ii] + '/' + gamesPerRound[ii] + ')'
             td= score.totalScore
+
+append moreScripts
+  - if (env === 'production')
+    script(src='/js/results-libs.js')
+  - else
+    script(src='/js/jquery.tablesorter.min.js')
+    script(src='/js/results.js')

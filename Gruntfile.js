@@ -50,6 +50,16 @@ module.exports = function(grunt) {
         ],
         dest: 'public/js/bracket-libs.js'
       },
+      results: {
+        options: {
+          separator: ';'
+        },
+        src: [
+          'public/js/jquery.tablesorter.min.js',
+          'public/js/results.js'
+        ],
+        dest: 'public/js/results-libs.js'
+      },
       css: {
         src: [
           'public/css/bootstrap.css',
