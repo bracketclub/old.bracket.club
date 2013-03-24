@@ -166,3 +166,13 @@ header h1 {
     display: inline; }
   .subnav .short-name {
     display: none; } }
+.results th span {
+  font-weight: normal;
+  font-style: italic;
+  margin-left: 2px; }
+.results td.score {
+  font-weight: bold; }
+  .results td.score span {
+    font-weight: normal;
+    font-style: italic;
+    margin-left: 2px; }
