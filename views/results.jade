@@ -27,5 +27,5 @@ block content
               a(href= '/user/' + score.username)= score.username
             - for (var ii = 0, mm = score.rounds.length; ii < mm; ii++)
               td.score= score.rounds[ii] * pointsPerRound[ii]
-                span= '(' + score.rounds[ii] + ')'
+                span= '(' + score.rounds[ii] + '/' + gamesPerRound[ii] + ')'
             td= score.totalScore
