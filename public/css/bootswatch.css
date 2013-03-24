@@ -1,4 +1,4 @@
-section {
+xsection {
 	margin-top: 60px;
 	padding-top: 100px;
 }
@@ -396,7 +396,7 @@ body .one .bsa_it_p {
 @media (min-width: 980px) {
 
 	body.has-subnav-fixed {
-		margin-top: 36px;
+		margin-top: 98px;
 	}
   
 	.subnav-fixed {
