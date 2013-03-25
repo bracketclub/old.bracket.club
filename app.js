@@ -51,6 +51,7 @@ app.configure('production', function () {
 app.get('/', routes.index);
 app.get('/faq', routes.faq);
 app.get('/results', routes.results);
+app.get('/gooley', routes.gooley);
 app.get('/user/:username', routes.user);
 
 http.createServer(app).listen(app.get('port'), function () {

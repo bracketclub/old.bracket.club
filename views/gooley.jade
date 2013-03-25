@@ -3,7 +3,7 @@ block content
   header#overview.jumbotron.subhead
     .row
       .span12
-        h1 Results
+        h1 Gooley Results
       .span12
         - if (live)
           h3 Check back once the first round games start to see where you rank.
@@ -14,12 +14,7 @@ block content
     thead
       th Rank
       th Username
-      - for (var i = 0, m = rounds.length; i < m; i++)
-        th= rounds[i]
-          span= '(x' + pointsPerRound[i] + ')'
-      th Total
-      - if (hasGooley)
-        th Gooley
+      th Score
     tbody
       - for (var i = 0, m = scores.length; i < m; i++)
         - var score = scores[i]
@@ -27,12 +22,7 @@ block content
             td= score.rank
             td
               a(href= '/user/' + score.username)= score.username
-            - for (var ii = 0, mm = score.rounds.length; ii < mm; ii++)
-              td.score= score.rounds[ii] * pointsPerRound[ii]
-                span= '(' + score.rounds[ii] + '/' + gamesPerRound[ii] + ')'
-            td= score.totalScore
-            - if (hasGooley)
-              td= score.gooley
+            td= score.gooley
 
 append moreScripts
   - if (env === 'production')
