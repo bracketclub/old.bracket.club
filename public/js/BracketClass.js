@@ -202,7 +202,24 @@ Generator.prototype.flatBracket = function() {
 
 module.exports = Generator;
 
-},{"../data/ncaa-mens-basketball/data":5,"../data/ncaa-mens-basketball/order":4,"../data/ncaa-mens-basketball/consts":6,"lodash":7}],7:[function(require,module,exports){
+},{"../data/ncaa-mens-basketball/data":5,"../data/ncaa-mens-basketball/order":4,"../data/ncaa-mens-basketball/consts":6,"lodash":7}],8:[function(require,module,exports){
+var _ = require('lodash'),
+
+    thisData = require('../data/ncaa-mens-basketball/data')(),
+    CONSTS = require('../data/ncaa-mens-basketball/consts'),
+    regionAlphas = CONSTS.REGION_IDS.join('');
+
+module.exports = function(options) {
+
+  options = options || {};
+
+  var data = options.data || thisData,
+      regionRegEx = '([' + regionAlphas + ']{1,2})([\\d' + CONSTS.UNPICKED_MATCH + ']{' + (CONSTS.TEAMS_PER_REGION - 1) + ',' + ((CONSTS.TEAMS_PER_REGION - 1) * 2) +  '})',
+      finalRegEx = '(' + CONSTS.FINAL_ID + ')([' + regionAlphas + 'X]{' + (CONSTS.REGION_COUNT - 1) + ',' + ((CONSTS.REGION_COUNT - 1) * 2) + '})';
+
+  return new RegExp(new Array(CONSTS.REGION_COUNT + 1).join(regionRegEx) + finalRegEx);
+};
+},{"../data/ncaa-mens-basketball/data":5,"../data/ncaa-mens-basketball/consts":6,"lodash":7}],7:[function(require,module,exports){
 (function(global){/**
  * @license
  * Lo-Dash 1.0.1 (Custom Build) <http://lodash.com/>
@@ -5546,24 +5563,21 @@ Validator.prototype.validateFinal = function(finalPicks, validatedRounds) {
 
 module.exports = Validator;
 
-},{"../data/ncaa-mens-basketball/data":5,"../data/ncaa-mens-basketball/order":4,"../data/ncaa-mens-basketball/consts":6,"./quickCheck":8,"lodash":7,"async":9}],8:[function(require,module,exports){
-var _ = require('lodash'),
+},{"../data/ncaa-mens-basketball/data":5,"../data/ncaa-mens-basketball/order":4,"../data/ncaa-mens-basketball/consts":6,"./quickCheck":8,"lodash":7,"async":9}],6:[function(require,module,exports){
+var data = require('./data')(),
+    _ = require('lodash'),
 
-    thisData = require('../data/ncaa-mens-basketball/data')(),
-    CONSTS = require('../data/ncaa-mens-basketball/consts'),
-    regionAlphas = CONSTS.REGION_IDS.join('');
+    noRegions = _.omit(data, 'regions');
 
-module.exports = function(options) {
-
-  options = options || {};
-
-  var data = options.data || thisData,
-      regionRegEx = '([' + regionAlphas + ']{1,2})([\\d' + CONSTS.UNPICKED_MATCH + ']{' + (CONSTS.TEAMS_PER_REGION - 1) + ',' + ((CONSTS.TEAMS_PER_REGION - 1) * 2) +  '})',
-      finalRegEx = '(' + CONSTS.FINAL_ID + ')([' + regionAlphas + 'X]{' + (CONSTS.REGION_COUNT - 1) + ',' + ((CONSTS.REGION_COUNT - 1) * 2) + '})';
-
-  return new RegExp(new Array(CONSTS.REGION_COUNT + 1).join(regionRegEx) + finalRegEx);
+module.exports = {
+  REGION_COUNT: _.keys(data.regions).length,
+  REGION_IDS: _.keys(data.regions),
+  FINAL_ID: _.keys(noRegions)[0],
+  FINAL_NAME: noRegions[_.keys(noRegions)[0]].name,
+  UNPICKED_MATCH: 'X',
+  TEAMS_PER_REGION: _.find(data.regions, function() {return true;}).teams.length
 };
-},{"../data/ncaa-mens-basketball/data":5,"../data/ncaa-mens-basketball/consts":6,"lodash":7}],5:[function(require,module,exports){
+},{"./data":5,"lodash":7}],5:[function(require,module,exports){
 var data = {
       '2012': {
         regions: ['South', 'West', 'East', 'MidWest'],
@@ -6654,19 +6668,5 @@ process.chdir = function (dir) {
 }());
 
 })(require("__browserify_process"))
-},{"__browserify_process":10}],6:[function(require,module,exports){
-var data = require('./data')(),
-    _ = require('lodash'),
-
-    noRegions = _.omit(data, 'regions');
-
-module.exports = {
-  REGION_COUNT: _.keys(data.regions).length,
-  REGION_IDS: _.keys(data.regions),
-  FINAL_ID: _.keys(noRegions)[0],
-  FINAL_NAME: noRegions[_.keys(noRegions)[0]].name,
-  UNPICKED_MATCH: 'X',
-  TEAMS_PER_REGION: _.find(data.regions, function() {return true;}).teams.length
-};
-},{"./data":5,"lodash":7}]},{},[1])
+},{"__browserify_process":10}]},{},[1])
 ;
