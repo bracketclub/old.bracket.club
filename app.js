@@ -27,7 +27,7 @@ app.configure(function () {
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(function(req, res, next){
     res.status(404);
-    res.render('404', {title: '404'});
+    res.render('404', {title: '404', live: false});
   });
 });
 
