@@ -1,3 +1,6 @@
 include nav
-#bracket
- include regions
+- if (typeof entry !== 'undefined')
+  #bracket(data-bracket= entry.bracket, data-created= entry.created, data-user-id= entry.user_id, data-from-tweet= "https://twitter.com/#{entry.username}/status/#{entry.tweet_id}")
+-else
+  #bracket(data-bracket= bracket)
+include regions

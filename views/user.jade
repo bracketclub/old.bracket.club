@@ -4,6 +4,8 @@ block content
     .row
       .span12
         h1 @#{entry.username}
+        h3= entry.name
+        img(src= entry.profile_pic)
       .span12
         - if (live)
           h3 Is this your bracket?
@@ -15,8 +17,9 @@ block content
         - else
           h3
             | This is their final bracket. Check the 
-            a(href="/results") results 
-            | to see how they stack up against the rest.
+            a(href="/results") results
+            |  to see how they stack up against the rest.
+
 
   include includes/bracket/bracket
 

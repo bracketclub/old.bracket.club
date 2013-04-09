@@ -1,8 +1,8 @@
 #!/bin/sh
 
-wget -x -nH -r -P static/$1 http://tweetyourbracket.com
+wget -x -nH -r -P static/$1 $2
 cd static/$1 > /dev/null
-curl -R -O http://tweetyourbracket.com/404.html
+curl -R -O ${2}/404.html
 cd -
 cp static/2012/.htaccess static/$1/.htaccess
 rsync -avze 'ssh -p 22' --delete static/$1/ linode:www/tweetyourbracket.com/public_html/$1/
