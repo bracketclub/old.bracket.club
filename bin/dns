@@ -87,7 +87,7 @@ var dns = {
 
     if (server === 'jitsu') {
       getIP = function(res, cb) {
-        jitsu.balancers(app.subdomain + '.jit.su', cb);
+        jitsu.balancers('jit.su', cb);
       };
       addRecords = function(result) {
         async.concat(result, linode.createARecordsPerIP, noop);
