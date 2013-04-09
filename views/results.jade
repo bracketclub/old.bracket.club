@@ -8,7 +8,11 @@ block content
         - if (live)
           h3 Check back once the first round games start to see where you rank.
         - else
-          h3 Check to see where you rank. Click other brackets to see the games they missed
+          h3 Check to see where you rank. Click other brackets to see the games they missed.
+          p 
+            | Check out the 
+            a(href= hasGooley ? "/results" : "/gooley")= ((hasGooley) ? "Standard" : "Gooley") + " Rankings"
+            |  also.
 
   table.table.table-striped.results
     thead
