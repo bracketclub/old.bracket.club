@@ -1,6 +1,8 @@
 #!/bin/sh
 
-# TODO: Create clone of site (spin up server, follow all links to download all pages, normalize paths, 404)
-# TODO: Optionally call bin/dns -s to reset dns for static site
-# If dns -server jitsu echo "Don't forget to pause the jitsu server!"
+wget -x -nH -r -P static/$1 http://tweetyourbracket.com
+cd static/$1 > /dev/null
+curl -R -O http://tweetyourbracket.com/404.html
+cd -
+cp static/2012/.htaccess static/$1/.htaccess
 rsync -avze 'ssh -p 22' --delete static/$1/ linode:www/tweetyourbracket.com/public_html/$1/

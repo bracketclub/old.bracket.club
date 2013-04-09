@@ -36,7 +36,7 @@ block content
 
 append moreScripts
   - if (env === 'production')
-    script(src='/js/results-libs.js')
+    script(src='/js/results-libs.js?#{version}')
   - else
     script(src='/js/jquery.tablesorter.min.js?#{new Date().getTime()}')
     script(src='/js/results.js?#{new Date().getTime()}')
