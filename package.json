@@ -1,40 +1,39 @@
 {
   "name": "tweetyourbracket.com",
-  "subdomain": "tweetyourbracket",
+  "description": "The project site for tweetyourbracket.com",
+  "version": "0.3.0",
+  "private": true,
+  "keywords": [
+    "ncaa",
+    "bracket",
+    "tweetyourbracket"
+  ],
+  "bugs": {
+    "url": "http://github.com/tweetyourbracket/tweetyourbracket.com/issues"
+  },
+  "license": "MIT",
   "author": {
     "name": "Luke Karrys",
-    "email": "luke@lukekarrys.com"
+    "email": "luke@lukekarrys.com",
+    "url": "http://lukekarrys.com"
   },
-  "scripts": {
-    "predeploy": "browserify client_modules/bracket.js > public/js/BracketClass.js && grunt",
-    "start": "node app.js"
-  },
-  "domains": [
-    "tweetyourbracket.com",
-    "www.tweetyourbracket.com"
-  ],
-  "version": "0.0.0-80",
-  "engines": {
-    "node": "0.8.x"
+  "main": "app.js",
+  "homepage": "http://tweetyourbracket.com",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/tweetyourbracket/tweetyourbracket.com.git"
   },
   "dependencies": {
-    "async": "~0.2.6",
-    "underscore": "~1.4.4",
-    "express": "~3.1.0",
-    "jade": "~0.28.2",
-    "bracket-validator": "0.1.x",
-    "jade-browser": "0.0.9",
-    "moment": "~2.0.0",
-    "tweetyourbracket-db": "0.x.x",
-    "simplest-log": "0.x.x"
+    "bracket-validator": "~1.0.0",
+    "bracket-scorer": "~1.0.0",
+    "bracket-generator": "~1.0.0"
+  },
+  "scripts": {
+    "test": "BRACKET_YEAR=2013 ./node_modules/.bin/mocha -c -u bdd -R spec --timeout 10000 test/*.js",
+    "start": "node app.js"
   },
   "devDependencies": {
-    "linode-api": "~0.1.2",
-    "commander": "~1.1.1",
-    "grunt": "~0.4.1",
-    "grunt-contrib-uglify": "~0.2.0",
-    "grunt-contrib-concat": "~0.1.3",
-    "grunt-contrib-cssmin": "~0.5.0",
-    "grunt-contrib-sass": "~0.2.2"
+    "mocha": "~1.17.1",
+    "assert": "~1.1.0",
   }
 }
