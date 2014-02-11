@@ -1,0 +1,15 @@
+Tweet Your Bracket
+
+Tweet Your Bracket is an interactive and collaborative editor and entry system for the NCAA College Basketball Tournament (aka March Madness). It allows you to easily pick, share and collaborate on your March Madness brackets. Collaboration includes video chat and realtime collaborative editing of brackets. Once the tournament starts, entries can be viewed for to see what games were picked correctly and how each bracket scores against the rest. A replay feature allows you to view how your bracket scored individually and overall after the completion of each game.
+
+
+Browserify
+Backbone+HumanJS
+Moonboots+Express (Dev builds)
+jQuery
+Bootstrap+Bootswatch
+Underscore
+Jade
+Less
+SimpleWebRTC
+GoInstant
