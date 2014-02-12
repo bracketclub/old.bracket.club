@@ -1,8 +1,0 @@
-a.game(
-  class= ((team.eliminated) ? 'eliminated ' : ' ') + ((team.correct) ? 'correct ' : ' ') + ((team.correct === false) ? 'incorrect ' : ' ')  + ((live) ? 'pickable' : ''),
-  data-from-region= team.fromRegion,
-  data-seed= team.seed,
-  data-name= team.name
-)= '(' + team.seed + ') ' + team.name
-- if (team.shouldBe)
-  span.should-be= '(' + team.shouldBe.seed + ') ' + team.shouldBe.name

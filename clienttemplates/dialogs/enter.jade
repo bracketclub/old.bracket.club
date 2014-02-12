@@ -1,0 +1,25 @@
+.modal.fade.welcome-dialog(tabindex="-1", role="dialog")
+  .modal-dialog
+    form.modal-content
+      .modal-header
+        button(type="button", class="close", data-dismiss="modal") &times;
+        h3.modal-title Enter Your Bracket!
+
+      .modal-body
+        .alert.alert-info
+          p The 2014 bracket won't be announced until 
+            strong March 16th.
+            | Sign up to our 
+            a(href='http://tweetyourbracket.com') email list
+            |  to be notifed when brackets open.
+
+        h2 See your bracket in action!
+        p
+          | Your bracket has been saved locally. You can go to the 
+          a(href="/results") results page
+          |  or your 
+          a(href="/results/me") finished bracket page
+          |  to see how your bracket scored in 2013.
+
+      .modal-footer
+        a.btn.btn-primary.btn-block(href="/results", data-dismiss="modal") See Results

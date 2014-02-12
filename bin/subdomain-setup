@@ -1,7 +1,0 @@
-#!/bin/sh
-
-cd /etc/apache2/sites-available
-sudo cp 2012.tweetyourbracket.com $1.tweetyourbracket.com
-sudo vi $1.tweetyourbracket.com
-sudo a2ensite $1.tweetyourbracket.com
-sudo /etc/init.d/apache2 reload

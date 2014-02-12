@@ -1,0 +1,38 @@
+mixin nav(results)
+  - var canRewind = results.canRewind(), canFastForward = results.canFastForward()
+    div(role="nav")
+      ul.nav.nav-pills
+        li(class=canRewind ? '' : 'disabled')
+          a(href="#", role="first")
+            span.glyphicon.glyphicon-fast-backward
+        li(class=canRewind ? '' : 'disabled')
+          a(href="#", role="previous")
+            span.glyphicon.glyphicon-step-backward
+        li(class=canFastForward ? '' : 'disabled')
+          a(href="#", role="next")
+            span.glyphicon.glyphicon-step-forward
+        li(class=canFastForward ? '' : 'disabled')
+          a(href="#", role="last")
+            span.glyphicon.glyphicon-fast-forward
+      .progress-holder
+        .progress
+          .progress-bar(role="progress-bar", aria-valuenow="#{results.masterIndex}", aria-valuemin="0", aria-valuemax="#{results.masters.length - 1}", style="width: #{(results.masterIndex / (results.masters.length - 1)) * 100}%;")
+          strong #{results.masterIndex} of #{results.masters.length - 1} games completed
+
+section.page.results
+    .results
+        mixin nav(results)
+        .table-responsive
+            table.table
+                thead
+                    th Rank
+                    th Username
+                    th Rd 1
+                    th Rd 2
+                    th S16
+                    th E8
+                    th FF
+                    th NC
+                    th(class="info", role="total") Total
+                    th(class="active", role="gooley") Gooley
+                tbody(role="results")

@@ -1,0 +1,11 @@
+{
+  "name": "ss14-team-234",
+  "root": "./_deploy",
+  "clean_urls": true,
+  "cache_control": {
+    "/assets/**": 31536000
+  },
+  "routes": {
+    "/**": "index.html"
+  }
+}
