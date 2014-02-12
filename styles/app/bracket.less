@@ -1,0 +1,176 @@
+.bracket {
+
+  .region {
+    position: relative;
+  }
+
+  .region-name {
+    position: absolute;
+    top: 279px;
+    right: 23%;
+    margin: 0;
+  }
+
+  #region-FF .region-name {
+    top: 63px;
+    right: 42%;
+  }
+
+  .round {
+    width: 20%;
+    float: left;
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        border-bottom: 1px solid #000;
+        margin: 0;
+        padding: 1em 0 0 0;
+        position: relative;
+        overflow: hidden;
+
+        .name-fadeout {
+          position: absolute;
+          right: -20px;
+          width: 20px;
+          box-shadow: -9px 0 13px white;
+          height: 24px;
+          bottom: 0px;
+        }
+
+        &:last-child {
+          border-right: 1px solid #000;
+        }
+
+        a {
+          padding-left: 0.25em;
+          display: block;
+          white-space: nowrap;
+          color: #000;
+          &:hover, &.selected {
+            text-decoration: none;
+          }
+
+          &.pickable {
+            cursor: pointer;
+            color: #dd4814;
+            &:hover, &.selected {
+              color: #97310e;
+            }
+          }
+
+          &.correct, &.incorrect {
+            background: #38b44a;
+            border-radius: 6px 6px 0 0;
+            color:#000;
+            text-shadow: 0 -1px 0 rgba(255,255,255,0.25);
+          }
+
+          &.incorrect {
+            background: #df382c;
+            text-decoration: line-through;
+            font-style: italic;
+          }
+
+          &.eliminated {
+            text-decoration: line-through;
+            font-style: italic;
+          }
+        }
+
+        span.should-be {
+          font-style: normal;
+          text-decoration: none;
+          position: absolute;
+          bottom: 18px;
+          right: 4px;
+          white-space: nowrap;
+        }
+      }
+    }
+
+    &:nth-child(2) {
+      ul {
+        margin-top: 1.3em;
+        margin-bottom: 2.8em;
+        li:last-child {
+          padding-top: 3.25em;
+        }
+      }
+    }
+
+    &:nth-child(3) {
+      ul {
+        margin-top: 4em;
+        margin-bottom: 7.3em;
+        li:last-child {
+          padding-top: 8.25em;
+        }
+      }
+    }
+
+    &:nth-child(4) {
+      ul {
+        margin-top: 9em;
+        li:last-child {
+          padding-top: 18.25em;
+        }
+      }
+    }
+
+    &:nth-child(5) {
+      ul {
+        margin-top: 19em;
+        li:last-child {
+          border-right: none;
+        }
+      }
+    }
+  }
+
+  #region-MW, #region-W, #region-E, #region-S {
+    &:after {
+      border-right: 1px solid #000;
+      position: absolute;
+      right: 0px;
+      height: 300px;
+      top: 0px;
+    }
+  }
+
+  #region-MW:after, #region-S:after {
+    top: 300px;
+    height: 303px;
+  }
+
+  #region-FF .round {
+    width: 33.3333333333%;
+    &:nth-child(3) {
+      ul {
+        margin-top: 4.5em;
+        margin-bottom: 0;
+        li:last-child {
+          border-right: 0;
+          padding-top: 0;
+        }
+      }
+    }
+  }
+
+  @media (min-width: @screen-md-min) {
+    .right-side {
+      &, a.team, .region-name {
+        // Causes some games to be unclickable
+        // -webkit-transform: rotateY(180deg) translateZ(1px);
+        // -webkit-transform-style: preserve-3d;
+      }
+      a.team, .region-name {
+        //text-align: right;
+      }
+    }
+  }
+
+}
