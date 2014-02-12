@@ -1,39 +1,59 @@
 {
-  "name": "tweetyourbracket.com",
-  "description": "The project site for tweetyourbracket.com",
-  "version": "0.3.0",
-  "private": true,
-  "keywords": [
-    "ncaa",
-    "bracket",
-    "tweetyourbracket"
-  ],
-  "bugs": {
-    "url": "http://github.com/tweetyourbracket/tweetyourbracket.com/issues"
-  },
-  "license": "MIT",
-  "author": {
-    "name": "Luke Karrys",
-    "email": "luke@lukekarrys.com",
-    "url": "http://lukekarrys.com"
-  },
-  "main": "app.js",
-  "homepage": "http://tweetyourbracket.com",
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/tweetyourbracket/tweetyourbracket.com.git"
-  },
+  "name": "tweet-your-bracket",
+  "version": "0.0.0",
+  "author": "Luke Karrys",
   "dependencies": {
-    "bracket-validator": "~1.0.0",
-    "bracket-scorer": "~1.0.0",
-    "bracket-generator": "~1.0.0"
-  },
-  "scripts": {
-    "test": "BRACKET_YEAR=2013 ./node_modules/.bin/mocha -c -u bdd -R spec --timeout 10000 test/*.js",
-    "start": "node app.js"
+    "async": "~0.2.10",
+    "backbone": "1.0.0",
+    "bracket-generator": "~1.0.2",
+    "bracket-validator": "~1.0.6",
+    "clientconfig": "~0.0.4",
+    "execSync": "~1.0.1-pre",
+    "express": "3.x.x",
+    "favicon-setter": "~0.1.1",
+    "getconfig": "~0.3.0",
+    "human-model": "~2.6.0",
+    "human-view": "~1.6.0",
+    "human-view-switcher": "~0.0.1",
+    "jade": "1.x.x",
+    "jquery": "~2.1.0",
+    "less": "~1.6.2",
+    "mkdirp": "~0.3.5",
+    "moonboots": "1.x.x",
+    "rmrf": "~1.0.2",
+    "simplewebrtc": "~1.1.1",
+    "templatizer": "~0.2.9",
+    "underscore": "~1.5.2",
+    "bracket-updater": "~1.0.8",
+    "bracket-scorer": "~1.0.1"
   },
   "devDependencies": {
-    "mocha": "~1.17.1",
-    "assert": "~1.1.0",
+    "precommit-hook": "~0.3.8"
+  },
+  "jshintConfig": {
+    "asi": false,
+    "browser": true,
+    "curly": false,
+    "expr": true,
+    "indent": 4,
+    "loopfunc": true,
+    "node": true,
+    "predef": [
+      "goinstant",
+      "$",
+      "app",
+      "me"
+    ],
+    "trailing": true,
+    "undef": true,
+    "white": true
+  },
+  "main": "server.js",
+  "scripts": {
+    "local": "./node_modules/.bin/nodemon -e js,json,jade server.js",
+    "build": "node server.js --build",
+    "deploy": "npm run build && divshot push",
+    "staging": "npm run build && divshot push staging",
+    "production": "npm run build && divshot push production"
   }
 }

@@ -1,0 +1,11 @@
+clientapp/collections/
+clientapp/helpers/
+clientapp/models/
+clientapp/pages/
+clientapp/templates/
+clientapp/views/
+clientapp/app.js
+clientapp/router.js
+clientapp/templates.js
+_deploy/
+clienttemplates/

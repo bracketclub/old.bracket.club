@@ -1,0 +1,7 @@
+node_modules
+public/
+clientapp/modules
+clientapp/libraries
+clientapp/templates.js
+clienttests
+_deploy/
