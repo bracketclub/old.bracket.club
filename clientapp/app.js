@@ -2,7 +2,6 @@
 var Backbone = require('backbone');
 var _ = require('underscore');
 var logger = require('./helpers/andlog');
-var config = require('clientconfig');
 var goinstant = require('./helpers/goinstant');
 
 var Router = require('./router');

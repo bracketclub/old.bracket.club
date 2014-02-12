@@ -19,23 +19,5 @@
             a(href='http://tweetyourbracket.com') email list
             |  to be notifed when brackets open.
 
-        h3 Static Showdown Judges
-        p
-          |  During the actual tournament there is a small 
-          a(href="https://github.com/tweetyourbracket/tweet-watcher/blob/master/index.js") tweet watching script
-          |  running that officially enters brackets. This year all it will do is save the bracket to a 
-          a(href="https://github.com/staticshowdown/ss14-team-234/blob/master/clientapp/data/2013.json") JSON blob
-          | .
-        
-        p
-          strong But all the results, scoring, collaboration, and picking are done clientside.
-
-        p The official entering/persistence of brackets could easily be done by Firebase/GoInstant 
-          | but seeing as entering is not the primary concern (since brackets are not open) I opted to:
-
-        ol
-          li Persist your bracket locally
-          li Have a realtime collaboration page where brackets are persisted on a room by room basis (currently unauthenticated)
-
       .modal-footer
         button.btn.btn-primary.btn-block(type="button", data-dismiss="modal") Cool! Let's Play!

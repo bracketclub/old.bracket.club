@@ -1,4 +1,3 @@
-var config = require('clientconfig');
 var url = "https://goinstant.net/f2a0775ca4ce/staticshowdown";
 
 

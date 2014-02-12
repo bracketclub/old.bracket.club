@@ -1,7 +1,6 @@
 var path = require('path');
 var express = require('express');
 var Moonboots = require('moonboots');
-var config = require('getconfig');
 var app = express();
 var build = require('./build');
 var appName = require('./package').name;
@@ -31,7 +30,7 @@ var clientApp = new Moonboots({
     jsFileName: appName,
     cssFileName: appName,
     main: fixPath('clientapp/app.js'),
-    developmentMode: config.isDev,
+    developmentMode: process.argv.join(' ').indexOf(' --minify'),
     libraries: [
         fixPath('clientapp/libraries/goinstant.min.js'),
         fixPath('node_modules/jquery/dist/jquery.js'),
@@ -39,10 +38,8 @@ var clientApp = new Moonboots({
         fixPath('clientapp/libraries/bootstrap/transition.js'),
         fixPath('clientapp/libraries/bootstrap/alert.js'),
         fixPath('clientapp/libraries/bootstrap/button.js'),
-        fixPath('clientapp/libraries/bootstrap/collapse.js'),
         fixPath('clientapp/libraries/bootstrap/dropdown.js'),
         fixPath('clientapp/libraries/bootstrap/modal.js'),
-        fixPath('clientapp/libraries/bootstrap/tooltip.js'),
         fixPath('clientapp/libraries/bootstrap/affix.js')
     ],
     stylesheets: [
@@ -56,19 +53,12 @@ var clientApp = new Moonboots({
 
 // Build to deploy dir
 if (process.argv.join(' ').indexOf(' --build') > -1) {
-    build.static(clientApp, appName);
-    return;
+    return build.static(clientApp, appName);
 }
 
-// use a cookie to send config items to client
-var clientSettingsMiddleware = function (req, res, next) {
-    res.cookie('config', JSON.stringify(config.client));
-    next();
-};
-
 // configure our main route that will serve our moonboots app
-app.get('*', clientSettingsMiddleware, clientApp.html());
+app.get('*', clientApp.html());
 
 // listen for incoming http requests on the port as specified in our config
-app.listen(config.http.port);
-console.log("Running at: http://localhost:" + config.http.port + " Yep. That\'s pretty awesome.");
+app.listen(3000);
+console.log("Running at: http://localhost:" + 3000 + " Yep. That\'s pretty awesome.");
