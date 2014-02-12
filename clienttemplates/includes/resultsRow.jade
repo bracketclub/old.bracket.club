@@ -1,0 +1,12 @@
+tr(class=entry.username === "me" ? "success" : "")
+    td.rank
+    td
+        a(href="/results/#{entry.username}")= entry.username
+    td= entry.score.rounds[0]
+    td= entry.score.rounds[1]
+    td= entry.score.rounds[2]
+    td= entry.score.rounds[3]
+    td= entry.score.rounds[4]
+    td= entry.score.rounds[5]
+    td= entry.score.totalScore
+    td= entry.gooley

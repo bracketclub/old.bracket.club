@@ -1,0 +1,90 @@
+mixin team(team, pickable)
+  - if (typeof team !== 'undefined')
+    li
+      - if (team)
+        - var classes = ['']
+        - team.eliminated && classes.push('eliminated')
+        - team.correct === true && classes.push('correct')
+        - team.correct === false && classes.push('incorrect')
+        - pickable && classes.push('pickable')
+        a.team(class=classes.join(' '), role='team', data-region=team.fromRegion, data-seed=team.seed, data-name=team.name, data-id=team.fromRegion + team.seed)
+          span.team (#{team.seed}) #{team.name}
+          - if (team.shouldBe)
+            span.should-be (#{team.shouldBe.seed}) #{team.shouldBe.name}
+      - else
+        a &nbsp;
+
+
+mixin matchups(team1, team2, pickable)
+  ul.matchup(role='matchup')
+    mixin team(team1, pickable)
+    mixin team(team2, pickable)
+
+
+mixin region(region, pickable)
+  section.clearfix.region(role='region', data-id=region.id, id='region-' + region.id)
+    h2.region-name= region.name
+    .matchups.clearfix
+      - each round in region.rounds
+        .round
+          - for (var ii = 0, mm = round.length; ii < mm; ii += 2)
+            mixin matchups(round[ii], round[ii+1], pickable)
+
+
+mixin side(region1, region2, sideClass, pickable)
+  .col-md-6.clearfix(class=sideClass)
+    mixin region(region1, pickable)
+    mixin region(region2, pickable)
+
+
+mixin regions(regions, bracket, pickable)
+  - if (typeof bracket.score !== 'undefined')
+    .bracket-info
+      h2 #{bracket.username}
+      p.score
+        strong Total: 
+        | #{bracket.score.totalScore}
+        | - 
+        strong Gooley: 
+        | #{bracket.gooley}
+  - if (typeof bracket.complete !== 'undefed' && bracket.complete)
+    button.btn.btn-primary.btn-block(role="enter") You are done! Tweet it!
+  - for (var i = 0, m = regions.length - 1; i < m; i += 2)
+    mixin side(regions[i], regions[i+1], i === 0 ? 'left-side' : 'right-side', pickable)
+  .col-md-12
+    mixin region(regions[regions.length-1], pickable)
+
+
+mixin nav(model)
+  - var canRewind = model.canRewind
+  - var canFastForward = model.canFastForward
+  - var hasHistory = model.hasHistory
+  - if (typeof canRewind !== 'undefined')
+    div(role="nav")
+      ul.nav.nav-pills
+        li(class=canRewind ? '' : 'disabled')
+          a(href="#", role="first")
+            span.glyphicon.glyphicon-fast-backward
+        li(class=canRewind ? '' : 'disabled')
+          a(href="#", role="previous")
+            span.glyphicon.glyphicon-step-backward
+        li(class=canFastForward ? '' : 'disabled')
+          a(href="#", role="next")
+            span.glyphicon.glyphicon-step-forward
+        li(class=canFastForward ? '' : 'disabled')
+          a(href="#", role="last")
+            span.glyphicon.glyphicon-fast-forward
+        - if (typeof model.reset !== 'undefined')
+          li(class=hasHistory ? '' : 'disabled')
+            a(href="#", role="reset")
+              span.glyphicon.glyphicon-ban-circle
+      .progress-holder
+        .progress
+          .progress-bar(role="progress-bar", aria-valuenow="#{model.progressNow}", aria-valuemin="0", aria-valuemax="#{model.progressTotal}", style="width: #{model.percent}%;")
+          strong #{model.progressNow} of #{model.progressTotal} games completed
+
+- pickable = typeof pickable !== 'undefined' ? pickable : true;
+.row
+  .bracket(data-bracket=bracket.flat, role='bracket')
+    mixin nav(bracket)
+    mixin regions(bracket.ordered, bracket, pickable)
