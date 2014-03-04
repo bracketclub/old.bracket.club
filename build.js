@@ -44,12 +44,16 @@ module.exports.css = function (cb) {
 module.exports.static = function (clientApp, appName) {
     var deployDir = fixPath('_deploy');
     var assetsDir = fixPath(deployDir + '/assets');
+    console.log('Removing old deploy dir');
     rmrf(deployDir);
+    console.log('Making deploy and assets dirs');
     mkdirp(deployDir);
     mkdirp(assetsDir);
     clientApp.config.developmentMode = false;
     clientApp.config.resourcePrefix = '/assets/';
+    console.log('Building app');
     clientApp.build(deployDir, function () {
+        console.log('Copying app to deploy dir');
         sh.run('cp -r public/* ' + deployDir);
         sh.run('mv ' + deployDir + '/' + appName + '.* ' + assetsDir);
         process.exit(0);

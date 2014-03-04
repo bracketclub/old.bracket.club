@@ -1,7 +1,5 @@
 var HumanView = require('./base');
-var BracketValidator = require('bracket-validator');
 var templates = require('../templates');
-var _ = require('underscore');
 
 
 module.exports = HumanView.extend({
@@ -12,7 +10,8 @@ module.exports = HumanView.extend({
     initialize: function (options) {
         options || (options = {});
         this.listenTo(this.model, 'change:ordered', this.render);
-        this.listenTo(this.model, 'change:canRewind change:canFastForward change:progressNow change:percent change:progressTotal', this.updateNav);
+        var navEvents = ' canRewind canFastForward progressNow percent progressTotal'.split(' ').join(' change:');
+        this.listenTo(this.model, navEvents, this.updateNav);
     },
     render: function () {
         this.renderAndBind({bracket: this.model, pickable: false});

@@ -1,6 +1,5 @@
 var PageView = require('./base');
 var templates = require('../templates');
-var _ = require('underscore');
 var ResultsRow = require('../views/resultsRow');
 
 

@@ -85,6 +85,8 @@ mixin nav(model)
 
 - pickable = typeof pickable !== 'undefined' ? pickable : true;
 .row
-  .bracket(data-bracket=bracket.flat, role='bracket')
-    mixin nav(bracket)
-    mixin regions(bracket.ordered, bracket, pickable)
+  - console.log(bracket)
+  - if (bracket)
+    .bracket(data-bracket=bracket.flat, role='bracket')
+      mixin nav(bracket)
+      mixin regions(bracket.ordered, bracket, pickable)

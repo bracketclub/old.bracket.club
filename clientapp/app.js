@@ -1,14 +1,10 @@
-/*global app, me, $*/
 var Backbone = require('backbone');
 var _ = require('underscore');
-var logger = require('./helpers/andlog');
-var goinstant = require('./helpers/goinstant');
-
 var Router = require('./router');
 var MainView = require('./views/main');
-var Me = require('./models/me');
-var BracketData = require('bracket-generator');
-
+var Entries = require('./collections/entries');
+var LiveBracket = require('./models/liveBracket');
+var User = require('./models/user');
 
 
 module.exports = {
@@ -19,14 +15,14 @@ module.exports = {
         _.extend(this, Backbone.Events);
 
         var self = window.app = this;
-        this.year = '2013';
-        this.bracketData = new BracketData({year: app.year});
 
-        // create our global 'me' object
-        window.me = new Me();
+        this.masters = new LiveBracket({
+            history: window.bootstrap.masters,
+            historyIndex: window.bootstrap.masters.length - 1
+        });
+        this.entries = new Entries(window.bootstrap.entries);
 
-        // Setup goinstant
-        this.goinstant = goinstant(this);
+        var me = window.me = new User({});
 
         // init our URL handlers and the history tracker
         this.router = new Router();
@@ -35,14 +31,11 @@ module.exports = {
         // wait for document ready to render our main view
         // this ensures the document has a body, etc.
         $(function () {
-            // init our main view
+            // init/render our main view
             var mainView = self.view = new MainView({
                 model: me,
                 el: document.body
-            });
-
-            // ...and render it
-            mainView.render();
+            }).render();
 
             // listen for new pages from the router
             self.router.on('newPage', mainView.setPage, mainView);

@@ -1,12 +1,11 @@
 var PageView = require('./base');
 var templates = require('../templates');
-var _ = require('underscore');
 var BracketView = require('../views/bracket');
 
 
 module.exports = PageView.extend({
     pageTitle: 'home',
-    template: templates.pages.home,
+    template: templates.pages.bracket,
     initialize: function () {
         this.listenTo(this.model, 'change:ordered', this.updateUrl);
     },

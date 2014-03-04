@@ -1,8 +1,6 @@
-var BaseView = require('./base'),
-    _ = require('underscore'),
-    slugify = function (txt) {
-        return txt.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
-    };
+var BaseView = require('./base');
+var _ = require('underscore');
+var slugify = require('../helpers/slugify');
 
 module.exports = BaseView.extend({
     events: {

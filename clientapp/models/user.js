@@ -1,109 +1,52 @@
 var HumanModel = require('human-model');
-var BracketScorer = require('bracket-scorer');
-var _ = require('underscore');
-var bd = new BracketScorer({year: '2013'});
+var LockedBracket = require('./lockedBracket');
 
 
 module.exports = HumanModel.define({
     type: 'user',
+    initialize: function (attributes) {
+        if (attributes.bracket) this.createBracket(attributes.bracket);
+    },
     session: {
-        bracket: ['string', true, ''],
         username: ['string', true, ''],
-        masters: ['array', true, []],
-        masterIndex: ['number', true, 0]
+        user_id: ['string', true, ''],
+        data_id: ['string', true, ''],
+        name: ['string', false],
+        profile_pic: ['string', false]
     },
     derived: {
-        score: {
-            deps: ['bracket', 'masterIndex'],
+        profileLink: {
+            deps: ['username'],
             cache: true,
             fn: function () {
-                return new BracketScorer({
-                    userBracket: this.bracket,
-                    masterBracket: this.masters[this.masterIndex],
-                    year: '2013'
-                }).getScore();
+                return 'https://twitter.com/' + this.username + '/' + this.data_id;
             }
         },
-        gooley: {
-            deps: ['bracket', 'masterIndex'],
+        entryLink: {
+            deps: ['profileLink', 'data_id'],
             cache: true,
             fn: function () {
-                return new BracketScorer({
-                    userBracket: this.bracket,
-                    masterBracket: this.masters[this.masterIndex],
-                    year: '2013'
-                }).gooley().gooley;
+                return this.profileLink + '/' + this.data_id;
             }
         },
-        diff: {
-            deps: ['bracket', 'masterIndex'],
+        pageLink: {
+            deps: ['username'],
             cache: true,
             fn: function () {
-                return new BracketScorer({
-                    userBracket: this.bracket,
-                    masterBracket: this.masters[this.masterIndex],
-                    year: '2013'
-                }).diff();
+                return '/user/' + this.username;
             }
         },
-        ordered: {
-            deps: ['diff'],
+        isMe: {
+            deps: ['data_id'],
             cache: true,
             fn: function () {
-                var v = this.diff;
-                var f = v[bd.constants.FINAL_ID];
-                var first = v[bd.constants.REGION_IDS[0]];
-                var second = v[first.sameSideAs];
-                var others = _.reject(v, function (r) { return _.contains([f.id, first.id, second.id], r.id); });
-                return [first, v[first.sameSideAs], others[0], others[1], f];
+                return this.data_id === me.data_id;
             }
-        },
-        canRewind: {
-            deps: ['masters', 'masterIndex'],
-            cache: true,
-            fn: function () {
-                return this.masters.length > 0 && this.masterIndex > 0;
-            }
-        },
-        canFastForward: {
-            deps: ['masters', 'masterIndex'],
-            cache: true,
-            fn: function () {
-                return this.masters.length > 0 && this.masterIndex < this.masters.length - 1;
-            }
-        },
-        progressNow: {
-            deps: ['masterIndex'],
-            cache: true,
-            fn: function () {
-                return this.masterIndex;
-            }
-        },
-        progressTotal: {
-            deps: ['masters'],
-            cache: true,
-            fn: function () {
-                return this.masters.length - 1;
-            }
-        },
-        percent: {
-            deps: ['progressTotal', 'progressNow'],
-            cache: true,
-            fn: function () {
-                return  (this.progressNow / this.progressTotal) * 100;
-            }
-        },
+        }
     },
-    previous: function () {
-        this.masterIndex = Math.max(0, this.masterIndex - 1);
-    },
-    next: function () {
-        this.masterIndex = Math.min(this.masterIndex + 1, this.masters.length - 1);
-    },
-    first: function () {
-        this.masterIndex = 0;
-    },
-    last: function () {
-        this.masterIndex = this.masters.length - 1;
+    createBracket: function (bracket) {
+        this.bracket = new LockedBracket({
+            entryBracket: bracket
+        });
     }
 });
