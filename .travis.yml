@@ -1,7 +1,7 @@
 language: node_js
 node_js:
-  - "0.10"
-script: "npm run build"
+- '0.10'
+script: npm run build
 deploy:
   provider: divshot
   environment:
@@ -9,3 +9,5 @@ deploy:
     staging: staging
     production: production
   skip_cleanup: true
+  api_key:
+    secure: CdUYTQ0MgnJDWsfszC3vCD7SCmpNoOCZs/WalcDGpO6977Kn46bgsHcbDu7JcClZ9MmKfueQv9UDWY9LobgwdAbRUyRzZDzK8kTxt+ldIWRr2wMqycnx/On0Y3oGFAyaJ84J1Y0m0SRoSyd+kdGZLo81HhbKkTbweJfiXXy33J4=
