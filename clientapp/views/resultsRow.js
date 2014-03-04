@@ -1,7 +1,5 @@
 var HumanView = require('./base');
-var BracketValidator = require('bracket-validator');
 var templates = require('../templates');
-var _ = require('underscore');
 
 
 module.exports = HumanView.extend({

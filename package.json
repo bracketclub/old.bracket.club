@@ -16,6 +16,7 @@
     "bracket-scorer": "^2.0.0",
     "bracket-updater": "^2.0.1",
     "bracket-validator": "^2.0.2",
+    "bracket-data": "^2.0.4",
     "execSync": "~1.0.1-pre",
     "express": "3.x.x",
     "favicon-setter": "~0.1.1",
@@ -33,9 +34,10 @@
     "underscore": "1.5.2"
   },
   "devDependencies": {
+    "nodemon": "~1.0.14",
     "precommit-hook": "~0.3.8"
   },
-  "homepage": "http://github.com/tweetyourbracket/tweetyourbracket.com",
+  "homepage": "http://tweetyourbracket.com",
   "jshintConfig": {
     "asi": false,
     "browser": true,
@@ -45,13 +47,13 @@
     "loopfunc": true,
     "node": true,
     "predef": [
-      "goinstant",
       "$",
       "app",
       "me"
     ],
     "trailing": true,
     "undef": true,
+    "unused": true,
     "white": true
   },
   "keywords": [
@@ -68,10 +70,7 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com.git"
   },
   "scripts": {
-    "local": "./node_modules/.bin/nodemon -e js,json,jade server.js",
-    "build": "node server.js --build",
-    "deploy": "npm run build && divshot push",
-    "staging": "npm run build && divshot push staging",
-    "production": "npm run build && divshot push production"
+    "local": "./node_modules/.bin/nodemon -e js,json,jade server",
+    "build": "node server --build"
   }
 }

@@ -1,6 +1,5 @@
-var BaseView = require('./modal'),
-    _ = require('underscore'),
-    templates = require('../templates');
+var BaseView = require('./modal');
+var templates = require('../templates');
 
 
 module.exports = BaseView.extend({

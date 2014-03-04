@@ -1,8 +1,8 @@
 var HumanView = require('./base');
-var BracketValidator = require('bracket-validator');
 var templates = require('../templates');
 var _ = require('underscore');
 var EnterModal = require('./enterBracket');
+
 
 module.exports = HumanView.extend({
     template: templates.includes.bracket,
@@ -11,10 +11,10 @@ module.exports = HumanView.extend({
         'click [role=nav] a': 'changeHistory',
         'click [role=enter]': 'enterBracket'
     },
-    initialize: function (options) {
-        options || (options = {});
+    initialize: function () {
         this.listenTo(this.model, 'change:ordered change:historyIndex', this.render);
         this.listenTo(this.model, 'change:canRewind change:canFastForward change:hasHistory', this.updateNav);
+        // TODO move to model
         this.listenTo(this.model, 'change:history change:historyIndex', this.updateHistory);
     },
     render: function () {

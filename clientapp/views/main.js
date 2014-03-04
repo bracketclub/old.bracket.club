@@ -23,7 +23,7 @@ module.exports = HumanView.extend({
 
         // init and configure our page switcher
         this.pageSwitcher = new ViewSwitcher(this.getByRole('page-container'), {
-            show: function (newView, oldView) {
+            show: function (newView) {
                 // it's inserted and rendered for me
                 document.title = _.result(newView.pageTitle) || "Tweet Your Bracket";
                 document.scrollTop = 0;
@@ -68,7 +68,7 @@ module.exports = HumanView.extend({
         this.registerSubview(new CollabDialog().render());
     },
     welcomeModal: function () {
-        if (app.localStorage('isNewUser') !== false && app.localStorage('isNewUser') !== "false") {
+        if (app.localStorage('isNewUser') !== false) {
             this.registerSubview(new WelcomeModal().render());
         }
     }
