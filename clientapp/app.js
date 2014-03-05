@@ -3,7 +3,7 @@ var _ = require('underscore');
 var Router = require('./router');
 var MainView = require('./views/main');
 var Entries = require('./collections/entries');
-var LiveBracket = require('./models/liveBracket');
+var HistoryBracket = require('./models/historyBracket');
 var User = require('./models/user');
 
 
@@ -16,11 +16,11 @@ module.exports = {
 
         var self = window.app = this;
 
-        this.masters = new LiveBracket({
+        this.masters = new HistoryBracket({
             history: window.bootstrap.masters,
             historyIndex: window.bootstrap.masters.length - 1
         });
-        this.entries = new Entries(window.bootstrap.entries);
+        this.entries = new Entries(window.bootstrap.entries, {masters: this.masters});
 
         var me = window.me = new User({});
 

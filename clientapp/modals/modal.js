@@ -1,4 +1,4 @@
-var BaseView = require('./base');
+var BaseView = require('../views/base');
 var _ = require('underscore');
 var slugify = require('../helpers/slugify');
 

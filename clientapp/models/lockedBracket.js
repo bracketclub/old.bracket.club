@@ -2,35 +2,30 @@ var HumanModel = require('human-model');
 var BracketScorer = require('bracket-scorer');
 var BracketData = require('bracket-data');
 var _ = require('underscore');
-var bracketHistory = require('../helpers/bracket');
+var baseBracket = require('../helpers/historyBracket');
 
 
-module.exports = HumanModel.define(_.extend(bracketHistory.methods, {
-    type: 'bracket',
-    initialize: function (attributes, options) {
-        options || (options = {});
-        this.masters = options.masters || app.masters;
-        this.scorer = new BracketScorer(_.extend(window.bootstrap.sportYear, {entry: this.entryBracket}));
-        this.constants = new BracketData(_.extend(window.bootstrap.sportYear, {props: ['constants']})).constants;
+module.exports = HumanModel.define(baseBracket({
+    base: {
+        initialize: function (attributes, options) {
+            options || (options = {});
+            
+            this.masters = options.masters;
+            this.scorer = new BracketScorer(_.extend(window.bootstrap.sportYear, {entry: this.entryBracket}));
+            this.constants = new BracketData(_.extend(window.bootstrap.sportYear, {props: ['constants']})).constants;
+
+            this.listenTo(this.masters, 'change:history change:historyIndex', this.syncFromMaster);
+            this.syncFromMaster();
+        },
+        syncFromMaster: function () {
+            this.history = this.masters.history;
+            this.historyIndex = this.masters.historyIndex;
+        }
     },
     session: {
         entryBracket: ['string', true]
     },
-    derived: _.extend(bracketHistory.derived, {
-        history: {
-            deps: [],
-            cache: false,
-            fn: function () {
-                return this.masters.history;
-            }
-        },
-        historyIndex: {
-            deps: [],
-            cache: false,
-            fn: function () {
-                return this.masters.historyIndex;
-            }
-        },
+    derived: {
         expandedBracket: {
             deps: ['current'],
             cache: true,
@@ -45,5 +40,5 @@ module.exports = HumanModel.define(_.extend(bracketHistory.methods, {
                 return this.scorer.score(['standard', 'gooley', 'rounds'], {master: this.current});
             }
         }
-    })
+    }
 }));

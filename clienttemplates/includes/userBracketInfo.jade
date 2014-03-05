@@ -1,0 +1,8 @@
+div(role="user-info")
+  h2 #{user.username}
+  p.score
+    strong Total: 
+    | #{user.bracket.score.standard}
+    | - 
+    strong Gooley: 
+    | #{user.bracket.score.gooley}

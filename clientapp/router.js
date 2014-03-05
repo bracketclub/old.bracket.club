@@ -1,9 +1,10 @@
 var Backbone = require('backbone');
-var HomePage = require('./pages/home');
+var HomePage = require('./pages/entry');
 var ResultsPage = require('./pages/results');
 var UserPage = require('./pages/user');
 var _404Page = require('./pages/404');
 var Bracket = require('./models/liveBracket');
+var CollaboratePage = require('./pages/collaborate');
 
 
 module.exports = Backbone.Router.extend({
@@ -15,7 +16,8 @@ module.exports = Backbone.Router.extend({
         'results': 'results',
         'user/:user': 'userResults',
 
-        ':bracket': 'tryEntry',
+        'collaborate/:room': 'collaborate',
+
         '*path': '_404'
     },
 
@@ -49,11 +51,19 @@ module.exports = Backbone.Router.extend({
         var user = app.entries.findWhere({username: username});
         if (user) {
             this.trigger('newPage', new UserPage({
-                model: user
+                model: user,
+                masters: app.masters
             }));
         } else {
             this._404('User does not exist.');
         }
+    },
+
+    collaborate: function (room) {
+        this.trigger('newPage', new CollaboratePage({
+            roomId: room,
+            model: new Bracket()
+        }));
     },
 
     _404: function (msg) {

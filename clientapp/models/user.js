@@ -4,8 +4,9 @@ var LockedBracket = require('./lockedBracket');
 
 module.exports = HumanModel.define({
     type: 'user',
-    initialize: function (attributes) {
-        if (attributes.bracket) this.createBracket(attributes.bracket);
+    initialize: function (attributes, options) {
+        this.masters = options && options.masters;
+        if (attributes.bracket && this.masters) this.createBracket(attributes.bracket);
     },
     session: {
         username: ['string', true, ''],
@@ -47,6 +48,8 @@ module.exports = HumanModel.define({
     createBracket: function (bracket) {
         this.bracket = new LockedBracket({
             entryBracket: bracket
+        }, {
+            masters: this.masters
         });
     }
 });
