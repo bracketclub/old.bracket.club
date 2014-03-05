@@ -15,6 +15,10 @@ module.exports = HumanModel.define(baseBracket({
             this.history.unshift(this.constants.EMPTY);
             this.history.length === 1 ? this.historyIndex = 0 : this.historyIndex++;
         },
+        replaceBracket: function (bracket) {
+            this.history = [bracket];
+            this.historyIndex = 0;
+        },
         updateBracket: function (bracket) {
             if (this.canFastForward) {
                 this.history = this.history.slice(0, this.historyIndex + 1).concat(bracket);
@@ -22,6 +26,7 @@ module.exports = HumanModel.define(baseBracket({
                 this.history.push(bracket);
             }
             this.historyIndex = this.history.length - 1;
+            this.trigger('userUpdateBracket');
         },
         updateGame: function (winner, loser, region) {
             var data = {
