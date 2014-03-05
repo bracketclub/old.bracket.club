@@ -1,13 +1,15 @@
 var _ = require('underscore');
-
-
-module.exports = {
+var changeEventArray = require('./changeEventArray');
+var BracketValidator = require('bracket-validator');
+var BracketUpdater = require('bracket-updater');
+var BracketData = require('bracket-data');
+var definition = {
     derived: {
         current: {
             deps: ['history', 'historyIndex'],
             cache: true,
             fn: function () {
-                return this.history[this.historyIndex];
+                return this.history[this.historyIndex] || this.constants.EMPTY;
             }
         },
         complete: {
@@ -57,35 +59,46 @@ module.exports = {
             }
         },
         canRewind: {
-            deps: ['current'],
+            deps: ['history', 'historyIndex'],
             cache: true,
             fn: function () {
                 return this.history.length > 0 && this.historyIndex > 0;
             }
         },
         canFastForward: {
-            deps: ['current'],
+            deps: ['history', 'historyIndex'],
             cache: true,
             fn: function () {
                 return this.history.length > 0 && this.historyIndex < this.history.length - 1;
             }
         },
         hasHistory: {
-            deps: ['current'],
+            deps: ['history', 'historyIndex'],
             cache: true,
             fn: function () {
                 return this.history.length > 1;
             }
         },
-        needsEmptyBase: {
+        expandedBracket: {
             deps: ['current'],
             cache: true,
             fn: function () {
-                return !this.hasHistory || this.history[0] !== this.constants.EMPTY;
+                return this.validator.validate(this.current);
             }
         }
     },
-    methods: {
+    session: {
+        historyIndex: ['number', true, 0],
+        history: ['array', true, []]
+    },
+    base: {
+        type: 'bracket',
+        initialize: function () {
+            this.updater = new BracketUpdater(window.bootstrap.sportYear);
+            this.validator = new BracketValidator(window.bootstrap.sportYear);
+            this.constants = new BracketData(_.extend(window.bootstrap.sportYear, {props: ['constants']})).constants;
+            this.afterInit && this.afterInit();
+        },
         previous: function () {
             this.historyIndex = Math.max(0, this.historyIndex - 1);
         },
@@ -98,13 +111,16 @@ module.exports = {
         last: function () {
             this.historyIndex = this.history.length - 1;
         },
-        reset: function () {
-            this.historyIndex = 0;
-            this.history = [this.constants.EMPTY];
-        },
-        setEmptyBase: function () {
-            this.history.unshift(this.constants.EMPTY);
-            this.history.length === 1 ? this.historyIndex = 0 : this.historyIndex++;
+        navEvents: function () {
+            return changeEventArray('hasHistory canFastForward canRewind percent progressTotal progressNow');
         }
     }
+};
+
+module.exports = function (options) {
+    options || (options = {});
+    return _.extend({}, definition.base, options.base || {}, {
+        session: _.extend({}, definition.session, options.session || {}),
+        derived: _.extend({}, definition.derived, options.derived || {})
+    });
 };

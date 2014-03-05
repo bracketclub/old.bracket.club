@@ -13,9 +13,12 @@ module.exports = PageView.extend({
     },
     render: function () {
         this.renderAndBind();
+
         this.renderSubview(new BracketView({
-            model: this.model
-        }), '.bracket');
+            model: this.model,
+            pickable: true
+        }), '[role=bracket]');
+
         this.setupRTC();
     },
     setupRTC: function () {

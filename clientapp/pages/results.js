@@ -1,38 +1,30 @@
 var PageView = require('./base');
 var templates = require('../templates');
 var ResultsRow = require('../views/resultsRow');
+var BracketNav = require('../views/bracketNav');
 
 
 module.exports = PageView.extend({
-    pageTitle: 'results',
+    pageTitle: 'Results',
     template: templates.pages.results,
     events: {
-        'click [role=nav] a': 'changeHistory',
-        'click th[role]': 'changeComparator'
-    },
-    initialize: function () {
+        'click [data-comparator]': 'changeComparator'
     },
     render: function () {
-        this.renderAndBind({results: this.collection});
+        this.renderAndBind({
+            results: this.collection,
+            masters: this.model
+        });
+
+        this.renderSubview(new BracketNav({
+            model: this.model
+        }), '[role=bracket-nav]');
+
         this.renderCollection(this.collection, ResultsRow, this.getByRole('results'));
-    },
-    changeHistory: function (e) {
-        e.preventDefault();
-        this.collection[$(e.currentTarget).attr('role')]();
-        this.getByRole('nav').innerHTML = this.template.nav(this.collection);
+        this.listenTo(this.model, 'change:current', function () { this.collection.sort(); });
     },
     changeComparator: function (e) {
-        var $target = $(e.currentTarget),
-            role = $target.attr('role');
-
-        if (role === 'gooley') {
-            this.collection.comparator = this.collection.byGooley;
-
-        } else {
-            this.collection.comparator = this.collection.byTotal;
-        }
-        $target.siblings().filter('.active, .info').addClass('active').removeClass('info');
-        $target.removeClass('active').addClass('info');
-        this.collection.sort();
+        e.preventDefault();
+        this.collection.changeComparator($(e.currentTarget).data('comparator'));
     }
 });

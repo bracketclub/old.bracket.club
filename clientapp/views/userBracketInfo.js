@@ -3,7 +3,7 @@ var templates = require('../templates');
 
 
 module.exports = HumanView.extend({
-    template: templates.includes.resultsRow,
+    template: templates.includes.userBracketInfo,
     initialize: function () {
         this.listenTo(this.model.bracket, 'change:score', this.render);
     },

@@ -1,30 +1,29 @@
 var PageView = require('./base');
 var templates = require('../templates');
 var BracketView = require('../views/bracket');
-var UserInfo = require('../views/userBracketInfo');
 var BracketNav = require('../views/bracketNav');
 
 
 module.exports = PageView.extend({
-    pageTitle: 'user',
-    template: templates.pages.user,
-    initialize: function (options) {
-        this.masters = options && options.masters;
+    template: templates.pages.entry,
+    initialize: function () {
+        this.listenTo(this.model, 'change:current', this.updateUrl);
     },
     render: function () {
         this.renderAndBind();
 
         this.renderSubview(new BracketView({
-            model: this.model.bracket,
-            pickable: false
+            model: this.model,
+            pickable: true
         }), '[role=bracket]');
 
-        this.renderSubview(new UserInfo({
-            model: this.model
-        }), '[role=user-info]');
-
         this.renderSubview(new BracketNav({
-            model: this.masters
+            model: this.model
         }), '[role=bracket-nav]');
+
+        this.updateUrl();
+    },
+    updateUrl: function (model, val) {
+        app.navigate('/bracket/' + val, {trigger: false, replace: true});
     }
 });
