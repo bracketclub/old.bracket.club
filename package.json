@@ -12,11 +12,11 @@
   "dependencies": {
     "async": "~0.2.10",
     "backbone": "1.0.0",
+    "bracket-data": "^2.0.4",
     "bracket-generator": "^2.0.2",
     "bracket-scorer": "^2.0.0",
     "bracket-updater": "^2.0.1",
     "bracket-validator": "^2.0.2",
-    "bracket-data": "^2.0.4",
     "execSync": "~1.0.1-pre",
     "express": "3.x.x",
     "favicon-setter": "~0.1.1",
