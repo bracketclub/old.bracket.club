@@ -24,21 +24,6 @@ module.exports = HumanModel.define(baseBracket({
             this.historyIndex = this.history.length - 1;
             this.trigger('userUpdateBracket');
         },
-        updateGame: function (winner, loser, region) {
-            var data = {
-                winner: winner,
-                fromRegion: region,
-                currentMaster: this.current
-            };
-            loser && (data.loser = loser);
-            var update = this.updater.update(data);
-
-            if (update instanceof Error) {
-                this.trigger('invalid', this, update);
-            } else if (update !== this.current) {
-                this.updateBracket(update);
-            }
-        },
         save: function () {
             app.localStorage('history', this.history);
             app.localStorage('historyIndex', this.historyIndex);
