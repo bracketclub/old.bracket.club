@@ -4,6 +4,7 @@ var ResultsPage = require('./pages/results');
 var UserPage = require('./pages/user');
 var _404Page = require('./pages/404');
 var Bracket = require('./models/liveBracket');
+var RTCBracket = require('./models/rtcBracket');
 var CollaboratePage = require('./pages/collaborate');
 
 
@@ -17,6 +18,7 @@ module.exports = Backbone.Router.extend({
         'user/:user': 'userResults',
 
         'collaborate/:room': 'collaborate',
+        'collaborate/:room/:bracket': 'collaborate',
 
         '*path': '_404'
     },
@@ -59,10 +61,13 @@ module.exports = Backbone.Router.extend({
         }
     },
 
-    collaborate: function (room) {
+    collaborate: function (room, bracket) {
+        if (bracket) app.navigate('/collaborate/' + room, {trigger: false, replace: true});
         this.trigger('newPage', new CollaboratePage({
             roomId: room,
-            model: new Bracket()
+            model: new RTCBracket({
+                current: bracket
+            })
         }));
     },
 

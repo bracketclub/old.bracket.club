@@ -2,7 +2,7 @@ var HumanModel = require('human-model');
 var BracketScorer = require('bracket-scorer');
 var BracketData = require('bracket-data');
 var _ = require('underscore');
-var baseBracket = require('../helpers/historyBracket');
+var baseBracket = require('../helpers/bracket');
 
 
 module.exports = HumanModel.define(baseBracket({

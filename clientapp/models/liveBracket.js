@@ -1,5 +1,5 @@
 var HumanModel = require('human-model');
-var baseBracket = require('../helpers/historyBracket');
+var baseBracket = require('../helpers/bracket');
 
 
 module.exports = HumanModel.define(baseBracket({
@@ -14,10 +14,6 @@ module.exports = HumanModel.define(baseBracket({
         setEmptyBase: function () {
             this.history.unshift(this.constants.EMPTY);
             this.history.length === 1 ? this.historyIndex = 0 : this.historyIndex++;
-        },
-        replaceBracket: function (bracket) {
-            this.history = [bracket];
-            this.historyIndex = 0;
         },
         updateBracket: function (bracket) {
             if (this.canFastForward) {

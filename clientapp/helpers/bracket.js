@@ -3,15 +3,61 @@ var changeEventArray = require('./changeEventArray');
 var BracketValidator = require('bracket-validator');
 var BracketUpdater = require('bracket-updater');
 var BracketData = require('bracket-data');
-var definition = {
+var historyDefinition = {
     derived: {
+        canRewind: {
+            deps: ['history', 'historyIndex'],
+            cache: true,
+            fn: function () {
+                return this.history.length > 0 && this.historyIndex > 0;
+            }
+        },
+        canFastForward: {
+            deps: ['history', 'historyIndex'],
+            cache: true,
+            fn: function () {
+                return this.history.length > 0 && this.historyIndex < this.history.length - 1;
+            }
+        },
+        hasHistory: {
+            deps: ['history', 'historyIndex'],
+            cache: true,
+            fn: function () {
+                return this.history.length > 1;
+            }
+        },
         current: {
             deps: ['history', 'historyIndex'],
             cache: true,
             fn: function () {
                 return this.history[this.historyIndex] || this.constants.EMPTY;
             }
+        }
+    },
+    session: {
+        historyIndex: ['number', true, 0],
+        history: ['array', true, []]
+    },
+    base: {
+        previous: function () {
+            this.historyIndex = Math.max(0, this.historyIndex - 1);
         },
+        next: function () {
+            this.historyIndex = Math.min(this.historyIndex + 1, this.history.length - 1);
+        },
+        first: function () {
+            this.historyIndex = 0;
+        },
+        last: function () {
+            this.historyIndex = this.history.length - 1;
+        },
+        navEvents: function () {
+            return changeEventArray('hasHistory canFastForward canRewind percent progressTotal progressNow');
+        }
+    }
+};
+var definition = {
+    derived: {
         complete: {
             deps: ['current'],
             cache: true,
@@ -58,27 +104,6 @@ var definition = {
                 return [first, v[first.sameSideAs], others[0], others[1], f];
             }
         },
-        canRewind: {
-            deps: ['history', 'historyIndex'],
-            cache: true,
-            fn: function () {
-                return this.history.length > 0 && this.historyIndex > 0;
-            }
-        },
-        canFastForward: {
-            deps: ['history', 'historyIndex'],
-            cache: true,
-            fn: function () {
-                return this.history.length > 0 && this.historyIndex < this.history.length - 1;
-            }
-        },
-        hasHistory: {
-            deps: ['history', 'historyIndex'],
-            cache: true,
-            fn: function () {
-                return this.history.length > 1;
-            }
-        },
         expandedBracket: {
             deps: ['current'],
             cache: true,
@@ -87,10 +112,7 @@ var definition = {
             }
         }
     },
-    session: {
-        historyIndex: ['number', true, 0],
-        history: ['array', true, []]
-    },
+    session: {},
     base: {
         type: 'bracket',
         initialize: function () {
@@ -99,28 +121,31 @@ var definition = {
             this.constants = new BracketData(_.extend(window.bootstrap.sportYear, {props: ['constants']})).constants;
             this.afterInit && this.afterInit();
         },
-        previous: function () {
-            this.historyIndex = Math.max(0, this.historyIndex - 1);
-        },
-        next: function () {
-            this.historyIndex = Math.min(this.historyIndex + 1, this.history.length - 1);
-        },
-        first: function () {
-            this.historyIndex = 0;
-        },
-        last: function () {
-            this.historyIndex = this.history.length - 1;
-        },
-        navEvents: function () {
-            return changeEventArray('hasHistory canFastForward canRewind percent progressTotal progressNow');
+        updateGame: function (winner, loser, region) {
+            var data = {
+                winner: winner,
+                fromRegion: region,
+                currentMaster: this.current
+            };
+            loser && (data.loser = loser);
+            var update = this.updater.update(data);
+
+            if (update instanceof Error) {
+                this.trigger('invalid', this, update);
+            } else if (update !== this.current) {
+                this.updateBracket(update);
+            }
         }
     }
 };
 
 module.exports = function (options) {
     options || (options = {});
-    return _.extend({}, definition.base, options.base || {}, {
-        session: _.extend({}, definition.session, options.session || {}),
-        derived: _.extend({}, definition.derived, options.derived || {})
+    _.defaults(options, {
+        history: true
+    });
+    return _.extend({}, definition.base, options.history ? historyDefinition.base : {}, options.base || {}, {
+        session: _.extend({}, definition.session, options.history ? historyDefinition.session : {}, options.session || {}),
+        derived: _.extend({}, definition.derived, options.history ? historyDefinition.derived : {}, options.derived || {})
     });
 };

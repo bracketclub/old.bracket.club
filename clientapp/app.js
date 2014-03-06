@@ -16,6 +16,7 @@ module.exports = {
 
         var self = window.app = this;
 
+        this.empty = window.bootsrap.masters[0];
         this.masters = new HistoryBracket({
             history: window.bootstrap.masters,
             historyIndex: window.bootstrap.masters.length - 1
