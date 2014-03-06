@@ -20,8 +20,6 @@ module.exports = PageView.extend({
         this.renderSubview(new BracketNav({
             model: this.model
         }), '[role=bracket-nav]');
-
-        this.updateUrl();
     },
     updateUrl: function (model, val) {
         app.navigate('/bracket/' + val, {trigger: false, replace: true});
