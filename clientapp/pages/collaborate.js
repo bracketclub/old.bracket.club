@@ -2,10 +2,11 @@ var PageView = require('./base');
 var templates = require('../templates');
 var BracketView = require('../views/bracket');
 var SimpleWebRTC = require('simplewebrtc');
+var _ = require('underscore');
 
 
 module.exports = PageView.extend({
-    pageTitle: 'home',
+    pageTitle: 'Collaborate',
     template: templates.pages.collaborate,
     initialize: function (options) {
         options || (options = {});
@@ -19,46 +20,44 @@ module.exports = PageView.extend({
             pickable: true
         }), '[role=bracket]');
 
-        this.listenTo(this.model, 'userUpdateBracket', this.sendData);
+        this.listenTo(this.model, 'change:current', app.bracketNavigate);
+
+        this.$('.videos').affix();
 
         this.setupRTC();
     },
-    sendData: function () {
-        if (this.dataChannel) {
-            this.dataChannel.send(this.model.current);
+    updateUrl: function (model, val) {
+        app.navigate('/collaborate/' + this.roomId + '/' + val, {trigger: false, replace: true});
+    },
+    hasVideos: function () {
+        this.$el.addClass('has-videos');
+    },
+    addDataChannelToModel: function (channel) {
+        // We prefer the reliable channel but we will use unreliable too if we dont have one
+        if (channel.label === 'reliable' || (channel.label === 'unreliable' && !this.model.hasDataChannel())) {
+            this.model.setDataChannel(channel);
+        }
+    },
+    receiveBracketMessage: function (label, data) {
+        if (label === 'reliable' || label === 'unreliable') {
+            this.model.receiveBracketUpdate(data);
         }
     },
     setupRTC: function () {
         var self = this;
-        this.$('.videos').affix();
 
         this.webrtc = new SimpleWebRTC({
             localVideoEl: 'localVideo',
             remoteVideosEl: 'remotes',
-            autoRequestMedia: true,
-            debug: true
-        });
-
-        this.webrtc.on('localStream', function () {
-            self.$el.addClass('has-videos');
-            self.sendData();
+            autoRequestMedia: true
         });
 
         this.webrtc.on('readyToCall', function () {
-            self.$el.addClass('has-videos');
             self.webrtc.joinRoom(self.roomId);
         });
 
-        this.webrtc.on('channelOpen', function (channel) {
-            if (channel.label === 'reliable') {
-                self.dataChannel = channel;
-            }
-        });
-
-        this.webrtc.on('message', function (label, data) {
-            if (label === 'reliable') {
-                self.model.replaceBracket(data);
-            }
-        });
+        this.webrtc.on('localStream', 'readyToCall', _.bind(this.hasVideos, this));
+        this.webrtc.on('channelOpen', _.bind(this.addDataChannelToModel, this));
+        this.webrtc.on('message', _.bind(this.receiveBracketMessage, this));
     }
 });
