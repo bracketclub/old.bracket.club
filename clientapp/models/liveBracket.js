@@ -3,6 +3,7 @@ var baseBracket = require('../helpers/bracket');
 
 
 module.exports = HumanModel.define(baseBracket({
+    history: true,
     base: {
         afterInit: function () {
             this.needsEmptyBase && this.setEmptyBase();

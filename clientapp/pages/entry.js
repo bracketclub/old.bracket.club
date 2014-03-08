@@ -7,7 +7,7 @@ var BracketNav = require('../views/bracketNav');
 module.exports = PageView.extend({
     template: templates.pages.entry,
     initialize: function () {
-        this.listenTo(this.model, 'change:current', this.updateUrl);
+        this.listenTo(this.model, 'change:current', app.bracketNavigate);
     },
     render: function () {
         this.renderAndBind();
@@ -20,8 +20,5 @@ module.exports = PageView.extend({
         this.renderSubview(new BracketNav({
             model: this.model
         }), '[role=bracket-nav]');
-    },
-    updateUrl: function (model, val) {
-        app.navigate('/bracket/' + val, {trigger: false, replace: true});
     }
 });

@@ -118,7 +118,7 @@ var definition = {
         initialize: function () {
             this.updater = new BracketUpdater(window.bootstrap.sportYear);
             this.validator = new BracketValidator(window.bootstrap.sportYear);
-            this.constants = new BracketData(_.extend(window.bootstrap.sportYear, {props: ['constants']})).constants;
+            this.constants = new BracketData(_.extend({props: ['constants']}, window.bootstrap.sportYear)).constants;
             this.afterInit && this.afterInit();
         },
         updateGame: function (winner, loser, region) {

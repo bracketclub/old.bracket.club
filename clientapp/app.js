@@ -5,6 +5,7 @@ var MainView = require('./views/main');
 var Entries = require('./collections/entries');
 var HistoryBracket = require('./models/historyBracket');
 var User = require('./models/user');
+var BracketData = require('bracket-data');
 
 
 module.exports = {
@@ -16,7 +17,8 @@ module.exports = {
 
         var self = window.app = this;
 
-        this.empty = window.bootsrap.masters[0];
+        this.bracketRegex = new BracketData(_.extend(_.extend({props: ['regex']}, window.bootstrap.sportYear))).regex;
+
         this.masters = new HistoryBracket({
             history: window.bootstrap.masters,
             historyIndex: window.bootstrap.masters.length - 1
@@ -54,6 +56,17 @@ module.exports = {
     navigate: function (page, options) {
         var url = (page.charAt(0) === '/') ? page.slice(1) : page;
         app.history.navigate(url, _.defaults(options || {}, {trigger: true}));
+    },
+
+    bracketNavigate: function (model, bracket) {
+        var url = window.location.pathname;
+        var matches = url.match(app.bracketRegex);
+        if (matches && matches.length) {
+            url = url.replace(app.bracketRegex, bracket);
+        } else {
+            url += ('/' + bracket);
+        }
+        app.navigate(url, {trigger: false, replace: true});
     },
 
     localStorage: function (key, val) {

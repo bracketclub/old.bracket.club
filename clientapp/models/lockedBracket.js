@@ -6,13 +6,14 @@ var baseBracket = require('../helpers/bracket');
 
 
 module.exports = HumanModel.define(baseBracket({
+    history: true,
     base: {
         initialize: function (attributes, options) {
             options || (options = {});
             
             this.masters = options.masters;
-            this.scorer = new BracketScorer(_.extend(window.bootstrap.sportYear, {entry: this.entryBracket}));
-            this.constants = new BracketData(_.extend(window.bootstrap.sportYear, {props: ['constants']})).constants;
+            this.scorer = new BracketScorer(_.extend({entry: this.entryBracket}, window.bootstrap.sportYear));
+            this.constants = new BracketData(_.extend({props: ['constants']}, window.bootstrap.sportYear)).constants;
 
             this.listenTo(this.masters, 'change:history change:historyIndex', this.syncFromMaster);
             this.syncFromMaster();
