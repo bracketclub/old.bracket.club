@@ -19,9 +19,10 @@ module.exports = HumanView.extend({
     },
     pickGame: function (e) {
         var $winner = $(e.target).closest('[role=team]'),
+            isLastRound = $winner.closest('.round').is(':last-child'),
             $matchup = $winner.closest('[role=matchup'),
             $loser = $matchup.find('[role=team]').not('[data-id=' + $winner.data('id') + ']'),
-            $region = $winner.closest('[role=region]');
+            $region = isLastRound ? this.$('.final-region') : $winner.closest('[role=region]');
 
         this.model.updateGame(
             _.pick($winner.data(), 'name', 'seed'),

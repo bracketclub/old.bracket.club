@@ -17,14 +17,14 @@ module.exports = PageView.extend({
         this.renderSubview(new BracketView({
             model: this.model.bracket,
             pickable: false
-        }), '[role=bracket]');
+        }), this.getByRole('bracket'));
 
         this.renderSubview(new UserInfo({
             model: this.model
-        }), '[role=user-info]');
+        }), this.getByRole('user-info'));
 
         this.renderSubview(new BracketNav({
             model: this.masters
-        }), '[role=bracket-nav]');
+        }), this.getByRole('bracket-nav'));
     }
 });

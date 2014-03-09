@@ -8,7 +8,8 @@ mixin team(team, pickable)
         - team.correct === false && classes.push('incorrect')
         - pickable && classes.push('pickable')
         a.team(class=classes.join(' '), role='team', data-region=team.fromRegion, data-seed=team.seed, data-name=team.name, data-id=team.fromRegion + team.seed)
-          span.team (#{team.seed}) #{team.name}
+          span.seed #{team.seed}
+          span.team-name #{team.name}
           - if (team.shouldBe)
             span.should-be (#{team.shouldBe.seed}) #{team.shouldBe.name}
       - else
@@ -21,8 +22,8 @@ mixin matchups(team1, team2, pickable)
     mixin team(team2, pickable)
 
 
-mixin region(region, pickable)
-  section.clearfix.region(role='region', data-id=region.id, id='region-' + region.id)
+mixin region(region, isFinal, pickable)
+  section.clearfix.region(role='region', class=isFinal ? 'final-region' : 'initial-region', data-id=region.id)
     h2.region-name= region.name
     .matchups.clearfix
       - each round in region.rounds
@@ -30,20 +31,29 @@ mixin region(region, pickable)
           - for (var ii = 0, mm = round.length; ii < mm; ii += 2)
             mixin matchups(round[ii], round[ii+1], pickable)
 
+mixin largeScreenFinal(region, pickable)
+  section.clearfix.region(role='region', data-id=region.id)
+    .matchups.clearfix
+      - for (var i = 1, m = region.rounds.length; i < m; i++)
+        - var round = region.rounds[i]
+        .round
+          - for (var ii = 0, mm = round.length; ii < mm; ii += 2)
+            mixin matchups(round[ii], round[ii+1], pickable)
 
 mixin side(region1, region2, sideClass, pickable)
-  .col-md-6.clearfix(class=sideClass)
-    mixin region(region1, pickable)
-    mixin region(region2, pickable)
+  .col-md-6.region-side.clearfix(class=sideClass)
+    mixin region(region1, false, pickable)
+    mixin region(region2, false, pickable)
 
 
 mixin regions(regions, bracket, pickable)
   - for (var i = 0, m = regions.length - 1; i < m; i += 2)
     mixin side(regions[i], regions[i+1], i === 0 ? 'left-side' : 'right-side', pickable)
-  .col-md-12
-    mixin region(regions[regions.length-1], pickable)
+  .col-md-12.hidden-md.hidden-lg.clearfix
+    mixin region(regions[regions.length-1], true, pickable)
+  .large-screen-final.hidden-sm.hidden-xs.clearfix
+    mixin largeScreenFinal(regions[regions.length-1], pickable)
 
 
-.row
-  .bracket(data-bracket=bracket.flat, role='bracket')
-    mixin regions(bracket.ordered, bracket, pickable)
+.bracket.clearfix(data-bracket=bracket.flat, role='bracket')
+  mixin regions(bracket.ordered, bracket, pickable)

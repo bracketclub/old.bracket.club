@@ -6,6 +6,7 @@ var _404Page = require('./pages/404');
 var Bracket = require('./models/liveBracket');
 var RTCBracket = require('./models/rtcBracket');
 var CollaboratePage = require('./pages/collaborate');
+var _ = require('underscore');
 
 
 module.exports = Backbone.Router.extend({
@@ -26,18 +27,34 @@ module.exports = Backbone.Router.extend({
     // ------- ROUTE HANDLERS ---------
     entry: function (bracket) {
         var props = {};
-        var history, historyIndex;
+        var history = app.localStorage('history');
+        var historyIndex = app.localStorage('historyIndex');
 
-        if (bracket) {
+        // If we have local storage 
+        if (_.isArray(history) && _.isNumber(historyIndex)) {
+            // If localstorage matches the url use that
+            if (history[historyIndex] === bracket) {
+                props.history = history;
+                props.historyIndex = historyIndex;
+            }
+            // If our url bracket is somewhere in the history
+            // use that bracket but keep our history
+            else if (_.contains(history, bracket)) {
+                props.history = history;
+                props.historyIndex = _.lastIndexOf(history, bracket);
+            }
+            // Our url bracket is nowhere in our history
+            // the url takes precedence so we start over with that
+            else {
+                props.history = [bracket];
+            }
+        }
+        // If we have no local storage but we have a bracket
+        else if (bracket) {
             props.history = [bracket];
-            props.historyIndex = 0;
-        } else {
-            history = app.localStorage('history');
-            history && history.length && (props.history = history);
-            historyIndex = app.localStorage('historyIndex');
-            historyIndex && typeof historyIndex === 'number' && (props.historyIndex = historyIndex);
         }
 
+        // If we didnt set some props they will be handled by the defaults
         this.trigger('newPage', new HomePage({
             model: new Bracket(props)
         }));

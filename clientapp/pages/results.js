@@ -10,6 +10,12 @@ module.exports = PageView.extend({
     events: {
         'click [data-comparator]': 'changeComparator'
     },
+    initialize: function () {
+        // Resort when the model (the list of all masters) changes
+        this.listenTo(this.model, 'change:current', function () {
+            this.collection.sort();
+        });
+    },
     render: function () {
         this.renderAndBind({
             results: this.collection,
@@ -18,10 +24,9 @@ module.exports = PageView.extend({
 
         this.renderSubview(new BracketNav({
             model: this.model
-        }), '[role=bracket-nav]');
+        }), this.getByRole('bracket-nav'));
 
         this.renderCollection(this.collection, ResultsRow, this.getByRole('results'));
-        this.listenTo(this.model, 'change:current', function () { this.collection.sort(); });
     },
     changeComparator: function (e) {
         e.preventDefault();

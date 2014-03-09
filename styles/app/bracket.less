@@ -1,4 +1,6 @@
 .bracket {
+  overflow: hidden;
+  position: relative;
 
   .region {
     position: relative;
@@ -11,7 +13,7 @@
     margin: 0;
   }
 
-  #region-FF .region-name {
+  .final-region .region-name {
     top: 63px;
     right: 42%;
   }
@@ -20,80 +22,8 @@
     width: 20%;
     float: left;
 
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-
-      li {
-        border-bottom: 1px solid #000;
-        margin: 0;
-        padding: 1em 0 0 0;
-        position: relative;
-        overflow: hidden;
-
-        .name-fadeout {
-          position: absolute;
-          right: -20px;
-          width: 20px;
-          box-shadow: -9px 0 13px white;
-          height: 24px;
-          bottom: 0px;
-        }
-
-        &:last-child {
-          border-right: 1px solid #000;
-        }
-
-        a {
-          padding-left: 0.25em;
-          display: block;
-          white-space: nowrap;
-          color: #000;
-          &:hover, &.selected {
-            text-decoration: none;
-          }
-
-          &.pickable {
-            cursor: pointer;
-            color: #dd4814;
-            &:hover, &.selected {
-              color: #97310e;
-            }
-          }
-
-          &.correct, &.incorrect {
-            background: #38b44a;
-            border-radius: 6px 6px 0 0;
-            color:#000;
-            text-shadow: 0 -1px 0 rgba(255,255,255,0.25);
-          }
-
-          &.incorrect {
-            background: #df382c;
-            text-decoration: line-through;
-            font-style: italic;
-          }
-
-          &.eliminated {
-            text-decoration: line-through;
-            font-style: italic;
-          }
-        }
-
-        span.should-be {
-          font-style: normal;
-          text-decoration: none;
-          position: absolute;
-          bottom: 18px;
-          right: 4px;
-          white-space: nowrap;
-        }
-      }
-    }
-
     &:nth-child(2) {
-      ul {
+      .matchup {
         margin-top: 1.3em;
         margin-bottom: 2.8em;
         li:last-child {
@@ -103,7 +33,7 @@
     }
 
     &:nth-child(3) {
-      ul {
+      .matchup {
         margin-top: 4em;
         margin-bottom: 7.3em;
         li:last-child {
@@ -113,7 +43,7 @@
     }
 
     &:nth-child(4) {
-      ul {
+      .matchup {
         margin-top: 9em;
         li:last-child {
           padding-top: 18.25em;
@@ -121,35 +51,94 @@
       }
     }
 
-    &:nth-child(5) {
-      ul {
+    &:last-child {
+      .matchup {
         margin-top: 19em;
         li:last-child {
-          border-right: none;
+          border-right: none !important;
+          border-left: none !important;
         }
       }
     }
   }
 
-  #region-MW, #region-W, #region-E, #region-S {
-    &:after {
-      border-right: 1px solid #000;
-      position: absolute;
-      right: 0px;
-      height: 300px;
-      top: 0px;
+  .matchup {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      border-bottom: 1px solid #000;
+      margin: 0;
+      padding: 1em 0 0 0;
+      position: relative;
+      overflow: hidden;
+
+      &:last-child {
+        border-right: 1px solid #000;
+      }
     }
   }
 
-  #region-MW:after, #region-S:after {
-    top: 300px;
-    height: 303px;
+  .team {
+    display: block;
+    white-space: nowrap;
+    color: #000;
+
+    &:hover, &.selected {
+      text-decoration: none;
+    }
+
+    &.pickable {
+      cursor: pointer;
+      color: #dd4814;
+      &:hover, &.selected {
+        color: #97310e;
+      }
+    }
+
+    &.correct, &.incorrect {
+      background: #38b44a;
+      border-radius: 6px 6px 0 0;
+      color:#000;
+      text-shadow: 0 -1px 0 rgba(255,255,255,0.25);
+    }
+
+    &.incorrect {
+      background: #df382c;
+      text-decoration: line-through;
+      font-style: italic;
+    }
+
+    &.eliminated {
+      text-decoration: line-through;
+      font-style: italic;
+    }
+
+    .seed {
+      font-size: 0.75em;
+      color: #000;
+      padding: 0 2px;
+    }
+
+    .team-name {
+      font-size: 0.9em;
+    }
+
+    .should-be {
+      font-style: normal;
+      text-decoration: none;
+      position: absolute;
+      bottom: 18px;
+      right: 4px;
+      white-space: nowrap;
+    }
   }
 
-  #region-FF .round {
+  .final-region .round {
     width: 33.3333333333%;
-    &:nth-child(3) {
-      ul {
+    &:last-child {
+      .matchup {
         margin-top: 4.5em;
         margin-bottom: 0;
         li:last-child {
@@ -160,17 +149,107 @@
     }
   }
 
-  @media (min-width: @screen-md-min) {
-    .right-side {
-      &, a.team, .region-name {
-        // Causes some games to be unclickable
-        // -webkit-transform: rotateY(180deg) translateZ(1px);
-        // -webkit-transform-style: preserve-3d;
+  .large-screen-final {
+    position: absolute;
+    top: 50%;
+    top: calc(~"50% - 20px");
+    top: -moz-calc(~"50% - 20px");
+    top: -webkit-calc(~"50% - 20px");
+    left: 50%;
+    width: 414px;
+    margin-left: -207px;
+    text-align: center;
+
+    .round {
+      width: auto;
+      float: none;
+    }
+
+    .round .matchup {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .round .matchup li, .round .matchup li:last-child {
+      margin: 0;
+      padding: 0;
+      border: none;
+      width: 50%;
+      float: left;
+    }
+
+    .round:last-child {
+      padding-top: 25px;
+      width: 50%;
+      margin: 0 auto;
+
+      .matchup {
+        border: 1px solid #000;
+        background: #fff;
+        padding: 10px;
       }
-      a.team, .region-name {
-        //text-align: right;
+
+      .matchup li {
+        width: 100%;
       }
     }
   }
 
+  @media (min-width: @screen-md-min) {
+    .initial-region {
+      &:after {
+        border-right: 1px solid #000;
+        position: absolute;
+        right: 0px;
+        height: 301px;
+        top: 0px;
+        width: 1px;
+      }
+
+      &:first-child:after {
+        top: 300px;
+        height: 303px;
+        border-bottom: 1px solid #000;
+        width: 200px;
+        right: -1px;
+      }
+    }
+
+    .right-side {
+      .initial-region:after {
+        right: inherit;
+        left: 0px;
+        border-right: none;
+        border-left: 1px solid #000;
+      }
+
+      .region-name {
+        right: inherit;
+        left: 23%;
+        text-align: right;
+      }
+
+      .round {
+        float: right;
+      }
+
+      .round .matchup li:last-child {
+        border-right: none;
+        border-left: 1px solid #000;
+      }
+
+      .team {
+        text-align: right;
+        padding-left: 2px;
+      }
+
+      .seed {
+        float: right;
+        padding-top: 4px;
+        z-index: 2;
+        position: relative;
+        background: #fff;
+      }
+    }
+  }
 }

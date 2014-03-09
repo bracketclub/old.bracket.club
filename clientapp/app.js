@@ -69,6 +69,18 @@ module.exports = {
         app.navigate(url, {trigger: false, replace: true});
     },
 
+    localBracket: function () {
+        var currentModel = app.currentPage && app.currentPage.model;
+        var history = app.localStorage('history');
+        var historyIndex = app.localStorage('historyIndex');
+
+        if (currentModel) {
+            return currentModel.current;
+        } else {
+            return history && historyIndex && history[historyIndex];
+        }
+    },
+
     localStorage: function (key, val) {
         var localStorageKey = 'tweetyourbracket.' + me.id;
         var storage = localStorage[localStorageKey] || '{}';

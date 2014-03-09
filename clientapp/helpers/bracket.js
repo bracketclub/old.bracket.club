@@ -36,7 +36,7 @@ var historyDefinition = {
     },
     session: {
         historyIndex: ['number', true, 0],
-        history: ['array', true, []]
+        history: ['array', true, window.bootstrap.masters.slice(0, 1)]
     },
     base: {
         previous: function () {
