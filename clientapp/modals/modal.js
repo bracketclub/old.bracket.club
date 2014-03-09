@@ -1,6 +1,6 @@
 var BaseView = require('../views/base');
 var _ = require('underscore');
-var slugify = require('../helpers/slugify');
+
 
 module.exports = BaseView.extend({
     events: {
@@ -34,11 +34,4 @@ module.exports = BaseView.extend({
     },
     onModalHide: function () {
     },
-    setButtonHref: function (e) {
-        e.preventDefault();
-        this.$('.btn-primary').attr('href', '/collaborate/' + slugify(this.$('input').val()));
-        if (e.type === 'submit') {
-            this.$('.btn-primary').click();
-        }
-    }
 });

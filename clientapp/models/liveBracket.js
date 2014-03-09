@@ -23,7 +23,7 @@ module.exports = HumanModel.define(baseBracket({
                 this.history.push(bracket);
             }
             this.historyIndex = this.history.length - 1;
-            this.trigger('userUpdateBracket');
+            this.save();
         },
         save: function () {
             app.localStorage('history', this.history);

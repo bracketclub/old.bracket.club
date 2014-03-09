@@ -11,6 +11,7 @@ module.exports = PageView.extend({
     initialize: function (options) {
         options || (options = {});
         this.roomId = options.roomId;
+        this.listenTo(this.model, 'change:current', app.bracketNavigate);
     },
     render: function () {
         this.renderAndBind();
@@ -18,16 +19,11 @@ module.exports = PageView.extend({
         this.renderSubview(new BracketView({
             model: this.model,
             pickable: true
-        }), '[role=bracket]');
-
-        this.listenTo(this.model, 'change:current', app.bracketNavigate);
+        }), this.getByRole('bracket'));
 
         this.$('.videos').affix();
 
         this.setupRTC();
-    },
-    updateUrl: function (model, val) {
-        app.navigate('/collaborate/' + this.roomId + '/' + val, {trigger: false, replace: true});
     },
     hasVideos: function () {
         this.$el.addClass('has-videos');
