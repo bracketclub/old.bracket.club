@@ -54,6 +54,10 @@ module.exports = Backbone.Router.extend({
             props.history = [bracket];
         }
 
+        if (props.history) {
+            props.history = _.compact(props.history);
+        }
+
         // If we didnt set some props they will be handled by the defaults
         this.trigger('newPage', new HomePage({
             model: new Bracket(props)

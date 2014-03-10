@@ -1,0 +1,18 @@
+.modal.fade(tabindex="-1", role="dialog")
+  .modal-dialog
+    form.modal-content
+      .modal-header
+        button(type="button", class="close", data-dismiss="modal") &times;
+        h3.modal-title Oh no!
+
+      .modal-body.row
+        .alert.alert-danger
+          p Your browser doesn't support WebRTC.
+        p.col-xs-12
+          | The collaboration features uses a new technology called WebRTC. Unfortunately, not every browser supports it. For the best support try Chrome or Firefox. For more information, check out 
+          a(href="http://iswebrtcreadyyet.com/") isWebRTCreadyyet.com
+          |.
+
+      .modal-footer
+        button.btn.btn-default(type="button", data-dismiss="modal") Cancel
+        button.btn.btn-primary(type="button", data-dismiss="modal") OK

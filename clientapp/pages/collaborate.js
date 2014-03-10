@@ -1,12 +1,16 @@
 var PageView = require('./base');
 var templates = require('../templates');
 var BracketView = require('../views/bracket');
+var noRTC = require('../modals/noRTC');
 var SimpleWebRTC = require('simplewebrtc');
 var _ = require('underscore');
 
 
 module.exports = PageView.extend({
-    pageTitle: 'Collaborate',
+    pageTitle: function () {
+        return 'Collaborate: ' + this.roomId;
+    },
+    htmlClass: 'bracket-page',
     template: templates.pages.collaborate,
     initialize: function (options) {
         options || (options = {});
@@ -23,7 +27,17 @@ module.exports = PageView.extend({
 
         this.$('.videos').affix();
 
-        this.setupRTC();
+        this.webrtc = new SimpleWebRTC({
+            localVideoEl: 'localVideo',
+            remoteVideosEl: 'remotes',
+            autoRequestMedia: true
+        });
+
+        if (this.webrtc.capabilities.support) {
+            this.setupRTC();
+        } else {
+            this.noRTC();
+        }
     },
     hasVideos: function () {
         this.$el.addClass('has-videos');
@@ -39,14 +53,11 @@ module.exports = PageView.extend({
             this.model.receiveBracketUpdate(data);
         }
     },
+    noRTC: function () {
+        this.registerSubview(new noRTC().render());
+    },
     setupRTC: function () {
         var self = this;
-
-        this.webrtc = new SimpleWebRTC({
-            localVideoEl: 'localVideo',
-            remoteVideosEl: 'remotes',
-            autoRequestMedia: true
-        });
 
         this.webrtc.on('readyToCall', function () {
             self.webrtc.joinRoom(self.roomId);

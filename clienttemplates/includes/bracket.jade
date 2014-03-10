@@ -11,9 +11,11 @@ mixin team(team, pickable)
           span.seed #{team.seed}
           span.team-name #{team.name}
           - if (team.shouldBe)
-            span.should-be (#{team.shouldBe.seed}) #{team.shouldBe.name}
+            span.should-be
+              span.seed #{team.shouldBe.seed}
+              span.team-name #{team.shouldBe.name}
       - else
-        a &nbsp;
+        a.empty &nbsp;
 
 
 mixin matchups(team1, team2, pickable)
@@ -21,15 +23,19 @@ mixin matchups(team1, team2, pickable)
     mixin team(team1, pickable)
     mixin team(team2, pickable)
 
+mixin regionContents(region, pickable)
+  h2.region-name= region.name
+  .rounds.clearfix
+    - each round in region.rounds
+      .round
+        - for (var ii = 0, mm = round.length; ii < mm; ii += 2)
+          mixin matchups(round[ii], round[ii+1], pickable)
 
 mixin region(region, isFinal, pickable)
   section.clearfix.region(role='region', class=isFinal ? 'final-region' : 'initial-region', data-id=region.id)
-    h2.region-name= region.name
-    .matchups.clearfix
-      - each round in region.rounds
-        .round
-          - for (var ii = 0, mm = round.length; ii < mm; ii += 2)
-            mixin matchups(round[ii], round[ii+1], pickable)
+    mixin regionContents(region, pickable)
+  - if (!isFinal)
+    .final-round-borders.hidden-sm.hidden-xs
 
 mixin largeScreenFinal(region, pickable)
   section.clearfix.region(role='region', data-id=region.id)
@@ -55,5 +61,5 @@ mixin regions(regions, bracket, pickable)
     mixin largeScreenFinal(regions[regions.length-1], pickable)
 
 
-.bracket.clearfix(data-bracket=bracket.flat, role='bracket')
+.bracket.clearfix.row(data-bracket=bracket.flat, role='bracket')
   mixin regions(bracket.ordered, bracket, pickable)

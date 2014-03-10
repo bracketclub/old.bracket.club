@@ -1,25 +1,26 @@
 - var canRewind = model.canRewind
 - var canFastForward = model.canFastForward
 - var hasHistory = model.hasHistory
-div(role="bracket-nav")
-  ul.nav.nav-pills
-    li(class=canRewind ? '' : 'disabled')
-      a(href="#", role="first")
-        span.glyphicon.glyphicon-fast-backward
-    li(class=canRewind ? '' : 'disabled')
-      a(href="#", role="previous")
-        span.glyphicon.glyphicon-step-backward
-    li(class=canFastForward ? '' : 'disabled')
-      a(href="#", role="next")
-        span.glyphicon.glyphicon-step-forward
-    li(class=canFastForward ? '' : 'disabled')
-      a(href="#", role="last")
-        span.glyphicon.glyphicon-fast-forward
-    - if (typeof model.reset !== 'undefined')
-      li(class=hasHistory ? '' : 'disabled')
-        a(href="#", role="reset")
-          span.glyphicon.glyphicon-ban-circle
-  .progress-holder
+.row(role="bracket-nav")
+  .progress-holder.col-xs-12.col-sm-8
     .progress
       .progress-bar(role="progress-bar", aria-valuenow="#{model.progressNow}", aria-valuemin="0", aria-valuemax="#{model.progressTotal}", style="width: #{model.percent}%;")
       strong #{model.progressNow} of #{model.progressTotal} games completed
+  .col-xs-12.col-sm-4
+    ul.nav.nav-pills
+      li(class=canRewind ? '' : 'disabled')
+        a(href="#", role="first")
+          span.glyphicon.glyphicon-fast-backward
+      li(class=canRewind ? '' : 'disabled')
+        a(href="#", role="previous")
+          span.glyphicon.glyphicon-step-backward
+      li(class=canFastForward ? '' : 'disabled')
+        a(href="#", role="next")
+          span.glyphicon.glyphicon-step-forward
+      li(class=canFastForward ? '' : 'disabled')
+        a(href="#", role="last")
+          span.glyphicon.glyphicon-fast-forward
+      - if (typeof model.reset !== 'undefined')
+        li(class=hasHistory ? '' : 'disabled')
+          a(href="#", role="reset")
+            span.glyphicon.glyphicon-ban-circle

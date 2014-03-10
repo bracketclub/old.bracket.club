@@ -12,15 +12,23 @@ module.exports = HumanView.extend({
     },
     initialize: function (options) {
         this.pickable = options.pickable;
-        this.listenTo(this.model, 'change:ordered', this.render);
+        this.listenTo(this.model, 'change:ordered', this.renderRegions);
     },
     render: function () {
         this.renderAndBind({bracket: this.model, pickable: this.pickable});
     },
+    renderRegions: function (bracket, regions) {
+        _.each(regions, function (r) {
+            this.$('[data-id=' + r.id + ']').eq(0).html(this.template.regionContents(r, this.pickable));
+            if (r.id === 'FF') {
+                this.$('.large-screen-final [role=region]').replaceWith(this.template.largeScreenFinal(r, this.pickable));
+            }
+        }, this);
+    },
     pickGame: function (e) {
         var $winner = $(e.target).closest('[role=team]'),
             isLastRound = $winner.closest('.round').is(':last-child'),
-            $matchup = $winner.closest('[role=matchup'),
+            $matchup = $winner.closest('[role=matchup]'),
             $loser = $matchup.find('[role=team]').not('[data-id=' + $winner.data('id') + ']'),
             $region = isLastRound ? this.$('.final-region') : $winner.closest('[role=region]');
 

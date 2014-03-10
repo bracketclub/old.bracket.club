@@ -4,6 +4,8 @@
 
   .region {
     position: relative;
+    z-index: 2;
+    margin-bottom: 30px;
   }
 
   .region-name {
@@ -14,7 +16,7 @@
   }
 
   .final-region .region-name {
-    top: 63px;
+    top: 67px;
     right: 42%;
   }
 
@@ -60,6 +62,10 @@
         }
       }
     }
+
+    .matchup:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .matchup {
@@ -72,7 +78,6 @@
       margin: 0;
       padding: 1em 0 0 0;
       position: relative;
-      overflow: hidden;
 
       &:last-child {
         border-right: 1px solid #000;
@@ -84,6 +89,9 @@
     display: block;
     white-space: nowrap;
     color: #000;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0 2px;
 
     &:hover, &.selected {
       text-decoration: none;
@@ -99,7 +107,6 @@
 
     &.correct, &.incorrect {
       background: #38b44a;
-      border-radius: 6px 6px 0 0;
       color:#000;
       text-shadow: 0 -1px 0 rgba(255,255,255,0.25);
     }
@@ -108,17 +115,27 @@
       background: #df382c;
       text-decoration: line-through;
       font-style: italic;
+      .team-name, .seed {
+        text-decoration: line-through;
+        font-style: italic;
+      }
     }
 
     &.eliminated {
       text-decoration: line-through;
       font-style: italic;
+      .team-name, .seed {
+        text-decoration: line-through;
+        font-style: italic;
+      }
     }
 
     .seed {
       font-size: 0.75em;
       color: #000;
-      padding: 0 2px;
+      padding-top: 4px;
+      padding-right: 2px;
+      float: left;
     }
 
     .team-name {
@@ -130,8 +147,15 @@
       text-decoration: none;
       position: absolute;
       bottom: 18px;
-      right: 4px;
+      left: 1px;
       white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      padding: 0 2px;
+      .team-name, .seed {
+        font-style: normal;
+        text-decoration: none;
+      }
     }
   }
 
@@ -152,13 +176,17 @@
   .large-screen-final {
     position: absolute;
     top: 50%;
-    top: calc(~"50% - 20px");
-    top: -moz-calc(~"50% - 20px");
-    top: -webkit-calc(~"50% - 20px");
+    top: calc(~"50% - 21px");
+    top: -moz-calc(~"50% - 21px");
+    top: -webkit-calc(~"50% - 21px");
     left: 50%;
     width: 414px;
     margin-left: -207px;
     text-align: center;
+
+    .should-be {
+      text-align: center;
+    }
 
     .round {
       width: auto;
@@ -167,7 +195,6 @@
 
     .round .matchup {
       margin: 0;
-      overflow: hidden;
     }
 
     .round .matchup li, .round .matchup li:last-child {
@@ -178,47 +205,108 @@
       float: left;
     }
 
+    .round:first-child {
+      .clearfix();
+      li:first-child {
+        .team, .should-be {
+          margin-right: 9px;
+          text-align: right;
+          .seed {
+            float: right;
+            padding-right: 0;
+            padding-left: 2px;
+          }
+          .should-be {
+            left: inherit;
+            right: 0px;
+          }
+        }
+      }
+      li:last-child {
+        .team, .should-be {
+          margin-left: 8px;
+          text-align: left;
+        }
+      }
+    }
+
     .round:last-child {
       padding-top: 25px;
-      width: 50%;
+      width: 75%;
       margin: 0 auto;
+
+      .seed {
+        float: none;
+      }
 
       .matchup {
         border: 1px solid #000;
         background: #fff;
-        padding: 10px;
+        padding: 20px;
       }
 
       .matchup li {
         width: 100%;
+        float: none;
       }
     }
   }
 
-  @media (min-width: @screen-md-min) {
-    .initial-region {
-      &:after {
-        border-right: 1px solid #000;
-        position: absolute;
-        right: 0px;
-        height: 301px;
-        top: 0px;
-        width: 1px;
-      }
+  @media (max-width: @screen-sm-max) {
+    .region-name, .final-region .region-name {
+      top: 0;
+      left: 0;
+    }
 
-      &:first-child:after {
-        top: 300px;
-        height: 303px;
-        border-bottom: 1px solid #000;
-        width: 200px;
-        right: -1px;
-      }
+    .region {
+      overflow-x: auto;
+    }
+
+    .rounds {
+      min-width: 750px;
+      margin-top: 20px;
+      
+    }
+
+    .final-region .rounds {
+      min-width: 450px;
+    }
+
+    .round {
+      min-width: 150px;
+    }
+  }
+
+  @media (min-width: @screen-md-min) {
+    .final-round-borders {
+      border-right: 1px solid #000;
+      position: absolute;
+      right: 7px;
+      height: 301px;
+      bottom: 25%;
+      bottom: calc(~"25% - 6px");
+      bottom: -moz-calc(~"25% - 6px");
+      bottom: -webkit-calc(~"25% - 6px");
+      width: 1px;
+      z-index: 1;
+    }
+
+    .initial-region:first-child + .final-round-borders {
+      bottom: inherit;
+      top: 25%;
+      top: calc(~"25% + 5px");
+      top: -moz-calc(~"25% + 5px");
+      top: -webkit-calc(~"25% + 5px");
+      height: 290px;
+      border-bottom: 1px solid #000;
+      width: 200px;
+      right: 7px;
     }
 
     .right-side {
-      .initial-region:after {
+      .final-round-borders {
         right: inherit;
-        left: 0px;
+        left: 7px;
         border-right: none;
         border-left: 1px solid #000;
       }
@@ -240,15 +328,17 @@
 
       .team {
         text-align: right;
-        padding-left: 2px;
+      }
+
+      .should-be {
+        left: inherit;
+        right: 1px;
       }
 
       .seed {
         float: right;
-        padding-top: 4px;
-        z-index: 2;
-        position: relative;
-        background: #fff;
+        padding-right: 0;
+        padding-left: 2px;
       }
     }
   }

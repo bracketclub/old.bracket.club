@@ -6,6 +6,7 @@ var Entries = require('./collections/entries');
 var HistoryBracket = require('./models/historyBracket');
 var User = require('./models/user');
 var BracketData = require('bracket-data');
+var attachFastClick = require('fastclick');
 
 
 module.exports = {
@@ -25,7 +26,7 @@ module.exports = {
         });
         this.entries = new Entries(window.bootstrap.entries, {masters: this.masters});
 
-        var me = window.me = new User({});
+        var me = window.me = new User({username: 'lukekarrys'});
 
         // init our URL handlers and the history tracker
         this.router = new Router();
@@ -34,6 +35,8 @@ module.exports = {
         // wait for document ready to render our main view
         // this ensures the document has a body, etc.
         $(function () {
+            attachFastClick(document.body);
+
             // init/render our main view
             var mainView = self.view = new MainView({
                 model: me,
