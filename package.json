@@ -32,7 +32,8 @@
     "simplewebrtc": "~1.1.1",
     "templatizer": "~0.2.10",
     "underscore": "1.5.2",
-    "node-uuid": "^1.4.1"
+    "node-uuid": "^1.4.1",
+    "fastclick": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "~1.0.14",

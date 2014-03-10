@@ -1,5 +1,9 @@
-div(role="user-info")
-  h2 #{user.username}
+.user-info(role="user-info")
+  h2
+    | #{user.username}
+    | 
+    a.twitter-link(href=user.profileLink)
+      img(src="https://g.twimg.com/Twitter_logo_blue.png")
   p.score
     strong Total: 
     | #{user.bracket.score.standard}

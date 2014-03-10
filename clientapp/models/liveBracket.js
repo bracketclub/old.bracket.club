@@ -11,6 +11,7 @@ module.exports = HumanModel.define(baseBracket({
         reset: function () {
             this.historyIndex = 0;
             this.history = [this.constants.EMPTY];
+            this.save();
         },
         setEmptyBase: function () {
             this.history.unshift(this.constants.EMPTY);

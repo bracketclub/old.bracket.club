@@ -20,7 +20,7 @@ module.exports = HumanModel.define({
             deps: ['username'],
             cache: true,
             fn: function () {
-                return 'https://twitter.com/' + this.username + '/' + this.data_id;
+                return 'https://twitter.com/' + this.username;
             }
         },
         entryLink: {
@@ -38,10 +38,10 @@ module.exports = HumanModel.define({
             }
         },
         isMe: {
-            deps: ['data_id'],
+            deps: ['username'],
             cache: true,
             fn: function () {
-                return this.data_id === me.data_id;
+                return this.username === me.username;
             }
         }
     },

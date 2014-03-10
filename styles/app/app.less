@@ -2,11 +2,20 @@ body {
     counter-reset: rankCounter;
 }
 
+html.html-bracket-page .container {
+    width: 100%;
+}
+
 .progress-holder {
     position: relative;
+
+    .progress {
+        margin: 10px 0;
+    }
+
     strong {
         position: absolute;
-        left: 2%;
+        left: 13px;
     }
 }
 
@@ -35,6 +44,18 @@ th[role] {
     counter-increment: rankCounter;
     &:before {
         content: counter(rankCounter);
+    }
+}
+
+.user-info {
+    text-align: center;
+
+    a.twitter-link img {
+        height: 15px;
+    }
+
+    h2 {
+        margin: 10px 0;
     }
 }
 

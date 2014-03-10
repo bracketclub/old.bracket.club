@@ -19,9 +19,17 @@ module.exports = HumanView.extend({
 
         this.pageSwitcher = new ViewSwitcher(this.getByRole('page-container'), {
             show: function (newView) {
-                document.title = _.result(newView.pageTitle) || "Tweet Your Bracket";
+                document.title = _.result(newView, 'pageTitle') || "Tweet Your Bracket";
+                var $html = $('html');
+                $html.removeClass(function (index, className) {
+                    if (className.indexOf('html-') === 0) {
+                        $(this).removeClass(className);
+                    }
+                });
+                if (newView.htmlClass) {
+                    $html.addClass('html-' + newView.htmlClass);
+                }
                 document.scrollTop = 0;
-                newView.el.classList.add('active');
                 app.currentPage = newView;
             }
         });
