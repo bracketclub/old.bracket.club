@@ -13,13 +13,15 @@ module.exports = PageView.extend({
     render: function () {
         this.renderAndBind();
 
-        this.renderSubview(new BracketView({
+        this.registerSubview(new BracketView({
             model: this.model,
-            pickable: true
-        }), this.getByRole('bracket'));
+            pickable: true,
+            el: this.getByRole('bracket')
+        }).render());
 
-        this.renderSubview(new BracketNav({
-            model: this.model
-        }), this.getByRole('bracket-nav'));
+        this.registerSubview(new BracketNav({
+            model: this.model,
+            el: this.getByRole('bracket-nav')
+        }).render());
     }
 });

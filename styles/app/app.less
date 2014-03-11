@@ -6,6 +6,21 @@ html.html-bracket-page .container {
     width: 100%;
 }
 
+.sub-nav {
+    background-color: @gray-lighter;
+    border-bottom: 1px solid darken(@gray-lighter, 6.5%);
+    z-index: 10;
+
+    &.affix {
+        top: 0px;
+        width: 100%;
+    }
+}
+
+.sub-nav.affix + * {
+    margin-top: 42px;
+}
+
 .progress-holder {
     position: relative;
 
@@ -67,12 +82,17 @@ th[role] {
     }
 
     &.has-videos {
-        .bracket {
-            padding-top: 69px;
+        .affix-top + .bracket-container {
+            padding-top: 155px;
+        }
+
+        .affix + .bracket-container {
+            padding-top: 115px;
         }
 
         .videos {
             .clearfix();
+            -webkit-transition: ease 0.1s all;
             position: fixed;
             top: 42px;
             right: 0px;
@@ -103,10 +123,21 @@ th[role] {
             float: left;
         }
     }
+}
 
+.footer {
+    margin: 40px 0 20px;
+    padding: 20px 0;
+    border-top: 1px solid @gray-light;
+    color: #777;
 
-
-
+    .footer-links {
+        padding: 0;
+        li {
+            display: inline;
+            padding: 0 2px;
+        }
+    }
 }
 
 @import "bracket.less";

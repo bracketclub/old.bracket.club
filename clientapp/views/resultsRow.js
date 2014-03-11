@@ -9,5 +9,6 @@ module.exports = HumanView.extend({
     },
     render: function () {
         this.renderAndBind({user: this.model});
+        return this;
     }
 });
