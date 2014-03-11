@@ -59,6 +59,13 @@ module.exports = HumanModel.define(baseBracket({
                     text: 'Check out my bracket!'
                 }) : '';
             }
+        },
+        progressText: {
+            deps: ['progressNow', 'progressTotal'],
+            cache: true,
+            fn: function () {
+                return  this.progressNow + ' of ' + this.progressTotal + ' picks made';
+            }
         }
     }
 }));

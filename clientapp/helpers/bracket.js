@@ -87,6 +87,13 @@ var definition = {
                 return  (this.progressNow / this.progressTotal) * 100;
             }
         },
+        progressText: {
+            deps: ['progressNow', 'progressTotal'],
+            cache: true,
+            fn: function () {
+                return  this.progressNow + ' of ' + this.progressTotal + ' games completed';
+            }
+        },
         ordered: {
             deps: ['expandedBracket'],
             cache: true,
