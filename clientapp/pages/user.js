@@ -17,17 +17,20 @@ module.exports = PageView.extend({
     render: function () {
         this.renderAndBind();
 
-        this.renderSubview(new BracketView({
+        this.registerSubview(new BracketView({
             model: this.model.bracket,
-            pickable: false
-        }), this.getByRole('bracket'));
+            pickable: false,
+            el: this.getByRole('bracket')
+        }).render());
 
-        this.renderSubview(new UserInfo({
-            model: this.model
-        }), this.getByRole('user-info'));
+        this.registerSubview(new UserInfo({
+            model: this.model,
+            el: this.getByRole('user-info')
+        }).render());
 
-        this.renderSubview(new BracketNav({
-            model: this.masters
-        }), this.getByRole('bracket-nav'));
+        this.registerSubview(new BracketNav({
+            model: this.masters,
+            el: this.getByRole('bracket-nav')
+        }).render());
     }
 });

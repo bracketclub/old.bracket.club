@@ -5,12 +5,12 @@ var templates = require('../templates');
 module.exports = HumanView.extend({
     template: templates.includes.bracketNav,
     events: {
-        'click a': 'changeHistory',
+        'click a[role]': 'changeHistory',
         'click [role=save]': 'saveModel',
         'affix.bs.affix': 'affixedTop'
     },
     initialize: function () {
-        this.listenTo(this.model, this.model.navEvents(), this.render);
+        this.listenTo(this.model, 'change', this.render);
     },
     render: function () {
         this.renderAndBind({model: this.model});
