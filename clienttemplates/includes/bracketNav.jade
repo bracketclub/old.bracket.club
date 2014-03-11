@@ -2,11 +2,11 @@
 - var canFastForward = model.canFastForward
 - var hasHistory = model.hasHistory
 .row.sub-nav.navbar-default(role="bracket-nav", data-spy="affix")
-  .progress-holder.col-xs-12.col-sm-8.hidden-xs
+  .progress-holder.col-xs-12.col-sm-4.hidden-xs
     .progress
       .progress-bar(role="progress-bar", aria-valuenow="#{model.progressNow}", aria-valuemin="0", aria-valuemax="#{model.progressTotal}", style="width: #{model.percent}%;")
       strong #{model.progressNow} of #{model.progressTotal} games completed
-  .col-xs-12.col-sm-4
+  .col-xs-12.col-sm-4.col-sm-offset-4
     ul.nav.nav-pills
       li(class=canRewind ? '' : 'disabled')
         a(href="#", role="first")
@@ -24,3 +24,13 @@
         li(class=hasHistory ? '' : 'disabled')
           a(href="#", role="reset")
             span.glyphicon.glyphicon-ban-circle
+      - if (typeof model.setAsLower)
+        li
+          a(href='#', role='setAsLower') 1
+      - if (typeof model.setAsHigher)
+        li
+          a(href='#', role='setAsHigher') 16
+      - if (typeof model.setAsRandom)
+        li
+          a(href='#', role='setAsRandom')
+            span.glyphicon.glyphicon-random
