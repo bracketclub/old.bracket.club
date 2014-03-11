@@ -17,7 +17,7 @@ module.exports = HumanModel.define(baseBracket({
         }
     },
     base: {
-        save: function () {
+        send: function () {
             if (this.dataChannel && this.dataChannel.readyState === 'open') {
                 this.dataChannel.send(this.current);
             } else {
@@ -29,11 +29,11 @@ module.exports = HumanModel.define(baseBracket({
         },
         setDataChannel: function (channel) {
             this.dataChannel = channel;
-            if (!this.isEmpty) this.save();
+            if (!this.isEmpty) this.send();
         },
         updateBracket: function (bracket) {
             this.receiveBracketUpdate(bracket);
-            this.save();
+            this.send();
         },
         receiveBracketUpdate: function (bracket) {
             this.current = bracket;

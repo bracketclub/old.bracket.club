@@ -17,6 +17,8 @@ module.exports = HumanView.extend({
     render: function () {
         this.renderAndBind({me: me});
 
+        this.listenTo(me, 'change', this.renderUserNav);
+
         this.pageSwitcher = new ViewSwitcher(this.getByRole('page-container'), {
             show: function (newView) {
                 document.title = _.result(newView, 'pageTitle') || "Tweet Your Bracket";
@@ -38,6 +40,9 @@ module.exports = HumanView.extend({
 
         setFavicon('/favicon.ico');
         return this;
+    },
+    renderUserNav: function () {
+
     },
     setPage: function (view) {
         // tell the view switcher to render the new one

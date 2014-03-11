@@ -121,13 +121,8 @@ var definition = {
             this.constants = new BracketData(_.extend({props: ['constants']}, window.bootstrap.sportYear)).constants;
             this.afterInit && this.afterInit();
         },
-        updateGame: function (winner, loser, region) {
-            var data = {
-                winner: winner,
-                fromRegion: region,
-                currentMaster: this.current
-            };
-            loser && (data.loser = loser);
+        updateGame: function (data) {
+            data.currentMaster = this.current;
             var update = this.updater.update(data);
 
             if (update instanceof Error) {

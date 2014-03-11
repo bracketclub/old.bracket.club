@@ -23,7 +23,7 @@ module.exports = PageView.extend({
         this.renderSubview(new BracketView({
             model: this.model,
             pickable: true
-        }), this.getByRole('bracket'));
+        }), '.bracket-container');
 
         this.$('.videos').affix();
 

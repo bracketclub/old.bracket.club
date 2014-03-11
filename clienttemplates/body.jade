@@ -1,3 +1,14 @@
+mixin me(me)
+  li.dropdown
+    a(href="#")
+      | #{me.username}
+      b.caret
+    ul.dropdown-menu
+      li
+        a(href=me.pageLink) Bracket
+      li
+        a(href="#", role="logout") Not you?
+
 body
   header
     .navbar.navbar-default(role="navigation")
@@ -18,3 +29,16 @@ body
 
   .container
     main#pages(role="page-container")
+
+    footer.footer
+      ul.footer-links
+        li
+          a(href="https://twitter.com/tweetthebracket") Twitter
+        li.muted ·
+        li
+          a(href="https://github.com/tweetyourbracket") GitHub
+        li.muted ·
+        li
+          | Made with love by 
+          a(href="http://twitter.com/lukekarrys") Luke
+          |  in Arizona.

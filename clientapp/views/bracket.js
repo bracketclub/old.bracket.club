@@ -16,6 +16,7 @@ module.exports = HumanView.extend({
     },
     render: function () {
         this.renderAndBind({bracket: this.model, pickable: this.pickable});
+        return this;
     },
     renderRegions: function (bracket, regions) {
         _.each(regions, function (r) {
@@ -26,17 +27,17 @@ module.exports = HumanView.extend({
         }, this);
     },
     pickGame: function (e) {
-        var $winner = $(e.target).closest('[role=team]'),
-            isLastRound = $winner.closest('.round').is(':last-child'),
-            $matchup = $winner.closest('[role=matchup]'),
-            $loser = $matchup.find('[role=team]').not('[data-id=' + $winner.data('id') + ']'),
-            $region = isLastRound ? this.$('.final-region') : $winner.closest('[role=region]');
+        var $winner = $(e.target).closest('[role=team]');
+        var isLastRound = $winner.closest('.round').is(':last-child');
+        var $matchup = $winner.closest('[role=matchup]');
+        var $loser = $matchup.find('[role=team]').not('[data-id=' + $winner.data('id') + ']');
+        var $region = isLastRound ? this.$('.final-region') : $winner.closest('[role=region]');
 
-        this.model.updateGame(
-            _.pick($winner.data(), 'name', 'seed'),
-            $loser.length ? _.pick($loser.data(), 'name', 'seed') : null,
-            $region.data('id')
-        );
+        this.model.updateGame({
+            winner: _.pick($winner.data(), 'name', 'seed'),
+            loser: $loser.length ? _.pick($loser.data(), 'name', 'seed') : null,
+            fromRegion: $region.data('id')
+        });
     },
     enterBracket: function (e) {
         e.preventDefault();
