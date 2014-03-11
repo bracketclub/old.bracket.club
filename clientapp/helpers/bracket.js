@@ -2,6 +2,7 @@ var _ = require('underscore');
 var changeEventArray = require('./changeEventArray');
 var BracketValidator = require('bracket-validator');
 var BracketUpdater = require('bracket-updater');
+var BracketGenerator = require('bracket-generator');
 var BracketData = require('bracket-data');
 var historyDefinition = {
     derived: {
@@ -118,6 +119,7 @@ var definition = {
         initialize: function () {
             this.updater = new BracketUpdater(window.bootstrap.sportYear);
             this.validator = new BracketValidator(window.bootstrap.sportYear);
+            this.generator = new BracketGenerator(window.bootstrap.sportYear);
             this.constants = new BracketData(_.extend({props: ['constants']}, window.bootstrap.sportYear)).constants;
             this.afterInit && this.afterInit();
         },

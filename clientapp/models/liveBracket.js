@@ -11,18 +11,30 @@ module.exports = HumanModel.define(baseBracket({
         reset: function () {
             this.historyIndex = 0;
             this.history = [this.constants.EMPTY];
+            this.save();
+        },
+        setAsLower: function () {
+            this.updateBracket(this.generator.generate('lower'));
+        },
+        setAsHigher: function () {
+            this.updateBracket(this.generator.generate('higher'));
+        },
+        setAsRandom: function () {
+            this.updateBracket(this.generator.generate('random'));
         },
         setEmptyBase: function () {
             this.history.unshift(this.constants.EMPTY);
             this.history.length === 1 ? this.historyIndex = 0 : this.historyIndex++;
         },
         updateBracket: function (bracket) {
+            if (bracket === this.current) return;
             if (this.canFastForward) {
                 this.history = this.history.slice(0, this.historyIndex + 1).concat(bracket);
             } else {
                 this.history.push(bracket);
             }
             this.historyIndex = this.history.length - 1;
+            this.save();
         },
         save: function () {
             app.localStorage('history', this.history);
