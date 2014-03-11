@@ -24,6 +24,11 @@
     width: 20%;
     float: left;
 
+    .matchup:first-child li:first-child {
+      margin-top: 0;
+      padding-top: 0;
+    }
+
     &:nth-child(2) {
       .matchup {
         margin-top: 1.3em;
@@ -284,9 +289,9 @@
       right: 15px;
       height: 301px;
       bottom: 25%;
-      bottom: calc(~"25% - 6px");
-      bottom: -moz-calc(~"25% - 6px");
-      bottom: -webkit-calc(~"25% - 6px");
+      bottom: calc(~"25% + 1px");
+      bottom: -moz-calc(~"25% + 1px");
+      bottom: -webkit-calc(~"25% + 1px");
       width: 1px;
       z-index: 1;
     }
@@ -294,9 +299,9 @@
     .initial-region:first-child + .final-round-borders {
       bottom: inherit;
       top: 25%;
-      top: calc(~"25% + 5px");
-      top: -moz-calc(~"25% + 5px");
-      top: -webkit-calc(~"25% + 5px");
+      top: calc(~"25% - 2px");
+      top: -moz-calc(~"25% - 2px");
+      top: -webkit-calc(~"25% - 2px");
       height: 290px;
       border-bottom: 1px solid #000;
       width: 200px;

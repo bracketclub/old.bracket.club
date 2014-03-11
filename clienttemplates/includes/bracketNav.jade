@@ -2,7 +2,7 @@
 - var canFastForward = model.canFastForward
 - var hasHistory = model.hasHistory
 .row.sub-nav.navbar-default(role="bracket-nav", data-spy="affix")
-  .progress-holder.col-xs-12.col-sm-8
+  .progress-holder.col-xs-12.col-sm-8.hidden-xs
     .progress
       .progress-bar(role="progress-bar", aria-valuenow="#{model.progressNow}", aria-valuemin="0", aria-valuemax="#{model.progressTotal}", style="width: #{model.percent}%;")
       strong #{model.progressNow} of #{model.progressTotal} games completed
