@@ -1,12 +1,8 @@
 - var canRewind = model.canRewind
 - var canFastForward = model.canFastForward
 - var hasHistory = model.hasHistory
-.row.sub-nav.navbar-default(role="bracket-nav", data-spy="affix")
-  .progress-holder.col-xs-12.col-sm-4.hidden-xs
-    .progress
-      .progress-bar(role="progress-bar", aria-valuenow="#{model.progressNow}", aria-valuemin="0", aria-valuemax="#{model.progressTotal}", style="width: #{model.percent}%;")
-      strong #{model.progressNow} of #{model.progressTotal} games completed
-  .col-xs-12.col-sm-4.col-sm-offset-4
+.row.sub-nav.bracket-nav(role="bracket-nav", data-spy="affix")
+  .col-xs-12.col-sm-6
     ul.nav.nav-pills
       li(class=canRewind ? '' : 'disabled')
         a(href="#", role="first")
@@ -20,17 +16,22 @@
       li(class=canFastForward ? '' : 'disabled')
         a(href="#", role="last")
           span.glyphicon.glyphicon-fast-forward
-      - if (typeof model.reset !== 'undefined')
+      - if (typeof model.reset === 'function')
         li(class=hasHistory ? '' : 'disabled')
           a(href="#", role="reset")
             span.glyphicon.glyphicon-ban-circle
-      - if (typeof model.setAsLower)
+      - if (typeof model.setAsLower === 'function')
         li
           a(href='#', role='setAsLower') 1
-      - if (typeof model.setAsHigher)
+      - if (typeof model.setAsHigher === 'function')
         li
           a(href='#', role='setAsHigher') 16
-      - if (typeof model.setAsRandom)
+      - if (typeof model.setAsRandom === 'function')
         li
           a(href='#', role='setAsRandom')
             span.glyphicon.glyphicon-random
+        li !{model.enterButton}
+  .progress-holder.col-sm-6.hidden-xs
+    .progress.progress-striped
+      .progress-bar(role="progress-bar", aria-valuenow="#{model.progressNow}", aria-valuemin="0", aria-valuemax="#{model.progressTotal}", style="width: #{model.percent}%;")
+      span.progress-title #{model.progressNow} of #{model.progressTotal} games completed

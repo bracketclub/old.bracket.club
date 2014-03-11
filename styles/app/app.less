@@ -6,6 +6,10 @@ html.html-bracket-page .container {
     width: 100%;
 }
 
+.navbar {
+    border: none;
+}
+
 .sub-nav {
     background-color: @gray-lighter;
     border-bottom: 1px solid darken(@gray-lighter, 6.5%);
@@ -26,15 +30,19 @@ html.html-bracket-page .container {
 }
 
 .progress-holder {
-    position: relative;
-
     .progress {
+        position: relative;
         margin: 10px 0;
+        border: 1px solid lighten(@gray-light, 20%);
     }
 
-    strong {
+    .progress-title {
         position: absolute;
-        left: 13px;
+        left: 6px;
+    }
+
+    .progress-bar {
+
     }
 }
 
@@ -78,6 +86,11 @@ th[role] {
     }
 }
 
+.bracket-nav {
+    li a {
+        padding: 10px;
+    }
+}
 
 .collaborate-page {
 

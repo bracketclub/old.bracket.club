@@ -22,9 +22,10 @@ module.exports = PageView.extend({
             masters: this.model
         });
 
-        this.renderSubview(new BracketNav({
-            model: this.model
-        }), this.getByRole('bracket-nav'));
+        this.registerSubview(new BracketNav({
+            model: this.model,
+            el: this.getByRole('bracket-nav')
+        }).render());
 
         this.renderCollection(this.collection, ResultsRow, this.getByRole('results'));
     },
