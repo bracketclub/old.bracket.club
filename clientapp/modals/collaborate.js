@@ -6,6 +6,9 @@ var uuid = require('node-uuid');
 
 module.exports = BaseView.extend({
     template: templates.dialogs.collaborate,
+    initialize: function () {
+        this.updateUrl();
+    },
     events: {
         'click [data-dismiss]': 'hideModal',
         'keydown [name=roomId]': 'updateUrl',
@@ -18,7 +21,7 @@ module.exports = BaseView.extend({
         var roomName = this.$('[name=roomId]').val();
         var useLocal = this.$('[name=useLocal]').is(':checked');
         var localBracket;
-        var url = '/collaborate/';
+        var url = '';
 
         if (roomName) {
             url += slugify(roomName);
@@ -36,6 +39,6 @@ module.exports = BaseView.extend({
     submitForm: function (e) {
         e.preventDefault();
         this.modal.modal('hide');
-        app.navigate(this.collaborateUrl);
+        app.navigate('/collaborate/' + this.collaborateUrl);
     }
 });

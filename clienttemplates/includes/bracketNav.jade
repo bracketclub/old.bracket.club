@@ -1,7 +1,7 @@
 - var canRewind = model.canRewind
 - var canFastForward = model.canFastForward
 - var hasHistory = model.hasHistory
-- var isEnterable = model.complete
+- var isEnterable = model.complete && !!model.enterButton
 .row.sub-nav.bracket-nav.navbar(role="bracket-nav", data-spy="affix", class=isEnterable ? 'has-enter' : 'no-enter')
   .navbar-header.pull-right
     button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bracket-nav")
