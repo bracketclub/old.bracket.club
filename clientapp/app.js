@@ -32,6 +32,8 @@ module.exports = {
         this.router = new Router();
         this.history = Backbone.history;
 
+        this.newUser = this.isNewUser();
+
         // wait for document ready to render our main view
         // this ensures the document has a body, etc.
         $(function () {
@@ -81,6 +83,15 @@ module.exports = {
             return currentModel.current;
         } else {
             return history && historyIndex && history[historyIndex];
+        }
+    },
+
+    isNewUser: function () {
+        if (app.localStorage('isNewUser') !== false) {
+            app.localStorage('isNewUser', false);
+            return true;
+        } else {
+            return false;
         }
     },
 

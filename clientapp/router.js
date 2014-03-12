@@ -20,12 +20,13 @@ module.exports = Backbone.Router.extend({
         'collaborate/:room/:bracket': 'collaborate',
 
         ':bracket': 'tryBracket',
+        ':bracket/:entered': 'tryBracket',
 
         '*path': '_404'
     },
 
     // ------- ROUTE HANDLERS ---------
-    entry: function (bracket) {
+    entry: function (bracket, entered) {
         var props = {};
         var history = app.localStorage('history');
         var historyIndex = app.localStorage('historyIndex');
@@ -60,7 +61,8 @@ module.exports = Backbone.Router.extend({
 
         // If we didnt set some props they will be handled by the defaults
         this.trigger('newPage', new HomePage({
-            model: new Bracket(props)
+            model: new Bracket(props),
+            fromEntry: !!entered
         }));
     },
 
@@ -95,9 +97,9 @@ module.exports = Backbone.Router.extend({
         }));
     },
 
-    tryBracket: function (bracket) {
+    tryBracket: function (bracket, entered) {
         if (bracket.match(app.bracketRegex)) {
-            this.entry(bracket);
+            this.entry(bracket, entered);
         } else {
             this._404();
         }

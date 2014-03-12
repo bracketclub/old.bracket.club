@@ -4,7 +4,6 @@ var _ = require('underscore');
 var templates = require('../templates');
 var setFavicon = require('favicon-setter');
 var CollabDialog = require('../modals/collaborate');
-var WelcomeModal = require('../modals/wtf');
 
 
 module.exports = HumanView.extend({
@@ -16,8 +15,6 @@ module.exports = HumanView.extend({
     },
     render: function () {
         this.renderAndBind({me: me});
-
-        this.listenTo(me, 'change', this.renderUserNav);
 
         this.pageSwitcher = new ViewSwitcher(this.getByRole('page-container'), {
             show: function (newView) {
@@ -36,13 +33,8 @@ module.exports = HumanView.extend({
             }
         });
 
-        this.welcomeModal();
-
         setFavicon('/favicon.ico');
         return this;
-    },
-    renderUserNav: function () {
-
     },
     setPage: function (view) {
         // tell the view switcher to render the new one
@@ -65,10 +57,5 @@ module.exports = HumanView.extend({
     handleCollaborateClick: function (e) {
         e.preventDefault();
         this.registerSubview(new CollabDialog().render());
-    },
-    welcomeModal: function () {
-        if (app.localStorage('isNewUser') !== false) {
-            this.registerSubview(new WelcomeModal().render());
-        }
     }
 });

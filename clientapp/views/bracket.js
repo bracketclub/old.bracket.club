@@ -1,14 +1,12 @@
 var HumanView = require('./base');
 var templates = require('../templates');
 var _ = require('underscore');
-var EnterModal = require('../modals/enterBracket');
 
 
 module.exports = HumanView.extend({
     template: templates.includes.bracket,
     events: {
-        'click a.pickable': 'pickGame',
-        'click [role=enter]': 'enterBracket'
+        'click a.pickable': 'pickGame'
     },
     initialize: function (options) {
         this.pickable = options.pickable;
@@ -38,10 +36,5 @@ module.exports = HumanView.extend({
             loser: $loser.length ? _.pick($loser.data(), 'name', 'seed') : null,
             fromRegion: $region.data('id')
         });
-    },
-    enterBracket: function (e) {
-        e.preventDefault();
-        app.localStorage('completed', this.model.current);
-        this.registerSubview(new EnterModal().render());
     }
 });

@@ -33,5 +33,5 @@ module.exports = BaseView.extend({
         this.remove();
     },
     onModalHide: function () {
-    },
+    }
 });
