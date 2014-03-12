@@ -30,6 +30,7 @@ if (data.masters && data.masters.length > 0 && data.masters[0] !== emptyBracket)
     data.masters.unshift(emptyBracket);
 }
 
+
 // -----------------
 // Override Moonboots template file
 // -----------------
@@ -62,6 +63,7 @@ var clientApp = new Moonboots({
         fixPath('clientapp/libraries/bootstrap/alert.js'),
         fixPath('clientapp/libraries/bootstrap/button.js'),
         fixPath('clientapp/libraries/bootstrap/dropdown.js'),
+        fixPath('clientapp/libraries/bootstrap/collapse.js'),
         fixPath('clientapp/libraries/bootstrap/modal.js'),
         fixPath('clientapp/libraries/bootstrap/affix.js')
     ],

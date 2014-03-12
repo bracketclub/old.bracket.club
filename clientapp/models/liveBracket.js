@@ -54,10 +54,11 @@ module.exports = HumanModel.define(baseBracket({
             deps: ['complete'],
             cache: true,
             fn: function () {
-                return this.complete ? templates.includes.tweetButton({
+                return templates.includes.tweetButton({
                     url: this.current,
-                    text: 'Check out my bracket!'
-                }) : '';
+                    text: 'Check out my bracket!',
+                    complete: this.complete
+                });
             }
         },
         progressText: {

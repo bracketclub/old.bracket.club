@@ -1,9 +1,16 @@
 - var canRewind = model.canRewind
 - var canFastForward = model.canFastForward
 - var hasHistory = model.hasHistory
-.row.sub-nav.bracket-nav(role="bracket-nav", data-spy="affix")
-  .col-xs-12.col-sm-6
-    ul.nav.nav-pills
+- var isEnterable = model.complete
+.row.sub-nav.bracket-nav.navbar(role="bracket-nav", data-spy="affix", class=isEnterable ? 'has-enter' : 'no-enter')
+  .navbar-header.pull-right
+    button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bracket-nav")
+      span.sr-only Toggle navigation
+      span.icon-bar
+      span.icon-bar
+      span.icon-bar
+  #bracket-nav.collapse.navbar-collapse.pull-left
+    ul.nav.nav-pills.navbar-left
       li(class=canRewind ? '' : 'disabled')
         a(href="#", role="first")
           span.glyphicon.glyphicon-fast-backward
@@ -30,8 +37,9 @@
         li
           a(href='#', role='setAsRandom')
             span.glyphicon.glyphicon-random
-        li !{model.enterButton}
-  .progress-holder.col-sm-6.hidden-xs
+  .progress-holder.col-sm-4.col-lg-3.hidden-xs.pull-right
     .progress.progress-striped
       .progress-bar(role="progress-bar", aria-valuenow="#{model.progressNow}", aria-valuemin="0", aria-valuemax="#{model.progressTotal}", style="width: #{model.percent}%;")
       span.progress-title #{model.progressText}
+  .col-xs-9.col-sm-3.col-md-4.enter-button !{model.enterButton}
+
