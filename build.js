@@ -80,7 +80,7 @@ module.exports.saveEntry = function (year, entry, cb) {
             }
         });
         if (!existing) obj.entries.push(entry);
-        jsonUpdate.update(jsonPath, obj, cb);
+        jsonUpdate.update(jsonPath, obj, cb || function () {});
     });
 };
 
@@ -89,6 +89,6 @@ module.exports.saveMaster = function (year, master, cb) {
         if (!obj.masters) obj.masters = [];
         var latest = _.last(obj.masters);
         if (latest !== master) obj.masters.push(master);
-        jsonUpdate.update(jsonPath, obj, cb);
+        jsonUpdate.update(jsonPath, obj, cb || function () {});
     });
 };
