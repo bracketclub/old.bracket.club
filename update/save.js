@@ -7,9 +7,7 @@ var rootPath = path.resolve(__dirname, '..');
 var runCommandFn = function (cmd) {
     return function (cb) {
         console.log(cmd);
-        exec(cmd, {
-            cwd: rootPath
-        }, cb);
+        exec(cmd, {cwd: rootPath}, cb);
     };
 };
 
