@@ -20,7 +20,8 @@ module.exports.entry = function (year, entry) {
         },
         runCommandFn('git add data/*'),
         runCommandFn('git commit -m "Updating entry data"'),
-        runCommandFn('git push origin production')
+        runCommandFn('git push origin production'),
+        runCommandFn('git co master')
     ], function (err) {
         console.log(err || 'No error');
     });
@@ -35,7 +36,8 @@ module.exports.master = function (year, master) {
         },
         runCommandFn('git add data/*'),
         runCommandFn('git commit -m "Updating master data"'),
-        runCommandFn('git push origin production')
+        runCommandFn('git push origin production'),
+        runCommandFn('git co master')
     ], function (err) {
         console.log(err || 'No error');
     });
