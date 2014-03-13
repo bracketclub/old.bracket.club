@@ -12,7 +12,7 @@
   "dependencies": {
     "async": "~0.2.10",
     "backbone": "1.0.0",
-    "bracket-data": "^2.0.4",
+    "bracket-data": "^2.0.6",
     "bracket-data-live": "git+https://github.com/tweetyourbracket/bracket-data-live.git",
     "bracket-generator": "^2.0.2",
     "bracket-scorer": "^2.0.0",
