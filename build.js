@@ -6,8 +6,17 @@ var rmrf = require('rmrf');
 var mkdirp = require('mkdirp');
 var sh = require('execSync');
 var async = require('async');
+var jsonUpdate = require('json-update');
+var _ = require('underscore');
 var fixPath = function (pathString) {
     return path.resolve(path.normalize(pathString));
+};
+var loadJson = function (year, cb) {
+    var jsonPath = path.resolve(__dirname, 'data', year + '.json');
+    jsonUpdate.load(jsonPath, function (err, obj) {
+        if (err || !obj) obj = {};
+        cb(jsonPath, obj);
+    });
 };
 
 
@@ -57,5 +66,29 @@ module.exports.static = function (clientApp, appName) {
         sh.run('cp -r public/* ' + deployDir);
         sh.run('mv ' + deployDir + '/' + appName + '.* ' + assetsDir);
         process.exit(0);
+    });
+};
+
+module.exports.saveEntry = function (year, entry, cb) {
+    loadJson(year, function (jsonPath, obj) {
+        if (!obj.entries) obj.entries = [];
+        var existing = false;
+        _.each(obj.entries, function (e, index, list) {
+            if (e.user_id === entry.user_id) {
+                list[index] = entry;
+                existing = true;
+            }
+        });
+        if (!existing) obj.entries.push(entry);
+        jsonUpdate.update(jsonPath, obj, cb);
+    });
+};
+
+module.exports.saveMaster = function (year, master, cb) {
+    loadJson(year, function (jsonPath, obj) {
+        if (!obj.masters) obj.masters = [];
+        var latest = _.last(obj.masters);
+        if (latest !== master) obj.masters.push(master);
+        jsonUpdate.update(jsonPath, obj, cb);
     });
 };
