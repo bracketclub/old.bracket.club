@@ -1,3 +1,3 @@
 # Tweet Your Bracket
 
-[tweetyourbracket.com](http://tweetyoubracket.com)
+[tweetyourbracket.com](http://tweetyourbracket.com)
