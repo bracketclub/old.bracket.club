@@ -6,7 +6,7 @@ var build = require('./build');
 var appName = require('./package').name;
 var jade = require('jade');
 var fs = require('fs');
-var year = '2013';
+var year = '2014';
 var sport = 'ncaa-mens-basketball';
 var data = require('bracket-data-live')({year: year, sport: sport});
 // a little helper for fixing paths for various enviroments
