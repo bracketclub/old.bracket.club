@@ -8,9 +8,7 @@ var jade = require('jade');
 var fs = require('fs');
 var year = '2013';
 var sport = 'ncaa-mens-basketball';
-var data = require('./data/' + year);
-var BracketData = require('bracket-data');
-var emptyBracket = new BracketData({year: year, sport: sport, props: ['constants']}).constants.EMPTY;
+var data = require('bracket-data-live')({year: year, sport: sport});
 // a little helper for fixing paths for various enviroments
 var fixPath = function (pathString) {
     return path.resolve(path.normalize(pathString));
@@ -21,14 +19,6 @@ var fixPath = function (pathString) {
 // Configure express
 // -----------------
 expressApp.use(express.static(fixPath('public')));
-
-if (!data.masters || (data.masters && data.masters.length === 0)) {
-    data.masters = [emptyBracket];
-}
-
-if (data.masters && data.masters.length > 0 && data.masters[0] !== emptyBracket) {
-    data.masters.unshift(emptyBracket);
-}
 
 
 // -----------------
