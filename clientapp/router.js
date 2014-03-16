@@ -85,7 +85,10 @@ module.exports = Backbone.Router.extend({
                 masters: app.masters
             }));
         } else {
-            this._404('User does not exist.');
+            this._404({
+                message: 'This user does not exist.',
+                text: 'If you just tweeted this entry, it may take up to 10 minutes for it to be visible here.'
+            });
         }
     },
 
@@ -110,7 +113,7 @@ module.exports = Backbone.Router.extend({
         }
     },
 
-    _404: function (msg) {
-        this.trigger('newPage', new _404Page({message: msg}));
+    _404: function (options) {
+        this.trigger('newPage', new _404Page(options));
     }
 });
