@@ -20,7 +20,7 @@ module.exports = PageView.extend({
             this.registerSubview(modalView.render());
         }
 
-        this.renderAndBind();
+        this.renderAndBind({fromEntry: this.fromEntry});
 
         this.registerSubview(new BracketView({
             model: this.model,
