@@ -8,8 +8,9 @@ module.exports = PageView.extend({
     initialize: function (options) {
         options || (options = {});
         this.message = options.message || '';
+        this.text = options.text || '';
     },
     render: function () {
-        this.renderAndBind(this.message);
+        this.renderAndBind({message: this.message, text: this.text});
     }
 });
