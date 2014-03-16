@@ -3,9 +3,6 @@ var _ = require('underscore');
 
 
 module.exports = BaseView.extend({
-    events: {
-        'click [data-dismiss]': 'hideModal',
-    },
     render: function () {
         this.renderAndBind();
 

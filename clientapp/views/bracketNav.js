@@ -1,11 +1,13 @@
 var HumanView = require('./base');
 var templates = require('../templates');
+var track = require('../helpers/analytics');
 
 
 module.exports = HumanView.extend({
     template: templates.includes.bracketNav,
     events: {
-        'click a[role]': 'changeHistory',
+        'click a[role]': 'triggerNavigation',
+        'click .enter-button a': 'enterBracket',
         'affix.bs.affix': 'affixedTop'
     },
     initialize: function () {
@@ -20,8 +22,13 @@ module.exports = HumanView.extend({
         });
         return this;
     },
-    changeHistory: function (e) {
+    triggerNavigation: function (e) {
         e.preventDefault();
-        this.model[$(e.currentTarget).attr('role')]();
+        var eventName = $(e.currentTarget).attr('role');
+        this.model[eventName]();
+        track.bracketNavigation(eventName);
+    },
+    enterBracket: function () {
+        track.enterBracket(this.model.current);
     }
 });
