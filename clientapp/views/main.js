@@ -57,6 +57,8 @@ module.exports = HumanView.extend({
         var path = aEl.pathname.slice(1);
         var isKeyModified = e.metaKey || e.ctrlKey || e.shiftKey;
 
+        t.parents('.dropdown-menu').prev().dropdown('toggle');
+
         // if the window location host and target host are the
         // same it's local, else, leave it alone
         if (local && !isKeyModified) {
