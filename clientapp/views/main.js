@@ -4,6 +4,7 @@ var _ = require('underscore');
 var templates = require('../templates');
 var setFavicon = require('favicon-setter');
 var CollabDialog = require('../modals/collaborate');
+var track = require('../helpers/analytics');
 
 
 module.exports = HumanView.extend({
@@ -39,6 +40,7 @@ module.exports = HumanView.extend({
     setPage: function (view) {
         // tell the view switcher to render the new one
         this.pageSwitcher.set(view);
+        track.pageview(window.location.pathname);
     },
     handleLinkClick: function (e) {
         var t = $(e.target);

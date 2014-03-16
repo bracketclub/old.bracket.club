@@ -1,6 +1,7 @@
 var HumanView = require('./base');
 var templates = require('../templates');
 var _ = require('underscore');
+var track = require('../helpers/analytics');
 
 
 module.exports = HumanView.extend({
@@ -27,14 +28,22 @@ module.exports = HumanView.extend({
     pickGame: function (e) {
         var $winner = $(e.target).closest('[role=team]');
         var isLastRound = $winner.closest('.round').is(':last-child');
+        var roundIndex = $winner.closest('.round').index();
         var $matchup = $winner.closest('[role=matchup]');
         var $loser = $matchup.find('[role=team]').not('[data-id=' + $winner.data('id') + ']');
         var $region = isLastRound ? this.$('.final-region') : $winner.closest('[role=region]');
 
+        var regionId = $region.data('id');
+        var winnerObj = _.pick($winner.data(), 'name', 'seed');
+        var loserObj = $loser.length ? _.pick($loser.data(), 'name', 'seed') : null;
+
         this.model.updateGame({
-            winner: _.pick($winner.data(), 'name', 'seed'),
-            loser: $loser.length ? _.pick($loser.data(), 'name', 'seed') : null,
-            fromRegion: $region.data('id')
+            winner: winnerObj,
+            loser: loserObj,
+            fromRegion: regionId
         });
+
+        var pickId = regionId + roundIndex + '-' + winnerObj.seed + 'o' + (loserObj ? loserObj.seed : '');
+        track.pick(pickId);
     }
 });
