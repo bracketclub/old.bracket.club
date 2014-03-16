@@ -74,6 +74,7 @@ module.exports = {
         } else {
             url += ('/' + bracket);
         }
+        url = url.replace(new RegExp('(' + bracket + ')' + '/entered'), '$1');
         app.navigate(url, {trigger: false, replace: true});
     },
 
