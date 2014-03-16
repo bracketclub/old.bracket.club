@@ -1,8 +1,4 @@
-- var canRewind = model.canRewind
-- var canFastForward = model.canFastForward
-- var hasHistory = model.hasHistory
-- var isEnterable = model.complete && !!model.enterButton
-.row.sub-nav.bracket-nav.navbar(role="bracket-nav", data-spy="affix", class=isEnterable ? 'has-enter' : 'no-enter')
+.row.sub-nav.bracket-nav.navbar(role="bracket-nav", data-spy="affix")
   .navbar-header.pull-right
     button.navbar-toggle(type="button", data-toggle="collapse", data-target="#bracket-nav")
       span.sr-only Toggle navigation
@@ -11,21 +7,21 @@
       span.icon-bar
   #bracket-nav.collapse.navbar-collapse.pull-left
     ul.nav.nav-pills.navbar-left
-      li(class=canRewind ? '' : 'disabled')
-        a(href="#", role="first")
+      li(role='can-rewind')
+        a(href="#", role="firstHistory")
           span.glyphicon.glyphicon-fast-backward
-      li(class=canRewind ? '' : 'disabled')
-        a(href="#", role="previous")
+      li(role='can-rewind')
+        a(href="#", role="previousHistory")
           span.glyphicon.glyphicon-step-backward
-      li(class=canFastForward ? '' : 'disabled')
-        a(href="#", role="next")
+      li(role='can-fast-forward')
+        a(href="#", role="nextHistory")
           span.glyphicon.glyphicon-step-forward
-      li(class=canFastForward ? '' : 'disabled')
-        a(href="#", role="last")
+      li(role='can-fast-forward')
+        a(href="#", role="lastHistory")
           span.glyphicon.glyphicon-fast-forward
-      - if (typeof model.reset === 'function')
-        li(class=hasHistory ? '' : 'disabled')
-          a(href="#", role="reset")
+      - if (typeof model.resetHistory === 'function')
+        li(role='can-reset')
+          a(href="#", role="resetHistory")
             span.glyphicon.glyphicon-ban-circle
       - if (typeof model.setAsLower === 'function')
         li
@@ -37,9 +33,6 @@
         li
           a(href='#', role='setAsRandom')
             span.glyphicon.glyphicon-random
-  .progress-holder.col-sm-4.col-lg-3.hidden-xs.pull-right
-    .progress.progress-striped
-      .progress-bar(role="progress-bar", aria-valuenow="#{model.progressNow}", aria-valuemin="0", aria-valuemax="#{model.progressTotal}", style="width: #{model.percent}%;")
-      span.progress-title #{model.progressText}
-  .col-xs-9.col-sm-3.col-md-4.enter-button !{model.enterButton}
+  .progress-holder.col-sm-4.col-lg-3.hidden-xs.pull-right(role='progress-holder')
+  .col-xs-9.col-sm-3.col-md-4.enter-button-holder(role='enter-button')
 
