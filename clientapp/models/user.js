@@ -6,7 +6,7 @@ module.exports = HumanModel.define({
     type: 'user',
     initialize: function (attributes, options) {
         this.masters = options && options.masters;
-        if (attributes.bracket && this.masters) this.createBracket(attributes.bracket);
+        if (attributes && attributes.bracket && this.masters) this.createBracket(attributes.bracket);
     },
     session: {
         username: ['string', true, ''],
@@ -39,7 +39,7 @@ module.exports = HumanModel.define({
         },
         isMe: {
             deps: ['username'],
-            cache: true,
+            cache: false,
             fn: function () {
                 return this.username === me.username;
             }
