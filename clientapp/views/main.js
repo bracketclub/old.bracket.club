@@ -1,3 +1,4 @@
+/* globals twttr */
 var HumanView = require('./base');
 var ViewSwitcher = require('human-view-switcher');
 var _ = require('underscore');
@@ -13,10 +14,12 @@ module.exports = HumanView.extend({
     initialize: function () {},
     events: {
         'click a[href]': 'handleLinkClick',
-        'click a[role="collaborate"]': 'handleCollaborateClick',
+        'click a[role=collaborate]': 'handleCollaborateClick',
+        'click a[role=logout]': 'handleLogoutClick',
         'click a[role="subscribe"]': 'handleSubscribeClick'
     },
     render: function () {
+        this.listenTo(me, 'change:username change:pageLink', this.setUserNav);
         this.renderAndBind({me: me});
 
         this.pageSwitcher = new ViewSwitcher(this.getByRole('page-container'), {
@@ -36,6 +39,8 @@ module.exports = HumanView.extend({
             }
         });
 
+        this.setUserNav(me);
+
         setFavicon('/favicon.ico');
         return this;
     },
@@ -43,6 +48,7 @@ module.exports = HumanView.extend({
         // tell the view switcher to render the new one
         this.pageSwitcher.set(view);
         track.pageview(window.location.pathname);
+        twttr.widgets.load();
     },
     handleLinkClick: function (e) {
         var t = $(e.target);
@@ -51,12 +57,31 @@ module.exports = HumanView.extend({
         var path = aEl.pathname.slice(1);
         var isKeyModified = e.metaKey || e.ctrlKey || e.shiftKey;
 
+        t.parents('.dropdown-menu').prev().dropdown('toggle');
+
         // if the window location host and target host are the
         // same it's local, else, leave it alone
         if (local && !isKeyModified) {
             app.navigate(path);
             return false;
         }
+    },
+    setUserNav: function (model) {
+        var $userNav = this.$('[role=user-nav]');
+        if (!model.username) {
+            $userNav.remove();
+        } else {
+            if (!$userNav.length) {
+                this.$('[role=main-nav]').append(this.template.me(me));
+            } else {
+                $userNav.replaceWith(this.template.me(me));
+            }
+
+            this.$('[role=user-nav]').children('a').dropdown();
+        }
+    },
+    handleLogoutClick: function () {
+        app.logout();
     },
     handleCollaborateClick: function (e) {
         e.preventDefault();

@@ -5,11 +5,14 @@ var templates = require('../templates');
 
 module.exports = HumanModel.define(baseBracket({
     history: true,
+    session: {
+        progressText: ['string', true, 'picks made']
+    },
     base: {
         afterInit: function () {
             this.needsEmptyBase && this.setEmptyBase();
         },
-        reset: function () {
+        resetHistory: function () {
             this.historyIndex = 0;
             this.history = [this.constants.EMPTY];
             this.save();
@@ -61,11 +64,11 @@ module.exports = HumanModel.define(baseBracket({
                 });
             }
         },
-        progressText: {
-            deps: ['progressNow', 'progressTotal'],
+        isEnterable: {
+            deps: ['complete', 'enterButton'],
             cache: true,
             fn: function () {
-                return  this.progressNow + ' of ' + this.progressTotal + ' picks made';
+                return this.complete && !!this.enterButton;
             }
         }
     }

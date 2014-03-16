@@ -73,7 +73,7 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com.git"
   },
   "scripts": {
-    "local": "./node_modules/.bin/nodemon -e js,json,jade server",
+    "local": "./node_modules/.bin/nodemon -e js,json,jade server --local",
     "build": "node server --build"
   }
 }

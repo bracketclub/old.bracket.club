@@ -26,7 +26,10 @@ module.exports = {
         });
         this.entries = new Entries(window.bootstrap.entries, {masters: this.masters});
 
-        var me = window.me = new User({username: 'lukekarrys'});
+        var userData = {};
+        var username = this.localStorage('username');
+        username && (userData.username = username);
+        var me = window.me = new User(userData);
 
         // init our URL handlers and the history tracker
         this.router = new Router();
@@ -95,8 +98,17 @@ module.exports = {
         }
     },
 
+    logout: function () {
+        me.clear();
+        app.localStorage('username', null);
+    },
+
+    sportYearKey: function () {
+        return window.bootstrap.sportYear.sport + '.' + window.bootstrap.sportYear.year;
+    },
+
     localStorage: function (key, val) {
-        var localStorageKey = 'tweetyourbracket.' + me.id;
+        var localStorageKey = 'tweetyourbracket.' + this.sportYearKey();
         var storage = localStorage[localStorageKey] || '{}';
         var storageJSON;
 
@@ -116,7 +128,7 @@ module.exports = {
     },
 
     __reset: function () {
-        var localStorageKey = 'tweetyourbracket.' + me.id;
+        var localStorageKey = 'tweetyourbracket.' + this.sportYearKey();
         localStorage[localStorageKey] = JSON.stringify({});
     }
 };
