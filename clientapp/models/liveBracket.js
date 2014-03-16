@@ -58,7 +58,7 @@ module.exports = HumanModel.define(baseBracket({
             cache: true,
             fn: function () {
                 return templates.includes.tweetButton({
-                    url: this.current,
+                    url: this.current + '/entered',
                     text: 'Check out my bracket!',
                     complete: this.complete
                 });
