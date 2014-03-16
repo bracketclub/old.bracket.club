@@ -16,7 +16,7 @@ module.exports = HumanView.extend({
         'click a[href]': 'handleLinkClick',
         'click a[role=collaborate]': 'handleCollaborateClick',
         'click a[role=logout]': 'handleLogoutClick',
-        'click a[role="subscribe"]': 'handleSubscribeClick'
+        'click a[role=subscribe]': 'handleSubscribeClick'
     },
     render: function () {
         this.listenTo(me, 'change:username change:pageLink', this.setUserNav);
