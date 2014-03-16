@@ -7,11 +7,18 @@ module.exports = HumanView.extend({
     template: templates.includes.bracketNav,
     events: {
         'click a[role]': 'triggerNavigation',
-        'click .enter-button a': 'enterBracket',
+        'click [role=enter-button] a': 'enterBracket',
         'affix.bs.affix': 'affixedTop'
     },
-    initialize: function () {
-        this.listenTo(this.model, 'change', this.render);
+    classBindings: {
+        rewindClass: '[role=can-rewind]',
+        fastForwardClass: '[role=can-fast-forward]',
+        resetClass: '[role=can-reset]',
+        isEnterable: ''
+    },
+    htmlBindings: {
+        progressBar: '[role=progress-holder]',
+        enterButton: '[role=enter-button]'
     },
     render: function () {
         this.renderAndBind({model: this.model});

@@ -45,19 +45,19 @@ html.html-bracket-page .container {
         position: static;
     }
 
-    &.affix.has-enter {
+    &.affix.isEnterable {
         position: fixed;
         top: 0px;
         width: 100%;
     }
 
-    .enter-button {
+    .enter-button-holder {
         float: none;
         margin: 0 auto;
     }
 
     @media (max-width: @screen-xs-max) {
-        .enter-button {
+        .enter-button-holder {
             float: left;
         }
     }
@@ -67,7 +67,7 @@ html.html-bracket-page .container {
     margin-top: 15px;
 }
 
-.sub-nav.affix.has-enter + * {
+.sub-nav.affix.isEnterable + * {
     margin-top: 57px;
 }
 
