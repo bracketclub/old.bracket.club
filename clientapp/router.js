@@ -33,8 +33,13 @@ module.exports = Backbone.Router.extend({
 
         // If we have local storage 
         if (_.isArray(history) && _.isNumber(historyIndex)) {
+            // No url bracket, use local storage
+            if (!bracket) {
+                props.history = history;
+                props.historyIndex = historyIndex;
+            }
             // If localstorage matches the url use that
-            if (history[historyIndex] === bracket) {
+            else if (history[historyIndex] === bracket) {
                 props.history = history;
                 props.historyIndex = historyIndex;
             }
