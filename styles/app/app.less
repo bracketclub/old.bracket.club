@@ -18,6 +18,11 @@ html.html-bracket-page .container {
     margin-bottom: 5px;
 }
 
+.full-popover {
+    margin: 0 -15px -10px;
+    .border-top-radius(0);
+}
+
 .sub-nav {
     background-color: @gray-lighter;
     border-bottom: 1px solid darken(@gray-lighter, 6.5%);
@@ -40,24 +45,13 @@ html.html-bracket-page .container {
         border-top: none;
     }
 
-    &.affix {
-        
-        position: static;
-    }
-
-    &.affix.has-enter {
-        position: fixed;
-        top: 0px;
-        width: 100%;
-    }
-
-    .enter-button {
+    .enter-button-holder {
         float: none;
         margin: 0 auto;
     }
 
     @media (max-width: @screen-xs-max) {
-        .enter-button {
+        .enter-button-holder {
             float: left;
         }
     }
@@ -67,8 +61,42 @@ html.html-bracket-page .container {
     margin-top: 15px;
 }
 
-.sub-nav.affix.has-enter + * {
-    margin-top: 57px;
+.sub-nav {
+    &.affix {
+        position: fixed;
+        top: 0;
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+        left: 0;
+        & + *  {
+            margin-top: 57px;
+        }
+    }
+}
+
+.entry-page {
+    .sub-nav {
+        &.affix {
+            position: static;
+            width: auto;
+            margin-left: -15px;
+            margin-right: -15px;
+            & + * {
+                margin-top: 15px;
+            }
+        }
+        &.affix.isEnterable, {
+            position: fixed;
+            top: 0px;
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        &.affix.isEnterable + * {
+            margin-top: 57px;
+        }
+    }
 }
 
 .progress-holder {

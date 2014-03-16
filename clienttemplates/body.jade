@@ -1,13 +1,16 @@
 mixin me(me)
-  li.dropdown
-    a(href="#")
-      | #{me.username}
-      b.caret
-    ul.dropdown-menu
-      li
-        a(href=me.pageLink) Bracket
-      li
-        a(href="#", role="logout") Not you?
+  - if (me.username)
+    li(role="user-nav")
+      a(href="#", data-toggle="dropdown")
+        | #{me.username}
+        b.caret
+      ul.dropdown-menu(role="menu")
+        li
+          a(href=me.pageLink) Bracket
+        li.divider
+        li
+          a(href="#", role="logout") Not you?
+
 
 body
   header
@@ -21,13 +24,14 @@ body
         a.navbar-brand(href="/") Tweet Your Bracket
 
       #header-nav.collapse.navbar-collapse
-        ul.nav.navbar-nav.navbar-right
+        ul.nav.navbar-nav.navbar-right(role="main-nav")
           li
             a(href="#", role="subscribe") Subscribe
           li
             a(href="/results") Results
           li
             a(href="#", role="collaborate") Collaborate
+          mixin me(me)
 
   .container
     main#pages(role="page-container")

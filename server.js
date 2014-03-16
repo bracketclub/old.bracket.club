@@ -9,11 +9,16 @@ var fs = require('fs');
 var year = '2014';
 var sport = 'ncaa-mens-basketball';
 var data = require('bracket-data-live')({year: year, sport: sport});
+var isLocal = process.argv.join(' ').indexOf('--local') > -1;
 // a little helper for fixing paths for various enviroments
 var fixPath = function (pathString) {
     return path.resolve(path.normalize(pathString));
 };
 
+
+if (data.entries.length === 0 && isLocal) {
+    data = require('bracket-data-live')({year: '2013', sport: sport});
+}
 
 // -----------------
 // Configure express
@@ -45,7 +50,7 @@ var clientApp = new Moonboots({
     jsFileName: appName,
     cssFileName: appName,
     main: fixPath('clientapp/app.js'),
-    developmentMode: true,
+    developmentMode: isLocal,
     libraries: [
         fixPath('clientapp/libraries/google-analytics.js'),
         fixPath('node_modules/jquery/dist/jquery.js'),
@@ -56,7 +61,9 @@ var clientApp = new Moonboots({
         fixPath('clientapp/libraries/bootstrap/dropdown.js'),
         fixPath('clientapp/libraries/bootstrap/collapse.js'),
         fixPath('clientapp/libraries/bootstrap/modal.js'),
-        fixPath('clientapp/libraries/bootstrap/affix.js')
+        fixPath('clientapp/libraries/bootstrap/affix.js'),
+        fixPath('clientapp/libraries/bootstrap/tooltip.js'),
+        fixPath('clientapp/libraries/bootstrap/popover.js')
     ],
     stylesheets: [
         fixPath('styles/app.css')

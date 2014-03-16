@@ -1,11 +1,19 @@
 var _ = require('underscore');
-var changeEventArray = require('./changeEventArray');
 var BracketValidator = require('bracket-validator');
 var BracketUpdater = require('bracket-updater');
 var BracketGenerator = require('bracket-generator');
 var BracketData = require('bracket-data');
+var templates = require('../templates');
+
 var historyDefinition = {
     derived: {
+        rewindClass: {
+            deps: ['canRewind'],
+            cache: true,
+            fn: function () {
+                return this.canRewind ? '' : 'disabled';
+            }
+        },
         canRewind: {
             deps: ['history', 'historyIndex'],
             cache: true,
@@ -20,11 +28,25 @@ var historyDefinition = {
                 return this.history.length > 0 && this.historyIndex < this.history.length - 1;
             }
         },
+        fastForwardClass: {
+            deps: ['canFastForward'],
+            cache: true,
+            fn: function () {
+                return this.canFastForward ? '' : 'disabled';
+            }
+        },
         hasHistory: {
             deps: ['history', 'historyIndex'],
             cache: true,
             fn: function () {
                 return this.history.length > 1;
+            }
+        },
+        resetClass: {
+            deps: ['hasHistory'],
+            cache: true,
+            fn: function () {
+                return this.hasHistory ? '' : 'disabled';
             }
         },
         current: {
@@ -40,20 +62,17 @@ var historyDefinition = {
         history: ['array', true, window.bootstrap.masters.slice(0, 1)]
     },
     base: {
-        previous: function () {
+        previousHistory: function () {
             this.historyIndex = Math.max(0, this.historyIndex - 1);
         },
-        next: function () {
+        nextHistory: function () {
             this.historyIndex = Math.min(this.historyIndex + 1, this.history.length - 1);
         },
-        first: function () {
+        firstHistory: function () {
             this.historyIndex = 0;
         },
-        last: function () {
+        lastHistory: function () {
             this.historyIndex = this.history.length - 1;
-        },
-        navEvents: function () {
-            return changeEventArray('hasHistory canFastForward canRewind percent progressTotal progressNow');
         }
     }
 };
@@ -77,7 +96,7 @@ var definition = {
             deps: [],
             cache: true,
             fn: function () {
-                return ((this.constants.TEAMS_PER_REGION * this.constants.REGION_COUNT) - 1);
+                return (this.constants.TEAMS_PER_REGION * this.constants.REGION_COUNT) - 1;
             }
         },
         percent: {
@@ -87,11 +106,17 @@ var definition = {
                 return  (this.progressNow / this.progressTotal) * 100;
             }
         },
-        progressText: {
-            deps: ['progressNow', 'progressTotal'],
+
+        progressBar: {
+            deps: ['percent', 'progressText', 'progressNow', 'progressTotal'],
             cache: true,
             fn: function () {
-                return  this.progressNow + ' of ' + this.progressTotal + ' games completed';
+                return templates.includes.progressBar({
+                    progressNow: this.progressNow,
+                    progressTotal: this.progressTotal,
+                    percent: this.percent,
+                    progressText: this.progressText
+                });
             }
         },
         ordered: {
@@ -120,7 +145,9 @@ var definition = {
             }
         }
     },
-    session: {},
+    session: {
+        progressText: ['string', false, 'games completed']
+    },
     base: {
         type: 'bracket',
         initialize: function () {
