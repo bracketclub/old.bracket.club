@@ -4,6 +4,7 @@ var _ = require('underscore');
 var templates = require('../templates');
 var setFavicon = require('favicon-setter');
 var CollabDialog = require('../modals/collaborate');
+var SubscribeDialog = require('../modals/subscribe');
 var track = require('../helpers/analytics');
 
 
@@ -12,7 +13,8 @@ module.exports = HumanView.extend({
     initialize: function () {},
     events: {
         'click a[href]': 'handleLinkClick',
-        'click a[role="collaborate"]': 'handleCollaborateClick'
+        'click a[role="collaborate"]': 'handleCollaborateClick',
+        'click a[role="subscribe"]': 'handleSubscribeClick'
     },
     render: function () {
         this.renderAndBind({me: me});
@@ -59,5 +61,9 @@ module.exports = HumanView.extend({
     handleCollaborateClick: function (e) {
         e.preventDefault();
         this.registerSubview(new CollabDialog().render());
+    },
+    handleSubscribeClick: function (e) {
+        e.preventDefault();
+        this.registerSubview(new SubscribeDialog().render());
     }
 });

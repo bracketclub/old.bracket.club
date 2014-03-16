@@ -10,7 +10,6 @@ module.exports = BaseView.extend({
         this.updateUrl();
     },
     events: {
-        'click [data-dismiss]': 'hideModal',
         'keydown [name=roomId]': 'updateUrl',
         'keyup [name=roomId]': 'updateUrl',
         'keypress [name=roomId]': 'updateUrl',
