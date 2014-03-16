@@ -67,7 +67,7 @@ module.exports = Backbone.Router.extend({
         // If we didnt set some props they will be handled by the defaults
         this.trigger('newPage', new HomePage({
             model: new Bracket(props),
-            fromEntry: !!entered
+            fromEntry: entered === 'entered'
         }));
     },
 
