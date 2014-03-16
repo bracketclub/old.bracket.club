@@ -48,7 +48,7 @@ module.exports = HumanView.extend({
         // tell the view switcher to render the new one
         this.pageSwitcher.set(view);
         track.pageview(window.location.pathname);
-        twttr.widgets.load();
+        typeof twttr !== 'undefined' && twttr.widgets.load();
     },
     handleLinkClick: function (e) {
         var t = $(e.target);
