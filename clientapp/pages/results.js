@@ -15,6 +15,7 @@ module.exports = PageView.extend({
         this.listenTo(this.model, 'change:current', function () {
             this.collection.sort();
         });
+        this.listenTo(me, 'change:username', this.render);
     },
     render: function () {
         this.renderAndBind({

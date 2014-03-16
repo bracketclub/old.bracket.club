@@ -14,10 +14,12 @@ module.exports = HumanView.extend({
     initialize: function () {},
     events: {
         'click a[href]': 'handleLinkClick',
-        'click a[role="collaborate"]': 'handleCollaborateClick',
+        'click a[role=collaborate]': 'handleCollaborateClick',
+        'click a[role=logout]': 'handleLogoutClick',
         'click a[role="subscribe"]': 'handleSubscribeClick'
     },
     render: function () {
+        this.listenTo(me, 'change:username change:pageLink', this.setUserNav);
         this.renderAndBind({me: me});
 
         this.pageSwitcher = new ViewSwitcher(this.getByRole('page-container'), {
@@ -36,6 +38,8 @@ module.exports = HumanView.extend({
                 app.currentPage = newView;
             }
         });
+
+        this.setUserNav(me);
 
         setFavicon('/favicon.ico');
         return this;
@@ -59,6 +63,23 @@ module.exports = HumanView.extend({
             app.navigate(path);
             return false;
         }
+    },
+    setUserNav: function (model) {
+        var $userNav = this.$('[role=user-nav]');
+        if (!model.username) {
+            $userNav.remove();
+        } else {
+            if (!$userNav.length) {
+                this.$('[role=main-nav]').append(this.template.me(me));
+            } else {
+                $userNav.replaceWith(this.template.me(me));
+            }
+
+            this.$('[role=user-nav]').children('a').dropdown();
+        }
+    },
+    handleLogoutClick: function () {
+        app.logout();
     },
     handleCollaborateClick: function (e) {
         e.preventDefault();
