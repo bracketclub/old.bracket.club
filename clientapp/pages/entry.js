@@ -3,7 +3,6 @@ var templates = require('../templates');
 var BracketView = require('../views/bracket');
 var BracketNav = require('../views/bracketNav');
 var WelcomeModal = require('../modals/wtf');
-var FromEntry = require('../modals/fromEntry');
 
 
 module.exports = PageView.extend({
@@ -16,8 +15,7 @@ module.exports = PageView.extend({
     render: function () {
         if (app.newUser) {
             app.newUser = false;
-            var modalView = this.fromEntry ? new FromEntry() : new WelcomeModal();
-            this.registerSubview(modalView.render());
+            this.registerSubview(new WelcomeModal().render());
         }
 
         this.renderAndBind({fromEntry: this.fromEntry});
