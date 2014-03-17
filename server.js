@@ -53,6 +53,7 @@ var clientApp = new Moonboots({
     developmentMode: isLocal,
     libraries: [
         fixPath('clientapp/libraries/google-analytics.js'),
+        fixPath('clientapp/libraries/raf.js'),
         fixPath('node_modules/jquery/dist/jquery.js'),
         // Bootstrap modules
         fixPath('clientapp/libraries/bootstrap/transition.js'),

@@ -11,6 +11,7 @@ module.exports = PageView.extend({
     initialize: function (options) {
         this.fromEntry = options.fromEntry;
         this.listenTo(this.model, 'change:current', app.bracketNavigate);
+        this.listenTo(app.bracketLock, 'change:isPickable', this.render);
     },
     render: function () {
         if (app.newUser) {
@@ -18,17 +19,30 @@ module.exports = PageView.extend({
             this.registerSubview(new WelcomeModal().render());
         }
 
-        this.renderAndBind({fromEntry: this.fromEntry});
+        if (!app.bracketLock.isPickable) {
+            this.model = app.masters;
+        }
 
-        this.registerSubview(new BracketView({
+        this.renderAndBind({
+            fromEntry: this.fromEntry,
+            isPickable: app.bracketLock.isPickable,
+            bracket: this.model
+        });
+
+        this.setSubviews();
+    },
+    setSubviews: function () {
+        this.bracketView = new BracketView({
             model: this.model,
-            pickable: true,
+            pickable: app.bracketLock.isPickable,
             el: this.getByRole('bracket')
-        }).render());
+        }).render();
+        this.registerSubview(this.bracketView);
 
-        this.registerSubview(new BracketNav({
+        this.bracketNav = new BracketNav({
             model: this.model,
             el: this.getByRole('bracket-nav')
-        }).render());
+        }).render();
+        this.registerSubview(this.bracketNav);
     }
 });
