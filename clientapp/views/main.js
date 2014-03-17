@@ -20,6 +20,7 @@ module.exports = HumanView.extend({
     },
     render: function () {
         this.listenTo(me, 'change:username change:pageLink', this.setUserNav);
+        this.listenTo(app.bracketLock, 'change:isPickable', this.removeCollaborateLink);
         this.renderAndBind({me: me});
 
         this.pageSwitcher = new ViewSwitcher(this.getByRole('page-container'), {
@@ -40,9 +41,15 @@ module.exports = HumanView.extend({
         });
 
         this.setUserNav(me);
+        this.removeCollaborateLink(app.bracketLock);
 
         setFavicon('/favicon.ico');
         return this;
+    },
+    removeCollaborateLink: function (model) {
+        if (!model.isPickable) {
+            this.$('[role=collaborate-nav-item]').remove();
+        }
     },
     setPage: function (view) {
         // tell the view switcher to render the new one
