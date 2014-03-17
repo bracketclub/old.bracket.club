@@ -29,6 +29,11 @@ module.exports = HumanView.extend({
                 top: app.view.$('[role=navigation]').outerHeight(true)
             }
         });
+        this.registerBindings(app.bracketLock, {
+            htmlBindings: {
+                timeToClose: '[role=time-to-close]'
+            }
+        });
         this.setBracketPopover();
         return this;
     },

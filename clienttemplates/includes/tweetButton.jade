@@ -4,4 +4,6 @@
     - qs += "&text=" + encodeURIComponent(text);
     a.btn.btn-block.btn-primary.needsclick(href=qs, target="_blank") Enter My Bracket!
 - else
-    button.btn.btn-block.btn-primary.disabled(type="button", disabled="disabled") Make Your Picks!
+    button.btn.btn-block.btn-primary.disabled(type="button", disabled="disabled")
+        | Brackets lock 
+        span(role='time-to-close')

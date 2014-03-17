@@ -7,6 +7,7 @@ var HistoryBracket = require('./models/historyBracket');
 var User = require('./models/user');
 var BracketData = require('bracket-data');
 var attachFastClick = require('fastclick');
+var BracketLock = require('./models/bracketLock');
 
 
 module.exports = {
@@ -18,7 +19,12 @@ module.exports = {
 
         var self = window.app = this;
 
-        this.bracketRegex = new BracketData(_.extend(_.extend({props: ['regex']}, window.bootstrap.sportYear))).regex;
+        var bd = new BracketData(_.extend(_.extend({props: ['regex', 'locks']}, window.bootstrap.sportYear)));
+        this.bracketRegex = bd.regex;
+        
+        this.bracketLock = new BracketLock({
+            locks: bd.locks
+        });
 
         this.masters = new HistoryBracket({
             history: window.bootstrap.masters,

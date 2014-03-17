@@ -22,7 +22,7 @@ module.exports = PageView.extend({
 
         this.registerSubview(new BracketView({
             model: this.model,
-            pickable: true,
+            pickable: app.bracketLock.isPickable,
             el: this.getByRole('bracket')
         }).render());
 
