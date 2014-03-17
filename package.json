@@ -29,6 +29,7 @@
     "jquery": "~2.1.0",
     "less": "~1.6.3",
     "mkdirp": "~0.3.5",
+    "moment": "^2.5.1",
     "moonboots": "1.x.x",
     "node-uuid": "^1.4.1",
     "rmrf": "~1.0.2",

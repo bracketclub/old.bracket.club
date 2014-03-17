@@ -106,7 +106,13 @@ var definition = {
                 return  (this.progressNow / this.progressTotal) * 100;
             }
         },
-
+        hasStarted: {
+            deps: ['progressNow'],
+            cache: true,
+            fn: function () {
+                return this.progressNow > 0;
+            }
+        },
         progressBar: {
             deps: ['percent', 'progressText', 'progressNow', 'progressTotal'],
             cache: true,
