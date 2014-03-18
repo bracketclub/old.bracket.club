@@ -15,6 +15,7 @@ module.exports = PageView.extend({
     initialize: function (options) {
         options || (options = {});
         this.roomId = options.roomId;
+        this.videoOnly = options.videoOnly;
         this.listenTo(this.model, 'change:current', app.bracketNavigate);
     },
     render: function () {
@@ -65,7 +66,10 @@ module.exports = PageView.extend({
         });
 
         this.webrtc.on('localStream', 'readyToCall', _.bind(this.hasVideos, this));
-        this.webrtc.on('channelOpen', _.bind(this.addDataChannelToModel, this));
-        this.webrtc.on('message', _.bind(this.receiveBracketMessage, this));
+
+        if (!this.videoOnly) {
+            this.webrtc.on('channelOpen', _.bind(this.addDataChannelToModel, this));
+            this.webrtc.on('message', _.bind(this.receiveBracketMessage, this));
+        }
     }
 });
