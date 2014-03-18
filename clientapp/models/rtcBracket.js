@@ -17,21 +17,15 @@ module.exports = HumanModel.define(baseBracket({
             }
         },
         enterButton: {
-            deps: ['complete'],
+            deps: ['complete', 'current'],
             cache: true,
             fn: function () {
+                if (!this.complete) return '';
                 return templates.includes.tweetButton({
                     url: this.current + '/entered',
                     text: 'Check out my #madness #bracket!',
                     complete: this.complete
                 });
-            }
-        },
-        isEnterable: {
-            deps: ['complete', 'enterButton'],
-            cache: true,
-            fn: function () {
-                return this.complete && !!this.enterButton;
             }
         }
     },
