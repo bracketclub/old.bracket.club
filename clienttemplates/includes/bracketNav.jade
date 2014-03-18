@@ -7,18 +7,22 @@
       span.icon-bar
   #bracket-nav.collapse.navbar-collapse.pull-left
     ul.nav.nav-pills.navbar-left
-      li(role='can-rewind')
-        a(href="#", role="firstHistory")
-          span.glyphicon.glyphicon-fast-backward
-      li(role='can-rewind')
-        a(href="#", role="previousHistory")
-          span.glyphicon.glyphicon-step-backward
-      li(role='can-fast-forward')
-        a(href="#", role="nextHistory")
-          span.glyphicon.glyphicon-step-forward
-      li(role='can-fast-forward')
-        a(href="#", role="lastHistory")
-          span.glyphicon.glyphicon-fast-forward
+      - if (typeof model.firstHistory === 'function')
+        li(role='can-rewind')
+          a(href="#", role="firstHistory")
+            span.glyphicon.glyphicon-fast-backward
+      - if (typeof model.previousHistory === 'function')
+        li(role='can-rewind')
+          a(href="#", role="previousHistory")
+            span.glyphicon.glyphicon-step-backward
+      - if (typeof model.nextHistory === 'function')
+        li(role='can-fast-forward')
+          a(href="#", role="nextHistory")
+            span.glyphicon.glyphicon-step-forward
+      - if (typeof model.lastHistory === 'function')
+        li(role='can-fast-forward')
+          a(href="#", role="lastHistory")
+            span.glyphicon.glyphicon-fast-forward
       - if (typeof model.resetHistory === 'function')
         li(role='can-reset')
           a(href="#", role="resetHistory")
