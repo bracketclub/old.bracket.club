@@ -18,6 +18,8 @@ module.exports = Backbone.Router.extend({
 
         'collaborate/:room': 'collaborate',
         'collaborate/:room/:bracket': 'collaborate',
+        'video/:room': 'videoOnly',
+        'video/:room/:bracket': 'videoOnly',
 
         ':bracket': 'tryBracket',
         ':bracket/:entered': 'tryBracket',
@@ -101,6 +103,19 @@ module.exports = Backbone.Router.extend({
 
         this.trigger('newPage', new CollaboratePage({
             roomId: room,
+            model: new RTCBracket(data)
+        }));
+    },
+    videoOnly: function (room, bracket) {
+        var data = {};
+
+        if (bracket) {
+            data.current = bracket;
+        }
+
+        this.trigger('newPage', new CollaboratePage({
+            roomId: room,
+            videoOnly: true,
             model: new RTCBracket(data)
         }));
     },
