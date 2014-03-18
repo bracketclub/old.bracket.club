@@ -18,6 +18,9 @@ module.exports = PageView.extend({
         this.videoOnly = options.videoOnly;
         this.listenTo(this.model, 'change:current', app.bracketNavigate);
     },
+    htmlBindings: {
+        enterButton: '[role=enter-button]'
+    },
     render: function () {
         this.renderAndBind();
 
