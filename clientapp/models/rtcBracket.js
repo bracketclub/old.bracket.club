@@ -1,5 +1,6 @@
 var HumanModel = require('human-model');
 var baseBracket = require('../helpers/bracket');
+var templates = require('../templates');
 
 
 module.exports = HumanModel.define(baseBracket({
@@ -13,6 +14,24 @@ module.exports = HumanModel.define(baseBracket({
             cache: true,
             fn: function () {
                 return this.current === window.bootstrap.masters[0];
+            }
+        },
+        enterButton: {
+            deps: ['complete'],
+            cache: true,
+            fn: function () {
+                return templates.includes.tweetButton({
+                    url: this.current + '/entered',
+                    text: 'Check out my #madness #bracket!',
+                    complete: this.complete
+                });
+            }
+        },
+        isEnterable: {
+            deps: ['complete', 'enterButton'],
+            cache: true,
+            fn: function () {
+                return this.complete && !!this.enterButton;
             }
         }
     },
