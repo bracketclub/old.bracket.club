@@ -77,7 +77,7 @@
   },
   "scripts": {
     "local": "./node_modules/.bin/nodemon -e js,json,jade server --local",
-    "production": "divshot push production",
+    "production": "./node_modules/.bin/divshot push production",
     "update-data": "npm update bracket-data-live",
     "build": "node server --build"
   }
