@@ -18,10 +18,12 @@
     "bracket-scorer": "^2.0.0",
     "bracket-updater": "^2.0.1",
     "bracket-validator": "^2.0.2",
+    "divshot-cli": "^0.7.0",
     "execSync": "~1.0.1-pre",
     "express": "3.x.x",
     "fastclick": "^1.0.0",
     "favicon-setter": "~0.1.1",
+    "figs": "^0.1.4",
     "human-model": "~2.6.1",
     "human-view": "~1.6.3",
     "human-view-switcher": "~0.0.1",
@@ -75,6 +77,8 @@
   },
   "scripts": {
     "local": "./node_modules/.bin/nodemon -e js,json,jade server --local",
+    "production": "divshot push production",
+    "update-data": "npm update bracket-data-live",
     "build": "node server --build"
   }
 }

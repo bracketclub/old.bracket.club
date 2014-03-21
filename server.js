@@ -6,8 +6,9 @@ var build = require('./build');
 var appName = require('./package').name;
 var jade = require('jade');
 var fs = require('fs');
-var year = '2014';
-var sport = 'ncaa-mens-basketball';
+var config = require('figs');
+var year = config.year;
+var sport = config.sport;
 var data = require('bracket-data-live')({year: year, sport: sport});
 var isLocal = process.argv.join(' ').indexOf('--local') > -1;
 // a little helper for fixing paths for various enviroments
@@ -15,10 +16,6 @@ var fixPath = function (pathString) {
     return path.resolve(path.normalize(pathString));
 };
 
-
-if (data.entries.length === 0 && isLocal) {
-    data = require('bracket-data-live')({year: '2013', sport: sport});
-}
 
 // -----------------
 // Configure express
