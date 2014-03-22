@@ -3,6 +3,7 @@
   "root": "./_deploy",
   "clean_urls": true,
   "cache_control": {
+    "/**": "no-cache, no-store",
     "/assets/**": 31536000
   },
   "routes": {

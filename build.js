@@ -51,6 +51,8 @@ module.exports.static = function (clientApp, appName) {
     mkdirp(assetsDir);
     clientApp.config.developmentMode = false;
     clientApp.config.resourcePrefix = '/assets/';
+    console.log('Building app data file');
+    fs.writeFileSync(fixPath(assetsDir + '/' + clientApp.dataFileName), clientApp.dataString);
     console.log('Building app');
     clientApp.build(deployDir, function () {
         console.log('Copying app to deploy dir');
