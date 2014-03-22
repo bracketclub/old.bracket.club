@@ -9,13 +9,21 @@ var fs = require('fs');
 var config = require('figs');
 var year = config.year;
 var sport = config.sport;
-var data = require('bracket-data-live')({year: year, sport: sport});
+var liveData = require('bracket-data-live')({year: year, sport: sport});
 var isLocal = process.argv.join(' ').indexOf('--local') > -1;
 // a little helper for fixing paths for various enviroments
 var fixPath = function (pathString) {
     return path.resolve(path.normalize(pathString));
 };
 
+var crypto = require('crypto');
+liveData.sportYear = {
+    year: year,
+    sport: sport
+};
+var dataString = 'window.bootstrap=' + JSON.stringify(liveData) + ';';
+var dataHash = crypto.createHash('sha1').update(dataString).digest('hex').slice(0, 8);
+var dataFileName = 'data.' + dataHash + '.js';
 
 // -----------------
 // Configure express
@@ -27,13 +35,8 @@ expressApp.use(express.static(fixPath('public')));
 // Override Moonboots template file
 // -----------------
 Moonboots.prototype.getTemplate = function () {
-    var templateData = data;
-    templateData.sportYear = {
-        year: year,
-        sport: sport
-    };
     return jade.render(fs.readFileSync(fixPath('index.jade')), {
-        bootstrapData: JSON.stringify(templateData),
+        dataPath: this.config.resourcePrefix + dataFileName,
         cssPath: this.config.resourcePrefix + this.cssFileName(),
         jsPath: this.config.resourcePrefix + this.jsFileName()
     });
@@ -80,6 +83,8 @@ var clientApp = new Moonboots({
 // ---------------------------------------------------
 if (process.argv.join(' ').indexOf(' --build') > -1) {
     console.log('Starting build');
+    clientApp.dataFileName = dataFileName;
+    clientApp.dataString = dataString;
     return build.static(clientApp, appName);
 }
 
@@ -87,6 +92,14 @@ if (process.argv.join(' ').indexOf(' --build') > -1) {
 // ---------------------------------------------------
 // Configure our main route that will serve our moonboots app
 // ---------------------------------------------------
+
+
+
+expressApp.get('/data*.js', function (req, res) {
+    res.set('Content-Type', 'text/javascript; charset=utf-8');
+    res.send(dataString);
+});
+
 expressApp.get('*', clientApp.html());
 
 
