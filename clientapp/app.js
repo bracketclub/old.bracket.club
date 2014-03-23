@@ -7,7 +7,7 @@ var HistoryBracket = require('./models/historyBracket');
 var User = require('./models/user');
 var BracketData = require('bracket-data');
 var attachFastClick = require('fastclick');
-var BracketLock = require('./models/bracketLock');
+var Countdown = require('./models/countdown');
 
 
 module.exports = {
@@ -22,8 +22,8 @@ module.exports = {
         var bd = new BracketData(_.extend(_.extend({props: ['regex', 'locks']}, window.bootstrap.sportYear)));
         this.bracketRegex = bd.regex;
         
-        this.bracketLock = new BracketLock({
-            locks: bd.locks
+        this.bracketLock = new Countdown({
+            time: bd.locks
         });
 
         this.masters = new HistoryBracket({
@@ -51,7 +51,11 @@ module.exports = {
             // init/render our main view
             var mainView = self.view = new MainView({
                 model: me,
-                el: document.body
+                el: document.body,
+                time: new Countdown({
+                    time: window.bootstrap.timestamp,
+                    stopAtZero: false
+                })
             }).render();
 
             // listen for new pages from the router

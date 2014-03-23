@@ -13,7 +13,8 @@ module.exports = HumanModel.define({
         user_id: ['string', true, ''],
         data_id: ['string', true, ''],
         name: ['string', false],
-        profile_pic: ['string', false]
+        profile_pic: ['string', false],
+        randomHack: ['number', false, Math.random()]
     },
     derived: {
         profileLink: {
@@ -38,10 +39,17 @@ module.exports = HumanModel.define({
             }
         },
         isMe: {
-            deps: ['username'],
+            deps: ['username', 'randomHack'],
             cache: false,
             fn: function () {
                 return this.username === me.username;
+            }
+        },
+        meLink: {
+            deps: ['isMe'],
+            cache: true,
+            fn: function () {
+                return this.isMe ? 'Not you?' : 'Is this you?';
             }
         }
     },

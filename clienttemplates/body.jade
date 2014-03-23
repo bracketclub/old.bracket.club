@@ -15,23 +15,27 @@ mixin me(me)
 body
   header
     .navbar.navbar-default(role="navigation")
-      .navbar-header
-        button.navbar-toggle(type="button", data-toggle="collapse", data-target="#header-nav")
-          span.sr-only Toggle navigation
-          span.icon-bar
-          span.icon-bar
-          span.icon-bar
-        a.navbar-brand(href="/") Tweet Your Bracket
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle(type="button", data-toggle="collapse", data-target="#header-nav")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="/") Tweet Your Bracket
 
-      #header-nav.collapse.navbar-collapse
-        ul.nav.navbar-nav.navbar-right(role="main-nav")
-          li
-            a(href="#", role="subscribe") Subscribe
-          li
-            a(href="/results") Results
-          li(role="collaborate-nav-item")
-            a(href="#", role="collaborate") Collaborate
-          mixin me(me)
+        #header-nav.collapse.navbar-collapse(role='main-nav-collapse')
+          form.navbar-form.navbar-left
+            .form-group
+              input.form-control(type="text", placeholder="username", role="username-search")
+          ul.nav.navbar-nav.navbar-right(role="main-nav")
+            li
+              a(href="#", role="subscribe") Subscribe
+            li
+              a(href="/results") Results
+            li(role="collaborate-nav-item")
+              a(href="#", role="collaborate") Collaborate
+            mixin me(me)
 
   .container
     main#pages(role="page-container")
@@ -67,3 +71,6 @@ body
         |  &amp; 
         a(href="http://twitter.com/danielrensch") Danny
         |  in Arizona.
+      p
+        | Last updated: 
+        span(role='last-updated')

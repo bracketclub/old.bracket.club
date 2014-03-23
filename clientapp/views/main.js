@@ -1,4 +1,4 @@
-/* globals twttr */
+/* globals twttr, Bloodhound */
 var HumanView = require('./base');
 var ViewSwitcher = require('human-view-switcher');
 var _ = require('underscore');
@@ -11,17 +11,30 @@ var track = require('../helpers/analytics');
 
 module.exports = HumanView.extend({
     template: templates.body,
-    initialize: function () {},
+    initialize: function (options) {
+        this.time = options.time;
+    },
     events: {
         'click a[href]': 'handleLinkClick',
         'click a[role=collaborate]': 'handleCollaborateClick',
         'click a[role=logout]': 'handleLogoutClick',
-        'click a[role=subscribe]': 'handleSubscribeClick'
+        'click a[role=subscribe]': 'handleSubscribeClick',
+        'typeahead:selected [role=username-search]': 'goToUser'
     },
     render: function () {
         this.listenTo(me, 'change:username change:pageLink', this.setUserNav);
-        this.listenTo(app.bracketLock, 'change:isPickable', this.removeCollaborateLink);
-        this.renderAndBind({me: me});
+        this.listenTo(app.bracketLock, 'change:isBefore', this.removeCollaborateLink);
+        this.renderAndBind({
+            me: me
+        });
+        this.registerBindings(this.time, {
+            textBindings: {
+                fromNow: '[role=last-updated]'
+            },
+            attributeBindings: {
+                time: ['[role=last-updated]', 'title']
+            }
+        });
 
         this.pageSwitcher = new ViewSwitcher(this.getByRole('page-container'), {
             show: function (newView) {
@@ -41,18 +54,21 @@ module.exports = HumanView.extend({
         });
 
         this.setUserNav(me);
+        this.setUserTypeahead();
         this.removeCollaborateLink(app.bracketLock);
 
         setFavicon('/favicon.ico');
         return this;
     },
     removeCollaborateLink: function (model) {
-        if (!model.isPickable) {
+        if (!model.isBefore) {
             this.$('[role=collaborate-nav-item]').remove();
         }
     },
     setPage: function (view) {
         // tell the view switcher to render the new one
+        this.$('[role=username-search]').typeahead('val', '').trigger('blur');
+        this.$('[role=main-nav-collapse]').collapse('hide');
         this.pageSwitcher.set(view);
         track.pageview(window.location.pathname);
         typeof twttr !== 'undefined' && twttr.widgets.load();
@@ -72,6 +88,35 @@ module.exports = HumanView.extend({
             app.navigate(path);
             return false;
         }
+    },
+    goToUser: function (e, user) {
+        app.navigate('/user/' + user.username);
+    },
+    setUserTypeahead: function () {
+        var source = new Bloodhound({
+            name: 'users',
+            local: window.bootstrap.entries,
+            datumTokenizer: function (d) {
+                return [d.username].concat(Bloodhound.tokenizers.whitespace(d.name));
+            },
+            queryTokenizer: Bloodhound.tokenizers.whitespace
+        });
+
+        source.initialize();
+
+        this.$('[role=username-search]').typeahead({
+            minLength: 1,
+            autoselect: true
+        }, {
+            name: 'users',
+            displayKey: 'username',
+            templates: {
+                suggestion: function (suggestion) {
+                    return templates.includes.typeaheadSuggestion(suggestion);
+                }
+            },
+            source: source.ttAdapter()
+        });
     },
     setUserNav: function (model) {
         var $userNav = this.$('[role=user-nav]');
