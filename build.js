@@ -58,6 +58,7 @@ module.exports.static = function (clientApp, appName) {
         console.log('Copying app to deploy dir');
         sh.run('cp -r public/* ' + deployDir);
         sh.run('mv ' + deployDir + '/' + appName + '.* ' + assetsDir);
+        sh.run('mv ' + deployDir + '/index.html ' + deployDir + '/tweetyourbracket.html');
         process.exit(0);
     });
 };

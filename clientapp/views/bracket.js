@@ -15,6 +15,7 @@ module.exports = HumanView.extend({
     },
     render: function () {
         this.renderAndBind({bracket: this.model, pickable: this.pickable});
+        this.$('.region').on('scroll', _.bind(this.scrollRegion, this));
         return this;
     },
     renderRegions: function (bracket, regions) {
@@ -24,6 +25,9 @@ module.exports = HumanView.extend({
                 this.$('.large-screen-final [role=region]').replaceWith(this.template.largeScreenFinal(r, this.pickable));
             }
         }, this);
+    },
+    scrollRegion: function (e) {
+        this.$('.region').scrollLeft($(e.currentTarget).scrollLeft());
     },
     pickGame: function (e) {
         var $winner = $(e.target).closest('[role=team]');

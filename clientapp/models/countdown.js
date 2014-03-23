@@ -5,47 +5,48 @@ var _ = require('underscore');
 
 module.exports = HumanModel.define({
     initialize: function () {
-        if (this.closesIn > 0) {
+        if (this.diff > 0 || !this.stopAtZero) {
             this.countdown();
         }
     },
     session: {
-        locks: ['string', true, ''],
-        now: ['object', true, moment()]
+        time: ['string', true, ''],
+        now: ['object', true, moment()],
+        stopAtZero: ['boolean', true, true]
     },
     derived: {
-        momentLock: {
-            deps: ['locks'],
+        moment: {
+            deps: ['time'],
             cache: true,
             fn: function () {
-                return moment(this.locks);
+                return moment(this.time);
             }
         },
-        closesIn: {
-            deps: ['momentLock', 'now'],
+        diff: {
+            deps: ['moment', 'now'],
             cache: true,
             fn: function () {
-                return this.momentLock.diff(this.now);
+                return this.moment.diff(this.now);
             }
         },
-        isPickable: {
-            deps: ['momentLock', 'now'],
+        isBefore: {
+            deps: ['moment', 'now'],
             cache: true,
             fn: function () {
-                return this.now.isBefore(this.momentLock);
+                return this.now.isBefore(this.moment);
             }
         },
-        timeToClose: {
-            deps: ['momentLock', 'now'],
+        fromNow: {
+            deps: ['moment', 'now'],
             cache: true,
             fn: function () {
-                return this.momentLock.fromNow();
+                return this.moment.fromNow();
             }
         }
     },
     countdown: function () {
         this.now = moment();
-        if (this.closesIn < 0 && this.countdownId) {
+        if (this.diff < 0 && this.countdownId && this.stopAtZero) {
             window.cancelAnimationFrame(this.countdownId);
         } else {
             this.countdownId = window.requestAnimationFrame(_.bind(this.countdown, this));

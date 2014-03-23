@@ -7,6 +7,6 @@
     "/assets/**": 31536000
   },
   "routes": {
-    "/**": "index.html"
+    "/**": "tweetyourbracket.html"
   }
 }

@@ -21,6 +21,7 @@ liveData.sportYear = {
     year: year,
     sport: sport
 };
+liveData.timestamp = require('moment')().utc().format();
 var dataString = 'window.bootstrap=' + JSON.stringify(liveData) + ';';
 var dataHash = crypto.createHash('sha1').update(dataString).digest('hex').slice(0, 8);
 var dataFileName = 'data.' + dataHash + '.js';
@@ -55,6 +56,7 @@ var clientApp = new Moonboots({
         fixPath('clientapp/libraries/google-analytics.js'),
         fixPath('clientapp/libraries/raf.js'),
         fixPath('node_modules/jquery/dist/jquery.js'),
+        fixPath('clientapp/libraries/typeahead.bundle.js'),
         // Bootstrap modules
         fixPath('clientapp/libraries/bootstrap/transition.js'),
         fixPath('clientapp/libraries/bootstrap/alert.js'),

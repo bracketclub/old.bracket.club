@@ -31,7 +31,7 @@ module.exports = HumanView.extend({
         });
         this.registerBindings(app.bracketLock, {
             htmlBindings: {
-                timeToClose: '[role=time-to-close]'
+                fromNow: '[role=time-to-close]'
             }
         });
         this.setBracketPopover();
