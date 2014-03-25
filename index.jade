@@ -4,6 +4,8 @@ html
     meta(name="viewport", content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimal-ui")
     meta(name="apple-mobile-web-app-capable", content="yes")
     link(rel='stylesheet', href=locals.cssPath)
+    script.
+        var __timestamp = "#{locals.timestamp}";
     script(src=locals.dataPath)
     script(src=locals.jsPath)
     script.

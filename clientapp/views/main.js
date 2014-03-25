@@ -35,6 +35,10 @@ module.exports = HumanView.extend({
                 time: ['[role=last-updated]', 'title']
             }
         });
+        this.addReferences({
+            usernameSearch: '[role=username-search]',
+            mainNavCollapse: '[role=main-nav-collapse]'
+        });
 
         this.pageSwitcher = new ViewSwitcher(this.getByRole('page-container'), {
             show: function (newView) {
@@ -68,7 +72,7 @@ module.exports = HumanView.extend({
     setPage: function (view) {
         // tell the view switcher to render the new one
         this.$('[role=username-search]').typeahead('val', '').trigger('blur');
-        this.$('[role=main-nav-collapse]').collapse('hide');
+        this.$mainNavCollapse.hasClass('in') && this.$mainNavCollapse.collapse('hide');
         this.pageSwitcher.set(view);
         track.pageview(window.location.pathname);
         typeof twttr !== 'undefined' && twttr.widgets.load();
@@ -104,7 +108,7 @@ module.exports = HumanView.extend({
 
         source.initialize();
 
-        this.$('[role=username-search]').typeahead({
+        this.$usernameSearch.typeahead({
             minLength: 1,
             autoselect: true
         }, {
