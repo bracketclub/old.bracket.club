@@ -4,9 +4,10 @@
   "clean_urls": true,
   "cache_control": {
     "/**": "no-cache, no-store",
-    "/assets/**": 31536000
+    "/assets/**": 31536000,
+    "/fonts/**": 604800
   },
   "routes": {
-    "/**": "tweetyourbracket.html"
+    "/**": "index.html"
   }
 }

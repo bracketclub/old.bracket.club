@@ -53,7 +53,7 @@ module.exports = {
                 model: me,
                 el: document.body,
                 time: new Countdown({
-                    time: window.bootstrap.timestamp,
+                    time: window.__timestamp,
                     stopAtZero: false
                 })
             }).render();

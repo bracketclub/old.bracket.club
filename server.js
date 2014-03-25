@@ -21,7 +21,6 @@ liveData.sportYear = {
     year: year,
     sport: sport
 };
-liveData.timestamp = require('moment')().utc().format();
 var dataString = 'window.bootstrap=' + JSON.stringify(liveData) + ';';
 var dataHash = crypto.createHash('sha1').update(dataString).digest('hex').slice(0, 8);
 var dataFileName = 'data.' + dataHash + '.js';
@@ -37,6 +36,7 @@ expressApp.use(express.static(fixPath('public')));
 // -----------------
 Moonboots.prototype.getTemplate = function () {
     return jade.render(fs.readFileSync(fixPath('index.jade')), {
+        timestamp: require('moment')().utc().format(),
         dataPath: this.config.resourcePrefix + dataFileName,
         cssPath: this.config.resourcePrefix + this.cssFileName(),
         jsPath: this.config.resourcePrefix + this.jsFileName()
