@@ -15,7 +15,10 @@ module.exports = HumanView.extend({
     },
     render: function () {
         this.renderAndBind({bracket: this.model, pickable: this.pickable});
-        this.$('.region').on('scroll', _.bind(this.scrollRegion, this));
+        this.addReferences({
+            scrollableRegions: '.initial-region, .final-region'
+        });
+        this.$scrollableRegions.on('scroll', _.bind(this.scrollRegion, this));
         return this;
     },
     renderRegions: function (bracket, regions) {
@@ -27,7 +30,8 @@ module.exports = HumanView.extend({
         }, this);
     },
     scrollRegion: function (e) {
-        this.$('.region').scrollLeft($(e.currentTarget).scrollLeft());
+        var $target = $(e.currentTarget);
+        this.$scrollableRegions.not('[data-id=' + $target.data('id') + ']').scrollLeft($target.scrollLeft());
     },
     pickGame: function (e) {
         var $winner = $(e.target).closest('[role=team]');
