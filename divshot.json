@@ -3,9 +3,9 @@
   "root": "./_deploy",
   "clean_urls": true,
   "cache_control": {
-    "/**": "no-cache, no-store",
     "/assets/**": 31536000,
-    "/fonts/**": 604800
+    "/fonts/**": 604800,
+    "/**": "no-cache, no-store"
   },
   "routes": {
     "/**": "index.html"
