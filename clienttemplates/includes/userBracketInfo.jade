@@ -6,9 +6,15 @@
       img(src="https://g.twimg.com/Twitter_logo_blue.png")
     | 
     a.small(role='me-link', href='#')
-  p.score
+  p
     strong Total: 
     | #{user.bracket.score.standard}
     | - 
+    strong PPR: 
+    | #{user.bracket.score.standardPPR}
+    br
     strong Gooley: 
     | #{user.bracket.score.gooley}
+    | - 
+    strong PPR: 
+    | #{user.bracket.score.gooleyPPR}

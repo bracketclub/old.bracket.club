@@ -11,8 +11,14 @@ module.exports = Backbone.Collection.extend({
     standard: function (m) {
         return -m.bracket.score.standard;
     },
+    standardPPR: function (m) {
+        return -m.bracket.score.standardPPR;
+    },
     gooley: function (m) {
         return -m.bracket.score.gooley;
+    },
+    gooleyPPR: function (m) {
+        return -m.bracket.score.gooleyPPR;
     },
     round1: function (m) {
         return -m.bracket.score.rounds[0];

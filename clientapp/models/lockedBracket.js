@@ -38,7 +38,7 @@ module.exports = HumanModel.define(baseBracket({
             deps: ['current'],
             cache: true,
             fn: function () {
-                return this.scorer.score(['standard', 'gooley', 'rounds'], {master: this.current});
+                return this.scorer.score(['standard', 'gooley', 'rounds', 'standardPPR', 'gooleyPPR'], {master: this.current});
             }
         }
     }
