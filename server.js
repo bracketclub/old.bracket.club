@@ -7,8 +7,8 @@ var appName = require('./package').name;
 var jade = require('jade');
 var fs = require('fs');
 var config = require('figs');
-var year = config.year;
-var sport = config.sport;
+var year = process.env.TYB_YEAR || config.year;
+var sport = process.env.TYB_SPORT || config.sport;
 var liveData = require('bracket-data-live')({year: year, sport: sport});
 var isLocal = process.argv.join(' ').indexOf('--local') > -1;
 // a little helper for fixing paths for various enviroments
