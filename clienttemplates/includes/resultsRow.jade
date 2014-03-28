@@ -1,5 +1,5 @@
 tr(class=user.isMe ? "success" : "")
-    td.rank
+    td.rank= user.scoreIndex
     td
         a(href=user.pageLink)= user.username
     td= user.bracket.score.rounds[0]

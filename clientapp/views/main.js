@@ -79,16 +79,17 @@ module.exports = HumanView.extend({
     },
     handleLinkClick: function (e) {
         var t = $(e.target);
-        var aEl = t.is('a') ? t[0] : t.closest('a')[0];
+        var $a = t.is('a') ? t : t.closest('a');
+        var aEl = $a[0];
         var local = window.location.host === aEl.host;
-        var path = aEl.pathname.slice(1);
+        var path = $a.attr('href');
         var isKeyModified = e.metaKey || e.ctrlKey || e.shiftKey;
 
         t.parents('.dropdown-menu').prev().dropdown('toggle');
 
         // if the window location host and target host are the
         // same it's local, else, leave it alone
-        if (local && !isKeyModified) {
+        if (local && !isKeyModified && path.charAt(0) !== '#') {
             app.navigate(path);
             return false;
         }
