@@ -55,6 +55,13 @@ var historyDefinition = {
             fn: function () {
                 return this.history[this.historyIndex] || this.constants.EMPTY;
             }
+        },
+        hasStarted: {
+            deps: ['history'],
+            cache: true,
+            fn: function () {
+                return this.history.length > 1;
+            }
         }
     },
     session: {

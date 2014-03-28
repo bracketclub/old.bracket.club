@@ -1,5 +1,6 @@
 var HumanModel = require('human-model');
 var LockedBracket = require('./lockedBracket');
+var moment = require('moment');
 
 
 module.exports = HumanModel.define({
@@ -14,9 +15,17 @@ module.exports = HumanModel.define({
         data_id: ['string', true, ''],
         name: ['string', false],
         profile_pic: ['string', false],
-        randomHack: ['number', false, Math.random()]
+        randomHack: ['number', false, Math.random()],
+        created: ['string', false, '']
     },
     derived: {
+        createdMoment: {
+            deps: 'created',
+            cache: true,
+            fn: function () {
+                return moment(this.created);
+            }
+        },
         profileLink: {
             deps: ['username'],
             cache: true,
@@ -51,11 +60,18 @@ module.exports = HumanModel.define({
             fn: function () {
                 return this.isMe ? 'Not you?' : 'Is this you?';
             }
+        },
+        scoreIndex: {
+            deps: [],
+            cache: false,
+            fn: function () {
+                return this.collection.scoreIndex(this) + 1;
+            }
         }
     },
     createBracket: function (bracket) {
         this.bracket = new LockedBracket({
-            entryBracket: bracket
+            entryBracket: bracket,
         }, {
             masters: this.masters
         });

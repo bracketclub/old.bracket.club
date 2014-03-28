@@ -8,6 +8,7 @@ var User = require('./models/user');
 var BracketData = require('bracket-data');
 var attachFastClick = require('fastclick');
 var Countdown = require('./models/countdown');
+var qsStringify = require('querystring').stringify;
 
 
 module.exports = {
@@ -72,8 +73,10 @@ module.exports = {
     // it expects a url without a leading slash.
     // for example: "costello/settings".
     navigate: function (page, options) {
+        options || (options = {});
         var url = (page.charAt(0) === '/') ? page.slice(1) : page;
-        app.history.navigate(url, _.defaults(options || {}, {trigger: true}));
+        _.defaults(options, {trigger: true});
+        app.history.navigate(url, options);
     },
 
     bracketNavigate: function (model, bracket) {
@@ -86,6 +89,11 @@ module.exports = {
         }
         url = url.replace(new RegExp('(' + bracket + ')' + '/entered'), '$1');
         app.navigate(url, {trigger: false, replace: true});
+    },
+
+    qsNavigate: function (model) {
+        var url = window.location.pathname;
+        app.navigate(url + '?' + qsStringify(model.attributes), {trigger: false});
     },
 
     localBracket: function () {

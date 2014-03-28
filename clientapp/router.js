@@ -5,8 +5,13 @@ var UserPage = require('./pages/user');
 var _404Page = require('./pages/404');
 var Bracket = require('./models/liveBracket');
 var RTCBracket = require('./models/rtcBracket');
+var SortOptions = require('./models/sortOptions');
 var CollaboratePage = require('./pages/collaborate');
 var _ = require('underscore');
+var qsParse = require('querystring').parse;
+var currentQS = function () {
+    return qsParse(window.location.search.slice(1));
+};
 
 
 module.exports = Backbone.Router.extend({
@@ -14,6 +19,7 @@ module.exports = Backbone.Router.extend({
         '': 'entry',
 
         'results': 'results',
+        'results?*qs': 'results',
         'user/:user': 'userResults',
 
         'collaborate/:room': 'collaborate',
@@ -74,8 +80,25 @@ module.exports = Backbone.Router.extend({
     },
 
     results: function () {
+        var qs = currentQS();
+        var sortOptions = {};
+        var gameIndex = parseInt(qs.game, 10);
+
+        if (qs.order === 'asc' || qs.order === 'desc') {
+            sortOptions.order = qs.order;
+        }
+
+        if (typeof gameIndex === 'number' && !isNaN(gameIndex)) {
+            sortOptions.game = gameIndex;
+        }
+
+        if (qs.sortBy) {
+            sortOptions.sortBy = qs.sortBy;
+        }
+
         this.trigger('newPage', new ResultsPage({
             collection: app.entries,
+            sortOptions: new SortOptions(sortOptions),
             model: app.masters
         }));
     },
