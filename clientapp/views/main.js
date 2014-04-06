@@ -76,6 +76,10 @@ module.exports = HumanView.extend({
         this.pageSwitcher.set(view);
         track.pageview(window.location.pathname);
         typeof twttr !== 'undefined' && twttr.widgets.load();
+
+        var readyEvent = document.createEvent("Event");
+        readyEvent.initEvent("renderReady", true, true);
+        window.dispatchEvent(readyEvent);
     },
     handleLinkClick: function (e) {
         var t = $(e.target);

@@ -79,30 +79,47 @@ var clientApp = new Moonboots({
     beforeBuildCSS: build.css
 });
 
+clientApp.dataFileName = dataFileName;
+clientApp.dataString = dataString;
+
 
 // ---------------------------------------------------
 // Build to deploy directory if CLI flag is set
 // ---------------------------------------------------
 if (process.argv.join(' ').indexOf(' --build') > -1) {
     console.log('Starting build');
-    clientApp.dataFileName = dataFileName;
-    clientApp.dataString = dataString;
-    return build.static(clientApp, appName);
+    return build.static(clientApp, appName, '_deploy', function () {
+        process.exit(0);
+    });
 }
 
 
 // ---------------------------------------------------
 // Configure our main route that will serve our moonboots app
 // ---------------------------------------------------
-
-
-
 expressApp.get('/data*.js', function (req, res) {
     res.set('Content-Type', 'text/javascript; charset=utf-8');
     res.send(dataString);
 });
 
 expressApp.get('*', clientApp.html());
+
+
+// ---------------------------------------------------
+// Build to pages directory if CLI flag is set
+// ---------------------------------------------------
+if (process.argv.join(' ').indexOf(' --pages') > -1) {
+    var pages = function () {
+        build.pages(clientApp, appName, '_pages', function () {
+            process.exit(0);
+        });
+    };
+    if (clientApp.ready) {
+        pages();
+    } else {
+        clientApp.on('ready', pages);
+    }
+}
 
 
 // ---------------------------------------------------
