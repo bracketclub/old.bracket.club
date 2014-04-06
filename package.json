@@ -37,7 +37,8 @@
     "rmrf": "~1.0.2",
     "simplewebrtc": "~1.1.1",
     "templatizer": "~0.2.10",
-    "underscore": "1.5.2"
+    "underscore": "1.5.2",
+    "simplecrawler": "^0.3.6"
   },
   "devDependencies": {
     "nodemon": "~1.0.14",
@@ -80,6 +81,8 @@
     "production": "./node_modules/.bin/divshot push production",
     "update-data": "npm update bracket-data-live",
     "build": "node server --build",
-    "build-prod": "npm run update-data && npm run build && npm run production"
+    "pages": "node server --pages",
+    "build-prod": "npm run update-data && npm run build && npm run production",
+    "render": "phantomjs render.js"
   }
 }

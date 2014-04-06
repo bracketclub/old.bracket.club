@@ -6,8 +6,55 @@ var rmrf = require('rmrf');
 var mkdirp = require('mkdirp');
 var sh = require('execSync');
 var async = require('async');
+var Crawler = require('simplecrawler');
+var url = require('url');
+var path = require('path');
 var fixPath = function (pathString) {
     return path.resolve(path.normalize(pathString));
+};
+
+var proxyToPort = '3000';
+var proxyPort = '8001';
+var proxyHost = 'localhost';
+var proxyKey = 'href';
+Crawler.prototype.queueLinkedItems = function (resourceData, queueItem) {
+    var crawler = this,
+        resources = [];
+
+    resources = crawler.discoverResources(resourceData, queueItem).map(function (r) {
+        var parsed = url.parse(r, true);
+        var ext = path.extname(parsed.pathname);
+        var parsedQueryKey;
+
+        if (parsed.query[proxyKey]) {
+            parsedQueryKey = url.parse(parsed.query[proxyKey]);
+
+            if (
+                parsedQueryKey.hostname === proxyHost && parsedQueryKey.port === proxyToPort &&
+                parsed.hostname === proxyHost && parsed.port === proxyPort
+            ) {
+                if (ext === '.html' || ext === '') {
+                    delete parsed.search;
+                    parsed.query[proxyKey] = url.format({
+                        protocol: parsed.protocol,
+                        key: proxyKey,
+                        hostname: parsed.hostname,
+                        port: proxyToPort,
+                        pathname: parsed.pathname
+                    });
+                    parsed.pathname = '/';
+                } else {
+                    return '';
+                }
+            }
+        }
+
+        return url.format(parsed);
+    });
+
+    resources.forEach(function (_url) { crawler.queueURL(_url, queueItem); });
+
+    return crawler;
 };
 
 
@@ -41,14 +88,14 @@ module.exports.css = function (cb) {
     }, cb);
 };
 
-module.exports.static = function (clientApp, appName) {
-    var deployDir = fixPath('_deploy');
+module.exports.static = function (clientApp, appName, dir, cb) {
+    var deployDir = fixPath(dir || '_deploy');
     var assetsDir = fixPath(deployDir + '/assets');
     console.log('Removing old deploy dir');
     rmrf(deployDir);
     console.log('Making deploy and assets dirs');
-    mkdirp(deployDir);
-    mkdirp(assetsDir);
+    mkdirp.sync(deployDir);
+    mkdirp.sync(assetsDir);
     clientApp.config.developmentMode = false;
     clientApp.config.resourcePrefix = '/assets/';
     console.log('Building app data file');
@@ -58,6 +105,41 @@ module.exports.static = function (clientApp, appName) {
         console.log('Copying app to deploy dir');
         sh.run('cp -r public/* ' + deployDir);
         sh.run('mv ' + deployDir + '/' + appName + '.* ' + assetsDir);
-        process.exit(0);
+        cb();
+    });
+};
+
+module.exports.pages = function (clientApp, appName, dir, cb) {
+    this.static(clientApp, appName, dir, function () {
+        var initialPath = '/?' + proxyKey + '=' + encodeURIComponent(url.format({
+            protocol: 'http:',
+            key: proxyKey,
+            hostname: proxyHost,
+            port: proxyToPort,
+            pathname: '/'
+        }));
+        var myCrawler = new Crawler(proxyHost, initialPath, proxyPort);
+        var idle;
+        myCrawler.maxConcurrency = 4;
+
+        var pagesDir = fixPath(dir);
+        var pagesIndex = path.join(pagesDir, 'index.html');
+
+        myCrawler.on('queueadd', function (queueItem) {
+            var urlPath = url.parse(url.parse(queueItem.url, true).query.href).pathname.slice(1);
+            console.log('Add', urlPath);
+
+            var pageDir = path.join(pagesDir, urlPath);
+            mkdirp.sync(pageDir);
+            sh.run(['cp', pagesIndex, pageDir].join(' '));
+
+            idle && clearTimeout(idle);
+            idle = setTimeout(function () {
+                myCrawler.stop();
+                cb();
+            }, 5000);
+        });
+
+        myCrawler.start();
     });
 };

@@ -18,5 +18,6 @@ npm-debug.log
 *.rdb
 
 _deploy/
+_pages/
 clientapp/templates.js
 styles/app.css
