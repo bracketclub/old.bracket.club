@@ -54,7 +54,7 @@ function onRequest(req, res) {
   var query = url.query
   var href  = query.href
 
-  console.log('href', href)
+  console.log('Req', href)
 
   if (!href) {
     return send(400, toHTML("`href` parameter is missing."))
@@ -86,6 +86,7 @@ function onRequest(req, res) {
   }
 
   page.onCallback = function() {
+    console.log('Send', href);
     send(200, page.content)
   }
 

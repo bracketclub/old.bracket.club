@@ -129,9 +129,11 @@ module.exports.pages = function (clientApp, appName, dir, cb) {
             var urlPath = url.parse(url.parse(queueItem.url, true).query.href).pathname.slice(1);
             console.log('Add', urlPath);
 
-            var pageDir = path.join(pagesDir, urlPath);
+            var pageFile = path.join(pagesDir, urlPath) + '.html';
+            var pageDir = path.dirname(pageFile);
+
             mkdirp.sync(pageDir);
-            sh.run(['cp', pagesIndex, pageDir].join(' '));
+            sh.run(['cp', pagesIndex, pageFile].join(' '));
 
             idle && clearTimeout(idle);
             idle = setTimeout(function () {
