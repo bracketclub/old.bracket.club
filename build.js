@@ -91,21 +91,25 @@ module.exports.css = function (cb) {
 module.exports.static = function (clientApp, appName, dir, cb) {
     var deployDir = fixPath(dir || '_deploy');
     var assetsDir = fixPath(deployDir + '/assets');
+
     console.log('Removing old deploy dir');
     rmrf(deployDir);
+
     console.log('Making deploy and assets dirs');
     mkdirp.sync(deployDir);
     mkdirp.sync(assetsDir);
-    clientApp.moonboots.config.developmentMode = false;
-    clientApp.moonboots.config.resourcePrefix = '/assets/';
+
     console.log('Building app data file');
     fs.writeFileSync(fixPath(assetsDir + '/' + clientApp.dataFileName), clientApp.dataString);
+
     console.log('Building app');
-    clientApp.build(deployDir, function () {
-        console.log('Copying app to deploy dir');
-        sh.run('cp -r public/* ' + deployDir);
-        sh.run('mv ' + deployDir + '/' + appName + '.* ' + assetsDir);
-        cb();
+    clientApp.on('ready', function () {
+        clientApp.handlers.html.call(clientApp.moonboots, function (err, src) {
+            fs.writeFileSync(fixPath(deployDir + '/index.html'), src);
+            sh.run('cp -r public/* ' + deployDir);
+            sh.run('mv ' + deployDir + '/' + appName + '.* ' + assetsDir);
+            cb();
+        });
     });
 };
 

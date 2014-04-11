@@ -42,7 +42,8 @@
     "precommit-hook": "~0.3.8",
     "rmrf": "~1.0.2",
     "simplecrawler": "^0.3.6",
-    "templatizer": "~0.2.10"
+    "templatizer": "~0.2.10",
+    "rndr-me": "^1.0.0"
   },
   "homepage": "http://tweetyourbracket.com",
   "jshintConfig": {
@@ -83,6 +84,6 @@
     "build": "node server --build",
     "pages": "node server --pages",
     "build-prod": "npm run update-data && npm run build && npm run production",
-    "render": "phantomjs render.js"
+    "render": "phantomjs ./node_modules/rndr-me/server.js --port=8001 --readyEvent=renderReady"
   }
 }
