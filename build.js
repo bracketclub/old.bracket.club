@@ -96,8 +96,8 @@ module.exports.static = function (clientApp, appName, dir, cb) {
     console.log('Making deploy and assets dirs');
     mkdirp.sync(deployDir);
     mkdirp.sync(assetsDir);
-    clientApp.config.developmentMode = false;
-    clientApp.config.resourcePrefix = '/assets/';
+    clientApp.moonboots.config.developmentMode = false;
+    clientApp.moonboots.config.resourcePrefix = '/assets/';
     console.log('Building app data file');
     fs.writeFileSync(fixPath(assetsDir + '/' + clientApp.dataFileName), clientApp.dataString);
     console.log('Building app');

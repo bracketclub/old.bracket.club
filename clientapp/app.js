@@ -1,4 +1,5 @@
 var Backbone = require('backbone');
+Backbone.$ = window.jQuery;
 var _ = require('underscore');
 var Router = require('./router');
 var MainView = require('./views/main');

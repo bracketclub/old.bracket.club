@@ -1,6 +1,6 @@
 {
   "name": "tweet-your-bracket",
-  "version": "3.0.66",
+  "version": "3.1.0",
   "author": {
     "name": "Luke Karrys",
     "email": "luke@lukekarrys.com",
@@ -10,16 +10,13 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com/issues"
   },
   "dependencies": {
-    "async": "~0.2.10",
-    "backbone": "1.0.0",
+    "backbone": "^1.1.2",
     "bracket-data": "^2.0.6",
     "bracket-data-live": "git+https://github.com/tweetyourbracket/bracket-data-live.git",
     "bracket-generator": "^2.0.2",
     "bracket-scorer": "^2.0.0",
     "bracket-updater": "^2.0.1",
     "bracket-validator": "^2.0.2",
-    "divshot-cli": "^0.7.0",
-    "execSync": "~1.0.1-pre",
     "express": "3.x.x",
     "fastclick": "^1.0.0",
     "favicon-setter": "~0.1.1",
@@ -30,19 +27,22 @@
     "jade": "~1.2.0",
     "jquery": "~2.1.0",
     "less": "~1.6.3",
-    "mkdirp": "~0.3.5",
     "moment": "^2.5.1",
-    "moonboots": "^1.2.3",
+    "moonboots-express": "git+https://github.com/lukekarrys/moonboots-express",
     "node-uuid": "^1.4.1",
-    "rmrf": "~1.0.2",
     "simplewebrtc": "~1.1.1",
-    "templatizer": "~0.2.10",
-    "underscore": "1.5.2",
-    "simplecrawler": "^0.3.6"
+    "underscore": "1.5.2"
   },
   "devDependencies": {
+    "async": "~0.2.10",
+    "divshot-cli": "^0.7.0",
+    "execSync": "~1.0.1-pre",
+    "mkdirp": "~0.3.5",
     "nodemon": "~1.0.14",
-    "precommit-hook": "~0.3.8"
+    "precommit-hook": "~0.3.8",
+    "rmrf": "~1.0.2",
+    "simplecrawler": "^0.3.6",
+    "templatizer": "~0.2.10"
   },
   "homepage": "http://tweetyourbracket.com",
   "jshintConfig": {
