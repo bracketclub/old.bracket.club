@@ -44,10 +44,24 @@ var htmlSource = function (cb) {
     }));
 };
 
+// -----------------
+// Moonboots variable options
+// -----------------
+var buildDirectory = null;
+var resourcePrefix = '/';
+
+if (argv('build')) {
+    buildDirectory = fixPath('_deploy');
+    resourcePrefix = '/assets/';
+} else if (argv('pages')) {
+    buildDirectory = fixPath('_pages');
+    resourcePrefix = '/assets/';
+}
+
 // ---------------------------------------------------
 // Configure our main route that will serve our moonboots app
 // ---------------------------------------------------
-expressApp.get('/data*.js', function (req, res) {
+expressApp.get(resourcePrefix + 'data*.js', function (req, res) {
     res.set('Content-Type', 'text/javascript; charset=utf-8');
     res.send(dataString);
 });
@@ -62,6 +76,8 @@ var clientApp = new Moonboots({
         cssFileName: appName,
         main: fixPath('clientapp/app.js'),
         developmentMode: argv('local'),
+        buildDirectory: buildDirectory,
+        resourcePrefix: argv('build') || argv('pages') ? '/assets/' : '/',
         libraries: [
             fixPath('clientapp/libraries/google-analytics.js'),
             fixPath('clientapp/libraries/raf.js'),
@@ -111,16 +127,9 @@ if (argv('build')) {
 // Build to pages directory if CLI flag is set
 // ---------------------------------------------------
 if (argv('pages')) {
-    var pages = function () {
-        build.pages(clientApp, appName, '_pages', function () {
-            process.exit(0);
-        });
-    };
-    if (clientApp.ready) {
-        pages();
-    } else {
-        clientApp.on('ready', pages);
-    }
+    build.pages(clientApp, appName, '_pages', function () {
+        process.exit(0);
+    });
 }
 
 
