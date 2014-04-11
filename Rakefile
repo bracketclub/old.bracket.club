@@ -9,12 +9,6 @@ def get_stdin(message)
   STDIN.gets.chomp
 end
 
-desc "Generate jekyll site"
-task :generate do
-  puts "## Generating Site with Jekyll"
-  system "jekyll build"
-end
-
 desc "copy dot files for deployment"
 task :copydot, :source, :dest do |t, args|
   FileList["#{args.source}/**/.*"].exclude("**/.", "**/..", "**/.DS_Store", "**/._*").each do |file|
@@ -24,7 +18,6 @@ end
 
 desc "deploy public directory to github pages"
 multitask :deploy do
-  Rake::Task[:generate].execute
   puts "## Deploying branch to Github Pages "
   puts "## Pulling any updates from Github Pages "
   cd "#{deploy_dir}" do

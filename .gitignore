@@ -19,5 +19,6 @@ npm-debug.log
 
 _deploy/
 _pages/
+_gh-pages/
 clientapp/templates.js
 styles/app.css
