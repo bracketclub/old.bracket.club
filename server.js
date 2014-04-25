@@ -7,56 +7,20 @@ var lessitizer = require('lessitizer');
 var Crawler = require('spa-crawler');
 var expressApp = express();
 var appName = require('./package').name;
-var jade = require('jade');
-var fs = require('fs');
-var config = require('figs');
-var mkdirp = require('mkdirp');
-var sh = require('execSync');
-var year = process.env.TYB_YEAR || config.year;
-var sport = process.env.TYB_SPORT || config.sport;
-var liveData = require('bracket-data-live')({year: year, sport: sport});
+var saveIndex = require('./build/saveIndex');
+var htmlFile = require('./build/html');
+var fixPath = require('./build/fixpath');
+var port = process.env.PORT || 3000;
 var argv = function (flag) {
     return process.argv.join(' ').indexOf('--' + flag) > -1;
 };
-var fixPath = function (pathString) {
-    return path.resolve(path.normalize(pathString));
-};
 
-var crypto = require('crypto');
-liveData.sportYear = {
-    year: year,
-    sport: sport
-};
-var dataString = 'window.bootstrap=' + JSON.stringify(liveData) + ';';
-var dataHash = crypto.createHash('sha1').update(dataString).digest('hex').slice(0, 8);
-var dataFileName = 'data.' + dataHash + '.js';
 
 // -----------------
 // Configure express
 // -----------------
 expressApp.use(express.static(fixPath('public')));
 
-
-// -----------------
-// Override Moonboots template file
-// -----------------
-var htmlSource = function (cb) {
-    cb(null, jade.render(fs.readFileSync(fixPath('index.jade')), {
-        timestamp: require('moment')().utc().format(),
-        dataPath: this.config.resourcePrefix + dataFileName,
-        cssPath: this.config.resourcePrefix + this.cssFileName(),
-        jsPath: this.config.resourcePrefix + this.jsFileName()
-    }));
-};
-
-
-// ---------------------------------------------------
-// Configure our main route that will serve our moonboots app
-// ---------------------------------------------------
-expressApp.get('*data*.js', function (req, res) {
-    res.set('Content-Type', 'text/javascript; charset=utf-8');
-    res.send(dataString);
-});
 
 var moonbootsConfig = {
     jsFileName: appName,
@@ -99,7 +63,9 @@ if (argv('build')) {
         moonboots: moonbootsConfig,
         public: fixPath('public'),
         directory: fixPath('_deploy'),
-        htmlSource: htmlSource,
+        htmlSource: function (context) {
+            return htmlFile(context);
+        },
         cb: function () {
             process.exit(0);
         }
@@ -107,42 +73,32 @@ if (argv('build')) {
 } else {
     var moonboots = new Moonboots({
         moonboots: moonbootsConfig,
-        render: function () {
-            htmlSource.call(this);
+        render: function (req, res) {
+            res.send(htmlFile(res.locals));
         },
         server: expressApp
     });
+
+    if (argv('pages')) {
+        var crawler = new Crawler({
+            rndr: {
+                readyEvent: 'rendered'
+            },
+            app: 'http://localhost:' + port + '/'
+        });
+        moonboots.on('ready', function () {
+            crawler.start()
+            .crawler.on('spaurl', saveIndex)
+            .on('complete', crawler.stop.bind(crawler, true));
+        });
+    }
+
+    expressApp.listen(port);
+    console.log("Running at: http://localhost:" + port + " Yep. That\'s pretty awesome.");
 }
 
 
-if (argv('pages')) {
-    var crawler = new Crawler({
-        rndr: {
-            readyEvent: 'rendered'
-        },
-        app: 'http://localhost:3000/'
-    });
-    var pagesDir = fixPath('_pages');
-    var pagesIndex = path.join(pagesDir, 'index.html');
-
-    moonboots.on('ready', function () {
-        crawler.start().crawler.on('spaurl', function (url) {
-            console.log('Add', url);
-
-            var urlFile = path.basename(url);
-            var pageFile = path.join(pagesDir, urlFile) + '.html';
-            var pageDir = path.dirname(url);
-
-            mkdirp.sync(pageDir);
-            sh.run(['cp', pagesIndex, pageFile].join(' '));
-
-        }).on('complete', crawler.stop.bind(crawler, true));
-    });
-}
 
 
-// ---------------------------------------------------
-// Listen for incoming http requests on the port as specified in our config
-// ---------------------------------------------------
-expressApp.listen(3000);
-console.log("Running at: http://localhost:" + 3000 + " Yep. That\'s pretty awesome.");
+
+
