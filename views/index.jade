@@ -1,0 +1,12 @@
+doctype html
+html
+  head
+    meta(name="viewport", content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimal-ui")
+    meta(name="apple-mobile-web-app-capable", content="yes")
+    link(rel='stylesheet', href=this.resourcePrefix + =locals.cssFileName)
+    script.
+        var __timestamp = "#{locals.timestamp}";
+    script(src=this.resourcePrefix + locals.dataFileName)
+    script(src=this.resourcePrefix + locals.jsFileName)
+    script.
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
