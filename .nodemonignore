@@ -1,5 +1,6 @@
 clientapp/collections/
 clientapp/helpers/
+clientapp/modals/
 clientapp/models/
 clientapp/pages/
 clientapp/views/
