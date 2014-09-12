@@ -1,0 +1,15 @@
+{
+    "asi": false,
+    "browser": true,
+    "curly": false,
+    "expr": true,
+    "loopfunc": true,
+    "node": true,
+    "predef": [
+      "$",
+      "app",
+      "me"
+    ],
+    "undef": true,
+    "unused": true
+}

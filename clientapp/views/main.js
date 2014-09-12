@@ -3,7 +3,6 @@ var HumanView = require('./base');
 var ViewSwitcher = require('human-view-switcher');
 var _ = require('underscore');
 var templates = require('../templates');
-var setFavicon = require('favicon-setter');
 var CollabDialog = require('../modals/collaborate');
 var SubscribeDialog = require('../modals/subscribe');
 var track = require('../helpers/analytics');
@@ -61,7 +60,6 @@ module.exports = HumanView.extend({
         this.setUserTypeahead();
         this.removeCollaborateLink(app.bracketLock);
 
-        setFavicon('/favicon.ico');
         return this;
     },
     removeCollaborateLink: function (model) {
