@@ -4,8 +4,9 @@ clientapp/modals/
 clientapp/models/
 clientapp/pages/
 clientapp/views/
-clientapp/app.js
+clientapp/app*.js
 clientapp/router.js
 clientapp/templates.js
-_deploy/
 clienttemplates/
+_deploy/
+_crawl/

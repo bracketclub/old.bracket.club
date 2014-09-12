@@ -1,12 +1,14 @@
+var fs = require('fs');
 var path = require('path');
 var express = require('express');
-var Moonboots = require('moonboots-express');
-var Static = require('moonboots-static');
-//var templatizer = require('templatizer');
-var lessitizer = require('lessitizer');
 var Crawler = require('spa-crawler');
+var lessitizer = require('lessitizer');
+var Static = require('moonboots-static');
+var templatizer = require('templatizer');
+var Moonboots = require('moonboots-express');
 
 
+var quit = function (err) { process.exit(err ? 1 : 0); };
 var data = require('./build/data');
 var saveIndex = require('./build/saveIndex');
 var htmlFile = require('./build/html');
@@ -17,7 +19,6 @@ var argv = require('./build/argv');
 var expressApp = express();
 var appName = require('./package').name;
 var port = process.env.PORT || 3000;
-var quit = function (err) { process.exit(err ? 1 : 0); };
 var moonboots;
 var crawler;
 
@@ -33,7 +34,7 @@ var options = {
 // ------------------------
 // Configure Moonboots
 // ------------------------
-var moonbootsConfig = {
+var config = {
     jsFileName: appName,
     cssFileName: appName,
     main: fixPath('clientapp/app2.js'),
@@ -56,7 +57,7 @@ var moonbootsConfig = {
     ],
     stylesheets: [fixPath('styles/app.css')],
     beforeBuildJS: function () {
-        //templatizer(fixPath('clienttemplates'), fixPath('clientapp/templates.js'));
+        templatizer(fixPath('clienttemplates'), fixPath('clientapp/templates.js'));
     },
     beforeBuildCSS: function (cb) {
         lessitizer({
@@ -72,16 +73,21 @@ var moonbootsConfig = {
 // ------------------------
 if (options.build) {
     new Static({
-        cb: quit,
         verbose: true,
-        moonboots: moonbootsConfig,
-        public: fixPath('public'),
+        moonboots: config,
+        'public': fixPath('public'),
         directory: fixPath('_deploy'),
-        htmlSource: function (context) {
-            return htmlFile(context);
+        htmlSource: htmlFile,
+        cb: function (err) {
+            if (!err) {
+                fs.writeFileSync(
+                    fixPath('_deploy/' + config.resourcePrefix + data.filename),
+                    data.string
+                );
+            }
+            quit(err);
         }
     });
-    // TODO: copy data file too
 }
 
 
@@ -90,12 +96,12 @@ if (options.build) {
 // ------------------------
 if (options.server) {
     expressApp.use(express.static(fixPath('public')));
-    expressApp.get(moonbootsConfig.resourcePrefix + 'data*.js', function (req, res) {
+    expressApp.get(config.resourcePrefix + data.filename, function (req, res) {
         res.set('Content-Type', 'text/javascript; charset=utf-8');
         res.send(data.string);
     });
     moonboots = new Moonboots({
-        moonboots: moonbootsConfig,
+        moonboots: config,
         render: function (req, res) {
             res.send(htmlFile(res.locals));
         },
@@ -111,15 +117,18 @@ if (options.server) {
 // ------------------------
 if (options.crawl) {
     crawler = new Crawler({
-        rndr: {
-            readyEvent: 'rendered'
-        },
-        app: 'http://localhost:' + port + '/'
+        rndr: { readyEvent: 'renderReady' },
+        app: 'http://127.0.0.1:' + port + '/',
+        delayStart: 5000
     });
     moonboots.on('ready', function () {
         crawler.start().crawler
-        .on('spaurl', saveIndex) // TODO: make this work
+        .on('spaurl', function (url) {
+            console.log(url);
+            saveIndex(url);
+        })
         .on('complete', quit);
+        // TODO: copy the rest of the files
     });
     console.log("Crawler will crawl: http://localhost:" + port);
 }

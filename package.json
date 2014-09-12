@@ -11,6 +11,9 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com/issues"
   },
   "dependencies": {
+    "ampersand-main-view": "git+ssh://git@github.com:lukekarrys/ampersand-main-view",
+    "ampersand-router": "^1.0.5",
+    "ampersand-view": "^7.1.2",
     "bracket-data": "^2.0.14",
     "bracket-data-live": "git+ssh://git@github.com:tweetyourbracket/bracket-data-live.git",
     "bracket-generator": "^2.0.2",
@@ -18,10 +21,10 @@
     "bracket-updater": "^2.0.2",
     "bracket-validator": "^2.0.2",
     "divshot-cli": "^0.16.5",
-    "execSync": "^1.0.2",
     "express": "^4.9.0",
     "fastclick": "^1.0.3",
     "figs": "^0.1.4",
+    "function-bind": "^1.0.0",
     "jade": "^1.6.0",
     "jquery": "^2.1.1",
     "jshint": "^2.5.5",
@@ -32,9 +35,8 @@
     "moonboots-static": "^1.1.0",
     "node-uuid": "^1.4.1",
     "nodemon": "^1.2.1",
-    "phantomjs": "^1.9.7-15",
     "precommit-hook": "^1.0.7",
-    "spa-crawler": "^1.0.2",
+    "spa-crawler": "^1.1.0",
     "templatizer": "^1.0.0"
   },
   "homepage": "http://tweetyourbracket.com",
@@ -52,11 +54,11 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com.git"
   },
   "scripts": {
-    "local": "./node_modules/.bin/nodemon -e js,json,jade server",
-    "production": "./node_modules/.bin/divshot push production",
+    "dev": "./node_modules/.bin/nodemon -e js,json,jade server",
+    "deploy": "./node_modules/.bin/divshot push production",
     "update-data": "npm update bracket-data-live",
     "build": "node server --build --minify",
     "crawl": "node server --crawl --minify",
-    "build-prod": "npm run update-data && npm run build && npm run production"
+    "build-prod": "npm run update-data && npm run build && npm run deploy"
   }
 }

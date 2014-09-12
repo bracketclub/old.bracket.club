@@ -10,6 +10,6 @@ var index = fs.readFileSync(fixPath('views/index.jade'));
 module.exports = function (context) {
     return jade.render(index, extend(context, {
         timestamp: timestamp,
-        dataFileName: data.fileName
+        dataFileName: data.filename
     }));
 };
