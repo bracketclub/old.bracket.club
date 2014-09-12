@@ -13,10 +13,10 @@ liveData.sportYear = {
 
 var dataString = 'window.bootstrap=' + JSON.stringify(liveData) + ';';
 var dataHash = crypto.createHash('sha1').update(dataString).digest('hex').slice(0, 8);
-var dataFileName = 'data.' + dataHash + '.js';
+var dataFilename = 'data.' + dataHash + '.js';
 
 
 module.exports = {
     string: dataString,
-    fileName: dataFileName
+    filename: dataFilename
 };

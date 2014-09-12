@@ -1,17 +1,17 @@
+var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
-var sh = require('execSync');
+var urlParse = require('url').parse;
 var fixPath = require('./fixpath');
-var pagesDir = fixPath('_pages');
-var pagesIndex = path.join(pagesDir, 'index.html');
+var index = fs.readFileSync(fixPath('_deploy/index.html'), 'utf8');
+var crawlDir = fixPath('_crawl');
 
 
 module.exports = function (url) {
-    console.log(url);
-    var urlFile = path.basename(url);
-    var pageFile = path.join(pagesDir, urlFile) + '.html';
-    var pageDir = path.dirname(url);
+    var pathname = urlParse(url).pathname;
+    var pageFile = path.join(crawlDir, pathname === '/' ? 'index' : pathname) + '.html';
+    var pageDir = path.dirname(pageFile);
 
     mkdirp.sync(pageDir);
-    sh.run(['cp', pagesIndex, pageFile].join(' '));
+    fs.writeFileSync(pageFile, index);
 };
