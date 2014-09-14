@@ -1,5 +1,4 @@
-var mixins = require('../helpers/viewMixins');
-var HumanView = require('human-view').extend(mixins);
+var View = require('../views/base');
 
 
-module.exports = HumanView.extend(mixins).extend({});
+module.exports = View.extend({});

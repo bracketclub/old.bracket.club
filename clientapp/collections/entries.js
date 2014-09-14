@@ -1,9 +1,8 @@
-var Backbone = require('backbone');
-var _ = require('underscore');
+var Collection = require('ampersand-collection');
 var User = require('../models/user');
 
 
-module.exports = Backbone.Collection.extend({
+module.exports = Collection.extend({
     model: User,
     sortedBy: 'standard',
     sortOrder: 'desc',
