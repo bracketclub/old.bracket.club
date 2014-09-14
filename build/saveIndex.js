@@ -12,6 +12,9 @@ module.exports = function (url) {
     var pageFile = path.join(crawlDir, pathname === '/' ? 'index' : pathname) + '.html';
     var pageDir = path.dirname(pageFile);
 
+    console.log('Copying...');
+    console.log(pageFile);
+
     mkdirp.sync(pageDir);
     fs.writeFileSync(pageFile, index);
 };
