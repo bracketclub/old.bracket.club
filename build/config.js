@@ -11,7 +11,7 @@ var options = require('./options');
 module.exports = {
     jsFileName: appName,
     cssFileName: appName,
-    main: fixPath('clientapp/app2.js'),
+    main: fixPath('clientapp/app.js'),
     developmentMode: !options.minify,
     resourcePrefix: options.build || options.crawl ? '/assets/' : '/',
     libraries: [
