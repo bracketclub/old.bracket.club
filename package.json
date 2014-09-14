@@ -17,6 +17,7 @@
     "ampersand-state": "^4.3.10",
     "ampersand-view": "^7.1.2",
     "andlog": "^1.0.0",
+    "bootstrap": "^3.2.0",
     "bracket-data": "^2.0.14",
     "bracket-data-live": "git+ssh://git@github.com:tweetyourbracket/bracket-data-live.git",
     "bracket-generator": "^2.0.2",
