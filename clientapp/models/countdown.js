@@ -1,9 +1,10 @@
-var HumanModel = require('human-model');
+var Model = require('ampersand-model');
 var moment = require('moment');
-var _ = require('underscore');
+var raf = require('raf');
+var bind = require('lodash-node/modern/function/bind');
 
 
-module.exports = HumanModel.define({
+module.exports = Model.extend({
     initialize: function () {
         if (this.diff > 0 || !this.stopAtZero) {
             this.countdown();
@@ -17,28 +18,24 @@ module.exports = HumanModel.define({
     derived: {
         moment: {
             deps: ['time'],
-            cache: true,
             fn: function () {
                 return moment(this.time);
             }
         },
         diff: {
             deps: ['moment', 'now'],
-            cache: true,
             fn: function () {
                 return this.moment.diff(this.now);
             }
         },
         isBefore: {
             deps: ['moment', 'now'],
-            cache: true,
             fn: function () {
                 return this.now.isBefore(this.moment);
             }
         },
         fromNow: {
             deps: ['moment', 'now'],
-            cache: true,
             fn: function () {
                 return this.moment.fromNow();
             }
@@ -47,9 +44,9 @@ module.exports = HumanModel.define({
     countdown: function () {
         this.now = moment();
         if (this.diff < 0 && this.countdownId && this.stopAtZero) {
-            window.cancelAnimationFrame(this.countdownId);
+            raf.cancel(this.countdownId);
         } else {
-            this.countdownId = window.requestAnimationFrame(_.bind(this.countdown, this));
+            this.countdownId = raf(bind(this.countdown, this));
         }
     }
 });

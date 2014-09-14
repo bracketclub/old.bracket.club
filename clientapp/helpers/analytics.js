@@ -1,5 +1,5 @@
 /* globals ga */
-var log = require('./andlog');
+var log = require('andlog');
 
 module.exports = {
     pageview: function (path) {
