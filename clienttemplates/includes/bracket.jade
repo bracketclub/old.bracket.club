@@ -29,7 +29,9 @@ mixin regionContents(region, pickable)
     - each round in region.rounds
       .round
         - for (var ii = 0, mm = round.length; ii < mm; ii += 2)
-          mixin matchups(round[ii], round[ii+1], pickable)
+          -var team1 = round[ii]
+          - var team2 = round[ii + 1]
+          mixin matchups(team1, team2, pickable)
 
 mixin region(region, isFinal, pickable)
   section.clearfix.region(role='region', class=isFinal ? 'final-region' : 'initial-region', data-id=region.id)
@@ -44,7 +46,9 @@ mixin largeScreenFinal(region, pickable)
         - var round = region.rounds[i]
         .round
           - for (var ii = 0, mm = round.length; ii < mm; ii += 2)
-            mixin matchups(round[ii], round[ii+1], pickable)
+            - var team1 = round[ii]
+            - var team2 = round[ii + 1]
+            mixin matchups(team1, team2, pickable)
 
 mixin side(region1, region2, sideClass, pickable)
   .col-md-6.region-side.clearfix(class=sideClass)
@@ -53,12 +57,15 @@ mixin side(region1, region2, sideClass, pickable)
 
 
 mixin regions(regions, bracket, pickable)
+  - var lastRegion = regions[regions.length - 1]
   - for (var i = 0, m = regions.length - 1; i < m; i += 2)
-    mixin side(regions[i], regions[i+1], i === 0 ? 'left-side' : 'right-side', pickable)
+    - var region = regions[i]
+    - var opposingRegion = regions[i + 1]
+    mixin side(region, opposingRegion, i === 0 ? 'left-side' : 'right-side', pickable)
   .col-md-12.hidden-md.hidden-lg.clearfix
-    mixin region(regions[regions.length-1], true, pickable)
+    mixin region(lastRegion, true, pickable)
   .large-screen-final.hidden-sm.hidden-xs.clearfix
-    mixin largeScreenFinal(regions[regions.length-1], pickable)
+    mixin largeScreenFinal(lastRegion, pickable)
 
 
 .bracket.clearfix.row(data-bracket=bracket.flat, role='bracket')
