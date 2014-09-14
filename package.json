@@ -55,10 +55,10 @@
   },
   "scripts": {
     "dev": "./node_modules/.bin/nodemon -e js,json,jade server",
-    "deploy": "./node_modules/.bin/divshot push production",
+    "deploy-prod": "./node_modules/.bin/divshot push production",
     "update-data": "npm update bracket-data-live",
     "build": "node server --build --minify",
     "crawl": "node server --crawl --minify",
-    "build-prod": "npm run update-data && npm run build && npm run deploy"
+    "build-prod": "npm run update-data && npm run build && npm run deploy-prod"
   }
 }
