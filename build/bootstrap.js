@@ -1,6 +1,5 @@
 var path = require('path');
 var fs = require('fs');
-var fp = require('./fixpath');
 
 
 function toImports (arr) {
@@ -16,11 +15,13 @@ function Bootstrap(options) {
     options || (options = {});
     this.override = toImports(options.override);
     this.append = toImports(options.append);
+
+    return this.build();
 }
 
 Bootstrap.prototype.build = function () {
     var res = fs.readFileSync(path.resolve(this.pathToBootstrap()), 'utf8');
-    res = res.replace(/^(@import ")(.*?)(";)$/gm, '$1' + fp(path.dirname(this.pathToBootstrap())) + '/$2$3');
+    res = res.replace(/^(@import ")(.*?)(";)$/gm, '$1' + path.dirname(this.pathToBootstrap()) + '/$2$3');
     res = res.split('\n');
     res = res.map(function (line) {
         if (line.indexOf('variables.less') > -1) {

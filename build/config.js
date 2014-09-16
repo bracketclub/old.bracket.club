@@ -4,7 +4,6 @@ var templatizer = require('templatizer');
 var fixPath = require('./fixpath');
 var options = require('./options');
 var Bootstrap = require('./bootstrap');
-var fs = require('fs');
 
 
 // ------------------------
@@ -35,19 +34,19 @@ module.exports = {
         templatizer(fixPath('clienttemplates'), fixPath('clientapp/templates.js'));
     },
     beforeBuildCSS: function (cb) {
-        var b = new Bootstrap({
-            override: [
-                fixPath('styles/theme/variables.less'),
-                fixPath('styles/theme/override.less'),
-            ],
-            append: [
-                fixPath('styles/app/app.less')
-            ]
-        });
-        fs.writeFileSync(fixPath('styles/app.less'), b.build());
         lessitizer({
             developmentMode: !options.minify,
-            files: fixPath('styles/app.less'),
+            files: {
+                less: new Bootstrap({
+                    override: [
+                        'styles/theme/variables.less',
+                        'styles/theme/override.less'
+                    ],
+                    append: [
+                        'styles/app/app.less'
+                    ]
+                })
+            },
             outputDir: fixPath('styles')
         }, cb);
     }
