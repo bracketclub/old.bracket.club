@@ -47,7 +47,8 @@ module.exports = {
                         ]
                     },
                     append: 'app/app.less'
-                }).build()
+                }).build(),
+                filename: 'app'
             },
             outputDir: fixPath('styles')
         }, cb);
