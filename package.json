@@ -39,7 +39,7 @@
     "figs": "^0.1.4",
     "jade": "^1.6.0",
     "jshint": "^2.5.5",
-    "lessitizer": "^1.0.0",
+    "lessitizer": "^1.2.0",
     "mkdirp": "^0.5.0",
     "moonboots-express": "^1.0.0",
     "moonboots-static": "^1.1.0",
