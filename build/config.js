@@ -3,7 +3,7 @@ var lessitizer = require('lessitizer');
 var templatizer = require('templatizer');
 var fixPath = require('./fixpath');
 var options = require('./options');
-var Bootstrap = require('./bootstrap');
+var LessImportInserter = require('less-import-inserter');
 
 
 // ------------------------
@@ -37,15 +37,17 @@ module.exports = {
         lessitizer({
             developmentMode: !options.minify,
             files: {
-                less: new Bootstrap({
-                    override: [
-                        'styles/theme/variables.less',
-                        'styles/theme/override.less'
-                    ],
-                    append: [
-                        'styles/app/app.less'
-                    ]
-                })
+                less: new LessImportInserter({
+                    lessPath: fixPath('node_modules/bootstrap/less/bootstrap.less'),
+                    relativeTo: fixPath('styles'),
+                    after: {
+                        variables: [
+                            'theme/variables.less',
+                            'theme/override.less'
+                        ]
+                    },
+                    append: 'app/app.less'
+                }).build()
             },
             outputDir: fixPath('styles')
         }, cb);
