@@ -1,4 +1,4 @@
 var View = require('ampersand-view');
+var jQueryView = require('../helpers/jQueryView');
 
-
-module.exports = View.extend({});
+module.exports = jQueryView(View).extend({});

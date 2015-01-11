@@ -6,31 +6,41 @@ var BracketNav = require('../views/bracketNav');
 
 
 module.exports = PageView.extend({
-    pageTitle: function () {
-        return this.model.username;
-    },
-    htmlClass: 'bracket-page',
     template: templates.pages.user,
-    initialize: function (options) {
-        this.masters = options && options.masters;
+    subviews: {
+        bracket: {
+            hook: 'bracket',
+            prepareView: function (el) {
+                return new BracketView({
+                    el: el,
+                    model: this.model.bracket,
+                });
+            }
+        },
+        userInfo: {
+            hook: 'user-info',
+            prepareView: function (el) {
+                return new UserInfo({
+                    el: el,
+                    model: this.model,
+                });
+            }
+        },
+        bracketNav: {
+            hook: 'bracket-nav',
+            prepareView: function (el) {
+                return new BracketNav({
+                    el: el,
+                    model: app.masters,
+                });
+            }
+        }
     },
-    render: function () {
-        this.renderAndBind();
+    initialize: function () {
+        this.listenToAndRun(this.model, 'change:username', function () {
+            this.pageTitle = this.model.username;
+        });
 
-        this.registerSubview(new BracketView({
-            model: this.model.bracket,
-            pickable: false,
-            el: this.getByRole('bracket')
-        }).render());
-
-        this.registerSubview(new UserInfo({
-            model: this.model,
-            el: this.getByRole('user-info')
-        }).render());
-
-        this.registerSubview(new BracketNav({
-            model: this.masters,
-            el: this.getByRole('bracket-nav')
-        }).render());
+        app.htmlClass = 'bracket-page';
     }
 });

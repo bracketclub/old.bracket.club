@@ -12,13 +12,13 @@ var LessImportInserter = require('less-import-inserter');
 module.exports = {
     jsFileName: appName,
     cssFileName: appName,
-    main: fixPath('clientapp/app2.js'),
+    main: fixPath('clientapp/app.js'),
     developmentMode: !options.minify,
-    resourcePrefix: options.build || options.crawl ? '/assets/' : '/',
+    resourcePrefix: (options.build || options.crawl) ? '/assets/' : '/',
     libraries: [
         fixPath('clientapp/libraries/google-analytics.js'),
         fixPath('node_modules/jquery/dist/jquery.js'),
-        fixPath('clientapp/libraries/typeahead.bundle.js'),
+        fixPath('node_modules/typeahead.js/dist/typeahead.bundle.js'),
         fixPath('node_modules/bootstrap/js/transition.js'),
         fixPath('node_modules/bootstrap/js/alert.js'),
         fixPath('node_modules/bootstrap/js/button.js'),

@@ -7,13 +7,6 @@ var templates = require('../templates');
 
 var historyDefinition = {
     derived: {
-        rewindClass: {
-            deps: ['canRewind'],
-            cache: true,
-            fn: function () {
-                return this.canRewind ? '' : 'disabled';
-            }
-        },
         canRewind: {
             deps: ['history', 'historyIndex'],
             cache: true,
@@ -28,25 +21,12 @@ var historyDefinition = {
                 return this.history.length > 0 && this.historyIndex < this.history.length - 1;
             }
         },
-        fastForwardClass: {
-            deps: ['canFastForward'],
-            cache: true,
-            fn: function () {
-                return this.canFastForward ? '' : 'disabled';
-            }
-        },
+
         hasHistory: {
             deps: ['history', 'historyIndex'],
             cache: true,
             fn: function () {
                 return this.history.length > 1;
-            }
-        },
-        resetClass: {
-            deps: ['hasHistory'],
-            cache: true,
-            fn: function () {
-                return this.hasHistory ? '' : 'disabled';
             }
         },
         current: {
