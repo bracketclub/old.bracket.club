@@ -1,83 +1,77 @@
-var Backbone = require('backbone');
-Backbone.$ = window.jQuery;
 var _ = require('underscore');
-var Router = require('./router');
+var attachFastClick = require('fastclick');
+var qs = require('qs');
+var BracketData = require('bracket-data');
+var State = require('ampersand-state');
+
 var MainView = require('./views/main');
 var Entries = require('./collections/entries');
 var HistoryBracket = require('./models/historyBracket');
 var User = require('./models/user');
-var BracketData = require('bracket-data');
-var attachFastClick = require('fastclick');
-var Countdown = require('./models/countdown');
-var qsStringify = require('querystring').stringify;
+var Countdown = require('./helpers/countdown');
 
 
-module.exports = {
-    // this is the the whole app initter
-    blastoff: function () {
-        // add the ability to bind/unbind/trigger events
-        // to the main app object.
-        _.extend(this, Backbone.Events);
+var App = new State({
+    children: {
+        me: User,
+        locked: Countdown,
+        time: Countdown,
+        masters: HistoryBracket
+    },
 
-        var self = window.app = this;
+    collections: {
+        entries: Entries
+    },
 
-        var bd = new BracketData(_.extend(_.extend({props: ['regex', 'locks']}, window.bootstrap.sportYear)));
-        this.bracketRegex = bd.regex;
-        
-        this.bracketLock = new Countdown({
-            time: bd.locks
-        });
+    props: {
+        bracketRegex: 'string',
+        name: ['string', true, 'Tweet Your Bracket'],
+        id: ['string', true, 'tweetyourbracket'],
+        sport: 'string',
+        year: 'string',
+        newUser: 'boolean'
+    },
 
-        this.masters = new HistoryBracket({
-            history: window.bootstrap.masters,
-            historyIndex: window.bootstrap.masters.length - 1
-        });
-        this.entries = new Entries(window.bootstrap.entries, {masters: this.masters});
+    derived: {
+        lsKey: {
+            deps: ['id', 'sport', 'year'],
+            fn: function () {
+                return [this.id, this.sport, this.year].join('.');
+            }
+        }
+    },
 
-        var userData = {};
+    initialize: function () {
         var username = this.localStorage('username');
-        username && (userData.username = username);
-        var me = window.me = new User(userData);
-
-        // init our URL handlers and the history tracker
-        this.router = new Router();
-        this.history = Backbone.history;
+        if (username) {
+            this.me.username = username;
+        }
 
         this.newUser = this.isNewUser();
 
-        // wait for document ready to render our main view
-        // this ensures the document has a body, etc.
-        $(function () {
-            attachFastClick(document.body);
-
-            // init/render our main view
-            var mainView = self.view = new MainView({
-                model: me,
-                el: document.body,
-                time: new Countdown({
-                    time: window.__timestamp,
-                    stopAtZero: false
-                })
-            }).render();
-
-            // listen for new pages from the router
-            self.router.on('newPage', mainView.setPage, mainView);
-
-            // we have what we need, we can now start our router and show the appropriate page
-            self.history.start({pushState: true, root: '/'});
+        this.view = new MainView({
+            el: document.body,
+            model: this,
+            me: this.me,
+            locked: this.locked,
+            time: this.time
         });
+        this.navigate = this.view.navigate;
+
+        $(_.bind(function () {
+            attachFastClick(document.body);
+            this.view.render();
+        }, this));
     },
 
-    // This is how you navigate around the app.
-    // this gets called by a global click handler that handles
-    // all the <a> tags in the app.
-    // it expects a url without a leading slash.
-    // for example: "costello/settings".
-    navigate: function (page, options) {
-        options || (options = {});
-        var url = (page.charAt(0) === '/') ? page.slice(1) : page;
-        _.defaults(options, {trigger: true});
-        app.history.navigate(url, options);
+    isNewUser: function () {
+        if (app.localStorage('isNewUser') !== false) {
+            // No longer a new user
+            app.localStorage('isNewUser', false);
+            return true;
+        } else {
+            return false;
+        }
     },
 
     bracketNavigate: function (model, bracket) {
@@ -89,12 +83,12 @@ module.exports = {
             url += ('/' + bracket);
         }
         url = url.replace(new RegExp('(' + bracket + ')' + '/entered'), '$1');
-        app.navigate(url, {trigger: false, replace: true});
+        this.navigate(url, {trigger: false, replace: true});
     },
 
     qsNavigate: function (model) {
         var url = window.location.pathname;
-        app.navigate(url + '?' + qsStringify(model.attributes), {trigger: false});
+        this.navigate(url + '?' + qs.stringify(model.toJSON()), {trigger: false});
     },
 
     localBracket: function () {
@@ -109,49 +103,54 @@ module.exports = {
         }
     },
 
-    isNewUser: function () {
-        if (app.localStorage('isNewUser') !== false) {
-            app.localStorage('isNewUser', false);
-            return true;
-        } else {
-            return false;
-        }
-    },
-
     logout: function () {
-        me.clear();
-        app.localStorage('username', null);
-    },
-
-    sportYearKey: function () {
-        return window.bootstrap.sportYear.sport + '.' + window.bootstrap.sportYear.year;
+        this.me.clear();
+        this.localStorage('username', null);
     },
 
     localStorage: function (key, val) {
-        var localStorageKey = 'tweetyourbracket.' + this.sportYearKey();
-        var storage = localStorage[localStorageKey] || '{}';
-        var storageJSON;
+        var localStorageKey = this.lsKey;
+        var current = localStorage[localStorageKey] || '{}';
 
         try {
-            storageJSON = JSON.parse(storage);
+            current = JSON.parse(current);
         } catch (e) {
-            storageJSON = {};
+            current = {};
         }
         
         if (key && typeof val !== 'undefined') {
-            storageJSON[key] = val;
-            localStorage[localStorageKey] = JSON.stringify(storageJSON);
+            current[key] = val;
+            localStorage[localStorageKey] = JSON.stringify(current);
             return val;
         } else if (key) {
-            return storageJSON[key];
+            return current[key];
         }
     },
 
     __reset: function () {
-        var localStorageKey = 'tweetyourbracket.' + this.sportYearKey();
-        localStorage[localStorageKey] = JSON.stringify({});
+        localStorage[this.lsKey] = '{}';
     }
-};
+});
 
-// run it
-module.exports.blastoff();
+
+var bsData = window.bootstrap;
+var bracketData = new BracketData(_.extend({
+    props: ['regex', 'locks']
+}, bsData.sportYear));
+
+
+window.app = new App({
+    bracketRegex: bracketData.regex,
+    locked: {
+        time: bracketData.locks
+    },
+    time: {
+        time: window.__timestamp,
+        stopAtZero: false
+    },
+    masters: {
+        history: bsData.masters,
+        historyIndex: bsData.masters.length - 1
+    },
+    entries: bsData.entries
+});

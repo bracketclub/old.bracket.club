@@ -1,20 +1,18 @@
-var Backbone = require('backbone');
+var parse = require('./helpers/parseQuerystring');
+var _ = require('underscore');
+
 var HomePage = require('./pages/entry');
 var ResultsPage = require('./pages/results');
 var UserPage = require('./pages/user');
 var _404Page = require('./pages/404');
+var CollaboratePage = require('./pages/collaborate');
+
 var Bracket = require('./models/liveBracket');
 var RTCBracket = require('./models/rtcBracket');
 var SortOptions = require('./models/sortOptions');
-var CollaboratePage = require('./pages/collaborate');
-var _ = require('underscore');
-var qsParse = require('querystring').parse;
-var currentQS = function () {
-    return qsParse(window.location.search.slice(1));
-};
 
 
-module.exports = Backbone.Router.extend({
+module.exports = {
     routes: {
         '': 'entry',
 
@@ -73,14 +71,14 @@ module.exports = Backbone.Router.extend({
         }
 
         // If we didnt set some props they will be handled by the defaults
-        this.trigger('newPage', new HomePage({
+        this.triggerPage(new HomePage({
             model: new Bracket(props),
             fromEntry: entered === 'entered'
         }));
     },
 
-    results: function () {
-        var qs = currentQS();
+    results: function (options) {
+        var qs = parse(options);
         var sortOptions = {};
         var gameIndex = parseInt(qs.game, 10);
 
@@ -96,7 +94,7 @@ module.exports = Backbone.Router.extend({
             sortOptions.sortBy = qs.sortBy;
         }
 
-        this.trigger('newPage', new ResultsPage({
+        this.triggerPage(new ResultsPage({
             collection: app.entries,
             sortOptions: new SortOptions(sortOptions),
             model: app.masters
@@ -105,7 +103,7 @@ module.exports = Backbone.Router.extend({
     userResults: function (username) {
         var user = app.entries.findWhere({username: username});
         if (user) {
-            this.trigger('newPage', new UserPage({
+            this.triggerPage(new UserPage({
                 model: user,
                 masters: app.masters
             }));
@@ -124,7 +122,7 @@ module.exports = Backbone.Router.extend({
             data.current = bracket;
         }
 
-        this.trigger('newPage', new CollaboratePage({
+        this.triggerPage(new CollaboratePage({
             roomId: room,
             model: new RTCBracket(data)
         }));
@@ -136,7 +134,7 @@ module.exports = Backbone.Router.extend({
             data.current = bracket;
         }
 
-        this.trigger('newPage', new CollaboratePage({
+        this.triggerPage(new CollaboratePage({
             roomId: room,
             videoOnly: true,
             model: new RTCBracket(data)
@@ -152,6 +150,6 @@ module.exports = Backbone.Router.extend({
     },
 
     _404: function (options) {
-        this.trigger('newPage', new _404Page(options));
+        this.triggerPage(new _404Page(options));
     }
-});
+};

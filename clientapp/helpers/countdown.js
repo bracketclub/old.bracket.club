@@ -1,10 +1,10 @@
-var Model = require('ampersand-model');
+var State = require('ampersand-state');
 var moment = require('moment');
 var raf = require('raf');
-var bind = require('lodash-node/modern/function/bind');
+var bind = require('underscore').bind;
 
 
-module.exports = Model.extend({
+module.exports = State.extend({
     initialize: function () {
         if (this.diff > 0 || !this.stopAtZero) {
             this.countdown();
@@ -12,7 +12,7 @@ module.exports = Model.extend({
     },
     session: {
         time: ['string', true, ''],
-        now: ['object', true, moment()],
+        now: ['object', true, function () { return moment() ;}],
         stopAtZero: ['boolean', true, true]
     },
     derived: {

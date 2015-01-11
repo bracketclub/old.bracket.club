@@ -1,17 +1,3 @@
-mixin me(me)
-  - if (me.username)
-    li(role="user-nav")
-      a(href="#", data-toggle="dropdown")
-        | #{me.username}
-        b.caret
-      ul.dropdown-menu(role="menu")
-        li
-          a(href=me.pageLink) Bracket
-        li.divider
-        li
-          a(href="#", role="logout") Not you?
-
-
 body
   header
     .navbar.navbar-default(role="navigation")
@@ -24,21 +10,30 @@ body
             span.icon-bar
           a.navbar-brand(href="/") Tweet Your Bracket
 
-        #header-nav.collapse.navbar-collapse(role='main-nav-collapse')
+        #header-nav.collapse.navbar-collapse(data-hook='main-nav-collapse')
           form.navbar-form.navbar-left
             .form-group
-              input.form-control(type="text", placeholder="username", role="username-search")
-          ul.nav.navbar-nav.navbar-right(role="main-nav")
+              input.form-control(type="text", placeholder="username", data-hook="username-search")
+          ul.nav.navbar-nav.navbar-right(data-hook="main-nav")
             li
-              a(href="#", role="subscribe") Subscribe
+              a(href="#", data-hook="subscribe") Subscribe
             li
               a(href="/results") Results
-            li(role="collaborate-nav-item")
-              a(href="#", role="collaborate") Collaborate
-            mixin me(me)
+            li(data-hook="collaborate-nav-item")
+              a(href="#", data-hook="collaborate") Collaborate
+            li(data-hook="user-nav")
+              a(href="#", data-toggle="dropdown")
+                span(data-hook='username')
+                b.caret
+              ul.dropdown-menu(role="menu")
+                li
+                  a(data-hook='user-link') Bracket
+                li.divider
+                li
+                  a(href="#", data-hook="logout") Not you?
 
   .container
-    main#pages(role="page-container")
+    main#pages(data-hook="page-container")
 
     footer.footer
       ul.footer-links
@@ -73,4 +68,4 @@ body
         |  in Arizona.
       p
         | Last updated: 
-        span(role='last-updated')
+        span(data-hook='last-updated')

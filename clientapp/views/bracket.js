@@ -6,6 +6,29 @@ var track = require('../helpers/analytics');
 
 module.exports = HumanView.extend({
     template: templates.includes.bracket,
+    derived: {
+        rewindClass: {
+            deps: ['canRewind'],
+            cache: true,
+            fn: function () {
+                return this.canRewind ? '' : 'disabled';
+            }
+        },
+        fastForwardClass: {
+            deps: ['canFastForward'],
+            cache: true,
+            fn: function () {
+                return this.canFastForward ? '' : 'disabled';
+            }
+        },
+        resetClass: {
+            deps: ['hasHistory'],
+            cache: true,
+            fn: function () {
+                return this.hasHistory ? '' : 'disabled';
+            }
+        },
+    },
     events: {
         'click a.pickable': 'pickGame'
     },

@@ -3,14 +3,20 @@ var templates = require('../templates');
 
 
 module.exports = PageView.extend({
-    pageTitle: '404',
     template: templates.pages._404,
-    initialize: function (options) {
-        options || (options = {});
-        this.message = options.message || '';
-        this.text = options.text || '';
+    props: {
+        pageTitle: ['string', true, '404'],
+        errorTitle: ['string', true, 'Oh no! This page does not exist!'],
+        text: ['string', true, '']
     },
-    render: function () {
-        this.renderAndBind({message: this.message, text: this.text});
+    bindings: {
+        errorTitle: {
+            type: 'text',
+            hook: 'title'
+        },
+        text: {
+            type: 'text',
+            hook: 'text'
+        }
     }
 });

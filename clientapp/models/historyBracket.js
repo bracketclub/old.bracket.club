@@ -1,5 +1,5 @@
 var HumanModel = require('human-model');
-var baseBracket = require('../helpers/bracket');
+var baseBracket = require('./bracket');
 
 
 module.exports = HumanModel.define(baseBracket({

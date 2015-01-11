@@ -1,6 +1,6 @@
 {
     "asi": false,
-    "browser": true,
+    "browserify": true,
     "curly": false,
     "expr": true,
     "loopfunc": true,
@@ -8,7 +8,8 @@
     "predef": [
       "$",
       "app",
-      "me"
+      "me",
+      "twttr"
     ],
     "undef": true,
     "unused": true
