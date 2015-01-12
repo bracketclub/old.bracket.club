@@ -1,3 +1,4 @@
+Function.prototype.bind = require('function-bind');
 var test = require('tape');
 var Bracket = require('../clientapp/models/bracket');
 var GenerateTestBracket = function () {

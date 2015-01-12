@@ -25,7 +25,7 @@ module.exports = HumanView.extend({
                 return this.isMe ? 'Not you?' : 'Is this you?';
             }
         },
-    }
+    },
 
     toggleMe: function () {
         if (this.model.isMe) {
