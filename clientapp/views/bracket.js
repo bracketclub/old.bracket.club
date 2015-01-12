@@ -28,6 +28,29 @@ module.exports = HumanView.extend({
                 return this.hasHistory ? '' : 'disabled';
             }
         },
+        progressBar: {
+            deps: ['percent', 'progressText', 'progressNow', 'progressTotal'],
+            cache: true,
+            fn: function () {
+                return templates.includes.progressBar({
+                    progressNow: this.progressNow,
+                    progressTotal: this.progressTotal,
+                    percent: this.percent,
+                    progressText: this.progressText
+                });
+            }
+        },
+        enterButton: {
+            deps: ['complete'],
+            cache: true,
+            fn: function () {
+                return templates.includes.tweetButton({
+                    url: this.current + '/entered',
+                    text: 'Check out my #madness #bracket!',
+                    complete: this.complete
+                });
+            }
+        },
     },
     events: {
         'click a.pickable': 'pickGame'

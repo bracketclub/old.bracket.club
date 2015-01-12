@@ -1,175 +1,126 @@
 var _ = require('underscore');
+var State = require('./base');
 var BracketValidator = require('bracket-validator');
 var BracketUpdater = require('bracket-updater');
 var BracketGenerator = require('bracket-generator');
 var BracketData = require('bracket-data');
-var templates = require('../templates');
 
-var historyDefinition = {
-    derived: {
-        canRewind: {
-            deps: ['history', 'historyIndex'],
-            cache: true,
-            fn: function () {
-                return this.history.length > 0 && this.historyIndex > 0;
-            }
-        },
-        canFastForward: {
-            deps: ['history', 'historyIndex'],
-            cache: true,
-            fn: function () {
-                return this.history.length > 0 && this.historyIndex < this.history.length - 1;
-            }
-        },
 
-        hasHistory: {
-            deps: ['history', 'historyIndex'],
-            cache: true,
-            fn: function () {
-                return this.history.length > 1;
-            }
-        },
-        current: {
-            deps: ['history', 'historyIndex'],
-            cache: true,
-            fn: function () {
-                return this.history[this.historyIndex] || this.constants.EMPTY;
-            }
-        },
-        hasStarted: {
-            deps: ['history'],
-            cache: true,
-            fn: function () {
-                return this.history.length > 1;
+module.exports = State.extend({
+    dataTypes: {
+        region: {
+            set: function (newVal) {
+                var newType = typeof newVal;
+                return {
+                    val: newVal,
+                    type: newType === 'object' ? 'region' : newType
+                };
+            },
+            default: function () {
+                return {};
+            },
+            compare: function (currentVal, newVal) {
+                // Deep equals
+                var isEqual = _.isEqual(currentVal, newVal);
+
+                // Trigger the name of the region for easier consumption
+                if (!isEqual) {
+                    this.trigger('change:region' + newVal.id, this, newVal);
+                }
+
+                return isEqual;
             }
         }
     },
-    session: {
-        historyIndex: ['number', true, 0],
-        history: ['array', true, window.bootstrap.masters.slice(0, 1)]
+    props: {
+        current: 'string',
+        progressTotal: 'number',
+        sport: 'string',
+        year: 'string',
+        _region1: 'region',
+        _region2: 'region',
+        _region3: 'region',
+        _region4: 'region',
+        _regionFinal: 'region',
+        progressText: ['string', true, 'games completed']
     },
-    base: {
-        previousHistory: function () {
-            this.historyIndex = Math.max(0, this.historyIndex - 1);
-        },
-        nextHistory: function () {
-            this.historyIndex = Math.min(this.historyIndex + 1, this.history.length - 1);
-        },
-        firstHistory: function () {
-            this.historyIndex = 0;
-        },
-        lastHistory: function () {
-            this.historyIndex = this.history.length - 1;
-        }
-    }
-};
-var definition = {
     derived: {
         complete: {
             deps: ['current'],
-            cache: true,
             fn: function () {
                 return this.current.indexOf(this.constants.UNPICKED_MATCH) === -1;
             }
         },
         progressNow: {
-            deps: ['current', 'progressTotal'],
-            cache: true,
+            deps: ['current'],
             fn: function () {
-                return this.progressTotal - this.current.replace(new RegExp('[^' + this.constants.UNPICKED_MATCH + ']', 'gi'), '').length;
+                return this.progressTotal - this.current.replace(this.unpickedRegex, '').length;
             }
         },
-        progressTotal: {
-            deps: [],
-            cache: true,
-            fn: function () {
-                return (this.constants.TEAMS_PER_REGION * this.constants.REGION_COUNT) - 1;
-            }
-        },
-        percent: {
-            deps: ['progressTotal', 'progressNow'],
-            cache: true,
+        progressPercent: {
+            deps: ['progressNow'],
             fn: function () {
                 return  (this.progressNow / this.progressTotal) * 100;
             }
         },
         hasStarted: {
             deps: ['progressNow'],
-            cache: true,
             fn: function () {
                 return this.progressNow > 0;
             }
         },
-        progressBar: {
-            deps: ['percent', 'progressText', 'progressNow', 'progressTotal'],
-            cache: true,
+        sportYear: {
+            deps: ['sport', 'year'],
             fn: function () {
-                return templates.includes.progressBar({
-                    progressNow: this.progressNow,
-                    progressTotal: this.progressTotal,
-                    percent: this.percent,
-                    progressText: this.progressText
-                });
-            }
-        },
-        ordered: {
-            deps: ['expandedBracket'],
-            cache: true,
-            fn: function () {
-                var v = this.expandedBracket;
-
-                if (v instanceof Error) {
-                    this.trigger('invalid', this, v);
-                    return null;
-                }
-
-                var f = v[this.constants.FINAL_ID];
-                var first = v[this.constants.REGION_IDS[0]];
-                var second = v[first.sameSideAs];
-                var others = _.reject(v, function (r) { return _.contains([f.id, first.id, second.id], r.id); });
-                return [first, v[first.sameSideAs], others[0], others[1], f];
-            }
-        },
-        expandedBracket: {
-            deps: ['current'],
-            cache: true,
-            fn: function () {
-                return this.validator.validate(this.current);
+                return {
+                    sport: this.sport,
+                    year: this.year
+                };
             }
         }
     },
-    session: {
-        progressText: ['string', false, 'games completed']
+    initialize: function () {
+        this.createHelpers();
+        this.listenTo(this, 'change:current', this.updateRegions);
+        this.updateRegions();
     },
-    base: {
-        type: 'bracket',
-        initialize: function () {
-            this.updater = new BracketUpdater(window.bootstrap.sportYear);
-            this.validator = new BracketValidator(window.bootstrap.sportYear);
-            this.generator = new BracketGenerator(window.bootstrap.sportYear);
-            this.constants = new BracketData(_.extend({props: ['constants']}, window.bootstrap.sportYear)).constants;
-            this.afterInit && this.afterInit();
-        },
-        updateGame: function (data) {
-            data.currentMaster = this.current;
-            var update = this.updater.update(data);
+    createHelpers: function () {
+        this.updater = new BracketUpdater(this.sportYear);
+        this.validator = new BracketValidator(this.sportYear);
+        this.generator = new BracketGenerator(this.sportYear);
+        this.constants = new BracketData(_.extend({props: ['constants']}, this.sportYear)).constants;
+        this.progressTotal = (this.constants.TEAMS_PER_REGION * this.constants.REGION_COUNT) - 1;
+        this.unpickedRegex = new RegExp('[^' + this.constants.UNPICKED_MATCH + ']', 'gi');
+    },
+    getBracketObject: function () {
+        return this.validator.validate(this.current);
+    },
+    updateRegions: function () {
+        var validated = this.getBracketObject();
 
-            if (update instanceof Error) {
-                this.trigger('invalid', this, update);
-            } else if (update !== this.current) {
-                this.updateBracket(update);
-            }
+        if (validated instanceof Error) {
+            return this.trigger('invalid', this, validated);
         }
+
+        this._regionFinal = validated[this.constants.FINAL_ID];
+        this._region1 = validated[this.constants.REGION_IDS[0]];
+        this._region2 = validated[this._region1.sameSideAs];
+        this._region3 = _.find(validated, function (region) {
+            return [this._region1.id, this._region2.id, this._regionFinal.id].indexOf(region.id) === -1;
+        }, this);
+        this._region4 = validated[this._region3.sameSideAs];
+    },
+    updateGame: function (data) {
+        data.currentMaster = this.current;
+        var update = this.updater.update(data);
+
+        if (update instanceof Error) {
+            this.trigger('invalid', this, update);
+        } else if (update !== this.current) {
+            this.updateBracket(update);
+        }
+    },
+    updateBracket: function (update) {
+        this.current = update;
     }
-};
-
-module.exports = function (options) {
-    options || (options = {});
-    _.defaults(options, {
-        history: true
-    });
-    return _.extend({}, definition.base, options.history ? historyDefinition.base : {}, options.base || {}, {
-        session: _.extend({}, definition.session, options.history ? historyDefinition.session : {}, options.session || {}),
-        derived: _.extend({}, definition.derived, options.history ? historyDefinition.derived : {}, options.derived || {})
-    });
-};
+});

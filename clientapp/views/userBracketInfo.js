@@ -17,6 +17,16 @@ module.exports = HumanView.extend({
         this.renderAndBind({user: this.model});
         return this;
     },
+
+    derived: {
+        meLink: {
+            deps: ['isMe'],
+            fn: function () {
+                return this.isMe ? 'Not you?' : 'Is this you?';
+            }
+        },
+    }
+
     toggleMe: function () {
         if (this.model.isMe) {
             app.logout();
