@@ -1,12 +1,11 @@
-var HumanModel = require('human-model');
+var State = require('./base');
 
 
-module.exports = HumanModel.define({
-    type: 'sortOptions',
-    session: {
+module.exports = State.extend({
+    props: {
         order: ['string', true, 'desc'],
         sortBy: ['string', true, 'standard'],
-        game: ['number', true, window.bootstrap.masters.length - 1]
+        game: ['number', true, 0]
     },
     setSortBy: function (sortBy) {
         var current = this.sortBy;

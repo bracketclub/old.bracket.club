@@ -8,8 +8,8 @@ var _404Page = require('./pages/404');
 var CollaboratePage = require('./pages/collaborate');
 
 var Bracket = require('./models/liveBracket');
-var RTCBracket = require('./models/rtcBracket');
-var SortOptions = require('./models/sortOptions');
+//var RTCBracket = require('./models/rtcBracket');
+//var SortOptions = require('./models/sortOptions');
 
 
 module.exports = {

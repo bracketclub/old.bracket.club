@@ -1,75 +1,25 @@
-var HumanModel = require('human-model');
-var baseBracket = require('../helpers/bracket');
-var templates = require('../templates');
+var HistoryBracket = require('./historyBracket');
 
 
-module.exports = HumanModel.define(baseBracket({
-    history: true,
-    session: {
+module.exports = HistoryBracket.extend({
+    props: {
         progressText: ['string', true, 'picks made']
     },
-    base: {
-        afterInit: function () {
-            this.needsEmptyBase && this.setEmptyBase();
-        },
-        resetHistory: function () {
-            this.historyIndex = 0;
-            this.history = [this.constants.EMPTY];
-            this.save();
-        },
-        setAsLower: function () {
-            this.updateBracket(this.generator.generate('lower'));
-        },
-        setAsHigher: function () {
-            this.updateBracket(this.generator.generate('higher'));
-        },
-        setAsRandom: function () {
-            this.updateBracket(this.generator.generate('random'));
-        },
-        setEmptyBase: function () {
-            this.history.unshift(this.constants.EMPTY);
-            this.history.length === 1 ? this.historyIndex = 0 : this.historyIndex++;
-        },
-        updateBracket: function (bracket) {
-            if (bracket === this.current) return;
-            if (this.canFastForward) {
-                this.history = this.history.slice(0, this.historyIndex + 1).concat(bracket);
-            } else {
-                this.history.push(bracket);
-            }
-            this.historyIndex = this.history.length - 1;
-            this.save();
-        },
-        save: function () {
+    generate: function (type) {
+        this.updateBracket(this.generator.generate(type));
+    },
+    resetHistory: function () {
+        HistoryBracket.prototype.resetHistory.apply(this, arguments);
+        this.save();
+    },
+    updateBracket: function () {
+        HistoryBracket.prototype.updateBracket.apply(this, arguments);
+        this.save();
+    },
+    save: function () {
+        if (typeof app !== 'undefined' && app.localStorage) {
             app.localStorage('history', this.history);
             app.localStorage('historyIndex', this.historyIndex);
         }
-    },
-    derived: {
-        needsEmptyBase: {
-            deps: ['hasHistory', 'history'],
-            cache: true,
-            fn: function () {
-                return this.history.length === 0 || this.history[0] !== this.constants.EMPTY;
-            }
-        },
-        enterButton: {
-            deps: ['complete'],
-            cache: true,
-            fn: function () {
-                return templates.includes.tweetButton({
-                    url: this.current + '/entered',
-                    text: 'Check out my #madness #bracket!',
-                    complete: this.complete
-                });
-            }
-        },
-        isEnterable: {
-            deps: ['complete', 'enterButton'],
-            cache: true,
-            fn: function () {
-                return this.complete && !!this.enterButton;
-            }
-        }
     }
-}));
+});
