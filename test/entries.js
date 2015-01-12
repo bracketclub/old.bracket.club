@@ -13,7 +13,17 @@ var CreateEntries = function () {
 test('Entries', function (t) {
     var entries = CreateEntries();
 
-    t.equal(entries.scores.length, liveData.entries.length);
+    t.equal(entries.first().username, 'SampsonJoshua');
+    t.equal(entries.last().username, 'jacobheun');
+    t.equal(entries.first().bracket.standard, 400);
+    t.equal(entries.last().bracket.standard, 410);
+
+    entries.setComparator('standard');
+
+    t.equal(entries.at(0).username, 'robcube');
+    t.equal(entries.last().username, 'richardiii');
+    t.equal(entries.first().bracket.standard, 1160);
+    t.equal(entries.last().bracket.standard, 240);
 
     t.end();
 });

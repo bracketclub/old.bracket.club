@@ -1,10 +1,10 @@
 var State = require('./base');
 var _ = require('underscore');
 var LockedBracket = require('./lockedBracket');
-var moment = require('moment');
 
 
 module.exports = State.extend({
+    idAttribute: 'username',
     session: {
         me: 'state',
         history: 'array',
@@ -18,16 +18,10 @@ module.exports = State.extend({
         data_id: ['string', true, ''],
         name: ['string', true, ''],
         profile_pic: ['string', true, ''],
-        created: ['string', true, ''],
+        created: ['date', true, ''],
         bracket: 'any'
     },
     derived: {
-        createdMoment: {
-            deps: ['created'],
-            fn: function () {
-                return moment(this.created);
-            }
-        },
         profileLink: {
             deps: ['username'],
             fn: function () {

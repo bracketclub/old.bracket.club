@@ -30,13 +30,13 @@ test('Initialize at end of tournament', function (t) {
     t.equal(bracket.current, _.last(liveData.masters), 'current gets set as empty');
     t.equal(bracket.hasStarted, true, 'has not started');
     t.equal(bracket.needsEmptyBase, false, 'does not need empty base');
-    t.equal(bracket.score.standard, 610);
+    t.equal(bracket.standard, 610);
 
     bracket.getPrevious(7);
-    t.equal(bracket.score.standard, 530);
+    t.equal(bracket.standard, 530);
 
     bracket.getFirst();
-    t.equal(bracket.score.standard, 0);
+    t.equal(bracket.standard, 0);
 
     t.end();
 });
@@ -50,13 +50,13 @@ test('Can be initialized via a user', function (t) {
     t.equal(user.bracket.current, _.last(liveData.masters), 'current gets set as empty');
     t.equal(user.bracket.hasStarted, true, 'has not started');
     t.equal(user.bracket.needsEmptyBase, false, 'does not need empty base');
-    t.equal(user.bracket.score.standard, 610);
+    t.equal(user.bracket.standard, 610);
 
     user.bracket.getPrevious(7);
-    t.equal(user.bracket.score.standard, 530);
+    t.equal(user.bracket.standard, 530);
 
     user.bracket.getFirst();
-    t.equal(user.bracket.score.standard, 0);
+    t.equal(user.bracket.standard, 0);
 
     t.end();
 });
