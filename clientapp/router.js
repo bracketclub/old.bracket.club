@@ -1,15 +1,9 @@
 var parse = require('./helpers/parseQuerystring');
 var _ = require('underscore');
-
 var HomePage = require('./pages/entry');
 var ResultsPage = require('./pages/results');
 var UserPage = require('./pages/user');
 var _404Page = require('./pages/404');
-var CollaboratePage = require('./pages/collaborate');
-
-var Bracket = require('./models/liveBracket');
-//var RTCBracket = require('./models/rtcBracket');
-//var SortOptions = require('./models/sortOptions');
 
 
 module.exports = {
@@ -19,11 +13,6 @@ module.exports = {
         'results': 'results',
         'results?*qs': 'results',
         'user/:user': 'userResults',
-
-        'collaborate/:room': 'collaborate',
-        'collaborate/:room/:bracket': 'collaborate',
-        'video/:room': 'videoOnly',
-        'video/:room/:bracket': 'videoOnly',
 
         ':bracket': 'tryBracket',
         ':bracket/:entered': 'tryBracket',
@@ -113,32 +102,6 @@ module.exports = {
                 text: 'If you just tweeted this entry, it may take up to 10 minutes for it to be visible here.'
             });
         }
-    },
-
-    collaborate: function (room, bracket) {
-        var data = {};
-
-        if (bracket) {
-            data.current = bracket;
-        }
-
-        this.triggerPage(new CollaboratePage({
-            roomId: room,
-            model: new RTCBracket(data)
-        }));
-    },
-    videoOnly: function (room, bracket) {
-        var data = {};
-
-        if (bracket) {
-            data.current = bracket;
-        }
-
-        this.triggerPage(new CollaboratePage({
-            roomId: room,
-            videoOnly: true,
-            model: new RTCBracket(data)
-        }));
     },
 
     tryBracket: function (bracket, entered) {
