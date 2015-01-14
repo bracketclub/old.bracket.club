@@ -1,7 +1,7 @@
 var BracketScorer = require('bracket-scorer');
 var _ = require('underscore');
 var ResultBracket = require('./resultBracket');
-var HistoryBracket = require('./HistoryBracket');
+var HistoryBracket = require('./historyBracket');
 
 
 module.exports = ResultBracket.extend({
