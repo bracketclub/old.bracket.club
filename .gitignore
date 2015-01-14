@@ -17,5 +17,7 @@ npm-debug.log
 
 *.rdb
 
+_crawl/
+_deploy/
 clientapp/templates.js
 styles/app.css
