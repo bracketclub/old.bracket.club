@@ -5,7 +5,7 @@ var templates = require('../templates');
 var CollabDialog = require('../modals/collaborate');
 var SubscribeDialog = require('../modals/subscribe');
 var track = require('../helpers/analytics');
-var UserTypeahead = require('./UserTypeahead');
+var UserTypeahead = require('./userTypeahead');
 var router = require('../router');
 
 
