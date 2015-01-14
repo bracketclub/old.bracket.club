@@ -1,5 +1,5 @@
 var BaseView = require('../views/base');
-var bind = require('lodash-node/modern/function/bind');
+var bind = require('underscore').bind;
 
 
 module.exports = BaseView.extend({

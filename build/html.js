@@ -1,6 +1,6 @@
 var fs = require('fs');
 var timestamp = require('moment')().utc().format();
-var extend = require('lodash-node/modern/objects/assign');
+var extend = require('underscore').extend;
 var jade = require('jade');
 var data = require('./data');
 var fixPath = require('./fixpath');
