@@ -1,6 +1,6 @@
 var BaseView = require('./modal');
 var templates = require('../templates');
-var slugify = require('../helpers/slugify');
+var slugify = require('slug');
 var uuid = require('node-uuid');
 
 
