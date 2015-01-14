@@ -61,7 +61,7 @@ module.exports = {
 
         // If we didnt set some props they will be handled by the defaults
         this.triggerPage(new HomePage({
-            model: new Bracket(props),
+            model: {},//new Bracket(props),
             fromEntry: entered === 'entered'
         }));
     },
@@ -85,7 +85,7 @@ module.exports = {
 
         this.triggerPage(new ResultsPage({
             collection: app.entries,
-            sortOptions: new SortOptions(sortOptions),
+            sortOptions: {},//new SortOptions(sortOptions),
             model: app.masters
         }));
     },
