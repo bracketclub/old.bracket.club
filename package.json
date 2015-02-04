@@ -17,6 +17,7 @@
     "bracket-scorer": "^2.0.0",
     "bracket-updater": "^2.0.1",
     "bracket-validator": "^2.0.2",
+    "divshot-cli": "^1.7.0",
     "express": "3.x.x",
     "fastclick": "^1.0.0",
     "favicon-setter": "~0.1.1",
@@ -27,23 +28,13 @@
     "jade": "~1.2.0",
     "jquery": "~2.1.0",
     "less": "~1.6.3",
+    "lessitizer": "^1.2.0",
     "moment": "^2.5.1",
-    "moonboots-express": "git+https://github.com/lukekarrys/moonboots-express#0174de7a7c5cc56e956a6232267721440e5786c3",
+    "moonboots-static": "^1.2.0",
     "node-uuid": "^1.4.1",
     "simplewebrtc": "~1.1.1",
+    "templatizer": "^1.1.1",
     "underscore": "1.5.2"
-  },
-  "devDependencies": {
-    "async": "~0.2.10",
-    "divshot-cli": "^0.7.0",
-    "execSync": "~1.0.1-pre",
-    "mkdirp": "~0.3.5",
-    "nodemon": "~1.0.14",
-    "precommit-hook": "~0.3.8",
-    "rmrf": "~1.0.2",
-    "simplecrawler": "^0.3.6",
-    "templatizer": "~0.2.10",
-    "rndr-me": "^1.0.0"
   },
   "homepage": "http://tweetyourbracket.com",
   "jshintConfig": {
@@ -78,12 +69,10 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com.git"
   },
   "scripts": {
-    "local": "./node_modules/.bin/nodemon -e js,json,jade server --local",
-    "production": "./node_modules/.bin/divshot push production",
-    "update-data": "npm update bracket-data-live",
-    "build": "node server --build",
-    "pages": "node server --pages",
+    "build": "node server",
     "build-prod": "npm run update-data && npm run build && npm run production",
-    "render": "phantomjs ./node_modules/rndr-me/server.js --port=8001 --readyEvent=renderReady"
+    "production": "./node_modules/.bin/divshot push production",
+    "start": "node server",
+    "update-data": "npm update bracket-data-live"
   }
 }
