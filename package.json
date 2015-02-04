@@ -70,8 +70,8 @@
   },
   "scripts": {
     "build": "node server",
-    "build-prod": "npm run update-data && npm run build && npm run production",
-    "production": "./node_modules/.bin/divshot push production",
+    "build-prod": "npm run update-data && npm run build && npm run deploy -- push production",
+    "deploy": "divshot",
     "start": "node server",
     "update-data": "npm update bracket-data-live",
     "lint": "exit 0",
