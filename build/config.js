@@ -30,6 +30,7 @@ module.exports = {
         fixPath('node_modules/bootstrap/js/popover.js')
     ],
     stylesheets: [fixPath('styles/app.css')],
+    browserify: {transforms: ['reactify', 'babelify']},
     beforeBuildJS: function () {
         templatizer(fixPath('clienttemplates'), fixPath('clientapp/templates.js'));
     },
