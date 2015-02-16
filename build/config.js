@@ -12,25 +12,27 @@ var LessImportInserter = require('less-import-inserter');
 module.exports = {
     jsFileName: appName,
     cssFileName: appName,
-    main: fixPath('clientapp/app.js'),
+    main: fixPath('clientapp/app-react.jsx'),
     developmentMode: !options.minify,
     resourcePrefix: (options.build || options.crawl) ? '/assets/' : '/',
     libraries: [
-        fixPath('clientapp/libraries/google-analytics.js'),
-        fixPath('node_modules/jquery/dist/jquery.js'),
-        fixPath('node_modules/typeahead.js/dist/typeahead.bundle.js'),
-        fixPath('node_modules/bootstrap/js/transition.js'),
-        fixPath('node_modules/bootstrap/js/alert.js'),
-        fixPath('node_modules/bootstrap/js/button.js'),
-        fixPath('node_modules/bootstrap/js/dropdown.js'),
-        fixPath('node_modules/bootstrap/js/collapse.js'),
-        fixPath('node_modules/bootstrap/js/modal.js'),
-        fixPath('node_modules/bootstrap/js/affix.js'),
-        fixPath('node_modules/bootstrap/js/tooltip.js'),
-        fixPath('node_modules/bootstrap/js/popover.js')
+        // fixPath('clientapp/libraries/google-analytics.js'),
+        // fixPath('node_modules/jquery/dist/jquery.js'),
+        // fixPath('node_modules/typeahead.js/dist/typeahead.bundle.js'),
+        // fixPath('node_modules/bootstrap/js/transition.js'),
+        // fixPath('node_modules/bootstrap/js/alert.js'),
+        // fixPath('node_modules/bootstrap/js/button.js'),
+        // fixPath('node_modules/bootstrap/js/dropdown.js'),
+        // fixPath('node_modules/bootstrap/js/collapse.js'),
+        // fixPath('node_modules/bootstrap/js/modal.js'),
+        // fixPath('node_modules/bootstrap/js/affix.js'),
+        // fixPath('node_modules/bootstrap/js/tooltip.js'),
+        // fixPath('node_modules/bootstrap/js/popover.js')
     ],
     stylesheets: [fixPath('styles/app.css')],
-    browserify: {transforms: ['reactify', 'babelify']},
+    browserify: {
+        extensions: ['.jsx']
+    },
     beforeBuildJS: function () {
         templatizer(fixPath('clienttemplates'), fixPath('clientapp/templates.js'));
     },
