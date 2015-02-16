@@ -35,12 +35,15 @@
     "node-uuid": "^1.4.2",
     "qs": "^2.3.3",
     "raf": "^2.0.4",
+    "react": "^0.12.2",
+    "react-router": "^0.12.0",
     "simplewebrtc": "^1.11.2",
     "slug": "^0.8.0",
     "typeahead.js": "^0.10.5",
     "underscore": "^1.7.0"
   },
   "devDependencies": {
+    "babelify": "^5.0.3",
     "browserify": "^8.1.0",
     "divshot-cli": "^1.4.7",
     "express": "^4.10.7",
@@ -54,6 +57,7 @@
     "nodemon": "^1.2.1",
     "phantomjs": "^1.9.13",
     "precommit-hook": "^1.0.7",
+    "reactify": "^1.0.0",
     "run-browser": "^2.0.0",
     "spa-crawler": "^1.1.0",
     "tap-spec": "^2.1.2",
@@ -76,13 +80,13 @@
   },
   "scripts": {
     "start": "node server",
-    "dev": "./node_modules/.bin/nodemon -e js,json,jade server",
+    "dev": "nodemon -e js,json,jade server",
     "update-data": "npm update bracket-data-live",
     "build": "node server --build --minify",
     "crawl": "node server --crawl --minify",
-    "deploy": "./node_modules/.bin/divshot",
+    "deploy": "divshot",
     "test": "browserify test/*.js | tape-run | tap-spec",
     "test-browser": "run-browser test/*",
-    "lint": "./node_modules/.bin/jshint ."
+    "lint": "jshint ."
   }
 }
