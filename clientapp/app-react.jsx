@@ -1,10 +1,9 @@
 var React = require('react');
 var Bracket = require('./react/bracket');
-var BracketModel = require('./models/bracket');
+var BracketModel = require('./models/liveBracket');
 var bracket = new BracketModel({
     sport: 'ncaa-mens-basketball',
-    year: '2014',
-    current: 'MW1812463721X3XXXXW191213614102XX6XXXXS1854113715X4XXXXXE191246372XXXXXXXFFXXX'
+    year: '2014'
 });
 
 var render = function () {
@@ -16,6 +15,6 @@ require('domready')(function () {
     window.bracket = bracket;
     bracket.on('change', function () {
         render();
-    })
+    });
 });
 

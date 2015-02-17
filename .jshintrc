@@ -5,6 +5,7 @@
     "expr": true,
     "loopfunc": true,
     "node": true,
+    "esnext": true,
     "predef": [
       "$",
       "app",
