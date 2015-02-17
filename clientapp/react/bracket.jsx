@@ -1,34 +1,32 @@
-var React = require('react');
-var matchupsByRound = function (round) {
-    var matchups = [];
-    // [teamA, teamB, teamC, teamD] -->
-    // [{team1: teamA, team2: teamB}, {team1: teamC, team2: teamD}]
-    for (var i = 0, m = round.length; i < m; i +=2 ) {
-        matchups.push({team1: round[i], team2: round[i + 1]});
-    }
-    return matchups;
-};
+var React = require('react/addons');
+var cx = React.addons.classSet;
+var chunk = require('lodash/array/chunk');
+var has = require('lodash/object/has');
 
 var Team = React.createClass({
     render () {
-        var eliminated = this.props.eliminated ? 'eliminated' : '';
-        var correct = this.props.correct === true ? 'correct' : '';
-        var incorrect = this.props.correct === false ? 'incorrect' : '';
-        var hideShouldBe = !this.props.shouldBe ? 'hide' : '';
+        var aClasses = cx({
+            team: true,
+            eliminated: this.props.eliminated,
+            correct: this.props.correct === true,
+            incorrect: this.props.correct === false
+        });
+        var shouldBe = this.props.shouldBe;
+        var shouldBeClasses = cx({
+            'should-be': true,
+            hide: !shouldBe
+        });
+        var region = this.props.fromRegion || '';
+        var seed = this.props.seed || '';
+        var name = this.props.name || '';
         return (
             <li>
-                <a
-                className="team {eliminated} {correct} {incorrect}"
-                data-region={this.props.fromRegion}
-                data-seed={this.props.seed}
-                data-name={this.props.name}
-                data-id={this.props.fromRegion + this.props.seed}
-                >
-                    <span className="seed">{this.props.seed}</span>
-                    <span className="team-name">{this.props.name}</span>
-                    <span className="should-be {hideShouldBe}">
-                        <span className="seed">{!hideShouldBe ? this.props.shouldBe.seed : ''}</span>
-                        <span className="team-name">{!hideShouldBe ? this.props.shouldBe.name : ''}</span>
+                <a className={aClasses} data-region={region} data-seed={seed} data-name={name} data-id={region + seed}>
+                    <span className="seed">{seed}</span>
+                    <span className="team-name">{name}</span>
+                    <span className={shouldBeClasses}>
+                        <span className="seed">{shouldBe ? shouldBe.seed : ''}</span>
+                        <span className="team-name">{shouldBe ? shouldBe.name : ''}</span>
                     </span>
                 </a>
             </li>
@@ -39,10 +37,10 @@ var Team = React.createClass({
 var Matchup = React.createClass({
     render () {
         return (
-            <ul className='matchup'>
-              <Team {...this.props.team1} />
-              <Team {...this.props.team2} />
-            </ul>
+            <ul className='matchup'>{[
+                <Team key='0' {...this.props[0]} />,
+                has(this.props, '1') ? <Team key='1' {...this.props[1]} /> : null
+            ]}</ul>
         );
     }
 });
@@ -51,7 +49,9 @@ var Round = React.createClass({
     render () {
         return (
             <div className="round">
-                {matchupsByRound(this.props.round).map((matchup, index) => <Matchup key={index} {...matchup} />)}
+                {chunk(this.props.round, 2).map((matchup, index) =>
+                    <Matchup key={index} {...matchup} />
+                )}
             </div>
         );
     }
@@ -59,11 +59,19 @@ var Round = React.createClass({
 
 var Region = React.createClass({
     render () {
+        var classes = cx({
+            region: true,
+            clearfix: true,
+            'final-region': this.props.final,
+            'initial-region': !this.props.final
+        });
         return (
-            <section className="region clearfix" data-id={this.props.data.id}>
-                <h2>{this.props.data.name}</h2>
+            <section className={classes} data-id={this.props.id}>
+                <h2>{this.props.name}</h2>
                 <div className="rounds clearfix">
-                    {this.props.data.rounds.map((round, index) => <Round key={index} round={round} />)}
+                    {this.props.rounds.map((round, index) =>
+                        <Round key={index} round={round} />
+                    )}
                 </div>
             </section>
         );
@@ -72,18 +80,19 @@ var Region = React.createClass({
 
 module.exports = React.createClass({
     render () {
+        var data = this.props.data;
         return (
-            <div className="bracket clearfix row" data-bracket={this.props.data.current}>
+            <div className="bracket clearfix row" data-bracket={data.current}>
                 <div className="col-md-6 region-side clearfix left-side">
-                    <Region data={this.props.data._region1} />
-                    <Region data={this.props.data._region2} />
+                    <Region {...data._region1} final={false} />
+                    <Region {...data._region2} final={false} />
                 </div>
                 <div className="col-md-6 region-side clearfix right-side">
-                    <Region data={this.props.data._region3} />
-                    <Region data={this.props.data._region4} />
+                    <Region {...data._region3} final={false} />
+                    <Region {...data._region4} final={false} />
                 </div>
                 <div className="col-md-12 clearfix">
-                    <Region data={this.props.data._regionFinal} />
+                    <Region {...data._regionFinal} final={true} />
                 </div>
             </div>
         );
