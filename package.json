@@ -36,6 +36,10 @@
     "templatizer": "^1.2.1",
     "underscore": "^1.7.0"
   },
+  "devDependencies": {
+    "jshint": "^2.6.0",
+    "precommit-hook": "^1.0.7"
+  },
   "homepage": "http://tweetyourbracket.com",
   "jshintConfig": {
     "asi": false,
@@ -72,13 +76,9 @@
     "build": "node server",
     "build-prod": "npm run update-data && npm run build && npm run deploy -- push production",
     "deploy": "divshot",
-    "start": "node server",
-    "update-data": "npm update bracket-data-live",
     "lint": "jshint .",
-    "test": "exit 0"
-  },
-  "devDependencies": {
-    "jshint": "^2.6.0",
-    "precommit-hook": "^1.0.7"
+    "start": "node server",
+    "test": "exit 0",
+    "update-data": "npm update bracket-data-live"
   }
 }
