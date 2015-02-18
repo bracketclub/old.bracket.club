@@ -15,7 +15,6 @@ liveData.sportYear = {
 var dataString = 'window.bootstrap=' + JSON.stringify(liveData) + ';';
 var dataHash = crypto.createHash('sha1').update(dataString).digest('hex').slice(0, 8);
 var dataFileName = 'data.' + dataHash + '.js';
-var appName = require('./package').name;
 var path = require('path');
 
 var fixPath = function (pathString) {
@@ -32,11 +31,8 @@ var htmlSource = function (context) {
 
 new Moonboots({
     moonboots: {
-        jsFileName: appName,
-        cssFileName: appName,
         main: fixPath('clientapp/app.js'),
         developmentMode: false,
-        resourcePrefix: '/assets/',
         libraries: [
             fixPath('clientapp/libraries/google-analytics.js'),
             fixPath('clientapp/libraries/raf.js'),
@@ -71,10 +67,10 @@ new Moonboots({
     },
     verbose: true,
     directory: fixPath('_deploy'),
+    public: fixPath('public'),
     htmlSource: htmlSource,
     cb: function () {
-        console.log(fixPath('_deploy/assets/' + dataFileName));
-        console.log(dataString);
-        fs.writeFileSync(fixPath('_deploy/assets/' + dataFileName), dataString);
+        console.log(fixPath('_deploy/' + dataFileName));
+        fs.writeFileSync(fixPath('_deploy/' + dataFileName), dataString);
     }
 });

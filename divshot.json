@@ -3,8 +3,10 @@
   "root": "./_deploy",
   "clean_urls": true,
   "cache_control": {
-    "/assets/**": 31536000,
     "/fonts/**": 604800,
+    "/app.*.min.js": 31536000,
+    "/data.*.js": 31536000,
+    "/styles.*.min.css": 31536000,
     "/**": "no-cache, no-store"
   },
   "routes": {
