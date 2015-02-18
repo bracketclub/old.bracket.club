@@ -21,9 +21,6 @@ var path = require('path');
 var fixPath = function (pathString) {
     return path.resolve(path.normalize(pathString));
 };
-var quit = function(err) {
-    process.exit(err ? 1 : 0);
-};
 var htmlSource = function (context) {
     return jade.render(fs.readFileSync(fixPath('index.jade')), {
         timestamp: require('moment')().utc().format(),
@@ -75,9 +72,9 @@ new Moonboots({
     verbose: true,
     directory: fixPath('_deploy'),
     htmlSource: htmlSource,
-    cb: function (err) {
+    cb: function () {
         console.log(fixPath('_deploy/assets/' + dataFileName));
+        console.log(dataString);
         fs.writeFileSync(fixPath('_deploy/assets/' + dataFileName), dataString);
-        quit(err);
     }
 });
