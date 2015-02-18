@@ -4,9 +4,9 @@
   "clean_urls": true,
   "cache_control": {
     "/fonts/**": 604800,
-    "/*.min.js": 31536000,
-    "/*.min.css": 31536000,
-    "/**": "no-cache, no-store"
+    "/app.*.min.js": 31536000,
+    "/data.*.min.js": 31536000,
+    "/styles.*.min.css": 31536000
   },
   "routes": {
     "/**": "index.html"
