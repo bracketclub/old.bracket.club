@@ -75,7 +75,7 @@ module.exports = HumanView.extend({
         this.$mainNavCollapse.hasClass('in') && this.$mainNavCollapse.collapse('hide');
         this.pageSwitcher.set(view);
         track.pageview(window.location.pathname);
-        typeof twttr !== 'undefined' && twttr.widgets.load();
+        typeof twttr !== 'undefined' && twttr.widgets && twttr.widgets.load();
 
         var readyEvent = document.createEvent("Event");
         readyEvent.initEvent("renderReady", true, true);
