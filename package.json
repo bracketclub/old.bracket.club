@@ -41,24 +41,6 @@
     "precommit-hook": "^1.0.7"
   },
   "homepage": "http://tweetyourbracket.com",
-  "jshintConfig": {
-    "asi": false,
-    "browser": true,
-    "curly": false,
-    "expr": true,
-    "indent": 4,
-    "loopfunc": true,
-    "node": true,
-    "predef": [
-      "$",
-      "app",
-      "me"
-    ],
-    "trailing": true,
-    "undef": true,
-    "unused": true,
-    "white": true
-  },
   "keywords": [
     "ncaa",
     "bracket",
