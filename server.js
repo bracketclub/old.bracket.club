@@ -76,6 +76,7 @@ new Moonboots({
     directory: fixPath('_deploy'),
     htmlSource: htmlSource,
     cb: function (err) {
+        console.log(fixPath('_deploy/assets/' + dataFileName));
         fs.writeFileSync(fixPath('_deploy/assets/' + dataFileName), dataString);
         quit(err);
     }
