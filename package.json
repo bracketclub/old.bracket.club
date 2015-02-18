@@ -33,8 +33,8 @@
     "moonboots-static": "^1.2.0",
     "node-uuid": "^1.4.1",
     "simplewebrtc": "~1.1.1",
-    "templatizer": "^1.1.1",
-    "underscore": "1.5.2"
+    "templatizer": "^1.2.1",
+    "underscore": "^1.7.0"
   },
   "homepage": "http://tweetyourbracket.com",
   "jshintConfig": {
@@ -74,7 +74,11 @@
     "deploy": "divshot",
     "start": "node server",
     "update-data": "npm update bracket-data-live",
-    "lint": "exit 0",
+    "lint": "jshint .",
     "test": "exit 0"
+  },
+  "devDependencies": {
+    "jshint": "^2.6.0",
+    "precommit-hook": "^1.0.7"
   }
 }
