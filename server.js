@@ -14,7 +14,7 @@ liveData.sportYear = {
 };
 var dataString = 'window.bootstrap=' + JSON.stringify(liveData) + ';';
 var dataHash = crypto.createHash('sha1').update(dataString).digest('hex').slice(0, 8);
-var dataFileName = 'data.' + dataHash + '.js';
+var dataFileName = 'data.' + dataHash + '.min.js';
 var path = require('path');
 
 var fixPath = function (pathString) {

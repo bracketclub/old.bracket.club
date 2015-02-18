@@ -17,7 +17,7 @@
     "bracket-scorer": "^2.0.0",
     "bracket-updater": "^2.0.1",
     "bracket-validator": "^2.0.2",
-    "divshot-cli": "^1.7.0",
+    "divshot-cli": "^1.8.1",
     "express": "3.x.x",
     "fastclick": "^1.0.0",
     "favicon-setter": "~0.1.1",
