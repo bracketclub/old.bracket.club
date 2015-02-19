@@ -1,7 +1,7 @@
 var BracketScorer = require('bracket-scorer');
 var _ = require('lodash');
 var ResultBracket = require('./resultBracket');
-var HistoryBracket = require('./historyBracket');
+var HistoryBracket = require('./bracket');
 
 
 module.exports = ResultBracket.extend({

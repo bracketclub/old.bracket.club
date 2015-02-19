@@ -5,7 +5,7 @@ var GenerateTestBracket = function () {
     return new Bracket({
         sport: 'ncaa-mens-basketball',
         year: '2014',
-        current: 'MW1812463721X3XXXXW191213614102XX6XXXXS1854113715X4XXXXXE191246372XXXXXXXFFXXX'
+        history: ['MW1812463721X3XXXXW191213614102XX6XXXXS1854113715X4XXXXXE191246372XXXXXXXFFXXX']
     });
 };
 
