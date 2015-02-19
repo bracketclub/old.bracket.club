@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var HistoryBracket = require('./historyBracket');
+var HistoryBracket = require('./bracket');
 
 
 module.exports = HistoryBracket.extend({

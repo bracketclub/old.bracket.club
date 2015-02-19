@@ -6,7 +6,7 @@ var bd = new BracketData({
     sport: 'ncaa-mens-basketball',
     year: '2014'
 });
-var HistoryBracket = require('../clientapp/models/historyBracket');
+var HistoryBracket = require('../clientapp/models/bracket');
 var GenerateHistoryBracket = function (options) {
     return new HistoryBracket(_.extend({
         sport: 'ncaa-mens-basketball',
