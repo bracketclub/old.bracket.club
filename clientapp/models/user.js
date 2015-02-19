@@ -1,5 +1,5 @@
 var State = require('./base');
-var _ = require('underscore');
+var _ = require('lodash');
 var LockedBracket = require('./lockedBracket');
 
 

@@ -1,5 +1,5 @@
 var qs = require('qs');
-var _ = require('underscore');
+var _ = require('lodash');
 
 // Convert query strings values of 'true' or 'false' to booleans
 // before passing data to models

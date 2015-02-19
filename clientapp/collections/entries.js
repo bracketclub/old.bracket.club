@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var Collection = require('ampersand-collection');
 var underscoreMixin = require('ampersand-collection-underscore-mixin');
 var BracketScorer = require('bracket-scorer');

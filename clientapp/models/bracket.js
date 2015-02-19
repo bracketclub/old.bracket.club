@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var State = require('./base');
 var BracketValidator = require('bracket-validator');
 var BracketUpdater = require('bracket-updater');
@@ -35,6 +35,7 @@ module.exports = State.extend({
     props: {
         current: 'string',
         progressTotal: 'number',
+        unpickedRegex: 'object',
         sport: 'string',
         year: 'string',
         _region1: 'region',
@@ -51,22 +52,28 @@ module.exports = State.extend({
                 return this.current.indexOf(this.constants.UNPICKED_MATCH) === -1;
             }
         },
-        progressNow: {
-            deps: ['current'],
+        unpicked: {
+            deps: ['current', 'progressTotal', 'unpickedRegex'],
             fn: function () {
-                return this.progressTotal - this.current.replace(this.unpickedRegex, '').length;
+                return this.current && this.unpickedRegex ? this.current.replace(this.unpickedRegex, '').length : this.progressTotal;
             }
         },
-        progressPercent: {
-            deps: ['progressNow'],
+        progress: {
+            deps: ['progressTotal', 'unpicked'],
             fn: function () {
-                return  (this.progressNow / this.progressTotal) * 100;
+                return this.progressTotal - this.unpicked;
+            }
+        },
+        percent: {
+            deps: ['progress'],
+            fn: function () {
+                return  (this.progress / this.progressTotal) * 100;
             }
         },
         hasStarted: {
-            deps: ['progressNow'],
+            deps: ['progress'],
             fn: function () {
-                return this.progressNow > 0;
+                return this.progress > 0;
             }
         },
         sportYear: {
