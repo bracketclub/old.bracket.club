@@ -14,9 +14,9 @@ test('Has progress and completion and can update game', function (t) {
 
     t.equal(bracket.hasStarted, true, 'has begun being picked');
     t.equal(bracket.complete, false, 'is not complete');
-    t.equal(bracket.progressNow, 36, 'has total picks mafe');
+    t.equal(bracket.progress, 36, 'has total picks mafe');
     t.equal(bracket.progressTotal, 63, 'has correct total picks');
-    t.equal(bracket.progressPercent.toFixed(2), '57.14', 'has correct pick percentage');
+    t.equal(bracket.percent.toFixed(2), '57.14', 'has correct pick percentage');
 
     bracket.updateGame({
         winner: 12,
@@ -24,8 +24,8 @@ test('Has progress and completion and can update game', function (t) {
         fromRegion: 'MW'
     });
 
-    t.equal(bracket.progressNow, 37, 'has correct total picks after update');
-    t.equal(bracket.progressPercent.toFixed(2), '58.73', 'has correct pick percentage after update');
+    t.equal(bracket.progress, 37, 'has correct total picks after update');
+    t.equal(bracket.percent.toFixed(2), '58.73', 'has correct pick percentage after update');
 
     t.end();
 });

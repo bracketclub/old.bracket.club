@@ -1,7 +1,7 @@
 var State = require('ampersand-state');
 var moment = require('moment');
 var raf = require('raf');
-var bind = require('underscore').bind;
+var bind = require('lodash/function/bind');
 
 
 module.exports = State.extend({

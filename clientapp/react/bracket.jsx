@@ -1,5 +1,5 @@
-var React = require('react/addons');
-var cx = React.addons.classSet;
+var React = require('react');
+var cx = require('react/lib/cx');
 var chunk = require('lodash/array/chunk');
 var has = require('lodash/object/has');
 
@@ -80,7 +80,7 @@ var Region = React.createClass({
 
 module.exports = React.createClass({
     render () {
-        var data = this.props.data;
+        var data = this.props;
         return (
             <div className="bracket clearfix row" data-bracket={data.current}>
                 <div className="col-md-6 region-side clearfix left-side">

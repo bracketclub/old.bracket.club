@@ -25,12 +25,6 @@ module.exports = Bracket.extend({
                 return this.history.length > 1;
             }
         },
-        hasStarted: {
-            deps: ['history'],
-            fn: function () {
-                return this.history.length > 1;
-            }
-        },
         needsEmptyBase: {
             deps: ['hasHistory', 'history'],
             fn: function () {
