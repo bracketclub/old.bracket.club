@@ -12,7 +12,7 @@ var bracket = new BracketModel({
 window.render = function () {
     var data = bracket.getAttributes({session: true, props: true, derived: true});
     React.render((<div>
-        <BracketNav {...data} />
+        <BracketNav {...data} canEdit={true} />
         <BracketProgress {...data}  />
         <Bracket {...data}  />
     </div>), document.body);

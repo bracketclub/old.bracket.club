@@ -20,15 +20,15 @@ var NavItem = React.createClass({
 module.exports = React.createClass({
     render () {
         var items = [
-            <NavItem iconClass={'fast-backward'} disabled={this.props.canRewind} />,
-            <NavItem iconClass={'step-backward'} disabled={this.props.canRewind} />,
-            <NavItem iconClass={'step-forward'} disabled={this.props.canFastForward} />,
-            <NavItem iconClass={'fast-forward'} disabled={this.props.canFastForward} />
+            <NavItem iconClass={'fast-backward'} disabled={!this.props.canRewind} />,
+            <NavItem iconClass={'step-backward'} disabled={!this.props.canRewind} />,
+            <NavItem iconClass={'step-forward'} disabled={!this.props.canFastForward} />,
+            <NavItem iconClass={'fast-forward'} disabled={!this.props.canFastForward} />
         ];
 
         if (this.props.canEdit) {
             items.push(
-                <NavItem iconClass={'ban-circle'} disabled={this.props.hasHistory} />,
+                <NavItem iconClass={'ban-circle'} disabled={!this.props.hasHistory} />,
                 <NavItem text={'1'} />,
                 <NavItem text={'16'} />,
                 <NavItem iconClass={'random'} /> 
