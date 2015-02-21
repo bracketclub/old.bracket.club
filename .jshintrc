@@ -6,12 +6,6 @@
     "loopfunc": true,
     "node": true,
     "esnext": true,
-    "predef": [
-      "$",
-      "app",
-      "me",
-      "twttr"
-    ],
     "undef": true,
     "unused": true
 }

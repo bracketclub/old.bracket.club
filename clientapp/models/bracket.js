@@ -38,11 +38,11 @@ module.exports = State.extend({
         unpickedRegex: 'object',
         sport: 'string',
         year: 'string',
-        _region1: 'region',
-        _region2: 'region',
-        _region3: 'region',
-        _region4: 'region',
-        _regionFinal: 'region',
+        region1: 'region',
+        region2: 'region',
+        region3: 'region',
+        region4: 'region',
+        regionFinal: 'region',
         progressText: ['string', true, 'games completed'],
         historyIndex: ['number', true, 0],
         history: 'array'
@@ -169,13 +169,13 @@ module.exports = State.extend({
             return this.trigger('invalid', this, validated);
         }
 
-        this._regionFinal = validated[this.constants.FINAL_ID];
-        this._region1 = validated[this.constants.REGION_IDS[0]];
-        this._region2 = validated[this._region1.sameSideAs];
-        this._region3 = _.find(validated, function (region) {
-            return [this._region1.id, this._region2.id, this._regionFinal.id].indexOf(region.id) === -1;
+        this.regionFinal = validated[this.constants.FINAL_ID];
+        this.region1 = validated[this.constants.REGION_IDS[0]];
+        this.region2 = validated[this.region1.sameSideAs];
+        this.region3 = _.find(validated, function (region) {
+            return [this.region1.id, this.region2.id, this.regionFinal.id].indexOf(region.id) === -1;
         }, this);
-        this._region4 = validated[this._region3.sameSideAs];
+        this.region4 = validated[this.region3.sameSideAs];
     },
     updateGame: function (data) {
         data.currentMaster = this.current;
