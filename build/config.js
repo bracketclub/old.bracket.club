@@ -1,6 +1,5 @@
 var appName = require('../package').name;
 var lessitizer = require('lessitizer');
-var templatizer = require('templatizer');
 var fixPath = require('./fixpath');
 var options = require('./options');
 var LessImportInserter = require('less-import-inserter');
@@ -12,19 +11,20 @@ var LessImportInserter = require('less-import-inserter');
 module.exports = {
     jsFileName: appName,
     cssFileName: appName,
-    main: fixPath('clientapp/app-react.jsx'),
+    main: fixPath('clientapp/main.jsx'),
     developmentMode: !options.minify,
     resourcePrefix: (options.build || options.crawl) ? '/assets/' : '/',
     libraries: [
-        fixPath('clientapp/libraries/google-analytics.js')
+        //fixPath('clientapp/libraries/google-analytics.js')
     ],
     stylesheets: [fixPath('styles/app.css')],
     browserify: {
         extensions: ['.jsx'],
-        transforms: [['reactify', {es6: true}]]
-    },
-    beforeBuildJS: function () {
-        templatizer(fixPath('clienttemplates'), fixPath('clientapp/templates.js'));
+        transforms: [
+            'babelify',
+            ['reactify', {es6: true}],
+            'brfs',
+        ]
     },
     beforeBuildCSS: function (cb) {
         lessitizer({
