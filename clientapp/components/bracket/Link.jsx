@@ -5,7 +5,7 @@ let app = require('../../app');
 let bracketGenerator = new (require('bracket-generator'))(app.sportYear);
 
 
-module.exports = React.createClass({
+let BracketLink = React.createClass({
     mixins: [Navigation],
     onClick (event) {
         event.preventDefault();
@@ -19,3 +19,5 @@ module.exports = React.createClass({
         );
     }
 });
+
+module.exports = BracketLink;

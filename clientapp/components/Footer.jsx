@@ -26,7 +26,7 @@ let researchLinks = [{
     href: 'http://fivethirtyeight.com/?s=march+madness'
 }];
 
-let Links = React.createClass({
+let FooterLinks = React.createClass({
     render () {
         let links = [];
 
@@ -44,18 +44,22 @@ let Links = React.createClass({
 });
 
 
-module.exports = React.createClass({
+let Footer = React.createClass({
     render () {
         return (
-        <footer>
-            <Links links={infoLinks} />
-            <Links links={researchLinks} title='Bracket Research:' />
-            <p className='follow-button'>
-                <a className='twitter-follow-button' href='https://twitter.com/TweetTheBracket' data-show-count="false">Follow @TweetTheBracket</a>
-            </p>
-            <p>Made with love by <a href='https://twitter.com/lukekarrys'>Luke</a> in Arizona.</p>
-            <p>Last updated: {this.props.lastUpdated}</p>
-        </footer>
+            <footer>
+                <FooterLinks links={infoLinks} />
+                <FooterLinks links={researchLinks} title='Bracket Research:' />
+                <p className='follow-button'>
+                    <a className='twitter-follow-button' href='https://twitter.com/TweetTheBracket' data-show-count="false">
+                        Follow @TweetTheBracket
+                    </a>
+                </p>
+                <p>Made with love by <a href='https://twitter.com/lukekarrys'>Luke</a> in Arizona.</p>
+                <p>Last updated: {this.props.lastUpdated}</p>
+            </footer>
         );
     }
 });
+
+module.exports = Footer;

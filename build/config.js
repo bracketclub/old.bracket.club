@@ -3,6 +3,10 @@ var lessitizer = require('lessitizer');
 var fixPath = require('./fixpath');
 var options = require('./options');
 var LessImportInserter = require('less-import-inserter');
+var exportDirectory = function (dir) {
+    var files = require('fs').readdirSync(fixPath(dir));
+    console.log(files)
+};
 
 
 // ------------------------
@@ -25,6 +29,9 @@ module.exports = {
             ['reactify', {es6: true}],
             'brfs',
         ]
+    },
+    beforeBuildJS: function () {
+        exportDirectory('../clientapp/pages');
     },
     beforeBuildCSS: function (cb) {
         lessitizer({

@@ -76,7 +76,7 @@ let Region = React.createClass({
     }
 });
 
-module.exports = React.createClass({
+let Bracket = React.createClass({
     render () {
         let {region1, region2, region3, region4, regionFinal, current} = this.props;
         return (
@@ -96,3 +96,5 @@ module.exports = React.createClass({
         );
     }
 });
+
+module.exports = Bracket;
