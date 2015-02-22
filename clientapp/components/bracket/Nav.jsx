@@ -13,7 +13,7 @@ let GlyphButton = React.createClass({
     }
 });
 
-module.exports = React.createClass({
+let BracketNav = React.createClass({
     render () {
         let items = [
             <GlyphButton glyph='fast-backward' disabled={!this.props.canRewind} />,
@@ -31,6 +31,8 @@ module.exports = React.createClass({
             );
         }
 
-        return <Nav bsStyle="pills">{[items]}</Nav>;
+        return <Nav bsStyle="pills">{items}</Nav>;
     }
 });
+
+module.exports = BracketNav;

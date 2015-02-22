@@ -2,7 +2,7 @@ let React = require('react');
 let ProgressBar = require('react-bootstrap/lib/ProgressBar');
 
 
-module.exports = React.createClass({
+let BracketProgress = React.createClass({
     render () {
         return (
             <ProgressBar
@@ -14,3 +14,5 @@ module.exports = React.createClass({
         );
     }
 });
+
+module.exports = BracketProgress;

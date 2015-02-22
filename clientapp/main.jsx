@@ -23,13 +23,13 @@ let App = React.createClass({
     },
     render () {
         return (
-        <div>
-            <Header {...this.props} />
-            <div className={this.useFluidContainer() ? 'container-fluid' : 'container'}>
-                <RouteHandler />
-                <Footer {...this.props} />
+            <div>
+                <Header {...this.props} />
+                <div className={this.useFluidContainer() ? 'container-fluid' : 'container'}>
+                    <RouteHandler />
+                    <Footer {...this.props} />
+                </div>
             </div>
-        </div>
         );
     }
 });
