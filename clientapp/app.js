@@ -1,4 +1,4 @@
-/* globals Global */
+/* globals Global, __timestamp */
 var BracketData = require('bracket-data');
 var extend = require('lodash/object/assign');
 var hasWindow = typeof window !== 'undefined';
@@ -9,6 +9,7 @@ var bootstrapData = (hasWindow ? window : Global).bootstrap;
 
 // Export app singleton
 module.exports = {
+    lastUpdated: __timestamp,
     sportYear: bootstrapData.sportYear,
     data: new BracketData(extend({props: 'all'}, bootstrapData.sportYear)),
     masters: bootstrapData.masters,
