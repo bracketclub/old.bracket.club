@@ -1,7 +1,7 @@
 let app = require('./app');
 let React = require('react');
 let Router = require('react-router');
-let {HistoryLocation, Route, RouteHandler, DefaultRoute, NotFoundRoute} = Router;
+let {State, HistoryLocation, Route, RouteHandler, DefaultRoute, NotFoundRoute} = Router;
 
 // Components
 let {Header, Footer} = require('./components');
@@ -10,11 +10,22 @@ let {Header, Footer} = require('./components');
 let {Entry, User, FourOhFour} = require('./pages');
 
 let App = React.createClass({
+    mixins: [State],
+    getHandlerKey () {
+        var key = this.getRoutes()[1].name;
+        var id = this.getParams().id;
+        if (id) { key += id; }
+        return key || 'root';
+    },
+    useFluidContainer () {
+        var key = this.getHandlerKey();
+        return key === 'root' || key === 'bracket';
+    },
     render () {
         return (
         <div>
             <Header {...this.props} />
-            <div className='container'>
+            <div className={this.useFluidContainer() ? 'container-fluid' : 'container'}>
                 <RouteHandler />
                 <Footer {...this.props} />
             </div>

@@ -31,12 +31,12 @@ let Links = React.createClass({
         let links = [];
 
         if (this.props.title) {
-            links.push(<li>{this.props.title}</li>);
+            links.push(<li key='title'>{this.props.title}</li>);
         }
 
         links.push(flatten(this.props.links.map((link, index) =>
             [<li key={index}><a href={link.href}>{link.text}</a></li>,
-            index < this.props.links.length - 1 ? <li className='muted'>&middot;</li> : null]
+            index < this.props.links.length - 1 ? <li key={index + 'sep'} className='muted'>&middot;</li> : null]
         )));
 
         return <ul className='footer-links'>{links}</ul>;
@@ -49,7 +49,7 @@ module.exports = React.createClass({
         return (
         <footer>
             <Links links={infoLinks} />
-            <Links links={researchLinks} title='Bracket Research: ' />
+            <Links links={researchLinks} title='Bracket Research:' />
             <p className='follow-button'>
                 <a className='twitter-follow-button' href='https://twitter.com/TweetTheBracket' data-show-count="false">Follow @TweetTheBracket</a>
             </p>
