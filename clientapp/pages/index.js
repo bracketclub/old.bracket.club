@@ -1,5 +1,1 @@
-module.exports = {
-    Entry: require('./Entry'),
-    FourOhFour: require('./FourOhFour'),
-    User: require('./User')
-};
+module.exports = {Entry:require('./Entry.jsx'),FourOhFour:require('./FourOhFour.jsx'),User:require('./User.jsx')};

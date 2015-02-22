@@ -3,10 +3,7 @@ var lessitizer = require('lessitizer');
 var fixPath = require('./fixpath');
 var options = require('./options');
 var LessImportInserter = require('less-import-inserter');
-var exportDirectory = function (dir) {
-    var files = require('fs').readdirSync(fixPath(dir));
-    console.log(files)
-};
+var exportDirectory = require('./exportDir');
 
 
 // ------------------------
@@ -31,7 +28,8 @@ module.exports = {
         ]
     },
     beforeBuildJS: function () {
-        exportDirectory('../clientapp/pages');
+        exportDirectory('clientapp/pages');
+        exportDirectory('clientapp/components');
     },
     beforeBuildCSS: function (cb) {
         lessitizer({
