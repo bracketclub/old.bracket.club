@@ -6,23 +6,19 @@ let has = require('lodash/object/has');
 let Team = React.createClass({
     render () {
         let aClasses = cx({
-            team: true,
             eliminated: this.props.eliminated,
             correct: this.props.correct === true,
             incorrect: this.props.correct === false
         });
         let shouldBe = this.props.shouldBe;
-        let shouldBeClasses = cx({
-            'should-be': true,
-            hide: !shouldBe
-        });
+        let shouldBeClasses = cx({hide: !shouldBe});
         let {fromRegion, seed, name} = this.props;
         return (
             <li>
-                <a className={aClasses} data-region={fromRegion} data-seed={seed} data-name={name} data-id={fromRegion + seed}>
+                <a className={'team ' + aClasses} data-region={fromRegion} data-seed={seed} data-name={name} data-id={fromRegion + seed}>
                     <span className='seed'>{seed}</span>
                     <span className='team-name'>{name}</span>
-                    <span className={shouldBeClasses}>
+                    <span className={'should-be ' + shouldBeClasses}>
                         <span className='seed'>{shouldBe ? shouldBe.seed : ''}</span>
                         <span className='team-name'>{shouldBe ? shouldBe.name : ''}</span>
                     </span>
