@@ -9,7 +9,7 @@ let BracketLink = React.createClass({
     render () {
         return (
             <Button onClick={this.handleClick.bind(null, this.props.method)} navItem componentClass='button'>
-                {this.props.glyph ? <Glyphicon glyph={this.props.glyph} /> : this.props.children}
+                {this.props.children ? this.props.children : <Glyphicon glyph={this.props.glyph} />}
             </Button>
         );
     }

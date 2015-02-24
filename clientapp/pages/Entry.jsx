@@ -10,7 +10,6 @@ let BracketProgress = require('../components/bracket/Progress');
 let app = require('../app');
 let BracketModel = require('../models/liveBracket');
 let bracket = new BracketModel(app.sportYear);
-let bracketGenerator = new (require('bracket-generator'))(app.sportYear);
 
 
 module.exports = React.createClass({
@@ -35,7 +34,7 @@ module.exports = React.createClass({
         this.replaceBracket(bracket.current);
     },
     handleGenerate (method) {
-        bracket.updateBracket(bracketGenerator.generate(method));
+        bracket.generate(method);
         this.replaceBracket(bracket.current);
     },
     render () {
