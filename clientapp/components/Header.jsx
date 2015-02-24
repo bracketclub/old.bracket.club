@@ -14,7 +14,7 @@ let Header = React.createClass({
                         {(this.props.user ? <DropdownButton title={this.props.user}>
                             <MenuItemLink to='user' params={{user: this.props.user}}>Bracket</MenuItemLink>
                             <MenuItem divider />
-                            <MenuItemLink to='logout'>Logout</MenuItemLink>
+                            <MenuItem>Logout</MenuItem>
                         </DropdownButton> : <MenuItem>Login</MenuItem>)}
                     </Nav>
                 </Navbar>

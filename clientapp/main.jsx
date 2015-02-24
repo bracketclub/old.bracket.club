@@ -1,13 +1,13 @@
 let app = require('./app');
 let React = require('react');
 let Router = require('react-router');
-let {State, HistoryLocation, Route, RouteHandler, DefaultRoute, NotFoundRoute} = Router;
+let {State, Redirect, HistoryLocation, Route, RouteHandler, DefaultRoute, NotFoundRoute} = Router;
 
 // Components
 let {Header, Footer} = require('./components');
 
 // Pages
-let {Entry, User, FourOhFour} = require('./pages');
+let Pages = require('./pages');
 
 let App = React.createClass({
     mixins: [State],
@@ -36,15 +36,18 @@ let App = React.createClass({
 
 let Routes = (
     <Route name="app" path="/" handler={App}>
-        <Route name="user" path='user/:user' handler={User} />
-        <Route name="emptyBracket" path="bracket" handler={Entry} ignoreScrollBehavior={true}>
-            <Route name="bracket" path=":bracket" handler={Entry} />
+        <Route name="emptyBracket" path="bracket" handler={Pages.Entry} ignoreScrollBehavior={true}>
+            <Route name="bracket" path=":bracket" handler={Pages.Entry} />
         </Route>
-        <Route name="subscribe" handler={User} />
-        <Route name="results" handler={User} />
-        <Route name="logout" handler={User} />
-        <DefaultRoute handler={Entry} />
-        <NotFoundRoute handler={FourOhFour} />
+
+        <Route name="results" path='results' handler={Pages.Results} />
+        <Redirect from="users" to='results' />
+
+        <Route name="user" path="users/:user" handler={Pages.User} />
+        <Route name="subscribe" handler={Pages.Subscribe} />
+
+        <DefaultRoute handler={Pages.Entry} />
+        <NotFoundRoute handler={Pages.FourOhFour} />
     </Route>
 );
 
