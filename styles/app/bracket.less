@@ -1,32 +1,54 @@
+@import '../bower_components/more-or-less/less/css3/misc/_calc';
+
+@region-name-horizontal: 23%;
+@large-bracket-min: @screen-md-min;
+@small-bracket-max: (@large-bracket-min - 1);
+
 .bracket {
   overflow: hidden;
   position: relative;
 
+
+
+  // ------------------------
+  // REGIONS
+  // ------------------------
   .region {
     position: relative;
     z-index: 2;
-    margin-bottom: 30px;
   }
 
   .region-name {
     position: absolute;
-    top: 279px;
-    right: 23%;
+    top: 46%;
+    right: @region-name-horizontal;
     margin: 0;
+    font-size: 24px;
+    @media (max-width: @screen-xs-max) {
+      font-size: 18px;
+      top: 47%;
+    }
   }
 
-  .final-region .region-name {
-    top: 67px;
-    right: 42%;
-  }
 
+
+  // ------------------------
+  // ROUNDS
+  // ------------------------
+  .rounds, .rounds-scroll {.clearfix();}
   .round {
     width: 20%;
     float: left;
 
-    .matchup:first-child li:first-child {
-      margin-top: 0;
-      padding-top: 0;
+    .matchup {
+      &:first-child li:first-child {
+        margin-top: 0;
+        padding-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     &:nth-child(2) {
@@ -67,12 +89,13 @@
         }
       }
     }
-
-    .matchup:last-child {
-      margin-bottom: 0;
-    }
   }
 
+
+
+  // ------------------------
+  // MATCHUPS
+  // ------------------------
   .matchup {
     list-style-type: none;
     margin: 0;
@@ -90,6 +113,11 @@
     }
   }
 
+
+
+  // ------------------------
+  // TEAMS
+  // ------------------------
   .team {
     display: block;
     white-space: nowrap;
@@ -119,15 +147,9 @@
 
     &.incorrect {
       background: #df382c;
-      text-decoration: line-through;
-      font-style: italic;
-      .team-name, .seed {
-        text-decoration: line-through;
-        font-style: italic;
-      }
     }
 
-    &.eliminated {
+    &.incorrect, &.eliminated {
       text-decoration: line-through;
       font-style: italic;
       .team-name, .seed {
@@ -165,145 +187,21 @@
     }
   }
 
-  .final-region .round {
-    width: 33.3333333333%;
-    &:last-child {
-      .matchup {
-        margin-top: 4.5em;
-        margin-bottom: 0;
-        li:last-child {
-          border-right: 0;
-          padding-top: 0;
-        }
-      }
-    }
-  }
 
-  .large-screen-final {
-    position: absolute;
-    top: 50%;
-    top: calc(~"50% - 21px");
-    top: -moz-calc(~"50% - 21px");
-    top: -webkit-calc(~"50% - 21px");
-    left: 50%;
-    width: 430px;
-    margin-left: -215px;
-    text-align: center;
 
-    .should-be {
-      text-align: center;
-    }
-
-    .round {
-      width: auto;
-      float: none;
-    }
-
-    .round .matchup {
-      margin: 0;
-    }
-
-    .round .matchup li, .round .matchup li:last-child {
-      margin: 0;
-      padding: 0;
-      border: none;
-      width: 50%;
-      float: left;
-    }
-
-    .round:first-child {
-      .clearfix();
-      li:first-child {
-        .team, .should-be {
-          margin-right: 16px;
-          text-align: right;
-          .seed {
-            float: right;
-            padding-right: 0;
-            padding-left: 2px;
-          }
-          .should-be {
-            left: inherit;
-            right: 0px;
-          }
-        }
-      }
-      li:last-child {
-        .team, .should-be {
-          margin-left: 16px;
-          text-align: left;
-        }
-      }
-    }
-
-    .round:last-child {
-      padding-top: 25px;
-      width: 75%;
-      margin: 0 auto;
-
-      .seed {
-        float: none;
-      }
-
-      .matchup {
-        border: 1px solid #000;
-        background: #fff;
-        padding: 5px;
-      }
-
-      .matchup li {
-        width: 100%;
-        float: none;
-      }
-
-      a {
-        font-size: 2em;
-      }
-
-      .should-be {
-        font-size: 0.6em;
-        top: -27px;
-        right: 166px;
-        left: inherit;
-      }
-    }
-  }
-
-  @media (max-width: @screen-sm-max) {
-    .region-name, .final-region .region-name {
-      top: 0;
-      left: 0;
-    }
-
-    .region {
-      overflow-x: auto;
-    }
-
-    .rounds {
-      min-width: 750px;
-      margin-top: 35px;
-      
-    }
-
-    .final-region .rounds {
-      min-width: 450px;
-    }
-
-    .round {
-      min-width: 150px;
-    }
-  }
-
-  @media (min-width: @screen-md-min) {
+  // ------------------------
+  // FINAL ROUND BORDERS
+  // Each region will have special borders
+  // around the final round on large screens
+  // ------------------------
+  @media (min-width: @large-bracket-min) {
     .final-round-borders {
       border-right: 1px solid #000;
       position: absolute;
       right: 15px;
       height: 301px;
       bottom: 25%;
-      bottom: calc(~"25% + 1px");
-      bottom: -moz-calc(~"25% + 1px");
-      bottom: -webkit-calc(~"25% + 1px");
+      .calc(bottom, "25% + 8px");
       width: 1px;
       z-index: 1;
     }
@@ -311,15 +209,22 @@
     .initial-region:first-child + .final-round-borders {
       bottom: inherit;
       top: 25%;
-      top: calc(~"25% - 2px");
-      top: -moz-calc(~"25% - 2px");
-      top: -webkit-calc(~"25% - 2px");
-      height: 290px;
+      .calc(top, "25% - 8px");
+      height: 302px;
       border-bottom: 1px solid #000;
       width: 200px;
     }
+  }
 
-    .right-side {
+
+
+  // ------------------------
+  // RIGHT SIDE
+  // Is flipped to face left side
+  // when > than 992px
+  // ------------------------
+  .right-side {
+    @media (min-width: @large-bracket-min) {
       .final-round-borders {
         right: inherit;
         left: 15px;
@@ -329,7 +234,7 @@
 
       .region-name {
         right: inherit;
-        left: 23%;
+        left: @region-name-horizontal;
         text-align: right;
       }
 
@@ -355,6 +260,173 @@
         float: right;
         padding-right: 0;
         padding-left: 2px;
+      }
+    }
+  }
+
+
+
+  // ------------------------
+  // FINAL FOUR
+  // ------------------------
+  .final-region {
+    .region-name {
+      top: 42%;
+      right: 36%;
+    }
+
+    .round {
+      width: 33.3333333333%;
+      &:last-child .matchup {
+        margin-top: 3.9em;
+        margin-bottom: 0;
+        li:last-child {
+          border-right: 0;
+          padding-top: 0;
+        }
+      }
+    }
+  }
+
+
+
+  // ------------------------
+  // FINAL FOUR
+  // for large screens
+  // ------------------------
+  @media (min-width: @large-bracket-min) {
+    .final-region-container {
+      position: absolute;
+      top: 50%;
+      .calc(top, "50% - 21px");
+      left: 50%;
+      width: 430px;
+      margin-left: -215px;
+      text-align: center;
+
+      .region-name {
+        display: none;
+      }
+
+      .should-be {
+        text-align: center;
+      }
+
+      .round {
+        width: auto;
+        float: none;
+      }
+
+      .round:first-child {
+        display: none;
+      }
+
+      .round .matchup {
+        margin: 0;
+      }
+
+      .round .matchup li, .round .matchup li:last-child
+      {
+        margin: 0;
+        padding: 0;
+        border: none;
+        width: 50%;
+        float: left;
+      }
+
+      .round:nth-child(2) {
+        li:first-child {
+          .team, .should-be {
+            margin-right: 16px;
+            text-align: right;
+            .seed {
+              float: right;
+              padding-right: 0;
+              padding-left: 2px;
+            }
+            .should-be {
+              left: inherit;
+              right: 0px;
+            }
+          }
+        }
+        li:last-child {
+          .team, .should-be {
+            margin-left: 16px;
+            text-align: left;
+          }
+        }
+      }
+
+      .round:last-child {
+        padding-top: 35px;
+        width: 75%;
+        margin: 0 auto;
+
+        .seed {
+          float: none;
+        }
+
+        .matchup {
+          border: 1px solid #000;
+          background: #fff;
+          padding: 5px;
+          margin: 0;
+        }
+
+        .matchup li {
+          width: 100%;
+          float: none;
+        }
+
+        a {
+          font-size: 2em;
+        }
+
+        .should-be {
+          font-size: 0.6em;
+          top: -27px;
+          right: 166px;
+          left: inherit;
+        }
+      }
+    }
+  }
+
+
+
+  // ------------------------
+  // SCROLLING
+  // for small screens
+  // ------------------------
+  @media (max-width: 500px) {
+    .rounds {
+      overflow-x: auto;
+    }
+
+    .region-name {
+      position: static;
+      top: inherit;
+    }
+
+    .rounds {
+      margin-top: 7px;
+    }
+
+    .rounds-scroll {
+      .calc(width, "250vw - 75px");
+    }
+
+    .round {
+      .calc(width, "50vw - 15px");
+    }
+
+    .final-region {
+      .rounds-scroll {
+        .calc(width, "150vw - 45px");
+      }
+      .round {
+        .calc(width, "50vw - 15px");
       }
     }
   }

@@ -55,17 +55,18 @@ let Region = React.createClass({
     render () {
         let classes = cx({
             region: true,
-            clearfix: true,
             'final-region': this.props.final,
             'initial-region': !this.props.final
         });
         return (
             <section className={classes} data-id={this.props.id}>
-                <h2>{this.props.name}</h2>
-                <div className='rounds clearfix'>
-                    {this.props.rounds.map((round, index) =>
-                        <Round key={index} round={round} />
-                    )}
+                <h2 className='region-name'>{this.props.name}</h2>
+                <div className='rounds'>
+                    <div className='rounds-scroll'>
+                        {this.props.rounds.map((round, index) =>
+                            <Round key={index} round={round} />
+                        )}
+                    </div>
                 </div>
             </section>
         );
@@ -76,16 +77,20 @@ let Bracket = React.createClass({
     render () {
         let {region1, region2, region3, region4, regionFinal, current} = this.props;
         return (
-            <div className='bracket clearfix row' data-bracket={current}>
-                <div className='col-md-6 region-side clearfix left-side'>
+            <div className='bracket row' data-bracket={current}>
+                <div className='col-md-6 region-side left-side'>
                     <Region {...region1} final={false} />
+                    <div className='final-round-borders' />
                     <Region {...region2} final={false} />
+                    <div className='final-round-borders' />
                 </div>
-                <div className='col-md-6 region-side clearfix right-side'>
+                <div className='col-md-6 region-side right-side'>
                     <Region {...region3} final={false} />
+                    <div className='final-round-borders' />
                     <Region {...region4} final={false} />
+                    <div className='final-round-borders' />
                 </div>
-                <div className='col-md-12 clearfix'>
+                <div className='col-md-12 final-region-container'>
                     <Region {...regionFinal} final={true} />
                 </div>
             </div>
