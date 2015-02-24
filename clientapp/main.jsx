@@ -19,7 +19,7 @@ let App = React.createClass({
     },
     useFluidContainer () {
         var key = this.getHandlerKey();
-        return key === 'root' || key === 'bracket';
+        return key === 'root' || !!key.match(/bracket/i);
     },
     render () {
         return (
@@ -37,7 +37,9 @@ let App = React.createClass({
 let Routes = (
     <Route name="app" path="/" handler={App}>
         <Route name="user" path='user/:user' handler={User} />
-        <Route name="bracket" path="bracket/:bracket" handler={Entry} ignoreScrollBehavior={true} />
+        <Route name="emptyBracket" path="bracket" handler={Entry} ignoreScrollBehavior={true}>
+            <Route name="bracket" path=":bracket" handler={Entry} />
+        </Route>
         <Route name="subscribe" handler={User} />
         <Route name="results" handler={User} />
         <Route name="logout" handler={User} />

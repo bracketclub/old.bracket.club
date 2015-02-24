@@ -1,5 +1,7 @@
 let React = require('react');
-let {State} = require('react-router');
+let {State, Navigation} = require('react-router');
+
+let ReplaceBracket = require('../mixins/replaceBracket');
 
 let Bracket = require('../components/bracket/Bracket');
 let BracketNav = require('../components/bracket/Nav');
@@ -8,17 +10,41 @@ let BracketProgress = require('../components/bracket/Progress');
 let app = require('../app');
 let BracketModel = require('../models/liveBracket');
 let bracket = new BracketModel(app.sportYear);
+let bracketGenerator = new (require('bracket-generator'))(app.sportYear);
 
 
 module.exports = React.createClass({
-    mixins: [State],
+    mixins: [State, Navigation, ReplaceBracket],
+    getStateFromStore () {
+        return {
+            bracket: this.getParams().bracket || app.data.constants.EMPTY
+        };
+    },
+    getInitialState () {
+        return this.getStateFromStore();
+    },
+    componentWillReceiveProps () {
+        this.setState(this.getStateFromStore());
+    },
+    handleUpdate (data) {
+        bracket.updateGame(data);
+        this.replaceBracket(bracket.current);
+    },
+    handleHistory (method) {
+        bracket[method]();
+        this.replaceBracket(bracket.current);
+    },
+    handleGenerate (method) {
+        bracket.updateBracket(bracketGenerator.generate(method));
+        this.replaceBracket(bracket.current);
+    },
     render () {
-        bracket.current = this.getParams().bracket || app.data.constants.EMPTY;
-        var data = bracket.getAttributes({session: true, props: true, derived: true});
+        bracket.current = this.state.bracket;
+        var props = bracket.getProps();
         return (<div>
-            <BracketNav {...data} canEdit={true} />
-            <BracketProgress {...data}  />
-            <Bracket {...data}  />
+            <BracketNav {...props} canEdit={true} onHistory={this.handleHistory} onGenerate={this.handleGenerate} />
+            <BracketProgress {...props}  />
+            <Bracket {...props} onUpdateGame={this.handleUpdate} />
         </div>);
     }
 });

@@ -1,7 +1,0 @@
-{
-  "name": "tweetyourbracket.com",
-  "private": true,
-  "dependencies": {
-    "more-or-less": "~1.5.1"
-  }
-}

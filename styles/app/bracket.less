@@ -1,8 +1,7 @@
-@import '../bower_components/more-or-less/less/css3/misc/_calc';
-
 @region-name-horizontal: 23%;
 @large-bracket-min: @screen-md-min;
 @small-bracket-max: (@large-bracket-min - 1);
+
 
 .bracket {
   overflow: hidden;
@@ -201,7 +200,7 @@
       right: 15px;
       height: 301px;
       bottom: 25%;
-      .calc(bottom, "25% + 8px");
+      .lh-calc(bottom, ~"25% + 8px");
       width: 1px;
       z-index: 1;
     }
@@ -209,7 +208,7 @@
     .initial-region:first-child + .final-round-borders {
       bottom: inherit;
       top: 25%;
-      .calc(top, "25% - 8px");
+      .lh-calc(top, ~"25% - 8px");
       height: 302px;
       border-bottom: 1px solid #000;
       width: 200px;
@@ -298,7 +297,7 @@
     .final-region-container {
       position: absolute;
       top: 50%;
-      .calc(top, "50% - 21px");
+      .lh-calc(top, ~"50% - 21px");
       left: 50%;
       width: 430px;
       margin-left: -215px;
@@ -407,6 +406,8 @@
     .region-name {
       position: static;
       top: inherit;
+      text-align: center;
+      font-size: 24px;
     }
 
     .rounds {
@@ -414,19 +415,19 @@
     }
 
     .rounds-scroll {
-      .calc(width, "250vw - 75px");
+      .lh-calc(width, ~"250vw - 75px");
     }
 
     .round {
-      .calc(width, "50vw - 15px");
+      .lh-calc(width, ~"50vw - 15px");
     }
 
     .final-region {
       .rounds-scroll {
-        .calc(width, "150vw - 45px");
+        .lh-calc(width, ~"150vw - 45px");
       }
       .round {
-        .calc(width, "50vw - 15px");
+        .lh-calc(width, ~"50vw - 15px");
       }
     }
   }
