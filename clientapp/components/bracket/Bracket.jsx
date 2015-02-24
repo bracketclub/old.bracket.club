@@ -7,8 +7,7 @@ let Team = React.createClass({
     handleClick (data) {
         this.props.onUpdateGame({
             fromRegion: data.fromRegion,
-            winner: data.seed,
-            loser: data.opponent.seed
+            winner: data.seed
         });
     },
     render () {
@@ -51,8 +50,8 @@ let Region = React.createClass({
                             <div key={index} className='round'>
                                 {chunk(round, 2).map((matchup, index) =>
                                     <ul key={index} className='matchup'>{[
-                                        <Team key='0' {...matchup[0]} opponent={matchup[1]} onUpdateGame={this.props.onUpdateGame} />,
-                                        has(matchup, '1') ? <Team key='1' {...matchup[1]} opponent={matchup[0]} onUpdateGame={this.props.onUpdateGame} /> : null
+                                        <Team key='0' {...matchup[0]} onUpdateGame={this.props.onUpdateGame} />,
+                                        has(matchup, '1') ? <Team key='1' {...matchup[1]} onUpdateGame={this.props.onUpdateGame} /> : null
                                     ]}</ul>
                                 )}
                             </div>
