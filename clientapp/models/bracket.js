@@ -159,6 +159,10 @@ module.exports = State.extend({
         this.history = [this.constants.EMPTY];
     },
 
+    generate: function (type) {
+        this.updateBracket(this.generator.generate(type));
+    },
+
     getBracketObject: function () {
         return this.validator.validate(this.current);
     },

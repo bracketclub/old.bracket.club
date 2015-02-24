@@ -1,5 +1,6 @@
 var crypto = require('crypto');
 var config = require('figs');
+var _ = require('lodash');
 
 
 var year = process.env.TYB_YEAR || config.year;
@@ -9,7 +10,9 @@ liveData.sportYear = {
     year: year,
     sport: sport
 };
-
+liveData.entriesByName = _.chain(liveData.entries).map(function (entry) {
+    return [entry.username.toLowerCase(), entry];
+}).object().value();
 
 var dataString = 'window.bootstrap=' + JSON.stringify(liveData) + ';';
 var dataHash = crypto.createHash('sha1').update(dataString).digest('hex').slice(0, 8);

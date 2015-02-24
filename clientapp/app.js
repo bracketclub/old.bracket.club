@@ -13,7 +13,7 @@ module.exports = {
     sportYear: bootstrapData.sportYear,
     data: new BracketData(extend({props: 'all'}, bootstrapData.sportYear)),
     masters: bootstrapData.masters,
-    entries: bootstrapData.entries
+    entries: bootstrapData.entriesByName
 };
 
 if (hasWindow && window.location.host.split('.')[0].split(':')[0] === 'localhost') {
