@@ -6,6 +6,6 @@ module.exports = React.createClass({
     mixins: [State],
     render () {
         let {user} = this.getParams();
-        return <div>{user}!!</div>;
+        return <div>{user} could not be found</div>;
     }
 });
