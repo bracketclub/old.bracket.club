@@ -13,12 +13,12 @@ module.exports = function exportDirectory (dir) {
         return filename(file) !== 'index' && fs.statSync(path.join(dirPath, file)).isFile();
     });
 
-    var exportString = 'module.exports = {';
+    var exportString = 'module.exports = {\n';
     contents.forEach(function (file) {
-        exportString += filename(file) + ':require(\'./' + file + '\'),';
+        exportString += '    ' + filename(file) + ': require(\'./' + file + '\'),\n';
     });
-    exportString = exportString.substring(0, exportString.length - 1);
-    exportString += '};';
+    exportString = exportString.substring(0, exportString.length - 2);
+    exportString += '\n};';
 
     fs.writeFileSync(path.join(dirPath, 'index.js'), exportString);
 };

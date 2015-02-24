@@ -17,6 +17,7 @@ npm-debug.log
 
 *.rdb
 
+bower_components
 .divshot-cache/
 _crawl/
 _deploy/
