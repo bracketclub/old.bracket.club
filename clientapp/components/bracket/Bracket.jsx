@@ -4,6 +4,12 @@ let chunk = require('lodash/array/chunk');
 let has = require('lodash/object/has');
 
 let Team = React.createClass({
+    handleClick (data) {
+        this.props.onUpdateGame({
+            fromRegion: data.fromRegion,
+            winner: data.seed
+        });
+    },
     render () {
         let aClasses = cx({
             eliminated: this.props.eliminated,
@@ -15,7 +21,7 @@ let Team = React.createClass({
         let {fromRegion, seed, name} = this.props;
         return (
             <li>
-                <a className={'team ' + aClasses} data-region={fromRegion} data-seed={seed} data-name={name} data-id={fromRegion + seed}>
+                <a onClick={this.handleClick.bind(null, this.props)} className={'team pickable ' + aClasses} data-region={fromRegion} data-seed={seed} data-name={name} data-id={fromRegion + seed}>
                     <span className='seed'>{seed}</span>
                     <span className='team-name'>{name}</span>
                     <span className={'should-be ' + shouldBeClasses}>
@@ -28,43 +34,27 @@ let Team = React.createClass({
     }
 });
 
-let Matchup = React.createClass({
-    render () {
-        return (
-            <ul className='matchup'>{[
-                <Team key='0' {...this.props[0]} />,
-                has(this.props, '1') ? <Team key='1' {...this.props[1]} /> : null
-            ]}</ul>
-        );
-    }
-});
-
-let Round = React.createClass({
-    render () {
-        return (
-            <div className='round'>
-                {chunk(this.props.round, 2).map((matchup, index) =>
-                    <Matchup key={index} {...matchup} />
-                )}
-            </div>
-        );
-    }
-});
 
 let Region = React.createClass({
     render () {
         let classes = cx({
-            region: true,
             'final-region': this.props.final,
             'initial-region': !this.props.final
         });
         return (
-            <section className={classes} data-id={this.props.id}>
+            <section className={'region ' + classes} data-id={this.props.id}>
                 <h2 className='region-name'>{this.props.name}</h2>
                 <div className='rounds'>
                     <div className='rounds-scroll'>
                         {this.props.rounds.map((round, index) =>
-                            <Round key={index} round={round} />
+                            <div key={index} className='round'>
+                                {chunk(round, 2).map((matchup, index) =>
+                                    <ul key={index} className='matchup'>{[
+                                        <Team key='0' {...matchup[0]} onUpdateGame={this.props.onUpdateGame} />,
+                                        has(matchup, '1') ? <Team key='1' {...matchup[1]} onUpdateGame={this.props.onUpdateGame} /> : null
+                                    ]}</ul>
+                                )}
+                            </div>
                         )}
                     </div>
                 </div>
@@ -79,19 +69,19 @@ let Bracket = React.createClass({
         return (
             <div className='bracket row' data-bracket={current}>
                 <div className='col-md-6 region-side left-side'>
-                    <Region {...region1} final={false} />
+                    <Region {...region1} final={false} onUpdateGame={this.props.onUpdateGame} />
                     <div className='final-round-borders' />
-                    <Region {...region2} final={false} />
+                    <Region {...region2} final={false} onUpdateGame={this.props.onUpdateGame} />
                     <div className='final-round-borders' />
                 </div>
                 <div className='col-md-6 region-side right-side'>
-                    <Region {...region3} final={false} />
+                    <Region {...region3} final={false} onUpdateGame={this.props.onUpdateGame} />
                     <div className='final-round-borders' />
-                    <Region {...region4} final={false} />
+                    <Region {...region4} final={false} onUpdateGame={this.props.onUpdateGame} />
                     <div className='final-round-borders' />
                 </div>
                 <div className='col-md-12 final-region-container'>
-                    <Region {...regionFinal} final={true} />
+                    <Region {...regionFinal} final={true} onUpdateGame={this.props.onUpdateGame} />
                 </div>
             </div>
         );

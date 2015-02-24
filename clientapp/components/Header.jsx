@@ -7,7 +7,7 @@ let Header = React.createClass({
     render () {
         return (
             <header>
-                <Navbar brand='TweetYouBracket' toggleNavKey={1} fluid={true}>
+                <Navbar fixedTop={true} brand='TweetYouBracket' toggleNavKey={1} fluid={true}>
                     <Nav eventKey={1} right={true}>
                         <NavItemLink to='subscribe'>Subscribe</NavItemLink>
                         <NavItemLink to='results'>Results</NavItemLink>
