@@ -23,6 +23,7 @@
     "bracket-updater": "^2.0.2",
     "bracket-validator": "^2.0.2",
     "domready": "^1.0.7",
+    "flux": "^2.0.1",
     "lodash": "^3.2.0",
     "react": "^0.12.2",
     "react-bootstrap": "^0.15.1",
