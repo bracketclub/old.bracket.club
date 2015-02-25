@@ -1,5 +1,8 @@
 let React = require('react');
-let {Glyphicon, Button, Nav} = require('react-bootstrap');
+
+let Glyphicon = require('react-bootstrap/lib/Glyphicon');
+let Button = require('react-bootstrap/lib/Button');
+let Nav = require('react-bootstrap/lib/Nav');
 
 
 let BracketLink = React.createClass({

@@ -1,7 +1,8 @@
-var State = require('ampersand-state');
+let State = require('ampersand-state');
+
 
 module.exports = State.extend({
-    getProps: function () {
+    getProps () {
         return this.getAttributes({session: true, props: true, derived: true});
     }
 });

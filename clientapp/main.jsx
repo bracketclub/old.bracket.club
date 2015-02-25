@@ -19,7 +19,7 @@ let App = React.createClass({
     },
     useFluidContainer () {
         var key = this.getHandlerKey();
-        return key === 'root' || !!key.match(/bracket/i);
+        return !!key.match(/^(emptyBracket|bracket|root|user)$/i);
     },
     render () {
         return (

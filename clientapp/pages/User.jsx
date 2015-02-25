@@ -1,28 +1,49 @@
 let React = require('react');
-let {State} = require('react-router');
+let {State, Navigation} = require('react-router');
+
+let Bracket = require('../components/bracket/Container');
+
+let BracketModel = require('../models/lockedBracket');
+let UserNotFound = require('./UserNotFound');
 let app = require('../app');
 
 
 module.exports = React.createClass({
-    mixins: [State],
-    getStateFromStore () {
+    mixins: [State, Navigation],
+    getStateFromUrl () {
+        let username = this.getParams().user;
+        let game = parseInt(this.getQuery().game, 10);
+        let user = app.entries[username];
         return {
-            user: app.entries[this.getParams().user]
+            username,
+            user,
+            bracket: (user || {}).bracket,
+            game: isNaN(game) ? app.masters.length - 1 : game,
+            masters: app.masters
         };
     },
     getInitialState () {
-        return this.getStateFromStore();
+        return this.getStateFromUrl();
     },
     componentWillReceiveProps () {
-        this.setState(this.getStateFromStore());
+        this.setState(this.getStateFromUrl());
+    },
+    onBracketChange (bracket) {
+        this.replaceWith('user', {user: this.state.username}, {game: bracket.historyIndex});
     },
     render () {
-        let {user} = this.state;
+        let {user, username, game, masters} = this.state;
 
         if (!user) {
-            return <div>User not found</div>;
+            return <UserNotFound user={username} />;
         }
-        
-        return <div>{user.user_id}!!</div>;
+
+        return (<Bracket
+            canEdit={false}
+            onBracketChange={this.onBracketChange}
+            bracketProps={{history: masters, historyIndex: game, entry: user.bracket}}
+            bracketConstructor={BracketModel}
+            user={user}
+        />);
     }
 });
