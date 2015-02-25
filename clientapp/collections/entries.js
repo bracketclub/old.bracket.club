@@ -3,7 +3,7 @@ var Collection = require('ampersand-collection');
 var underscoreMixin = require('ampersand-collection-underscore-mixin');
 var BracketScorer = require('bracket-scorer');
 var HistoryBracket = require('../models/bracket');
-var ResultBracket = require('../models/resultBracket');
+var ResultBracket = require('../models/lockedBracket');
 var User = require('../models/user').extend({
     initialize: function () {
         if (this.bracket) {

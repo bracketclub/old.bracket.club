@@ -1,6 +1,6 @@
 var test = require('tape');
 var _ = require('underscore');
-var LiveBracket = require('../clientapp/models/liveBracket');
+var LiveBracket = require('../clientapp/models/bracket');
 var GenerateLiveBracket = function () {
     return new LiveBracket({
         sport: 'ncaa-mens-basketball',
