@@ -38,11 +38,11 @@ test('Regions will update', function (t) {
         t.equal(region.id, 'E');
     };
 
-    bracket.on('change:regionE', onChange);
-    bracket.on('change:regionS', onChange);
-    bracket.on('change:regionMW', onChange);
-    bracket.on('change:regionW', onChange);
-    bracket.on('change:regionFF', onChange);
+    bracket.on('change:region1', onChange);
+    bracket.on('change:region2', onChange);
+    bracket.on('change:region3', onChange);
+    bracket.on('change:region4', onChange);
+    bracket.on('change:regionFinal', onChange);
 
     bracket.updateGame({
         winner: 9,

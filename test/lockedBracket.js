@@ -1,10 +1,10 @@
 var test = require('tape');
-var _ = require('underscore');
+var _ = require('lodash');
 var liveData = require('bracket-data-live/data/ncaa-mens-basketball/2014.json');
 var LockedBracket = require('../clientapp/models/lockedBracket');
 var GenerateBracket = function () {
     return new LockedBracket({
-        bracket: _.findWhere(liveData.entries, {username: 'lukekarrys'}).bracket,
+        entry: _.findWhere(liveData.entries, {username: 'lukekarrys'}).bracket,
         history: liveData.masters,
         historyIndex: 62,
         sport: 'ncaa-mens-basketball',
