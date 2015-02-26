@@ -1,5 +1,5 @@
 var test = require('tape');
-var _ = require('underscore');
+var _ = require('lodash');
 var BracketData = require('bracket-data');
 var bd = new BracketData({
     props: ['constants'],

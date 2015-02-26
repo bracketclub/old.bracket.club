@@ -15,16 +15,12 @@ module.exports = {
     main: fixPath('clientapp/main.jsx'),
     developmentMode: !options.minify,
     resourcePrefix: (options.build || options.crawl) ? '/assets/' : '/',
-    libraries: [
-        //fixPath('clientapp/libraries/google-analytics.js')
-    ],
     stylesheets: [fixPath('styles/app.css')],
     browserify: {
         extensions: ['.jsx'],
         transforms: [
             'babelify',
-            ['reactify', {es6: true}],
-            'brfs',
+            ['reactify', {es6: true}]
         ]
     },
     beforeBuildJS: function () {
