@@ -1,12 +1,8 @@
 clientapp/collections/
-clientapp/helpers/
-clientapp/modals/
+clientapp/components/
 clientapp/models/
 clientapp/pages/
-clientapp/views/
-clientapp/app*.js
-clientapp/router.js
-clientapp/templates.js
-clienttemplates/
+clientapp/pages/
+clientapp/app*
+clientapp/main*
 _deploy/
-_crawl/
