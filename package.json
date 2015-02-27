@@ -56,10 +56,13 @@
     "tape-run": "^0.3.0",
     "templatizer": "^1.2.1"
   },
+  "engines": {
+    "node": "^0.10.35"
+  },
   "homepage": "http://tweetyourbracket.com",
   "keywords": [
-    "ncaa",
     "bracket",
+    "ncaa",
     "tweetyourbracket"
   ],
   "license": "MIT",
@@ -71,6 +74,8 @@
   },
   "scripts": {
     "build": "node server --build --minify",
+    "codeship-setup": "npm install -g npm@latest && npm install && npm run update-data && npm run build",
+    "codeship-test": "npm test && npm run lint",
     "crawl": "node server --crawl --minify",
     "deploy": "divshot",
     "dev": "nodemon -e js,json,jade server",
