@@ -37,6 +37,7 @@
     "figs": "^0.1.4",
     "function-bind": "^1.0.2",
     "jade": "^1.9.2",
+    "js-size": "^1.0.3",
     "jsxhint": "^0.12.1",
     "less-import-inserter": "^1.0.1",
     "lesshat": "^3.0.2",
@@ -80,8 +81,9 @@
     "deploy": "divshot",
     "dev": "nodemon -e js,json,jade server",
     "lint": "jsxhint .",
+    "size": "browserify clientapp/main.jsx --extension=.jsx -t babelify -t [reactify --es6] | js-size",
     "start": "node server",
-    "test": "browserify test/*.js --extensions=.jsx -t babelify -t [reactify --es6] | tape-run | tap-spec",
+    "test": "browserify test/*.js --extension=.jsx -t babelify -t [reactify --es6] | tape-run | tap-spec",
     "test-browser": "run-browser test/*",
     "update-data": "npm update bracket-data-live"
   }
