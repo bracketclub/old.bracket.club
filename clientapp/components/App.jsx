@@ -1,6 +1,10 @@
 let React = require('react');
 let {State, RouteHandler} = require('react-router');
-let {Header, Footer} = require('./');
+
+let Header = require('./Header');
+let Footer = require('./Footer');
+
+let rFluidContainer = /^(emptyBracket|bracket|root|user)$/i;
 
 
 let App = React.createClass({
@@ -8,12 +12,11 @@ let App = React.createClass({
     getHandlerKey () {
         var key = this.getRoutes()[1].name;
         var id = this.getParams().id;
-        if (id) { key += id; }
+        if (id) key += id;
         return key || 'root';
     },
     useFluidContainer () {
-        var key = this.getHandlerKey();
-        return !!key.match(/^(emptyBracket|bracket|root|user)$/i);
+        return !!this.getHandlerKey().match(rFluidContainer);
     },
     render () {
         return (
