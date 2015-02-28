@@ -9,6 +9,7 @@ var bootstrapData = (hasWindow ? window : Global).bootstrap || {};
 
 // Export app singleton
 module.exports = {
+    user: 'lukekarrys',
     lastUpdated: __timestamp,
     sportYear: bootstrapData.sportYear,
     data: new BracketData(extend({props: 'all'}, bootstrapData.sportYear)),
