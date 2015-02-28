@@ -21,8 +21,6 @@
     "bracket-scorer": "^2.3.1",
     "bracket-updater": "^2.0.3",
     "bracket-validator": "^2.0.3",
-    "domready": "^1.0.7",
-    "flux": "^2.0.1",
     "lodash": "^3.3.1",
     "react": "^0.12.2",
     "react-bootstrap": "^0.15.1",
