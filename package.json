@@ -12,9 +12,6 @@
   },
   "dependencies": {
     "alt": "^0.13.10",
-    "ampersand-collection": "^1.4.1",
-    "ampersand-collection-underscore-mixin": "^1.0.3",
-    "ampersand-state": "^4.4.5",
     "bootstrap": "^3.3.2",
     "bracket-data": "^2.1.1",
     "bracket-data-live": "git+ssh://git@github.com:tweetyourbracket/bracket-data-live.git",
