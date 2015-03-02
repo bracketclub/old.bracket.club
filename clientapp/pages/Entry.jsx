@@ -1,6 +1,5 @@
 let React = require('react');
 let {State, Navigation} = require('react-router');
-let ListenerMixin = require('alt/mixins/listenerMixin');
 
 let Bracket = require('../components/bracket/Container');
 
@@ -11,7 +10,7 @@ let globalDataStore = require('../stores/globalDataStore');
 
 
 module.exports = React.createClass({
-    mixins: [State, Navigation, ListenerMixin],
+    mixins: [State, Navigation],
 
     componentWillMount() {
         let {locked} = globalDataStore.getState();
@@ -24,6 +23,12 @@ module.exports = React.createClass({
         if (!locked && bracket && bracket !== bracketStore.getBracket()) {
             bracketActions.updateBracket(bracket);
         }
+    },
+
+    componentWillUnmount () {
+        bracketStore.unlisten(this.onChange);
+        globalDataStore.unlisten(this.onChange);
+        masterStore.unlisten(this.onChange);
     },
 
     getInitialState () {
