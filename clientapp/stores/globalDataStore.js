@@ -4,6 +4,7 @@ let BracketUpdater = require('bracket-updater');
 let BracketGenerator = require('bracket-generator');
 let BracketValidator = require('bracket-validator');
 let BracketData = require('bracket-data');
+let BracketScorer = require('bracket-scorer');
 let Countdown = require('../helpers/countdown');
 
 
@@ -29,6 +30,7 @@ class GlobalDataStore {
         this.validator = new BracketValidator({sport, year});
         this.updater = new BracketUpdater({sport, year});
         this.generator = new BracketGenerator({sport, year});
+        this.scorer = new BracketScorer({sport, year});
         this.countdown();
     }
 

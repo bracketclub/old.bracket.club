@@ -7,10 +7,13 @@ let bracketActions = require('../../actions/bracketActions');
 
 let Team = React.createClass({
     handleClick (data) {
-        bracketActions.updateGame({
-            fromRegion: data.fromRegion,
-            winner: data.seed
-        });
+        let {fromRegion, seed, name} = data;
+        if (fromRegion && seed && name) {
+            bracketActions.updateGame({
+                fromRegion,
+                winner: {seed, name}
+            });
+        }
     },
     render () {
         let aClasses = cx({
@@ -44,6 +47,23 @@ let Team = React.createClass({
     }
 });
 
+let Matchup = React.createClass({
+    render () {
+        let {matchup, key, canEdit} = this.props;
+
+        let teams = [
+            <Team key='0' {...matchup[0]} fromRegion={this.props.fromRegion} canEdit={canEdit} />
+        ];
+
+        if (has(matchup, '1')) {
+            teams.push(
+                <Team key='1' {...matchup[1]} fromRegion={this.props.fromRegion} canEdit={canEdit} />
+            );
+        }
+
+        return <ul key={key} className='matchup'>{teams}</ul>;
+    }
+});
 
 let Region = React.createClass({
     render () {
@@ -59,14 +79,7 @@ let Region = React.createClass({
                         {this.props.rounds.map((round, index) =>
                             <div key={index} className='round'>
                                 {chunk(round, 2).map((matchup, index) =>
-                                    <ul key={index} className='matchup'>{[
-                                        <Team key='0' {...matchup[0]}
-                                            canEdit={this.props.canEdit}
-                                        />,
-                                        has(matchup, '1') ? <Team key='1' {...matchup[1]}
-                                            canEdit={this.props.canEdit}
-                                        /> : null
-                                    ]}</ul>
+                                    <Matchup key={index} fromRegion={this.props.id} matchup={matchup} canEdit={this.props.canEdit} />
                                 )}
                             </div>
                         )}

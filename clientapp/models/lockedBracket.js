@@ -1,4 +1,3 @@
-let BracketScorer = require('bracket-scorer');
 let pick = require('lodash/object/pick');
 let without = require('lodash/array/without');
 let Bracket = require('./base');
@@ -20,10 +19,6 @@ module.exports = Bracket.extend({
         this.listenTo(this, 'change:current', this.calculateScores);
         this.calculateScores();
     },
-    createHelpers () {
-        this.scorer = new BracketScorer(this.sportYear);
-        Bracket.prototype.createHelpers.apply(this, arguments);
-    },
     calculateScores () {
         if (!this.current) return;
         this.setScores(this.scorer.score(this.scoreTypes, {master: this.current}));
@@ -33,10 +28,5 @@ module.exports = Bracket.extend({
         scores.rounds.forEach(function (round, index) {
             this['rounds' + index] = round;
         }, this);
-    },
-    getBracketObject () {
-        // A locked bracket will be rendered with the all its
-        // correct/incorrect picks so we use the scorer's diff
-        return this.scorer.diff({master: this.current, entry: this.entry});
     }
 });
