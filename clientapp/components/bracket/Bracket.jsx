@@ -49,15 +49,22 @@ let Team = React.createClass({
 
 let Matchup = React.createClass({
     render () {
-        let {matchup, key, canEdit} = this.props;
+        let {matchup, key, canEdit, fromRegion} = this.props;
+        let hasMatchup = has(matchup, '1');
+
+        // The last team in each region is actually the final
+        // so we update the fromRegion so it works with the updateGame action
+        if (!hasMatchup) {
+            fromRegion = 'FF';
+        }
 
         let teams = [
-            <Team key='0' {...matchup[0]} fromRegion={this.props.fromRegion} canEdit={canEdit} />
+            <Team key='0' {...matchup[0]} fromRegion={fromRegion} canEdit={canEdit} />
         ];
 
-        if (has(matchup, '1')) {
+        if (hasMatchup) {
             teams.push(
-                <Team key='1' {...matchup[1]} fromRegion={this.props.fromRegion} canEdit={canEdit} />
+                <Team key='1' {...matchup[1]} fromRegion={fromRegion} canEdit={canEdit} />
             );
         }
 
