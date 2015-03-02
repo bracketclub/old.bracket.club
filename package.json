@@ -72,7 +72,7 @@
   },
   "scripts": {
     "build": "node server --build --minify",
-    "codeship-setup": "npm install -g npm@latest && npm install && npm run update-data && npm run build",
+    "codeship-setup": "npm install -g npm@^2 && npm install && npm run update-data && npm run build",
     "codeship-test": "npm test && npm run lint",
     "crawl": "node server --crawl --minify",
     "deploy": "divshot",
