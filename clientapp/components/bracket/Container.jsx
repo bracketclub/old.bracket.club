@@ -19,7 +19,7 @@ module.exports = React.createClass({
         return (<div>
             <BracketNav locked={props.locked} history={props.history} index={props.index} />
             <BracketProgress bracket={props.bracket} progressText='picks made' />
-            {this.isEntry() ? null : <ScoreCard {...props.user} />}
+            {this.isEntry() ? null : <ScoreCard {...props.user} master={this.props.bracket} />}
             <Bracket locked={props.locked} bracket={this.isEntry() ? this.getEntry() : this.getUser()} />
         </div>);
     }

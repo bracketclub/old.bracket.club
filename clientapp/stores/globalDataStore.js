@@ -26,7 +26,7 @@ class GlobalDataStore {
         let {sport, year} = obj;
         this.sport = sport;
         this.year = year;
-        this.bracketData = new BracketData({props: ['constants'], sport, year});
+        this.bracketData = new BracketData({props: ['constants', 'locks'], sport, year});
         this.validator = new BracketValidator({sport, year});
         this.updater = new BracketUpdater({sport, year});
         this.generator = new BracketGenerator({sport, year});

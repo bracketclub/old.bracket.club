@@ -2,46 +2,61 @@ let React = require('react');
 let {State, Navigation} = require('react-router');
 
 let Bracket = require('../components/bracket/Container');
-
 let UserNotFound = require('./UserNotFound');
+
+let masterActions = require('../actions/masterActions');
+let masterStore = require('../stores/masterStore');
+let globalDataStore = require('../stores/globalDataStore');
+let entryStore = require('../stores/entryStore');
 
 
 module.exports = React.createClass({
     mixins: [State, Navigation],
-    getStateFromUrl () {
-        let username = this.getParams().user;
-        let game = parseInt(this.getQuery().game, 10);
-        let user = app.entries[username];
-        return {
-            username,
-            user,
-            bracket: (user || {}).bracket,
-            game: isNaN(game) ? app.masters.length - 1 : game,
-            masters: app.masters
-        };
-    },
+
     getInitialState () {
-        return this.getStateFromUrl();
+        let bracket = masterStore.getBracket();
+        let {history, index} = masterStore.getState();
+        let {username} = this.getParams();
+        let user = entryStore.getState().entries[username];
+        return {bracket, history, index, user, username};
     },
+
+    componentWillMount () {
+        masterStore.listen(this.onChange);
+        globalDataStore.listen(this.onChange);
+        entryStore.listen(this.onChange);
+
+        let game = parseInt(this.getQuery().game, 10);
+
+        if (!isNaN(game) && game !== masterStore.getState().index) {
+            masterActions.getIndex(game);
+        }
+    },
+
+    componentWillUnmount () {
+        masterStore.unlisten(this.onChange);
+        globalDataStore.unlisten(this.onChange);
+        entryStore.unlisten(this.onChange);
+    },
+
     componentWillReceiveProps () {
-        this.setState(this.getStateFromUrl());
+        this.setState(this.getInitialState());
     },
-    onBracketChange (bracket) {
-        this.replaceWith('user', {user: this.state.username}, {game: bracket.historyIndex});
+
+    onChange () {
+        let state = this.getInitialState();
+        let {index} = state;
+        this.replaceWith('user', {username: this.state.username}, {game: index});
+        this.setState(state);
     },
+
     render () {
-        let {user, username, game, masters} = this.state;
+        let {user, username} = this.state;
 
         if (!user) {
             return <UserNotFound user={username} />;
         }
 
-        return (<Bracket
-            canEdit={false}
-            onBracketChange={this.onBracketChange}
-            bracketProps={{history: masters, historyIndex: game, entry: user.bracket}}
-            bracketConstructor={BracketModel}
-            user={user}
-        />);
+        return <Bracket {...this.state} locked={true} />;
     }
 });

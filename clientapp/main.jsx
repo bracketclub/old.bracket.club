@@ -8,7 +8,7 @@ let {sportYear, masters, entriesByName} = window.bootstrap;
 
 alt.bootstrap(JSON.stringify({
     GlobalDataStore: sportYear,
-    MasterStore: {brackets: masters},
+    MasterStore: {history: masters},
     EntryStore: {entries: entriesByName},
     BracketStore: {}
 }));
@@ -29,7 +29,7 @@ let routes = (
         <Route name="results" path='results' handler={Pages.Results} />
         <Redirect from="users" to='results' />
 
-        <Route name="user" path="users/:user" handler={Pages.User} />
+        <Route name="user" path="users/:username" handler={Pages.User} />
         <Route name="subscribe" handler={Pages.Subscribe} />
 
         <DefaultRoute handler={Pages.Entry} />

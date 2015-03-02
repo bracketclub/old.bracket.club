@@ -5,27 +5,33 @@ let ListenerMixin = require('alt/mixins/listenerMixin');
 let Bracket = require('../components/bracket/Container');
 
 let bracketActions = require('../actions/bracketActions');
+let masterStore = require('../stores/masterStore');
 let bracketStore = require('../stores/bracketStore');
 let globalDataStore = require('../stores/globalDataStore');
 
 
 module.exports = React.createClass({
     mixins: [State, Navigation, ListenerMixin],
+
     componentWillMount() {
+        let {locked} = globalDataStore.getState();
         let {bracket} = this.getParams();
 
-        bracketStore.listen(this.onBracketChange);
-        globalDataStore.listen(this.onBracketChange);
+        bracketStore.listen(this.onChange);
+        globalDataStore.listen(this.onChange);
+        masterStore.listen(this.onChange);
 
-        if (bracket && bracket !== bracketStore.getBracket().bracket) {
+        if (!locked && bracket && bracket !== bracketStore.getBracket()) {
             bracketActions.updateBracket(bracket);
         }
     },
 
     getInitialState () {
-        let {bracket} = bracketStore.getBracket();
-        let {history, index} = bracketStore.getState();
         let {locked} = globalDataStore.getState();
+        let store = locked ? masterStore : bracketStore;
+        let bracket = store.getBracket();
+        let {history, index} = store.getState();
+
         return {bracket, history, index, locked};
     },
 
@@ -33,7 +39,7 @@ module.exports = React.createClass({
         this.setState(this.getParams());
     },
 
-    onBracketChange () {
+    onChange () {
         let state = this.getInitialState();
         let {bracket} = state;
         this.replaceWith('bracket', {bracket});

@@ -8,7 +8,8 @@ class MasterActions {
             'getFirst',
             'getLast',
             'getNext',
-            'getPrevious'
+            'getPrevious',
+            'getIndex'
         );
     }
 }
