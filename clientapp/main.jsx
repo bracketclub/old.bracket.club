@@ -1,8 +1,22 @@
+require('babelify/polyfill');
+
+// Require the alt singleton and then require each store so that
+// they can be instantiated before we bootstrap the window data.
+let alt = require('./alt');
+require('./stores');
+let {sportYear, masters, entriesByName} = window.bootstrap;
+
+alt.bootstrap(JSON.stringify({
+    GlobalDataStore: sportYear,
+    MasterStore: {brackets: masters},
+    EntryStore: {entries: entriesByName},
+    BracketStore: {}
+}));
+
 let React = require('react');
 let Router = require('react-router');
 let {HistoryLocation, Redirect, Route, DefaultRoute, NotFoundRoute} = Router;
 
-let app = require('./app');
 let Pages = require('./pages');
 let App = require('./components/App');
 
@@ -23,7 +37,6 @@ let routes = (
     </Route>
 );
 
-
 Router.run(routes, HistoryLocation, function (Handler) {
-    React.render(<Handler {...app} />, document.body);
+    React.render(<Handler lastUpdated={window.__timestamp} />, document.body);
 });

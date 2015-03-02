@@ -25,6 +25,7 @@ module.exports = {
     },
     beforeBuildJS: function () {
         exportDirectory('clientapp/pages');
+        exportDirectory('clientapp/stores');
     },
     beforeBuildCSS: function (cb) {
         lessitizer({
