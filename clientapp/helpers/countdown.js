@@ -3,7 +3,6 @@ let raf = require('raf');
 
 class Countdown {
     constructor (time, callback) {
-        this._id = null;
         this.date = new Date(time);
         this.callback = callback;
         this.countdown();
@@ -15,6 +14,7 @@ class Countdown {
 
     cancel () {
         this._id && raf.cancel(this._id);
+        delete this._id;
     }
 
     countdown () {
