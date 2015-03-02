@@ -3,7 +3,6 @@ let {State, Navigation} = require('react-router');
 
 let Bracket = require('../components/bracket/Container');
 
-let BracketModel = require('../models/lockedBracket');
 let UserNotFound = require('./UserNotFound');
 
 

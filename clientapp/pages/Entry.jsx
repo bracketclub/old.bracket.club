@@ -17,7 +17,7 @@ module.exports = React.createClass({
         bracketStore.listen(this.onBracketChange);
         globalDataStore.listen(this.onBracketChange);
 
-        if (bracket) {
+        if (bracket && bracket !== bracketStore.getBracket().bracket) {
             bracketActions.updateBracket(bracket);
         }
     },
