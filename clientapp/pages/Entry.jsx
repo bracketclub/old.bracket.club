@@ -41,8 +41,12 @@ module.exports = React.createClass({
 
     onChange () {
         let state = this.getInitialState();
-        let {bracket} = state;
-        this.replaceWith('bracket', {bracket});
+        let {bracket, locked} = state;
+
+        if (!locked) {
+            this.replaceWith('bracket', {bracket});
+        }
+
         this.setState(state);
     },
 
