@@ -14,8 +14,7 @@ class BracketStore {
 
     static getBracket () {
         let {history, index} = this.getState();
-        var bracket = history[index];
-        return {bracket};
+        return history[index];
     }
 
     _resetToEmpty () {

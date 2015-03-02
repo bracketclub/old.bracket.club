@@ -7,21 +7,21 @@ class MasterStore {
         this.bindActions(masterActions);
 
         this.index = 0;
-        this.brackets = [];
+        this.history = [];
 
         this.on('bootstrap', () => {
-            this.index = this.brackets.length - 1;
+            this.index = this.history.length - 1;
         });
     }
 
     static getBracket () {
-        var bracket = this.brackets[this.index];
-        return {bracket};
+        let {history, index} = this.getState();
+        return history[index];
     }
 
     onAddMaster (master) {
-        this.brackets.push(master);
-        this.index = this.brackets.length - 1;
+        this.history.push(master);
+        this.index = this.history.length - 1;
     }
 
     onGetPrevious () {
@@ -37,7 +37,11 @@ class MasterStore {
     }
 
     onGetLast () {
-        this.index = this.brackets.length - 1;
+        this.index = this.history.length - 1;
+    }
+
+    onGetIndex (index) {
+        this.index = Math.min(Math.max(0, index), this.history.length - 1);
     }
 }
 

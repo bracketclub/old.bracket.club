@@ -1,14 +1,15 @@
 let React = require('react');
-let ListenerMixin = require('alt/mixins/listenerMixin');
 let ProgressBar = require('react-bootstrap/lib/ProgressBar');
 let globalDataStore = require('../../stores/globalDataStore');
 
 
 let BracketProgress = React.createClass({
-    mixins: [ListenerMixin],
-
     componentWillMount () {
         globalDataStore.listen(this.onChange);
+    },
+
+    componentWillUnmount () {
+        globalDataStore.unlisten(this.onChange);
     },
 
     componentWillReceiveProps (props) {

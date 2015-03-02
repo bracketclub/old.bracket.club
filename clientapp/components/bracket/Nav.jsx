@@ -4,16 +4,22 @@ let Glyphicon = require('react-bootstrap/lib/Glyphicon');
 let Button = require('react-bootstrap/lib/Button');
 let Nav = require('react-bootstrap/lib/Nav');
 
+let globalDataStore = require('../../stores/globalDataStore');
 let bracketActions = require('../../actions/bracketActions');
+let masterActions = require('../../actions/masterActions');
 
 
 let BracketLink = React.createClass({
     handleClick (method) {
-        let isGenerate = method.indexOf('generate') === 0;
+        let {locked} = globalDataStore.getState();
+
+        let isGenerate = method.indexOf('generate-') === 0;
+        let actions = locked ? masterActions : bracketActions;
+
         if (isGenerate) {
-            bracketActions.generate(method.replace('generate', '').toLowerCase());
+            actions.generate(method.replace('generate-', ''));
         } else {
-            bracketActions[method]();
+            actions[method]();
         }
     },
     render () {
@@ -40,18 +46,18 @@ let BracketNav = React.createClass({
         let {canRewind, canFastForward, canReset} = this.navProps();
 
         let items = [
-            <BracketLink method='getFirst' key={0} glyph='fast-backward' disabled={!canRewind} />,
-            <BracketLink method='getPrevious' key={1} glyph='step-backward' disabled={!canRewind} />,
-            <BracketLink method='getNext' key={2} glyph='step-forward' disabled={!canFastForward} />,
-            <BracketLink method='getLast' key={3} glyph='fast-forward' disabled={!canFastForward} />
+            <BracketLink key={0} method='getFirst' glyph='fast-backward' disabled={!canRewind} />,
+            <BracketLink key={1} method='getPrevious' glyph='step-backward' disabled={!canRewind} />,
+            <BracketLink key={2} method='getNext' glyph='step-forward' disabled={!canFastForward} />,
+            <BracketLink key={3} method='getLast' glyph='fast-forward' disabled={!canFastForward} />
         ];
 
         if (!this.props.locked) {
             items.push(
                 <BracketLink key={4} method='reset' glyph='ban-circle' disabled={!canReset} />,
-                <BracketLink key={5} method='generateLower'>1</BracketLink>,
-                <BracketLink key={6} method='generateHigher'>16</BracketLink>,
-                <BracketLink key={7} method='generateRandom' glyph='random' />
+                <BracketLink key={5} method='generate-lower'>1</BracketLink>,
+                <BracketLink key={6} method='generate-higher'>16</BracketLink>,
+                <BracketLink key={7} method='generate-random' glyph='random' />
             );
         }
 
