@@ -13,7 +13,7 @@
   "dependencies": {
     "alt": "^0.13.10",
     "bootstrap": "^3.3.2",
-    "bracket-data": "^2.1.1",
+    "bracket-data": "^2.1.2",
     "bracket-data-live": "git+ssh://git@github.com:tweetyourbracket/bracket-data-live.git",
     "bracket-generator": "^2.0.3",
     "bracket-scorer": "^2.3.1",
