@@ -11,6 +11,7 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com/issues"
   },
   "dependencies": {
+    "alt": "^0.13.10",
     "ampersand-collection": "^1.4.1",
     "ampersand-collection-underscore-mixin": "^1.0.3",
     "ampersand-state": "^4.4.5",
@@ -22,6 +23,7 @@
     "bracket-updater": "^2.0.3",
     "bracket-validator": "^2.0.3",
     "lodash": "^3.3.1",
+    "raf": "^2.0.4",
     "react": "^0.12.2",
     "react-bootstrap": "^0.15.1",
     "react-router": "^0.12.4",
@@ -81,8 +83,8 @@
     "lint": "jsxhint .",
     "size": "browserify clientapp/main.jsx --extension=.jsx -t babelify -t [reactify --es6] | js-size",
     "start": "node server",
-    "test": "browserify test/*.js --extension=.jsx -t babelify -t [reactify --es6] | tape-run | tap-spec",
-    "test-browser": "run-browser test/*",
+    "test": "browserify test/index.js --extension=.jsx -t babelify -t [reactify --es6] | tape-run | tap-spec",
+    "test-browser": "run-browser test/index.js",
     "update-data": "npm update bracket-data-live"
   }
 }

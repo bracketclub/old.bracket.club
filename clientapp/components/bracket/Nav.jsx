@@ -4,48 +4,54 @@ let Glyphicon = require('react-bootstrap/lib/Glyphicon');
 let Button = require('react-bootstrap/lib/Button');
 let Nav = require('react-bootstrap/lib/Nav');
 
+let bracketActions = require('../../actions/bracketActions');
+
 
 let BracketLink = React.createClass({
     handleClick (method) {
-        this.props.onGenerate(method);
+        let isGenerate = method.indexOf('generate') === 0;
+        if (isGenerate) {
+            bracketActions.generate(method.replace('generate', '').toLowerCase());
+        } else {
+            bracketActions[method]();
+        }
     },
     render () {
+        let onClick = this.handleClick.bind(null, this.props.method);
         return (
-            <Button onClick={this.handleClick.bind(null, this.props.method)} navItem componentClass='button'>
+            <Button navItem componentClass='button' disabled={this.props.disabled} onClick={onClick}>
                 {this.props.children ? this.props.children : <Glyphicon glyph={this.props.glyph} />}
             </Button>
         );
     }
 });
 
-let HistoryLink = React.createClass({
-    handleClick (method) {
-        this.props.onHistory(method);
+let BracketNav = React.createClass({
+    navProps () {
+        let {history, index} = this.props;
+        let hasHistory = history.length > 0;
+        return {
+            canRewind: hasHistory && index > 0,
+            canFastForward: hasHistory && index < history.length - 1,
+            canReset: history.length > 1
+        };
     },
     render () {
-        return (
-            <Button onClick={this.handleClick.bind(null, this.props.method)} navItem componentClass='button' disabled={this.props.disabled}>
-                <Glyphicon glyph={this.props.glyph} />
-            </Button>
-        );
-    }
-});
+        let {canRewind, canFastForward, canReset} = this.navProps();
 
-let BracketNav = React.createClass({
-    render () {
         let items = [
-            <HistoryLink {...this.props} method='getFirst' key={0} glyph='fast-backward' disabled={!this.props.canRewind} />,
-            <HistoryLink {...this.props} method='getPrevious' key={1} glyph='step-backward' disabled={!this.props.canRewind} />,
-            <HistoryLink {...this.props} method='getNext' key={2} glyph='step-forward' disabled={!this.props.canFastForward} />,
-            <HistoryLink {...this.props} method='getLast' key={3} glyph='fast-forward' disabled={!this.props.canFastForward} />
+            <BracketLink method='getFirst' key={0} glyph='fast-backward' disabled={!canRewind} />,
+            <BracketLink method='getPrevious' key={1} glyph='step-backward' disabled={!canRewind} />,
+            <BracketLink method='getNext' key={2} glyph='step-forward' disabled={!canFastForward} />,
+            <BracketLink method='getLast' key={3} glyph='fast-forward' disabled={!canFastForward} />
         ];
 
-        if (this.props.canEdit) {
+        if (!this.props.locked) {
             items.push(
-                <HistoryLink {...this.props} key={4} method='resetHistory' glyph='ban-circle' disabled={!this.props.hasHistory} />,
-                <BracketLink {...this.props} key={5} method='lower'>1</BracketLink>,
-                <BracketLink {...this.props} key={6} method='higher'>16</BracketLink>,
-                <BracketLink {...this.props} key={7} method='random' glyph='random' />
+                <BracketLink key={4} method='reset' glyph='ban-circle' disabled={!canReset} />,
+                <BracketLink key={5} method='generateLower'>1</BracketLink>,
+                <BracketLink key={6} method='generateHigher'>16</BracketLink>,
+                <BracketLink key={7} method='generateRandom' glyph='random' />
             );
         }
 

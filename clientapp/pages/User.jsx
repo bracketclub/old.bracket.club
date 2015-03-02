@@ -5,7 +5,6 @@ let Bracket = require('../components/bracket/Container');
 
 let BracketModel = require('../models/lockedBracket');
 let UserNotFound = require('./UserNotFound');
-let app = require('../app');
 
 
 module.exports = React.createClass({

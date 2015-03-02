@@ -1,53 +1,46 @@
 let React = require('react');
-let extend = require('lodash/object/extend');
+let find = require('lodash/collection/find');
+let pluck = require('lodash/collection/pluck');
+let findNextRegion = function (bracket, regions) {
+    return find(bracket, (region) => {
+        return pluck('id', regions).indexOf(region.id) === -1;
+    });
+};
+
 
 let Bracket = require('./Bracket');
 let BracketNav = require('./Nav');
 let BracketProgress = require('./Progress');
 let ScoreCard = require('./ScoreCard');
 
-let app = require('../../app');
-
+let globalDataStore = require('../../stores/globalDataStore');
 
 
 module.exports = React.createClass({
-    componentWillMount () {
-        this.bracket = new this.props.bracketConstructor(extend({},
-            app.sportYear,
-            this.props.bracketProps
-        ));
-    },
-    getInitialState () {
-        return this.props.bracketProps;
-    },
-    componentWillReceiveProps (nextProps) {
-        this.setState(nextProps.bracketProps);
-    },
-    setStateFromBracket () {
-        let {current, history, historyIndex} = this.bracket;
-        this.props.onBracketChange({current, history, historyIndex}, this.bracket);
-    },
+    getBracket () {
+        let {bracketData, validator} = globalDataStore.getState();
+        let {constants} = bracketData;
+        let {FINAL_ID, REGION_IDS} = constants;
 
-    onHistory (method) {
-        this.bracket[method]();
-        this.setStateFromBracket();
-    },
-    onGenerate (method) {
-        this.bracket.generate(method);
-        this.setStateFromBracket();
-    },
-    onUpdateGame (data) {
-        this.bracket.updateGame(data);
-        this.setStateFromBracket();
-    },
+        let bracket = validator.validate(this.props.bracket);
+        let regionFinal = bracket[FINAL_ID];
+        let region1 = bracket[REGION_IDS[0]];
+        let region2 = bracket[region1.sameSideAs];
+        let region3 = findNextRegion(bracket, [region1, region2, regionFinal]);
+        let region4 = bracket[region3.sameSideAs];
 
+        return {region1, region2, region3, region4, regionFinal};
+    },
+    isEntry () {
+        return !this.props.user;
+    },
     render () {
-        let bracket = this.bracket.set(this.state).getProps();
+        let props = this.props;
         return (<div>
-            <BracketNav {...bracket} canEdit={this.props.canEdit} onHistory={this.onHistory} onGenerate={this.onGenerate} />
-            <BracketProgress {...bracket}  />
-            {!this.props.canEdit ? <ScoreCard {...bracket} {...this.props.user} /> : null}
-            <Bracket {...bracket} canEdit={this.props.canEdit} onUpdateGame={this.onUpdateGame} />
+            <BracketNav locked={props.locked} history={props.history} index={props.index} />
+            <BracketProgress bracket={props.bracket} progressText='picks made' />
+            {this.isEntry() ? null : <ScoreCard {...props.user} />}
+            <Bracket locked={props.locked} bracket={this.getBracket()} />
         </div>);
     }
 });

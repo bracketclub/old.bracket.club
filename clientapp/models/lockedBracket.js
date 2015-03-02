@@ -1,7 +1,7 @@
 let BracketScorer = require('bracket-scorer');
 let pick = require('lodash/object/pick');
 let without = require('lodash/array/without');
-let Bracket = require('./bracket');
+let Bracket = require('./base');
 
 
 module.exports = Bracket.extend({

@@ -1,17 +1,45 @@
 let React = require('react');
+let ListenerMixin = require('alt/mixins/listenerMixin');
 let ProgressBar = require('react-bootstrap/lib/ProgressBar');
+let globalDataStore = require('../../stores/globalDataStore');
 
 
 let BracketProgress = React.createClass({
+    mixins: [ListenerMixin],
+
+    componentWillMount () {
+        globalDataStore.listen(this.onChange);
+    },
+
+    componentWillReceiveProps (props) {
+        this.setState(this.getStateFromBracket(props));
+    },
+
+    getStateFromBracket (props) {
+        let {constants} = globalDataStore.getState().bracketData;
+        let {bracket} = props;
+        let total = (constants.TEAMS_PER_REGION * constants.REGION_COUNT) - 1;
+        let unpicked = constants.UNPICKED_MATCH;
+
+        return {total, progress: total - (bracket.split(unpicked).length - 1)};
+    },
+
+    getInitialState () {
+        return this.getStateFromBracket(this.props);
+    },
+
+    onChange () {
+        this.setState(this.getStateFromBracket(this.props));
+    },
+
     render () {
-        return (
-            <ProgressBar
+        return (<ProgressBar
             striped
-            now={this.props.progress}
+            now={this.state.progress}
             min={0}
-            max={this.props.progressTotal}
-            label={"%(now)s of %(max)s " + this.props.progressText} />
-        );
+            max={this.state.total}
+            label={"%(now)s of %(max)s " + this.props.progressText}
+        />);
     }
 });
 
