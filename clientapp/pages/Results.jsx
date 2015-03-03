@@ -91,7 +91,7 @@ module.exports = React.createClass({
                     ) :
                     <tr>
                         <td colSpan='12'>
-                            Entries don't lock until <TimeAgo date={locks} />. Check back then to see the results.<br />If you haven't filled out your bracket yet, head over to <Link to='bracket' params={{bracket: ''}}>the entry page</Link> before it's too late.
+                            Entries don't lock until <TimeAgo date={locks} title={locks} />. Check back then to see the results.<br />If you haven't filled out your bracket yet, head over to <Link to='bracket' params={{bracket: ''}}>the entry page</Link> before it's too late.
                         </td>
                     </tr>
                 }
