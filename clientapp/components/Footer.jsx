@@ -57,7 +57,7 @@ let Footer = React.createClass({
                     </a>
                 </p>
                 <p>Made with love by <a href='https://twitter.com/lukekarrys'>Luke</a> in Arizona.</p>
-                <p>Last updated: <TimeAgo date={this.props.lastUpdated} /></p>
+                <p>Last updated: <TimeAgo date={this.props.lastUpdated} title={this.props.lastUpdated} /></p>
             </footer>
         );
     }
