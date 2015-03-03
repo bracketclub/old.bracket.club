@@ -17,12 +17,13 @@ let BracketProgress = React.createClass({
     },
 
     getStateFromBracket (props) {
-        let {constants} = globalDataStore.getState().bracketData;
+        let {locked, bracketData} = globalDataStore.getState();
+        let {constants} = bracketData;
         let {bracket} = props;
         let total = (constants.TEAMS_PER_REGION * constants.REGION_COUNT) - 1;
         let unpicked = constants.UNPICKED_MATCH;
 
-        return {total, progress: total - (bracket.split(unpicked).length - 1)};
+        return {locked, total, progress: total - (bracket.split(unpicked).length - 1)};
     },
 
     getInitialState () {
@@ -39,7 +40,7 @@ let BracketProgress = React.createClass({
             now={this.state.progress}
             min={0}
             max={this.state.total}
-            label={"%(now)s of %(max)s " + this.props.progressText}
+            label={"%(now)s of %(max)s " + (this.state.locked ? 'games played' : 'picks made')}
         />);
     }
 });

@@ -1,11 +1,10 @@
 let React = require('react');
-let {State, Link} = require('react-router');
+let {Link} = require('react-router');
 
 
 module.exports = React.createClass({
-    mixins: [State],
     render () {
-        let user = this.props.user || this.getParams().user;
+        let user = this.props.user;
         return (
             <div>
                 <h2>User not found</h2>

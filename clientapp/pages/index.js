@@ -1,5 +1,4 @@
 module.exports = {
-    Collaborate: require('./Collaborate.jsx'),
     Entry: require('./Entry.jsx'),
     FourOhFour: require('./FourOhFour.jsx'),
     Results: require('./Results.jsx'),

@@ -1,18 +1,15 @@
 let React = require('react');
 
 let globalDataStore = require('../../stores/globalDataStore');
-let masterStore = require('../../stores/masterStore');
 
 
 let ScoreCard = React.createClass({
     componentWillMount () {
         globalDataStore.listen(this.onChange);
-        masterStore.listen(this.onChange);
     },
 
     componentWillUnmount () {
         globalDataStore.unlisten(this.onChange);
-        masterStore.unlisten(this.onChange);
     },
 
     componentWillReceiveProps (props) {
@@ -23,10 +20,7 @@ let ScoreCard = React.createClass({
         let {scorer} = globalDataStore.getState();
         let {master, bracket: entry} = props;
 
-        return scorer.score(['standard', 'gooley', 'standardPPR', 'gooleyPPR'], {
-            master,
-            entry
-        });
+        return scorer.score(['standard', 'gooley', 'standardPPR', 'gooleyPPR'], {master, entry});
     },
 
     getInitialState () {

@@ -4,7 +4,7 @@ let {State, RouteHandler} = require('react-router');
 let Header = require('./Header');
 let Footer = require('./Footer');
 
-let rFluidContainer = /^(emptyBracket|bracket|root|user)$/i;
+let rFluidContainer = /^(bracket|root|user)$/i;
 
 
 let App = React.createClass({
