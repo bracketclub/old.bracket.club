@@ -6,7 +6,6 @@ let UserNotFound = require('./UserNotFound');
 
 let masterActions = require('../actions/masterActions');
 let masterStore = require('../stores/masterStore');
-let globalDataStore = require('../stores/globalDataStore');
 let entryStore = require('../stores/entryStore');
 
 
@@ -23,7 +22,6 @@ module.exports = React.createClass({
 
     componentWillMount () {
         masterStore.listen(this.onChange);
-        globalDataStore.listen(this.onChange);
         entryStore.listen(this.onChange);
 
         let game = parseInt(this.getQuery().game, 10);
@@ -35,7 +33,6 @@ module.exports = React.createClass({
 
     componentWillUnmount () {
         masterStore.unlisten(this.onChange);
-        globalDataStore.unlisten(this.onChange);
         entryStore.unlisten(this.onChange);
     },
 
