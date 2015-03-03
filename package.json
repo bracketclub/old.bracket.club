@@ -77,7 +77,7 @@
     "codeship-test": "npm test && npm run lint",
     "crawl": "node server --crawl --minify",
     "deploy": "divshot",
-    "dev": "nodemon -e js,json,jade server",
+    "local": "nodemon -e js,json,jade server",
     "lint": "jsxhint .",
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
     "size": "browserify clientapp/main.jsx --extension=.jsx -t babelify -t [reactify --es6] | js-size",

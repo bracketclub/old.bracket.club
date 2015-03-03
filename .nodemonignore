@@ -1,8 +1,9 @@
-clientapp/collections/
+clientapp/actions/
 clientapp/components/
-clientapp/models/
+clientapp/helpers/
 clientapp/pages/
-clientapp/pages/
+clientapp/stores/
 clientapp/app*
 clientapp/main*
 _deploy/
+node_modules/
