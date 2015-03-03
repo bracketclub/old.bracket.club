@@ -16,7 +16,7 @@ module.exports = React.createClass({
         let bracket = masterStore.getBracket();
         let {history, index} = masterStore.getState();
         let {username} = this.getParams();
-        let user = entryStore.getState().entries[username];
+        let user = entryStore.getState().entries[username.toLowerCase()];
         return {bracket, history, index, user, username};
     },
 

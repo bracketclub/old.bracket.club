@@ -1,5 +1,6 @@
 let React = require('react');
 let flatten = require('lodash/array/flatten');
+let TimeAgo = require('react-timeago');
 
 let infoLinks = [{
     text: '2012',
@@ -56,7 +57,7 @@ let Footer = React.createClass({
                     </a>
                 </p>
                 <p>Made with love by <a href='https://twitter.com/lukekarrys'>Luke</a> in Arizona.</p>
-                <p>Last updated: {this.props.lastUpdated}</p>
+                <p>Last updated: <TimeAgo date={this.props.lastUpdated} /></p>
             </footer>
         );
     }

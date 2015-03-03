@@ -1,8 +1,9 @@
 let React = require('react');
-let {State, Navigation} = require('react-router');
+let {State, Navigation, Link} = require('react-router');
 let sort = require('lodash/collection/sortBy');
 let map = require('lodash/collection/map');
 
+let TimeAgo = require('react-timeago');
 let Table = require('react-bootstrap/lib/Table');
 let BracketNav = require('../components/bracket/Nav');
 let BracketProgress = require('../components/bracket/Progress');
@@ -34,8 +35,10 @@ module.exports = React.createClass({
     getInitialState () {
         let bracket = masterStore.getBracket();
         let {history, index} = masterStore.getState();
+        let {bracketData, locked} = globalDataStore.getState();
+        let {locks} = bracketData;
         let entries = this.sortEntriesByScore(bracket);
-        return {bracket, history, index, entries};
+        return {bracket, history, index, entries, locked, locks};
     },
 
     componentWillMount () {
@@ -68,43 +71,55 @@ module.exports = React.createClass({
     },
 
     render () {
-        let {entries} = this.state;
+        let {entries, locked, locks, history, index, bracket} = this.state;
+
+        let tbody = (
+            <tbody>
+                {locked ?
+                    entries.map((entry, index) => 
+                        <tr>
+                            <td>{index + 1}</td>
+                            <td><Link to='user' params={{username: entry.username}}>{entry.username}</Link></td>
+                            {entry.score.rounds.map(round => 
+                                <td className='hidden-xs'>{round}</td>
+                            )}
+                            <td>{entry.score.standard}</td>
+                            <td>{entry.score.standardPPR}</td>
+                            <td>{entry.score.gooley}</td>
+                            <td>{entry.score.gooleyPPR}</td>
+                        </tr>
+                    ) :
+                    <tr>
+                        <td colSpan='12'>
+                            Entries don't lock until <TimeAgo date={locks} />. Check back then to see the results.<br />If you haven't filled out your bracket yet, head over to <Link to='bracket' params={{bracket: ''}}>the entry page</Link> before it's too late.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        );
+
         return (
             <div>
-                <BracketNav locked={true} history={this.state.history} index={this.state.index} />
-                <BracketProgress bracket={this.state.bracket} progressText='games played' />
+                <BracketNav locked={true} history={history} index={index} />
+                <BracketProgress bracket={bracket} />
                 <Table condensed striped responsive>
                     <thead>
                         <tr>
                             <th>Rank</th>
                             <th>Username</th>
-                            <th>Rd 1</th>
-                            <th>Rd 2</th>
-                            <th>S16</th>
-                            <th>E8</th>
-                            <th>FF</th>
-                            <th>NC</th>
+                            <th className='hidden-xs'>Rd 1</th>
+                            <th className='hidden-xs'>Rd 2</th>
+                            <th className='hidden-xs'>S16</th>
+                            <th className='hidden-xs'>E8</th>
+                            <th className='hidden-xs'>FF</th>
+                            <th className='hidden-xs'>NC</th>
                             <th>Score</th>
                             <th>PPR</th>
                             <th>Gooley</th>
                             <th>Gooley PPR</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {entries.map((entry, index) => 
-                            <tr>
-                                <td>{index + 1}</td>
-                                <td>{entry.username}</td>
-                                {entry.score.rounds.map(round => 
-                                    <td>{round}</td>
-                                )}
-                                <td>{entry.score.standard}</td>
-                                <td>{entry.score.standardPPR}</td>
-                                <td>{entry.score.gooley}</td>
-                                <td>{entry.score.gooleyPPR}</td>
-                            </tr>
-                        )}
-                    </tbody>
+                    {tbody}
                 </Table>
                 
             </div>

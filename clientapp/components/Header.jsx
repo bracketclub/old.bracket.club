@@ -14,9 +14,8 @@ let Header = React.createClass({
     render () {
         return (
             <header>
-                <Navbar fixedTop={true} brand={<Link to='app'>TweetYourBracket</Link>} toggleNavKey={1} fluid={true}>
+                <Navbar brand={<Link to='app'>TweetYourBracket</Link>} toggleNavKey={1} fluid>
                     <Nav eventKey={1} right={true}>
-                        <NavItemLink to='emptyBracket'>New Bracket</NavItemLink>
                         <NavItemLink to='subscribe'>Subscribe</NavItemLink>
                         <NavItemLink to='results'>Results</NavItemLink>
                         {(this.props.user ? <DropdownButton title={this.props.user}>

@@ -11,4 +11,4 @@ class GlobalDataActions {
     }
 }
 
-module.exports = alt.createActions(GlobalDataActions);
+module.exports = window.gs = alt.createActions(GlobalDataActions);
