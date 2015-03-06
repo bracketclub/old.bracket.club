@@ -32,7 +32,6 @@
     "browserify": "^9.0.3",
     "divshot-cli": "^1.10.2",
     "express": "^4.12.2",
-    "figs": "^0.1.4",
     "function-bind": "^1.0.2",
     "jade": "^1.9.2",
     "js-size": "^1.0.3",
