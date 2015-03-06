@@ -1,7 +1,6 @@
 var crypto = require('crypto');
-var config = require('figs');
 
-var sport = process.env.TYB_SPORT || config.sport;
+var sport = process.env.TYB_SPORT || 'ncaa-mens-basketball';
 var data = {sportYear: {year: '2015', sport: sport}};
 
 ['2012', '2013', '2014', '2015'].forEach(function (year) {
