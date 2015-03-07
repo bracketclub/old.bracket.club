@@ -5,7 +5,7 @@ let Button = require('react-bootstrap/lib/Button');
 let Nav = require('react-bootstrap/lib/Nav');
 
 let globalDataStore = require('../../stores/globalDataStore');
-let bracketActions = require('../../actions/bracketActions');
+let bracketEntryActions = require('../../actions/bracketEntryActions');
 let masterActions = require('../../actions/masterActions');
 
 
@@ -14,7 +14,7 @@ let BracketLink = React.createClass({
         let {locked} = globalDataStore.getState();
 
         let isGenerate = method.indexOf('generate-') === 0;
-        let actions = locked ? masterActions : bracketActions;
+        let actions = locked ? masterActions : bracketEntryActions;
 
         if (isGenerate) {
             actions.generate(method.replace('generate-', ''));

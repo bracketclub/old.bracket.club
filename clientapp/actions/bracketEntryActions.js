@@ -1,7 +1,7 @@
 let alt = require('../alt');
 
 
-class BracketActions {
+class BracketEntryActions {
     constructor () {
         this.generateActions(
             'updateBracket',
@@ -16,4 +16,4 @@ class BracketActions {
     }
 }
 
-module.exports = alt.createActions(BracketActions);
+module.exports = alt.createActions(BracketEntryActions);

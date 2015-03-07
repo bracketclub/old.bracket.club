@@ -1,13 +1,13 @@
 let alt = require('../alt');
-let bracketActions = require('../actions/bracketActions');
+let bracketEntryActions = require('../actions/bracketEntryActions');
 let globalDataStore = require('./globalDataStore');
 let extend = require('lodash/object/extend');
 let concatOrInsert = require('../helpers/arrayConcatOrInsert');
 
 
-class BracketStore {
+class BracketEntryStore {
     constructor () {
-        this.bindActions(bracketActions);
+        this.bindActions(bracketEntryActions);
 
         this.on('bootstrap', this._resetToEmpty);
     }
@@ -64,4 +64,4 @@ class BracketStore {
     }
 }
 
-module.exports = alt.createStore(BracketStore, 'BracketStore');
+module.exports = alt.createStore(BracketEntryStore, 'BracketEntryStore');

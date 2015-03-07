@@ -4,15 +4,11 @@ require('babelify/polyfill');
 // they can be instantiated before we bootstrap the window data.
 let alt = require('./alt');
 require('./stores');
-let {bootstrap} = window;
-let {sportYear} = bootstrap;
-let {masters, entries} = bootstrap[sportYear.year];
+let {__timestamp, __sport, __year} = window;
 
 alt.bootstrap(JSON.stringify({
-    GlobalDataStore: sportYear,
-    MasterStore: {history: masters},
-    EntryStore: {entries},
-    BracketStore: {}
+    GlobalDataStore: {sport: __sport, year: __year},
+    BracketEntryStore: {}
 }));
 
 let React = require('react');
@@ -27,7 +23,7 @@ let routes = (
         <Route name="results" path='results' handler={Pages.Results} />
         <Redirect from="users" to='results' />
 
-        <Route name="user" path="users/:username" handler={Pages.User} />
+        <Route name="user" path="users/:id" handler={Pages.User} />
         <Route name="subscribe" handler={Pages.Subscribe} />
 
         <Route name='bracket' path=':bracket?' handler={Pages.Entry} ignoreScrollBehavior={true} />
@@ -37,5 +33,5 @@ let routes = (
 );
 
 Router.run(routes, HistoryLocation, function (Handler) {
-    React.render(<Handler lastUpdated={window.__timestamp} />, document.body);
+    React.render(<Handler lastUpdated={__timestamp} />, document.body);
 });

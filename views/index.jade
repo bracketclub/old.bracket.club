@@ -5,8 +5,7 @@ html
     meta(name="apple-mobile-web-app-capable", content="yes")
     link(rel='stylesheet', href=locals.resourcePrefix + locals.cssFileName)
     script.
-        var __timestamp = "#{locals.timestamp}";
-    script(src=locals.resourcePrefix + locals.dataFileName)
+        __timestamp="#{locals.timestamp}",__sport="#{sport}",__year="#{year}"
   body
     script(src=locals.resourcePrefix + locals.jsFileName)
     script.
