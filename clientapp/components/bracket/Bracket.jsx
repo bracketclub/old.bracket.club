@@ -2,14 +2,14 @@ let React = require('react');
 let cx = require('react/lib/cx');
 let chunk = require('lodash/array/chunk');
 let has = require('lodash/object/has');
-let bracketActions = require('../../actions/bracketActions');
+let bracketEntryActions = require('../../actions/bracketEntryActions');
 
 
 let Team = React.createClass({
     handleClick (data) {
         let {fromRegion, seed, name} = data;
         if (fromRegion && seed && name) {
-            bracketActions.updateGame({
+            bracketEntryActions.updateGame({
                 fromRegion,
                 winner: {seed, name}
             });

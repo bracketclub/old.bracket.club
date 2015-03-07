@@ -1,42 +1,49 @@
 var express = require('express');
-var Crawler = require('spa-crawler');
 var Moonboots = require('moonboots-express');
+var Static = require('moonboots-static');
+var jade = require('jade');
+var extend = require('lodash/object/extend');
+var fs = require('fs');
 
+var fixPath = require('./lib/fixpath');
+var options = require('./lib/options');
+var config = require('./lib/config');
 
-var quit = function (err) { process.exit(err ? 1 : 0); };
-var build = require('./build/build');
-var data = require('./build/data');
-var saveIndex = require('./build/saveIndex');
-var htmlFile = require('./build/html');
-var fixPath = require('./build/fixpath');
-var options = require('./build/options');
-var config = require('./build/config');
 var port = process.env.PORT || 3000;
+var timestamp = new Date().toJSON();
+var sport = process.env.TYB_SPORT || 'ncaa-mens-basketball';
+var year = process.env.TYB_YEAR || '2015';
 
+var htmlFile = function (context) {
+    return jade.render(fs.readFileSync(fixPath('views/index.jade')), extend(context, {
+        timestamp: timestamp,
+        sport: sport,
+        year: year
+    }));
+};
 
 
 // ------------------------
 // Build static files to a dir
 // ------------------------
 if (options.build) {
-    build('_deploy', function (err) {
-        quit(err);
+    new Static({
+        verbose: true,
+        moonboots: config,
+        'public': fixPath('public'),
+        directory: fixPath('_deploy'),
+        htmlSource: htmlFile,
+        cb: function (err) { process.exit(err ? 1 : 0); }
     });
 }
-
-
 
 // ------------------------
 // Start the dev server
 // ------------------------
-if (options.server) {
+else {
     var expressApp = express();
     expressApp.use(express.static(fixPath('public')));
-    expressApp.get(config.resourcePrefix + data.filename, function (req, res) {
-        res.set('Content-Type', 'text/javascript; charset=utf-8');
-        res.send(data.string);
-    });
-    var moonboots = new Moonboots({
+    new Moonboots({
         moonboots: config,
         render: function (req, res) {
             res.send(htmlFile(res.locals));
@@ -45,30 +52,4 @@ if (options.server) {
     });
     expressApp.listen(port);
     console.log("Running at: http://localhost:" + port);
-}
-
-
-
-// ------------------------
-// Crawl the dev server
-// ------------------------
-if (options.crawl) {
-    build('_crawl', function () {
-        var crawler = new Crawler({
-            rndr: { readyEvent: 'renderReady' },
-            app: 'http://127.0.0.1:' + port + '/',
-            delayStart: 5000
-        });
-        var startCrawler = function () {
-            crawler.start().crawler
-            .on('spaurl', saveIndex)
-            .on('complete', quit);
-        };
-        if (moonboots.ready) {
-            startCrawler();
-        } else {
-            moonboots.on('ready', startCrawler);
-        }
-        console.log("Crawler will crawl: http://localhost:" + port);
-    });
 }

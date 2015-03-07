@@ -79,7 +79,7 @@ module.exports = React.createClass({
                     entries.map((entry, index) => 
                         <tr>
                             <td>{index + 1}</td>
-                            <td><Link to='user' params={{username: entry.username}}>{entry.username}</Link></td>
+                            <td><Link to='user' params={{id: entry.user_id}}>{entry.username}</Link></td>
                             {entry.score.rounds.map(round => 
                                 <td className='hidden-xs'>{round}</td>
                             )}

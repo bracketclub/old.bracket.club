@@ -8,10 +8,6 @@ class MasterStore {
 
         this.index = 0;
         this.history = [];
-
-        this.on('bootstrap', () => {
-            this.index = this.history.length - 1;
-        });
     }
 
     static getBracket () {

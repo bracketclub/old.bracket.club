@@ -3,9 +3,9 @@ let {State, Navigation} = require('react-router');
 
 let Bracket = require('../components/bracket/Container');
 
-let bracketActions = require('../actions/bracketActions');
+let bracketEntryActions = require('../actions/bracketEntryActions');
 let masterStore = require('../stores/masterStore');
-let bracketStore = require('../stores/bracketStore');
+let bracketEntryStore = require('../stores/bracketEntryStore');
 let globalDataStore = require('../stores/globalDataStore');
 
 
@@ -17,24 +17,24 @@ module.exports = React.createClass({
         let {bracket} = this.getParams();
         let storeBracket = this.getBracketStore().getBracket();
 
-        bracketStore.listen(this.onChange);
+        bracketEntryStore.listen(this.onChange);
         globalDataStore.listen(this.onChange);
         masterStore.listen(this.onChange);
 
         if (!locked && bracket && bracket !== storeBracket) {
-            bracketActions.updateBracket(bracket);
+            bracketEntryActions.updateBracket(bracket);
         }
     },
 
     componentWillUnmount () {
-        bracketStore.unlisten(this.onChange);
+        bracketEntryStore.unlisten(this.onChange);
         globalDataStore.unlisten(this.onChange);
         masterStore.unlisten(this.onChange);
     },
 
     getBracketStore () {
         let {locked} = globalDataStore.getState();
-        return locked ? masterStore : bracketStore; 
+        return locked ? masterStore : bracketEntryStore; 
     },
 
     getInitialState () {
