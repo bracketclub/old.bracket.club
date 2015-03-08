@@ -27,6 +27,7 @@ class GlobalDataStore {
         this.sport = sport;
         this.year = year;
         this.bracketData = new BracketData({props: ['constants', 'locks'], sport, year});
+        this.emptyBracket = this.bracketData.constants.EMPTY;
         this.validator = new BracketValidator({sport, year});
         this.updater = new BracketUpdater({sport, year});
         this.generator = new BracketGenerator({sport, year});

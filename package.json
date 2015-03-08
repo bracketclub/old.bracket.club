@@ -54,7 +54,7 @@
   },
   "engines": {
     "node": "^0.10.35",
-    "npm": "^2.6.1"
+    "npm": "^2.7.0"
   },
   "homepage": "http://tweetyourbracket.com",
   "keywords": [
@@ -71,7 +71,7 @@
   },
   "scripts": {
     "build": "node server --build --minify",
-    "codeship-setup": "npm run npm-version && npm install && npm run update-data && npm run build",
+    "codeship-setup": "npm run npm-version && npm install && npm run build",
     "codeship-test": "npm test && npm run lint",
     "deploy": "divshot",
     "local": "nodemon -e js,json,jade server",
@@ -80,7 +80,6 @@
     "size": "browserify clientapp/main.jsx --extension=.jsx -t babelify -t [reactify --es6] | js-size",
     "start": "node server",
     "test": "browserify test/index.js --extension=.jsx -t babelify -t [reactify --es6] | tape-run | tap-spec",
-    "test-browser": "run-browser test/index.js",
-    "update-data": "npm update bracket-data-live"
+    "test-browser": "run-browser test/index.js"
   }
 }

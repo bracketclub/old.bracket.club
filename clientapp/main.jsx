@@ -4,10 +4,11 @@ require('babelify/polyfill');
 // they can be instantiated before we bootstrap the window data.
 let alt = require('./alt');
 require('./stores');
-let {__timestamp, __sport, __year} = window;
+let {__timestamp, __sport: sport, __year: year} = window;
 
 alt.bootstrap(JSON.stringify({
-    GlobalDataStore: {sport: __sport, year: __year},
+    GlobalDataStore: {sport, year},
+    MasterStore: {},
     BracketEntryStore: {}
 }));
 

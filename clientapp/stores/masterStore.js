@@ -1,5 +1,6 @@
 let alt = require('../alt');
 let masterActions = require('../actions/masterActions');
+let globalDataStore = require('./globalDataStore');
 
 
 class MasterStore {
@@ -8,11 +9,26 @@ class MasterStore {
 
         this.index = 0;
         this.history = [];
+
+        this.on('bootstrap', this._resetToEmpty);
     }
 
     static getBracket () {
         let {history, index} = this.getState();
         return history[index];
+    }
+
+    _resetToEmpty () {
+        let {emptyBracket} = globalDataStore.getState();
+        this.index = 0;
+        this.history = [emptyBracket];
+    }
+
+    onReceiveMasters (masters) {
+        this.waitFor(globalDataStore.dispatchToken);
+        let {emptyBracket} = globalDataStore.getState();
+        this.history = [emptyBracket].concat(masters);
+        this.index = this.history.length - 1;
     }
 
     onAddMaster (master) {

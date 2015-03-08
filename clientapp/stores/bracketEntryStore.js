@@ -18,9 +18,9 @@ class BracketEntryStore {
     }
 
     _resetToEmpty () {
-        let {EMPTY} = globalDataStore.getState().bracketData.constants;
+        let {emptyBracket} = globalDataStore.getState();
         this.index = 0;
-        this.history = [EMPTY];
+        this.history = [emptyBracket];
     }
 
     onUpdateBracket (bracket) {
