@@ -39,7 +39,8 @@ let Header = React.createClass({
         this.setState(this.getInitialState());
     },
 
-    onClickYear (year) {
+    onClickYear (year, e) {
+        e.preventDefault();
         globalDataActions.updateYear(year);
     },
 

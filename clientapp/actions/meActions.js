@@ -4,16 +4,18 @@ let firebase = require('../helpers/firebase');
 
 class MasterActions {
     constructor () {
-        this.generateActions('login', 'logout', 'error');
+        this.generateActions('login', 'error');
+    }
+
+    logout () {
+        firebase.unauth();
     }
 
     auth () {
-        firebase.authWithOAuthPopup('twitter', (err, authData) => {
-            if (err) {
-                this.actions.error(err);
-            } else {
-                this.actions.login(authData);
-            }
+        // The main file creates a firebase auth listener so
+        // all we need to do here is start the flow and catch the error
+        firebase.authWithOAuthPopup('twitter', err => {
+            if (err) this.actions.error(err);
         });
     }
 }

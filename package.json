@@ -63,22 +63,22 @@
     "tweetyourbracket"
   ],
   "license": "MIT",
-  "main": "server.js",
+  "main": "index.js",
   "private": true,
   "repository": {
     "type": "git",
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com.git"
   },
   "scripts": {
-    "build": "node server --build --minify",
+    "build": "node index --build --minify",
     "codeship-setup": "npm run npm-version && npm install && npm run build",
     "codeship-test": "npm test && npm run lint",
     "deploy": "divshot",
-    "local": "nodemon -e js,json,jade server",
+    "local": "nodemon -e js,json,jade index",
     "lint": "jsxhint .",
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
     "size": "browserify clientapp/main.jsx --extension=.jsx -t babelify -t [reactify --es6] | js-size",
-    "start": "node server",
+    "start": "node index",
     "test": "browserify test/index.js --extension=.jsx -t babelify -t [reactify --es6] | tape-run | tap-spec",
     "test-browser": "run-browser test/index.js"
   }

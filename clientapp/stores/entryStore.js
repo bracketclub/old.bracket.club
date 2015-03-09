@@ -29,6 +29,7 @@ class EntryStore {
         years.forEach(year => {
             let yearEntries = byYear[year] ? indexBy(byYear[year], 'user_id') : {};
             this.entries[year] = yearEntries;
+
             merge(this.users, yearEntries, (entry, nextEntry) => {
                 let nextUser  = pick(nextEntry, 'user_id', 'username', 'name', 'profile_pic');
                 nextUser.years = (entry && entry.years || []).concat(nextEntry.year);

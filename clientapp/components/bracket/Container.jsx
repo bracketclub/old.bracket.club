@@ -1,5 +1,7 @@
 let React = require('react');
+
 let globalDataStore = require('../../stores/globalDataStore');
+
 let find = require('lodash/collection/find');
 let pluck = require('lodash/collection/pluck');
 let findNextRegion = (bracket, regions) => {
@@ -44,7 +46,7 @@ let BracketContainer = React.createClass({
     },
 
     getBracketObject (props) {
-        return {bracketObject: !props.user ? this.getEntry(props) : this.getUser(props)};
+        return {bracketObject: !props.entry ? this.getEntry(props) : this.getUser(props)};
     },
 
     componentWillReceiveProps (nextProps) {
@@ -63,7 +65,7 @@ let BracketContainer = React.createClass({
     getUser (props) {
         let {scorer} = globalDataStore.getState();
         let {bracket: master} = props;
-        let entry = props.user.bracket;
+        let entry = props.entry.bracket;
         return getRegions(scorer.diff({master, entry}));
     },
 
@@ -72,7 +74,7 @@ let BracketContainer = React.createClass({
         return (<div>
             <BracketNav locked={props.locked} history={props.history} index={props.index} />
             <BracketProgress bracket={props.bracket} />
-            {this.props.user ? <ScoreCard {...props.user} master={this.props.bracket} /> : null}
+            {this.props.entry ? <ScoreCard {...props.entry} master={props.bracket} /> : null}
             <Bracket locked={props.locked} bracket={this.state.bracketObject} />
         </div>);
     }
