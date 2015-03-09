@@ -5,7 +5,7 @@ require('babelify/polyfill');
 let alt = require('./alt');
 require('./stores');
 
-let {__timestamp: timestamp, __sport: sport, __year: year} = window;
+let {__sport: sport, __year: year} = window;
 alt.bootstrap(JSON.stringify({
     GlobalDataStore: {sport, year},
     MasterStore: {},
@@ -26,12 +26,12 @@ let firebase = require('./helpers/firebase');
 firebase.onAuth(require('./actions/meActions').login);
 
 let routes = (
-    <Route name="app" path="/" handler={App}>
-        <Route name="results" path='results' handler={Pages.Results} />
-        <Redirect from="users" to='results' />
+    <Route name='app' path='/' handler={App}>
+        <Route name='results' path='results/:year?' handler={Pages.Results} />
+        <Redirect from='users' to='results' />
 
-        <Route name="user" path="users/:id" handler={Pages.User} />
-        <Route name="subscribe" handler={Pages.Subscribe} />
+        <Route name='user' path='users/:id/:year?' handler={Pages.User} />
+        <Route name='subscribe' handler={Pages.Subscribe} />
 
         <Route name='bracket' path=':bracket?' handler={Pages.Entry} ignoreScrollBehavior={true} />
 
@@ -39,6 +39,6 @@ let routes = (
     </Route>
 );
 
-Router.run(routes, HistoryLocation, function (Handler) {
-    React.render(<Handler lastUpdated={timestamp} />, document.body);
+Router.run(routes, HistoryLocation, function (Handler, state) {
+    React.render(<Handler {...state} />, document.body);
 });

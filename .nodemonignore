@@ -3,7 +3,8 @@ clientapp/components/
 clientapp/helpers/
 clientapp/pages/
 clientapp/stores/
-clientapp/app*
+clientapp/alt.js
+clientapp/global.js
 clientapp/main*
 _deploy/
 node_modules/

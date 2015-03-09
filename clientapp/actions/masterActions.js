@@ -1,6 +1,5 @@
 let alt = require('../alt');
-let xhr = require('xhr');
-let API_URL = 'http://localhost:3001';
+let api = require('../helpers/api');
 
 
 class MasterActions {
@@ -17,15 +16,7 @@ class MasterActions {
     }
 
     fetchMasters () {
-        xhr({
-            url: API_URL + '/masters',
-        }, (err, resp, body) => {
-            if (err) {
-                console.error(err);
-            } else {
-                this.actions.receiveMasters(JSON.parse(body).response);
-            }
-        });
+        api('/masters', this.actions.receiveMasters);
     }
 }
 

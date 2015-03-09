@@ -11,7 +11,7 @@ class MeStore {
     }
 
     onError (err) {
-        console.error('AUTH', err);
+        console.error('[AUTH]', err);
     }
 
     onLogout () {
@@ -20,9 +20,10 @@ class MeStore {
     }
 
     onLogin (obj) {
-        if (obj && obj.twitter) {
-            this.id = obj.twitter.id;
-            this.username = obj.twitter.username;
+        let {twitter} = obj;
+        if (twitter) {
+            this.id = twitter.id;
+            this.username = twitter.username;
         } else {
             this.onLogout();
         }

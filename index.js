@@ -10,13 +10,11 @@ var options = require('./lib/options');
 var config = require('./lib/config');
 
 var port = process.env.PORT || 3000;
-var timestamp = new Date().toJSON();
 var sport = 'ncaa-mens-basketball';
 var year = '2015';
 
 var htmlFile = function (context) {
     return jade.render(fs.readFileSync(fixPath('views/index.jade')), extend(context, {
-        timestamp: timestamp,
         sport: sport,
         year: year
     }));
