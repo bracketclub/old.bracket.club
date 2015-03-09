@@ -30,7 +30,7 @@ let BracketProgress = require('./Progress');
 let ScoreCard = require('./ScoreCard');
 
 
-module.exports = React.createClass({
+let BracketContainer = React.createClass({
     componentWillMount() {
         globalDataStore.listen(this.onChange);
     },
@@ -67,10 +67,6 @@ module.exports = React.createClass({
         return getRegions(scorer.diff({master, entry}));
     },
 
-    isEntry () {
-        return !this.props.user;
-    },
-
     render () {
         let props = this.props;
         return (<div>
@@ -81,3 +77,5 @@ module.exports = React.createClass({
         </div>);
     }
 });
+
+module.exports = BracketContainer;

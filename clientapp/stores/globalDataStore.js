@@ -1,4 +1,5 @@
 let alt = require('../alt');
+let last = require('lodash/array/last');
 let globalDataActions = require('../actions/globalDataActions');
 let BracketUpdater = require('bracket-updater');
 let BracketGenerator = require('bracket-generator');
@@ -6,6 +7,7 @@ let BracketValidator = require('bracket-validator');
 let BracketData = require('bracket-data');
 let BracketScorer = require('bracket-scorer');
 let Countdown = require('../helpers/countdown');
+let {years} = require('../global');
 
 
 class GlobalDataStore {
@@ -14,10 +16,13 @@ class GlobalDataStore {
 
         this.sport = '';
         this.year = '';
+        this.activeYear = '';
         this.locked = false;
         this.bracketData = {};
 
         this.on('bootstrap', () => {
+            // activeYear is static and determins which stores get realtime data added to them
+            this.activeYear = last(years);
             this.onUpdateSportYear({sport: this.sport, year: this.year});
         });
     }
@@ -25,7 +30,7 @@ class GlobalDataStore {
     onUpdateSportYear (obj) {
         let {sport, year} = obj;
         this.sport = sport;
-        this.year = year;
+        this.year = years.indexOf(year) > -1 ? year : last(years);
         this.bracketData = new BracketData({props: ['constants', 'locks'], sport, year});
         this.emptyBracket = this.bracketData.constants.EMPTY;
         this.validator = new BracketValidator({sport, year});
@@ -39,10 +44,6 @@ class GlobalDataStore {
         this.onUpdateSportYear({sport: this.sport, year});
     }
 
-    onUpdateSport (sport) {
-        this.onUpdateSportYear({year: this.year, sport});
-    }
-
     onUpdateLocked (locked) {
         this.locked = locked;
     }
@@ -53,8 +54,11 @@ class GlobalDataStore {
     countdown () {
         this._countdown && this._countdown.cancel();
         this._countdown = new Countdown(this.bracketData.locks, () => {
-            globalDataActions.updateLocked(true);
+            this.onUpdateLocked(true);
         });
+        if (this._countdown._id) {
+            this.onUpdateLocked(false);
+        }
     }
 }
 

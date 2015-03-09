@@ -15,7 +15,7 @@ module.exports = React.createClass({
     componentWillMount() {
         let {locked} = globalDataStore.getState();
         let {bracket} = this.getParams();
-        let storeBracket = this.getBracketStore().getBracket();
+        let {bracket: storeBracket} = this.getBracketStore();
 
         bracketEntryStore.listen(this.onChange);
         globalDataStore.listen(this.onChange);
@@ -33,15 +33,23 @@ module.exports = React.createClass({
     },
 
     getBracketStore () {
-        let {locked} = globalDataStore.getState();
-        return locked ? masterStore : bracketEntryStore; 
+        let {locked, year} = globalDataStore.getState();
+        let bracketHistory, index;
+        if (locked) {
+            let state = masterStore.getState();
+            bracketHistory = state.history[year];
+            index = state.index;
+        } else {
+            let state = bracketEntryStore.getState();
+            bracketHistory = state.history;
+            index = state.index;
+        }
+        return {bracket: bracketHistory[index], history: bracketHistory, index};
     },
 
     getInitialState () {
         let {locked} = globalDataStore.getState();
-        let store = this.getBracketStore();
-        let bracket = store.getBracket();
-        let {history, index} = store.getState();
+        let {bracket, history, index} = this.getBracketStore();
 
         return {bracket, history, index, locked};
     },

@@ -5,24 +5,27 @@ let Bracket = require('../components/bracket/Container');
 let UserNotFound = require('./UserNotFound');
 
 let masterActions = require('../actions/masterActions');
+
 let masterStore = require('../stores/masterStore');
 let entryStore = require('../stores/entryStore');
+let globalDataStore = require('../stores/globalDataStore');
 
 
 module.exports = React.createClass({
     mixins: [State, Navigation],
 
     getInitialState () {
-        let bracket = masterStore.getBracket();
         let {history, index} = masterStore.getState();
-        let {username} = this.getParams();
-        let user = entryStore.getState().entries[username.toLowerCase()];
-        return {bracket, history, index, user, username};
+        let {year} = globalDataStore.getState();
+        let {id} = this.getParams();
+        let user = entryStore.getState().entries[year][id];
+        return {bracket: history[year][index], history: history[year], index, user, id};
     },
 
     componentWillMount () {
         masterStore.listen(this.onChange);
         entryStore.listen(this.onChange);
+        globalDataStore.listen(this.onChange);
 
         let game = parseInt(this.getQuery().game, 10);
 
@@ -34,6 +37,7 @@ module.exports = React.createClass({
     componentWillUnmount () {
         masterStore.unlisten(this.onChange);
         entryStore.unlisten(this.onChange);
+        globalDataStore.unlisten(this.onChange);
     },
 
     componentWillReceiveProps () {
@@ -43,15 +47,15 @@ module.exports = React.createClass({
     onChange () {
         let state = this.getInitialState();
         let {index} = state;
-        this.replaceWith('user', {username: this.state.username}, {game: index});
+        this.replaceWith('user', {id: this.state.id}, {game: index});
         this.setState(state);
     },
 
     render () {
-        let {user, username} = this.state;
+        let {user} = this.state;
 
         if (!user) {
-            return <UserNotFound user={username} />;
+            return <UserNotFound />;
         }
 
         return <Bracket {...this.state} locked={true} />;

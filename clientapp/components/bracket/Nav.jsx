@@ -11,6 +11,8 @@ let masterActions = require('../../actions/masterActions');
 
 let BracketLink = React.createClass({
     handleClick (method) {
+        // Dont need to listen for store change events here
+        // because its a click handler so it will get the current value
         let {locked} = globalDataStore.getState();
 
         let isGenerate = method.indexOf('generate-') === 0;

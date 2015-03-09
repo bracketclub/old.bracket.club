@@ -11,8 +11,8 @@ var config = require('./lib/config');
 
 var port = process.env.PORT || 3000;
 var timestamp = new Date().toJSON();
-var sport = process.env.TYB_SPORT || 'ncaa-mens-basketball';
-var year = process.env.TYB_YEAR || '2015';
+var sport = 'ncaa-mens-basketball';
+var year = '2015';
 
 var htmlFile = function (context) {
     return jade.render(fs.readFileSync(fixPath('views/index.jade')), extend(context, {
