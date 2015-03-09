@@ -12,11 +12,6 @@ class BracketEntryStore {
         this.on('bootstrap', this._resetToEmpty);
     }
 
-    static getBracket () {
-        let {history, index} = this.getState();
-        return history[index];
-    }
-
     _resetToEmpty () {
         let {emptyBracket} = globalDataStore.getState();
         this.index = 0;

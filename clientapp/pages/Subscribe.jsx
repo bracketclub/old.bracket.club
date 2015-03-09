@@ -10,7 +10,7 @@ let Button = require('react-bootstrap/lib/Button');
 module.exports = React.createClass({
     render () {
         return (
-            <form style={{paddingBottom: '1000px'}} target='_blank' action='http://tweetyourbracket.us5.list-manage.com/subscribe/post' method='POST'>
+            <form target='_blank' action='http://tweetyourbracket.us5.list-manage.com/subscribe/post' method='POST'>
                 <input type='hidden' name='u' value='3357cbc15c95f163a6fff3a84' />
                 <input type='hidden' name='id' value='2259ac644a' />
                 <Grid>

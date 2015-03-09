@@ -17,8 +17,8 @@ let globalDataStore = require('../stores/globalDataStore');
 module.exports = React.createClass({
     mixins: [State, Navigation],
 
-    sortEntriesByScore (bracket) {
-        let entries = map(entryStore.getState().entries, (_entry) => {
+    sortEntriesByScore (bracket, year) {
+        let entries = map(entryStore.getState().entries[year], (_entry) => {
             _entry.score = _entry.bracket;
             return _entry;
         });
@@ -33,12 +33,12 @@ module.exports = React.createClass({
     },
 
     getInitialState () {
-        let bracket = masterStore.getBracket();
-        let {history, index} = masterStore.getState();
-        let {bracketData, locked} = globalDataStore.getState();
+        let {index, history} = masterStore.getState();
+        let {bracketData, locked, year} = globalDataStore.getState();
+        let bracket = history[year][index];
         let {locks} = bracketData;
-        let entries = this.sortEntriesByScore(bracket);
-        return {bracket, history, index, entries, locked, locks};
+        let entries = this.sortEntriesByScore(bracket, year);
+        return {bracket, history: history[year], index, entries, locked, locks};
     },
 
     componentWillMount () {

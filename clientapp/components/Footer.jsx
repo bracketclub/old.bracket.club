@@ -3,15 +3,6 @@ let flatten = require('lodash/array/flatten');
 let TimeAgo = require('react-timeago');
 
 let infoLinks = [{
-    text: '2012',
-    href: 'http://2012.tweetyourbracket.com'
-}, {
-    text: '2013',
-    href: 'http://2013.tweetyourbracket.com'
-}, {
-    text: '2014',
-    href: 'http://2014.tweetyourbracket.com'
-}, {
     text: 'Twitter',
     href: 'https://twitter.com/tweetthebracket'
 }, {

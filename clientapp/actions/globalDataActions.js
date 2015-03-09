@@ -3,7 +3,7 @@ let alt = require('../alt');
 
 class GlobalDataActions {
     constructor () {
-        this.generateActions('updateLocked', 'updateYear', 'updateSport');
+        this.generateActions('updateLocked', 'updateYear');
     }
 
     updateSportYear (sport, year) {

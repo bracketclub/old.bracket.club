@@ -4,8 +4,8 @@ require('babelify/polyfill');
 // they can be instantiated before we bootstrap the window data.
 let alt = require('./alt');
 require('./stores');
-let {__timestamp, __sport: sport, __year: year} = window;
 
+let {__timestamp: timestamp, __sport: sport, __year: year} = window;
 alt.bootstrap(JSON.stringify({
     GlobalDataStore: {sport, year},
     MasterStore: {},
@@ -18,6 +18,12 @@ let {HistoryLocation, Redirect, Route, NotFoundRoute} = Router;
 
 let Pages = require('./pages');
 let App = require('./components/App');
+
+require('./actions/masterActions').fetchMasters();
+require('./actions/entryActions').fetchEntries();
+
+let firebase = require('./helpers/firebase');
+firebase.onAuth(require('./actions/meActions').login);
 
 let routes = (
     <Route name="app" path="/" handler={App}>
@@ -34,5 +40,5 @@ let routes = (
 );
 
 Router.run(routes, HistoryLocation, function (Handler) {
-    React.render(<Handler lastUpdated={__timestamp} />, document.body);
+    React.render(<Handler lastUpdated={timestamp} />, document.body);
 });

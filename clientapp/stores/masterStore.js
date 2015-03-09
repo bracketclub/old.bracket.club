@@ -1,6 +1,9 @@
 let alt = require('../alt');
 let masterActions = require('../actions/masterActions');
 let globalDataStore = require('./globalDataStore');
+let indexBy = require('lodash/collection/indexBy');
+let zipObject = require('lodash/array/zipObject');
+let {years} = require('../global');
 
 
 class MasterStore {
@@ -8,32 +11,46 @@ class MasterStore {
         this.bindActions(masterActions);
 
         this.index = 0;
-        this.history = [];
 
-        this.on('bootstrap', this._resetToEmpty);
+        // {2014: [...brackets], 2015: [...brackets]}
+        this.history = zipObject(years.map(year => [year, []]));
+
+        this.on('bootstrap', () => {
+            let {emptyBracket, year} = globalDataStore.getState();
+            this.index = 0;
+            this.history[year] = [emptyBracket];
+        });
     }
 
-    static getBracket () {
-        let {history, index} = this.getState();
-        return history[index];
+    _getCurrentHistory () {
+        this.waitFor(globalDataStore.dispatchToken);
+        let {year} = globalDataStore.getState();
+        return this.history[year];
     }
 
-    _resetToEmpty () {
-        let {emptyBracket} = globalDataStore.getState();
-        this.index = 0;
-        this.history = [emptyBracket];
+    _getLastIndex () {
+        return this._getCurrentHistory().length - 1;
     }
 
     onReceiveMasters (masters) {
         this.waitFor(globalDataStore.dispatchToken);
         let {emptyBracket} = globalDataStore.getState();
-        this.history = [emptyBracket].concat(masters);
-        this.index = this.history.length - 1;
+
+        let byYear = indexBy(masters, 'year');
+        years.forEach(year => {
+            let {brackets} = byYear[year] || {};
+            this.history[year] = [emptyBracket].concat(brackets || []);
+        });
+
+        this.index = this._getLastIndex();
     }
 
     onAddMaster (master) {
-        this.history.push(master);
-        this.index = this.history.length - 1;
+        this.waitFor(globalDataStore.dispatchToken);
+        let {activeYear} = globalDataStore.getState();
+
+        // Masters will only be added to the current year
+        this.history[activeYear].push(master);
     }
 
     onGetPrevious () {
@@ -41,7 +58,7 @@ class MasterStore {
     }
 
     onGetNext () {
-        this.index = Math.min(this.index + 1, this.history.length - 1);
+        this.index = Math.min(this.index + 1, this._getLastIndex());
     }
 
     onGetFirst () {
@@ -49,11 +66,11 @@ class MasterStore {
     }
 
     onGetLast () {
-        this.index = this.history.length - 1;
+        this.index = this._getLastIndex();
     }
 
     onGetIndex (index) {
-        this.index = Math.min(Math.max(0, index), this.history.length - 1);
+        this.index = Math.min(Math.max(0, index), this._getLastIndex());
     }
 }
 
