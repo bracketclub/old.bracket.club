@@ -13,7 +13,7 @@
   "dependencies": {
     "alt": "^0.14.2",
     "bootstrap": "^3.3.2",
-    "bracket-data": "^2.2.0",
+    "bracket-data": "^2.2.1",
     "bracket-generator": "^2.0.3",
     "bracket-scorer": "^2.3.1",
     "bracket-updater": "^2.0.3",
@@ -46,7 +46,6 @@
     "phantomjs": "^1.9.16",
     "precommit-hook": "^1.0.7",
     "reactify": "^1.0.0",
-    "run-browser": "^2.0.2",
     "tap-spec": "^2.2.2",
     "tape": "^3.5.0",
     "tape-run": "^0.3.0",
@@ -79,7 +78,6 @@
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
     "size": "browserify clientapp/main.jsx --extension=.jsx -t babelify -t [reactify --es6] | js-size",
     "start": "node index",
-    "test": "browserify test/index.js --extension=.jsx -t babelify -t [reactify --es6] | tape-run | tap-spec",
-    "test-browser": "run-browser test/index.js"
+    "test": "browserify test/index.js --extension=.jsx -t babelify -t [reactify --es6] | tape-run | tap-spec"
   }
 }

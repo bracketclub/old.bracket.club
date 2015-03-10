@@ -10,6 +10,6 @@ module.exports = {
     activeYear,
     rYear: /^20\d\d$/,
     years: range(2012, parseInt(activeYear) + 1).map(String),
-    apiUrl: 'http://localhost:3001',
+    apiUrl: 'http://104.236.223.8:3001',
     firebase: new Firebase('https://tweetyourbracket.firebaseio.com')
 };

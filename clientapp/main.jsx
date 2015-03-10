@@ -59,7 +59,6 @@ Router.run(routes, HistoryLocation, function (Handler, router) {
         sport,
         year: rYear.test(possibleYear) ? possibleYear : year
     };
-    console.log(props.year);
     globalDataActions.updateYear(props.year);
     React.render(<Handler {...props} />, document.body);
 });
