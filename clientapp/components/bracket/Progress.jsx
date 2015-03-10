@@ -1,47 +1,28 @@
 let React = require('react');
+let {PropTypes} = React;
+let {PureRenderMixin} = require('react/addons').addons;
+
 let ProgressBar = require('react-bootstrap/lib/ProgressBar');
-let globalDataStore = require('../../stores/globalDataStore');
+let bracketHelpers = require('../../helpers/bracket');
 
 
 let BracketProgress = React.createClass({
-    componentWillMount () {
-        globalDataStore.listen(this.onChange);
-    },
+    mixins: [PureRenderMixin],
 
-    componentWillUnmount () {
-        globalDataStore.unlisten(this.onChange);
-    },
-
-    componentWillReceiveProps (props) {
-        this.setState(this.getStateFromBracket(props));
-    },
-
-    getStateFromBracket (props) {
-        let {locked, bracketData} = globalDataStore.getState();
-        let {constants} = bracketData;
-        let {bracket} = props;
-        let total = (constants.TEAMS_PER_REGION * constants.REGION_COUNT) - 1;
-        let unpicked = constants.UNPICKED_MATCH;
-
-        return {locked, total, progress: total - (bracket.split(unpicked).length - 1)};
-    },
-
-    getInitialState () {
-        return this.getStateFromBracket(this.props);
-    },
-
-    onChange () {
-        this.setState(this.getStateFromBracket(this.props));
+    propTypes: {
+        sport: PropTypes.string.isRequired,
+        year: PropTypes.string.isRequired,
+        locked: PropTypes.bool.isRequired,
+        bracket: PropTypes.string.isRequired
     },
 
     render () {
-        return (<ProgressBar
-            striped
-            now={this.state.progress}
-            min={0}
-            max={this.state.total}
-            label={"%(now)s of %(max)s " + (this.state.locked ? 'games played' : 'picks made')}
-        />);
+        let {sport, year, locked, bracket} = this.props;
+        let {totalGames, unpickedChar} = bracketHelpers({sport, year});
+        let progress = totalGames - (bracket.split(unpickedChar).length - 1);
+        let label = "%(now)s of %(max)s " + (locked ? 'games played' : 'picks made');
+
+        return <ProgressBar striped now={progress} min={0} max={totalGames} label={label} />;
     }
 });
 

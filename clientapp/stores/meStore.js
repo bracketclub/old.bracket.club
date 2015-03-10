@@ -20,7 +20,7 @@ class MeStore {
     }
 
     onLogin (obj) {
-        let {twitter} = obj;
+        let twitter = obj && obj.twitter;
         if (twitter) {
             this.id = twitter.id;
             this.username = twitter.username;

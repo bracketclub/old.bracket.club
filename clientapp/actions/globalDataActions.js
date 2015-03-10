@@ -5,10 +5,6 @@ class GlobalDataActions {
     constructor () {
         this.generateActions('updateLocked', 'updateYear');
     }
-
-    updateSportYear (sport, year) {
-        this.dispatch({sport, year});
-    }
 }
 
-module.exports = window.gs = alt.createActions(GlobalDataActions);
+module.exports = alt.createActions(GlobalDataActions);
