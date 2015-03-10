@@ -33,7 +33,7 @@ let getRegionsFor = (finalId, firstId, bracket) => {
 };
 
 let jsonResolver = function () {
-    return toArray(arguments).map(ary(JSON.stringify, 1));
+    return toArray(arguments).map(ary(JSON.stringify, 1)).join('-');
 };
 
 // Each sport, year combo is memoized since they never change

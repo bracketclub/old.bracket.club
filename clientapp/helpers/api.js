@@ -1,5 +1,5 @@
 let xhr = require('xhr');
-let apiUrl = 'http://localhost:3001';
+let {apiUrl} = require('../global');
 
 module.exports = function (path, action) {
     xhr({
