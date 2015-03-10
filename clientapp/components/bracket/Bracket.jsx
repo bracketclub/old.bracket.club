@@ -1,5 +1,5 @@
 let React = require('react');
-let cx = require('react/lib/cx');
+let {classSet: cx} = require('react/addons').addons;
 let chunk = require('lodash/array/chunk');
 let has = require('lodash/object/has');
 let bracketEntryActions = require('../../actions/bracketEntryActions');
@@ -99,7 +99,7 @@ let Region = React.createClass({
 
 let Bracket = React.createClass({
     render () {
-        let {locked, bracket} = this.props;
+        let {locked, bracketObj: bracket} = this.props;
         return (
             <div className='bracket row'>
                 <div className='col-md-6 region-side left-side'>

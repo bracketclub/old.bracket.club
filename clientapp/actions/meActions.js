@@ -1,5 +1,5 @@
 let alt = require('../alt');
-let firebase = require('../helpers/firebase');
+let {firebase} = require('../global');
 
 
 class MasterActions {

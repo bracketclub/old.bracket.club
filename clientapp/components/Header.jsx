@@ -1,5 +1,5 @@
 let React = require('react');
-let {Link} = require('react-router');
+let {Link, State} = require('react-router');
 
 let Navbar = require('react-bootstrap/lib/Navbar');
 let Nav = require('react-bootstrap/lib/Nav');
@@ -10,38 +10,17 @@ let NavItemLink = require('react-router-bootstrap/lib/NavItemLink');
 let MenuItemLink = require('react-router-bootstrap/lib/MenuItemLink');
 
 let meActions = require('../actions/meActions');
-let globalDataActions = require('../actions/globalDataActions');
 
-let meStore = require('../stores/meStore');
-let globalDataStore = require('../stores/globalDataStore');
-
-let {years} = require('../global');
+let years = require('../global').years.slice(0).reverse();
+let YearPathnameMixin = require('../helpers/YearPathnameMixin');
 
 
 let Header = React.createClass({
-    componentWillMount() {
-        globalDataStore.listen(this.onChange);
-        meStore.listen(this.onChange);
-    },
+    mixins: [State, YearPathnameMixin],
 
-    componentWillUnmount () {
-        globalDataStore.unlisten(this.onChange);
-        meStore.unlisten(this.onChange);
-    },
-
-    getInitialState () {
-        let {year} = globalDataStore.getState();
-        let {id, username} = meStore.getState();
-        return {year, id, username};
-    },
-
-    onChange () {
-        this.setState(this.getInitialState());
-    },
-
-    onClickYear (year, e) {
-        e.preventDefault();
-        globalDataActions.updateYear(year);
+    propTypes: {
+        me: React.PropTypes.object,
+        year: React.PropTypes.string.isRequired,
     },
 
     handleLogin (e) {
@@ -55,17 +34,26 @@ let Header = React.createClass({
     },
 
     render () {
+        let {me, year} = this.props;
+        let {to, params, query} = this.getYearPathname();
+
         return (
             <header>
                 <Navbar brand={<Link to='app'>TweetYourBracket</Link>} toggleNavKey={1} fluid>
-                    <Nav eventKey={1} right={true}>
-                        <DropdownButton title={this.state.year}>
-                            {years.slice(0).reverse().map(year => <MenuItem key={year} onClick={this.onClickYear.bind(null, year)}>{year}</MenuItem>)}
+                    <Nav>
+                        <DropdownButton title={year}>
+                            {years.map(year =>
+                                <MenuItemLink key={year} to={to} params={params({path: year})} query={query}>
+                                    {year}
+                                </MenuItemLink>
+                            )}
                         </DropdownButton>
+                    </Nav>
+                    <Nav eventKey={1} right={true}>
                         <NavItemLink to='subscribe'>Subscribe</NavItemLink>
                         <NavItemLink to='results'>Results</NavItemLink>
-                        {[this.state.id ? <DropdownButton key={0} title={this.state.username}>
-                            <MenuItemLink to='user' params={{id: this.state.id}}>Bracket</MenuItemLink>
+                        {[me.id ? <DropdownButton key={0} title={me.username}>
+                            <MenuItemLink to='user' params={{id: me.id}}>Bracket</MenuItemLink>
                             <MenuItem divider />
                             <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                         </DropdownButton> : <MenuItem key={1} onClick={this.handleLogin}>Login</MenuItem>]}

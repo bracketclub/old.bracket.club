@@ -1,48 +1,38 @@
 let React = require('react');
+let {PropTypes} = React;
+let {PureRenderMixin} = require('react/addons').addons;
 
-let globalDataStore = require('../../stores/globalDataStore');
+let bracketHelpers = require('../../helpers/bracket');
+let scoreTypes = ['standard', 'gooley', 'standardPPR', 'gooleyPPR'];
 
 
 let ScoreCard = React.createClass({
-    componentWillMount () {
-        globalDataStore.listen(this.onChange);
-    },
+    mixins: [PureRenderMixin],
 
-    componentWillUnmount () {
-        globalDataStore.unlisten(this.onChange);
-    },
-
-    componentWillReceiveProps (props) {
-        this.setState(this.getStateFromBracket(props));
-    },
-
-    getStateFromBracket (props) {
-        let {scorer} = globalDataStore.getState();
-        let {master, bracket: entry} = props;
-
-        return scorer.score(['standard', 'gooley', 'standardPPR', 'gooleyPPR'], {master, entry});
-    },
-
-    getInitialState () {
-        return this.getStateFromBracket(this.props);
-    },
-
-    onChange () {
-        this.setState(this.getStateFromBracket(this.props));
+    propTypes: {
+        sport: PropTypes.string.isRequired,
+        year: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+        master: PropTypes.string.isRequired,
+        entry: PropTypes.string.isRequired
     },
 
     render () {
+        let {username, sport, year, master, bracket: entry} = this.props;
+        let {scorer} = bracketHelpers({sport, year});
+        let score = scorer(scoreTypes, {master, entry});
+
         return (
             <div className='score-card'>
                 <h2>
-                    {this.props.username} 
-                    <a className='twitter' href={'https://twitter.com/' + this.props.username}>
+                    {username} 
+                    <a className='twitter' href={'https://twitter.com/' + username}>
                         <img src='https://g.twimg.com/Twitter_logo_blue.png' />
                     </a>
                 </h2>
                 <p>
-                    <strong>Total: </strong> - {this.state.standard} - <strong>PPR: </strong> - {this.state.standardPPR}<br/>
-                    <strong>Gooley: </strong>{this.state.gooley} - <strong>PPR: </strong> - {this.state.gooleyPPR}
+                    <strong>Total: </strong> - {score.standard} - <strong>PPR: </strong> - {score.standardPPR}<br/>
+                    <strong>Gooley: </strong>{score.gooley} - <strong>PPR: </strong> - {score.gooleyPPR}
                 </p>
             </div>
         );

@@ -1,19 +1,17 @@
+let extend = require('lodash/object/extend');
+
 let alt = require('../alt');
 let bracketEntryActions = require('../actions/bracketEntryActions');
-let globalDataStore = require('./globalDataStore');
-let extend = require('lodash/object/extend');
 let concatOrInsert = require('../helpers/arrayConcatOrInsert');
+
+let {activeYear: year, activeSport: sport} = require('../global');
+let {generate, update, emptyBracket} = require('../helpers/bracket')({sport, year});
 
 
 class BracketEntryStore {
     constructor () {
         this.bindActions(bracketEntryActions);
 
-        this.on('bootstrap', this._resetToEmpty);
-    }
-
-    _resetToEmpty () {
-        let {emptyBracket} = globalDataStore.getState();
         this.index = 0;
         this.history = [emptyBracket];
     }
@@ -25,21 +23,17 @@ class BracketEntryStore {
     }
 
     onReset () {
-        this.waitFor(globalDataStore.dispatchToken);
-        this._resetToEmpty();
+        this.index = 0;
+        this.history = [emptyBracket];
     }
 
     onGenerate (method) {
-        this.waitFor(globalDataStore.dispatchToken);
-        let {generator} = globalDataStore.getState();
-        this.onUpdateBracket(generator.generate(method));
+        this.onUpdateBracket(generate(method));
     }
 
     onUpdateGame (game) {
-        this.waitFor(globalDataStore.dispatchToken);
-        let {updater} = globalDataStore.getState();
         let updateData = extend({currentMaster: this.history[this.index]}, game);
-        this.onUpdateBracket(updater.update(updateData));
+        this.onUpdateBracket(update(updateData));
     }
 
     onGetPrevious () {

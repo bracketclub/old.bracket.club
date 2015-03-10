@@ -1,9 +1,12 @@
-let alt = require('../alt');
-let masterActions = require('../actions/masterActions');
 let globalDataStore = require('./globalDataStore');
 let indexBy = require('lodash/collection/indexBy');
 let zipObject = require('lodash/array/zipObject');
-let {years} = require('../global');
+
+let alt = require('../alt');
+let masterActions = require('../actions/masterActions');
+let {years, activeYear} = require('../global');
+let bracketHelpers = require('../helpers/bracket');
+
 
 
 class MasterStore {
@@ -12,13 +15,12 @@ class MasterStore {
 
         this.index = 0;
 
-        // {2014: [...brackets], 2015: [...brackets]}
-        this.history = zipObject(years.map(year => [year, []]));
-
         this.on('bootstrap', () => {
-            let {emptyBracket, year} = globalDataStore.getState();
-            this.index = 0;
-            this.history[year] = [emptyBracket];
+            let {sport} = globalDataStore.getState();
+            // {2014: [...brackets], 2015: [...brackets]}
+            this.history = zipObject(years.map(year =>
+                [year, [bracketHelpers({sport, year}).emptyBracket]]
+            ));
         });
     }
 
@@ -34,21 +36,18 @@ class MasterStore {
 
     onReceiveMasters (masters) {
         this.waitFor(globalDataStore.dispatchToken);
-        let {emptyBracket} = globalDataStore.getState();
+        let {sport} = globalDataStore.getState();
 
         let byYear = indexBy(masters, 'year');
         years.forEach(year => {
             let {brackets} = byYear[year] || {};
-            this.history[year] = [emptyBracket].concat(brackets || []);
+            this.history[year] = [bracketHelpers({sport, year}).emptyBracket].concat(brackets || []);
         });
 
         this.index = this._getLastIndex();
     }
 
     onAddMaster (master) {
-        this.waitFor(globalDataStore.dispatchToken);
-        let {activeYear} = globalDataStore.getState();
-
         // Masters will only be added to the current year
         this.history[activeYear].push(master);
     }

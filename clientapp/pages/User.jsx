@@ -53,6 +53,13 @@ module.exports = React.createClass({
         }
     },
 
+    getUser (props) {
+        let {scorer} = globalDataStore.getState();
+        let {bracket: master} = props;
+        let entry = props.entry.bracket;
+        return getRegions(scorer.diff({master, entry}));
+    },
+
     componentWillUnmount () {
         masterStore.unlisten(this.onChange);
         entryStore.unlisten(this.onChange);

@@ -2,7 +2,13 @@ let React = require('react');
 
 
 let Footer = React.createClass({
+
+    propTypes: {
+        me: React.PropTypes.object
+    },
+
     render () {
+        let {me} = this.props;
         return (
             <footer>
                 <ul className='footer-links'>
@@ -18,7 +24,7 @@ let Footer = React.createClass({
                     </li>
                 </ul>
                 <p>
-                    Made with love by <a href='https://twitter.com/lukekarrys'>Luke</a> in Arizona.
+                    Made with love by <a href='https://twitter.com/lukekarrys'>{me.id === '23918006' ? 'You (you\'re great!)' : 'Luke'}</a> in Arizona.
                 </p>
             </footer>
         );
