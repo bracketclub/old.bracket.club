@@ -1,4 +1,5 @@
 let React = require('react');
+let {PropTypes} = React;
 let {classSet: cx} = require('react/addons').addons;
 let chunk = require('lodash/array/chunk');
 let has = require('lodash/object/has');
@@ -98,6 +99,11 @@ let Region = React.createClass({
 });
 
 let Bracket = React.createClass({
+    propTypes: {
+        bracketObj: PropTypes.object.isRequired,
+        locked: PropTypes.bool.isRequired
+    },
+
     render () {
         let {locked, bracketObj: bracket} = this.props;
         return (

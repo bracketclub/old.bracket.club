@@ -1,87 +1,83 @@
 let React = require('react');
 let {State, Navigation, Link} = require('react-router');
-let sort = require('lodash/collection/sortBy');
+let sortBy = require('lodash/collection/sortBy');
 let map = require('lodash/collection/map');
+let pluck = require('lodash/collection/pluck');
+let zipObject = require('lodash/array/zipObject');
 
 let TimeAgo = require('react-timeago');
 let Table = require('react-bootstrap/lib/Table');
 let BracketNav = require('../components/bracket/Nav');
 let BracketProgress = require('../components/bracket/Progress');
 
-let masterActions = require('../actions/masterActions');
+let bracketHelpers = require('../helpers/bracket');
 let entryStore = require('../stores/entryStore');
 let masterStore = require('../stores/masterStore');
-let globalDataStore = require('../stores/globalDataStore');
+
+let scoreTypes = ['standard', 'standardPPR', 'rounds', 'gooley', 'gooleyPPR'];
 
 
-module.exports = React.createClass({
+let Results = React.createClass({
     mixins: [State, Navigation],
 
-    sortEntriesByScore (bracket, year) {
-        let entries = map(entryStore.getState().entries[year], (_entry) => {
-            _entry.score = _entry.bracket;
-            return _entry;
-        });
-        let {scorer} = globalDataStore.getState();
-
-        return sort(scorer.score(
-            ['standard', 'standardPPR', 'rounds', 'gooley', 'gooleyPPR'],
-            {master: bracket, entry: entries}
-        ), function (entry) {
+    sortEntriesByScore (entries, bracket) {
+        let {year, sport} = this.props;
+        let ids = pluck(entries, 'user_id');
+        let score = bracketHelpers({sport, year}).score;
+        let scores = zipObject(
+            ids,
+            score(scoreTypes, {
+                master: bracket,
+                entry: pluck(entries, 'bracket')
+            })
+        );
+        
+        return sortBy(map(entries, function (entry, index) {
+            entry.score = scores[index];
+            return entry;
+        }), function (entry) {
             return -entry.score.standard;
         });
     },
 
     getInitialState () {
         let {index, history} = masterStore.getState();
-        let {bracketData, locked, year} = globalDataStore.getState();
-        let bracket = history[year][index];
-        let {locks} = bracketData;
-        let entries = this.sortEntriesByScore(bracket, year);
-        return {bracket, history: history[year], index, entries, locked, locks};
+        let {entries} = entryStore.getState();
+
+        return {index, history, entries};
     },
 
     componentWillMount () {
         masterStore.listen(this.onChange);
         entryStore.listen(this.onChange);
-        globalDataStore.listen(this.onChange);
-
-        let game = parseInt(this.getQuery().game, 10);
-
-        if (!isNaN(game) && game !== masterStore.getState().index) {
-            masterActions.getIndex(game);
-        }
     },
 
     componentWillUnmount () {
         masterStore.unlisten(this.onChange);
         entryStore.unlisten(this.onChange);
-        globalDataStore.unlisten(this.onChange);
-    },
-
-    componentWillReceiveProps () {
-        this.setState(this.getInitialState());
     },
 
     onChange () {
-        let state = this.getInitialState();
-        let {index} = state;
-        this.replaceWith('results', null, {game: index});
-        this.setState(state);
+        this.setState(this.getInitialState());
     },
 
     render () {
-        let {entries, locked, locks, history, index, bracket} = this.state;
+        let {history: historyByYear, index, entries} = this.state;
+        let {locked, sport, year} = this.props;
+
+        let history = historyByYear[year];
+        let {locks} = bracketHelpers({sport, year});
+        let bracket = history[index];
 
         let tbody = (
             <tbody>
                 {locked ?
-                    entries.map((entry, index) => 
-                        <tr>
+                    this.sortEntriesByScore(entries[year], bracket).map((entry, index) => 
+                        <tr key={index}>
                             <td>{index + 1}</td>
                             <td><Link to='user' params={{id: entry.user_id}}>{entry.username}</Link></td>
-                            {entry.score.rounds.map(round => 
-                                <td className='hidden-xs'>{round}</td>
+                            {entry.score.rounds.map((round, index) => 
+                                <td key={index} className='hidden-xs'>{round}</td>
                             )}
                             <td>{entry.score.standard}</td>
                             <td>{entry.score.standardPPR}</td>
@@ -91,7 +87,7 @@ module.exports = React.createClass({
                     ) :
                     <tr>
                         <td colSpan='12'>
-                            Entries don't lock until <TimeAgo date={locks} title={locks} />. Check back then to see the results.<br />If you haven't filled out your bracket yet, head over to <Link to='bracket' params={{bracket: ''}}>the entry page</Link> before it's too late.
+                            Entries don't lock until <TimeAgo date={locks} title={locks} />. Check back then to see the results.<br />If you haven't filled out your bracket yet, head over to <Link to='landing' params={{bracket: ''}}>the entry page</Link> before it's too late.
                         </td>
                     </tr>
                 }
@@ -101,7 +97,7 @@ module.exports = React.createClass({
         return (
             <div>
                 <BracketNav locked={true} history={history} index={index} />
-                <BracketProgress bracket={bracket} />
+                <BracketProgress bracket={bracket} sport={sport} year={year} locked={locked} />
                 <Table condensed striped responsive>
                     <thead>
                         <tr>
@@ -126,3 +122,5 @@ module.exports = React.createClass({
         );
     }
 });
+
+module.exports = Results;

@@ -55,10 +55,16 @@ let routes = (
 let globalDataActions = require('./actions/globalDataActions');
 Router.run(routes, HistoryLocation, function (Handler, router) {
     let possibleYear = router.params.year || router.params.path;
+    let routeName = router.routes[1].name;
+
     let props = {
         sport,
-        year: rYear.test(possibleYear) ? possibleYear : year
+        year: rYear.test(possibleYear) ? possibleYear : year,
+        fluid: routeName === 'landing' || routeName === 'user'
     };
+
+    // Set the year from the url before rendering the page handler so all pages have it
     globalDataActions.updateYear(props.year);
+
     React.render(<Handler {...props} />, document.body);
 });

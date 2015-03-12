@@ -40,7 +40,7 @@ let BracketNav = React.createClass({
         locked: PropTypes.bool.isRequired
     },
 
-    navProps () {
+    getNavProps () {
         let {history, index} = this.props;
         let hasHistory = history.length > 0;
         return {
@@ -50,18 +50,20 @@ let BracketNav = React.createClass({
         };
     },
 
+    getNavActions () {
+        return this.props.locked ? masterActions : bracketEntryActions;
+    },
+
     handleGenerateClick (method) {
-        let actions = this.props.locked ? masterActions : bracketEntryActions;
-        actions.generate(method);
+        this.getNavActions().generate(method);
     },
 
     handleHistoryClick (method) {
-        let actions = this.props.locked ? masterActions : bracketEntryActions;
-        actions[method]();
+        this.getNavActions()[method]();
     },
 
     render () {
-        let {canRewind, canFastForward, canReset} = this.navProps();
+        let {canRewind, canFastForward, canReset} = this.getNavProps();
         let {locked} = this.props;
 
         let items = [

@@ -9,14 +9,17 @@ test('Adds to end of array', (t) => {
     let brackets = years.map(function (year) {
         return bracket({sport: sport, year: year});
     });
-    let uniqLocks = _.chain(brackets).pluck('locks').uniq().value();
+
+    let teams = _.chain(brackets).pluck('bracket').map(function (b) {
+        return b.regions[_.keys(b.regions)[0]].teams;
+    }).pluck('0').value();
+
     let validated = _.chain(brackets).map(function (b) {
-        return b.validate(b.emptyBracket);
+        let firstTeam = b.validate(b.emptyBracket).region1.rounds[0][0];
+        return firstTeam.fromRegion + firstTeam.seed + firstTeam.name;
     }).value();
 
-    console.log(JSON.stringify(validated, null, 2));
-
-    t.equal(uniqLocks.length, 4);
-
+    t.equal(validated.join(), 'S1Kentucky,MW1Louisville,S1Florida,MW1Kentucky');
+    t.equal(teams.join(), 'Kentucky,Louisville,Florida,Kentucky');
     t.end();
 });

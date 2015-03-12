@@ -1,5 +1,4 @@
 let React = require('react');
-let {Navigation} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
 let Bracket = require('./bracket/Container');
@@ -8,8 +7,8 @@ let bracketHelpers = require('../helpers/bracket');
 let masterStore = require('../stores/masterStore');
 
 
-module.exports = React.createClass({
-    mixins: [ListenerMixin, Navigation],
+let Master = React.createClass({
+    mixins: [ListenerMixin],
 
     componentDidMount() {
         this.listenTo(masterStore, this.onChange);
@@ -18,20 +17,32 @@ module.exports = React.createClass({
     getInitialState () {
         let {history, index} = masterStore.getState();
         history = history[this.props.year];
-        return {history, index, bracket: history[index]};
+        return {history, index};
     },
 
     onChange () {
-        let state = this.getInitialState();
-        this.setState(state);
-        //this.replaceWith('landing', {path: state.history[state.index]});
+        this.setState(this.getInitialState());
     },
 
     render () {
-        let {bracket} = this.state;
-        let {sport, year} = this.props;
+        let {history, index} = this.state;
+        let {sport, year, locked} = this.props;
+
+        let bracket = history[index];
         let bracketObj = bracketHelpers({sport, year}).validate(bracket);
 
-        return <Bracket {...this.props} {...this.state} bracketObj={bracketObj} bracket={bracket} />;
+        let bracketProps = {
+            sport,
+            year,
+            bracketObj,
+            bracket,
+            locked,
+            history,
+            index
+        };
+
+        return <Bracket {...bracketProps} />;
     }
 });
+
+module.exports = Master;

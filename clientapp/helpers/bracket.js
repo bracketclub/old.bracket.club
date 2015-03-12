@@ -2,8 +2,7 @@ let memo = require('lodash/function/memoize');
 let find = require('lodash/collection/find');
 let pluck = require('lodash/collection/pluck');
 let partial = require('lodash/function/partial');
-let ary = require('lodash/function/ary');
-let toArray = require('lodash/lang/toArray');
+let flow = require('lodash/function/flow');
 
 let BracketUpdater = require('bracket-updater');
 let BracketGenerator = require('bracket-generator');
@@ -18,9 +17,10 @@ let findNextRegion = (bracket, regions) => {
         return pluck(regions, 'id').indexOf(region.id) === -1;
     });
 };
+
 let getRegionsFor = (finalId, firstId, bracket) => {
     if (bracket instanceof Error) {
-        return Error;
+        throw bracket;
     }
 
     let regionFinal = bracket[finalId];
@@ -32,50 +32,65 @@ let getRegionsFor = (finalId, firstId, bracket) => {
     return {region1, region2, region3, region4, regionFinal};
 };
 
-let jsonResolver = function () {
-    return toArray(arguments).map(ary(JSON.stringify, 1)).join('-');
+let idResolver = (options) => {
+    return options.sport + options.year;
 };
+
 
 // Each sport, year combo is memoized since they never change
 // Also the individual methods are also memoized based on their parameters
 // The `scorer.score` is the slowest, but might as well do 'em all
 module.exports = memo(function getBracketHelpers(options) {
     let {sport, year} = options;
-    let idResolver = partial(jsonResolver, sport + year);
+    let id = idResolver(options);
 
-    let {constants, regex, locks} = new BracketData({
-        props: ['constants', 'locks', 'regex'],
+    let {constants, regex, locks, bracket} = new BracketData({
+        props: ['constants', 'locks', 'regex', 'bracket'],
         sport,
         year
     });
+
     let validator = new BracketValidator({sport, year});
     let updater = new BracketUpdater({sport, year});
     let generator = new BracketGenerator({sport, year});
     let scorer = new BracketScorer({sport, year});
     let getRegions = partial(getRegionsFor, constants.FINAL_ID, constants.REGION_IDS[0]);
 
+    let boundValidator = validator.validate.bind(validator);
+    let boundUpdater = updater.update.bind(updater);
+    let boundGenerator = generator.generate.bind(generator);
+    let boundScorer = scorer.score.bind(scorer);
+    let boundDiff = scorer.diff.bind(scorer);
+
     return {
-        regex,
-        locks,
+        bracket, regex, locks,
         emptyBracket: constants.EMPTY,
         totalGames: (constants.TEAMS_PER_REGION * constants.REGION_COUNT) - 1,
         unpickedChar: constants.UNPICKED_MATCH,
 
-        // Dont memoize since it is used to return a random bracket
-        generate: generator.generate.bind(generator),
+        // Dont memoize since it can be used to return a random bracket
+        generate: boundGenerator,
 
-        validate: memo(function () {
-            return getRegions(validator.validate.apply(validator, arguments));
-        }, idResolver),
+        // Memoized by id plus the bracket argument
+        validate: memo(flow(boundValidator, getRegions), bracket => id + bracket),
 
-        update: memo(updater.update.bind(updater), idResolver),
-        scoreDiff: memo(function () {
-            return getRegions(scorer.diff.apply(scorer, arguments));
-        }, idResolver),
+        // Memoized by id and the two brackets passed in
+        diff: memo(flow(boundDiff, getRegions), options =>
+            id + options.master + options.entry
+        ),
 
-        // Takes an array and an object so string both and concat together
-        score: memo(scorer.score.bind(scorer), idResolver)
+        // Memoized by stringifying the options
+        // TODO: use individual params since right now different ordered keys
+        // will not hit the cache
+        update: memo(boundUpdater, (options) =>
+            id + JSON.stringify(options)
+        ),
+
+        // Memoized by types (array), master (string), and entry (array)
+        // Important: this only allows it to be used by passing the entry
+        // as an array or string, not an object
+        score: memo(boundScorer, (types, options) =>
+            id + types.join() + options.master + (typeof options.entry === 'string' ? options.entry : options.entry.join())
+        )
     };
-}, function (options) {
-    return options.sport + options.year;
-});
+}, idResolver);

@@ -14,13 +14,12 @@ let ScoreCard = React.createClass({
         year: PropTypes.string.isRequired,
         username: PropTypes.string.isRequired,
         master: PropTypes.string.isRequired,
-        entry: PropTypes.string.isRequired
+        bracket: PropTypes.string.isRequired
     },
 
     render () {
-        let {username, sport, year, master, bracket: entry} = this.props;
-        let {scorer} = bracketHelpers({sport, year});
-        let score = scorer(scoreTypes, {master, entry});
+        let {username, sport, year, master, bracket} = this.props;
+        let score =  bracketHelpers({sport, year}).scorer(scoreTypes, {master, bracket});
 
         return (
             <div className='score-card'>
