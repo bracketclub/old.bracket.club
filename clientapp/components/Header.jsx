@@ -1,5 +1,5 @@
 let React = require('react');
-let {Link, State} = require('react-router');
+let {Link} = require('react-router');
 
 let Navbar = require('react-bootstrap/lib/Navbar');
 let Nav = require('react-bootstrap/lib/Nav');
@@ -16,7 +16,7 @@ let YearPathnameMixin = require('../helpers/YearPathnameMixin');
 
 
 let Header = React.createClass({
-    mixins: [State, YearPathnameMixin],
+    mixins: [YearPathnameMixin],
 
     propTypes: {
         me: React.PropTypes.object,
@@ -43,7 +43,7 @@ let Header = React.createClass({
                     <Nav>
                         <DropdownButton title={year}>
                             {years.map(year =>
-                                <MenuItemLink key={year} to={to} params={params({path: year})} query={query}>
+                                <MenuItemLink key={year} to={to} params={params(year)} query={query}>
                                     {year}
                                 </MenuItemLink>
                             )}

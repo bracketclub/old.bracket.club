@@ -9,6 +9,8 @@ let ScoreCard = require('./ScoreCard');
 
 let BracketContainer = React.createClass({
     propTypes: {
+        sport: PropTypes.string.isRequired,
+        year: PropTypes.string.isRequired,
         locked: PropTypes.bool.isRequired,
         history: PropTypes.array.isRequired,
         index: PropTypes.number.isRequired,
@@ -20,7 +22,7 @@ let BracketContainer = React.createClass({
     render () {
         return (<div>
             <BracketNav {...this.props} />
-            <BracketProgress {...this.props}/>
+            <BracketProgress {...this.props} />
             {this.props.entry ? <ScoreCard {...this.props.entry} master={this.props.bracket} /> : null}
             <Bracket {...this.props} />
         </div>);

@@ -1,5 +1,6 @@
 let React = require('react');
-let {State, RouteHandler} = require('react-router');
+let {PropTypes} = React;
+let {RouteHandler} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
 let Header = require('./Header');
@@ -10,7 +11,13 @@ let globalDataStore = require('../stores/globalDataStore');
 
 
 let App = React.createClass({
-    mixins: [State, ListenerMixin],
+    mixins: [ListenerMixin],
+
+    propTypes: {
+        fluid: PropTypes.bool.isRequired,
+        sport: PropTypes.string.isRequired,
+        year: PropTypes.string.isRequired
+    },
 
     getInitialState () {
         return {
@@ -28,18 +35,13 @@ let App = React.createClass({
         this.setState(this.getInitialState());
     },
 
-    useFluidContainer () {
-        let name = this.getRoutes()[1].name;
-        return name === 'landing' || name === 'user';
-    },
-
     render () {
         let {me, locked} = this.state;
-        let {year, sport} = this.props;
+        let {year, sport, fluid} = this.props;
         return (
             <div>
                 <Header year={year} me={me} />
-                <div className={this.useFluidContainer() ? 'container-fluid' : 'container'}>
+                <div className={fluid ? 'container-fluid' : 'container'}>
                     <RouteHandler sport={sport} year={year} me={me} locked={locked} />
                     <Footer me={me} />
                 </div>
