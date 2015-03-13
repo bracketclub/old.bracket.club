@@ -1,4 +1,5 @@
 let React = require('react');
+let {PropTypes} = React;
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
 let Bracket = require('./bracket/Container');
@@ -10,18 +11,31 @@ let masterStore = require('../stores/masterStore');
 let Master = React.createClass({
     mixins: [ListenerMixin],
 
+    propTypes: {
+        sport: PropTypes.string.isRequired,
+        year: PropTypes.string.isRequired,
+        locked: PropTypes.bool.isRequired
+    },
+
     componentDidMount() {
         this.listenTo(masterStore, this.onChange);
     },
 
-    getInitialState () {
+    getInitialState (props) {
         let {history, index} = masterStore.getState();
-        history = history[this.props.year];
+        history = history[(props || this.props).year];
         return {history, index};
     },
 
     onChange () {
         this.setState(this.getInitialState());
+    },
+
+    // TODO: is this idiomatic React?
+    // This is necessary because getInitialState relies on the year
+    // and the year prop comes from a react-router param
+    componentWillReceiveProps (nextProps) {
+        this.setState(this.getInitialState(nextProps));
     },
 
     render () {

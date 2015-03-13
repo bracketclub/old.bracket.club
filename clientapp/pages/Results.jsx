@@ -1,5 +1,8 @@
 let React = require('react');
 let {State, Navigation, Link} = require('react-router');
+let ListenerMixin = require('alt/mixins/ListenerMixin');
+
+let last = require('lodash/array/last');
 let sortBy = require('lodash/collection/sortBy');
 let map = require('lodash/collection/map');
 let pluck = require('lodash/collection/pluck');
@@ -18,7 +21,7 @@ let scoreTypes = ['standard', 'standardPPR', 'rounds', 'gooley', 'gooleyPPR'];
 
 
 let Results = React.createClass({
-    mixins: [State, Navigation],
+    mixins: [State, Navigation, ListenerMixin],
 
     sortEntriesByScore (entries, bracket) {
         let {year, sport} = this.props;
@@ -47,14 +50,9 @@ let Results = React.createClass({
         return {index, history, entries};
     },
 
-    componentWillMount () {
-        masterStore.listen(this.onChange);
-        entryStore.listen(this.onChange);
-    },
-
-    componentWillUnmount () {
-        masterStore.unlisten(this.onChange);
-        entryStore.unlisten(this.onChange);
+    componentDidMount () {
+        this.listenTo(masterStore, this.onChange);
+        this.listenTo(entryStore, this.onChange);
     },
 
     onChange () {
@@ -67,7 +65,7 @@ let Results = React.createClass({
 
         let history = historyByYear[year];
         let {locks} = bracketHelpers({sport, year});
-        let bracket = history[index];
+        let bracket = history[index] || last(history);
 
         let tbody = (
             <tbody>
