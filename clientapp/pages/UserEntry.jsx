@@ -1,6 +1,5 @@
 let React = require('react');
 let {State, Navigation} = require('react-router');
-let ListenerMixin = require('alt/mixins/ListenerMixin');
 
 let Bracket = require('../components/bracket/Container');
 let UserNotFound = require('../components/UserNotFound');
@@ -15,7 +14,7 @@ let globalDataStore = require('../stores/globalDataStore');
 
 
 module.exports = React.createClass({
-    mixins: [State, ListenerMixin],
+    mixins: [State, Navigation],
 
     getInitialState () {
         let {history, index} = masterStore.getState();
@@ -72,7 +71,10 @@ module.exports = React.createClass({
     },
 
     onChange () {
-        this.setState(this.getInitialState());
+        let state = this.getInitialState();
+        let {index} = state;
+        this.replaceWith('user', {id: state.id, year: state.year}, {game: index});
+        this.setState(state);
     },
 
     render () {

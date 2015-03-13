@@ -1,4 +1,5 @@
 let React = require('react');
+let {PropTypes} = React;
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
 let Bracket = require('./bracket/Container');
@@ -9,6 +10,12 @@ let bracketEntryStore = require('../stores/bracketEntryStore');
 
 let Entry = React.createClass({
     mixins: [ListenerMixin],
+
+    propTypes: {
+        sport: PropTypes.string.isRequired,
+        year: PropTypes.string.isRequired,
+        locked: PropTypes.bool.isRequired
+    },
 
     componentDidMount() {
         this.listenTo(bracketEntryStore, this.onChange);

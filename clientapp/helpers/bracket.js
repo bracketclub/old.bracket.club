@@ -20,7 +20,7 @@ let findNextRegion = (bracket, regions) => {
 
 let getRegionsFor = (finalId, firstId, bracket) => {
     if (bracket instanceof Error) {
-        throw bracket;
+        return bracket;
     }
 
     let regionFinal = bracket[finalId];

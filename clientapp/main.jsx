@@ -60,10 +60,12 @@ Router.run(routes, HistoryLocation, function (Handler, router) {
     let props = {
         sport,
         year: rYear.test(possibleYear) ? possibleYear : year,
-        fluid: routeName === 'landing' || routeName === 'user'
+        fluid: routeName === 'landing' || routeName === 'entry'
     };
 
     // Set the year from the url before rendering the page handler so all pages have it
+    // TODO: is this the Right Way to update some globally relied upon store
+    // before each page is rendered
     globalDataActions.updateYear(props.year);
 
     React.render(<Handler {...props} />, document.body);
