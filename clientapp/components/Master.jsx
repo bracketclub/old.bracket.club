@@ -21,9 +21,8 @@ let Master = React.createClass({
         this.listenTo(masterStore, this.onChange);
     },
 
-    getInitialState (props) {
+    getInitialState () {
         let {history, index} = masterStore.getState();
-        history = history[(props || this.props).year];
         return {history, index};
     },
 
@@ -31,17 +30,11 @@ let Master = React.createClass({
         this.setState(this.getInitialState());
     },
 
-    // TODO: is this idiomatic React?
-    // This is necessary because getInitialState relies on the year
-    // and the year prop comes from a react-router param
-    componentWillReceiveProps (nextProps) {
-        this.setState(this.getInitialState(nextProps));
-    },
-
     render () {
-        let {history, index} = this.state;
+        let {history: historyByYear, index} = this.state;
         let {sport, year, locked} = this.props;
 
+        let history = historyByYear[year];
         let bracket = history[index];
         let bracketObj = bracketHelpers({sport, year}).validate(bracket);
 

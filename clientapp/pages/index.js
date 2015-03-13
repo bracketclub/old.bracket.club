@@ -4,5 +4,5 @@ module.exports = {
     Results: require('./Results.jsx'),
     Subscribe: require('./Subscribe.jsx'),
     User: require('./User.jsx'),
-    UserEntry: require('./UserEntry.jsx')
+    UserProfile: require('./UserProfile.jsx')
 };

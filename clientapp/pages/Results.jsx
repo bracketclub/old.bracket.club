@@ -1,8 +1,7 @@
 let React = require('react');
-let {State, Navigation, Link} = require('react-router');
+let {Link} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
-let last = require('lodash/array/last');
 let sortBy = require('lodash/collection/sortBy');
 let map = require('lodash/collection/map');
 let pluck = require('lodash/collection/pluck');
@@ -21,7 +20,7 @@ let scoreTypes = ['standard', 'standardPPR', 'rounds', 'gooley', 'gooleyPPR'];
 
 
 let Results = React.createClass({
-    mixins: [State, Navigation, ListenerMixin],
+    mixins: [ListenerMixin],
 
     sortEntriesByScore (entries, bracket) {
         let {year, sport} = this.props;
@@ -65,7 +64,7 @@ let Results = React.createClass({
 
         let history = historyByYear[year];
         let {locks} = bracketHelpers({sport, year});
-        let bracket = history[index] || last(history);
+        let bracket = history[index];
 
         let tbody = (
             <tbody>
@@ -73,7 +72,7 @@ let Results = React.createClass({
                     this.sortEntriesByScore(entries[year], bracket).map((entry, index) => 
                         <tr key={index}>
                             <td>{index + 1}</td>
-                            <td><Link to='user' params={{id: entry.user_id}}>{entry.username}</Link></td>
+                            <td><Link to='user' params={{id: entry.user_id, year: year}}>{entry.username}</Link></td>
                             {entry.score.rounds.map((round, index) => 
                                 <td key={index} className='hidden-xs'>{round}</td>
                             )}

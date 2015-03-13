@@ -39,12 +39,13 @@ let Pages = require('./pages');
 let App = require('./components/App');
 let routes = (
     <Route name='app' path='/' handler={App}>
+        <Route name='subscribe' handler={Pages.Subscribe} />
+
         <Route name='results' path='results/:year?' handler={Pages.Results} />
         <Redirect from='users' to='results' />
 
-        <Route name='user' path='users/:id' handler={Pages.User} />
-        <Route name='entry' path='users/:id/:year' handler={Pages.UserEntry} />
-        <Route name='subscribe' handler={Pages.Subscribe} />
+        <Route name='userProfile' path='users/:id/profile' handler={Pages.UserProfile} />
+        <Route name='user' path='users/:id/:year?' handler={Pages.User} />
 
         <Route name='landing' path=':path?' handler={Pages.Landing} ignoreScrollBehavior={true} />
 
@@ -60,7 +61,7 @@ Router.run(routes, HistoryLocation, function (Handler, router) {
     let props = {
         sport,
         year: rYear.test(possibleYear) ? possibleYear : year,
-        fluid: routeName === 'landing' || routeName === 'entry'
+        fluid: routeName === 'landing' || routeName === 'user'
     };
 
     // Set the year from the url before rendering the page handler so all pages have it
