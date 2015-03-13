@@ -41,9 +41,11 @@ let routes = (
     <Route name='app' path='/' handler={App}>
         <Route name='subscribe' handler={Pages.Subscribe} />
 
+        <Route name='resultsCurrent' path='results' handler={Pages.Results} />
         <Route name='results' path='results/:year?' handler={Pages.Results} />
         <Redirect from='users' to='results' />
 
+        <Route name='userCurrent' path='users/:id' handler={Pages.User} />
         <Route name='userProfile' path='users/:id/profile' handler={Pages.UserProfile} />
         <Route name='user' path='users/:id/:year?' handler={Pages.User} />
 
