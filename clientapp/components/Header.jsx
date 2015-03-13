@@ -51,9 +51,9 @@ let Header = React.createClass({
                     </Nav>
                     <Nav eventKey={1} right={true}>
                         <NavItemLink to='subscribe'>Subscribe</NavItemLink>
-                        <NavItemLink to='results'>Results</NavItemLink>
+                        <NavItemLink to='resultsCurrent'>Results</NavItemLink>
                         {[me.id ? <DropdownButton key={0} title={me.username}>
-                            <MenuItemLink to='user' params={{id: me.id}}>Bracket</MenuItemLink>
+                            <MenuItemLink to='userCurrent' params={{id: me.id}}>Bracket</MenuItemLink>
                             <MenuItem divider />
                             <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                         </DropdownButton> : <MenuItem key={1} onClick={this.handleLogin}>Login</MenuItem>]}
