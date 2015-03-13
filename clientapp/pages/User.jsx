@@ -1,91 +1,83 @@
 let React = require('react');
-let {State, Navigation} = require('react-router');
+let {PropTypes} = React;
+let {State} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
 let Bracket = require('../components/bracket/Container');
 let UserNotFound = require('../components/UserNotFound');
 let EntryNotFound = require('../components/EntryNotFound');
 
-let globalDataActions = require('../actions/globalDataActions');
-let masterActions = require('../actions/masterActions');
-
 let masterStore = require('../stores/masterStore');
 let entryStore = require('../stores/entryStore');
-let globalDataStore = require('../stores/globalDataStore');
+
+let bracketHelpers = require('../helpers/bracket');
 
 
-module.exports = React.createClass({
+let UserEntry = React.createClass({
     mixins: [State, ListenerMixin],
 
-    getInitialState () {
-        let {history, index} = masterStore.getState();
-        let {year} = globalDataStore.getState();
-        let {id} = this.getParams();
-        let {entries, users} =  entryStore.getState();
-        let entry = entries[year][id];
-        let user = users[id];
-
-        return {
-            bracket: history[year][index],
-            history: history[year],
-            year: year,
-            index,
-            user,
-            entry,
-            id
-        };
+    propTypes: {
+        sport: PropTypes.string.isRequired,
+        year: PropTypes.string.isRequired
     },
 
-    componentWillMount () {
-        masterStore.listen(this.onChange);
-        entryStore.listen(this.onChange);
-        globalDataStore.listen(this.onChange);
-
-        let game = parseInt(this.getQuery().game, 10);
-
-        if (!isNaN(game) && game !== masterStore.getState().index) {
-            masterActions.getIndex(game);
-        }
-
-        let {year} = this.getParams();
-
-        if (year) {
-            globalDataActions.updateYear(year);
-        }
-    },
-
-    getUser (props) {
-        let {scorer} = globalDataStore.getState();
-        let {bracket: master} = props;
-        let entry = props.entry.bracket;
-        return getRegions(scorer.diff({master, entry}));
-    },
-
-    componentWillUnmount () {
-        masterStore.unlisten(this.onChange);
-        entryStore.unlisten(this.onChange);
-        globalDataStore.unlisten(this.onChange);
-    },
-
-    componentWillReceiveProps () {
-        this.setState(this.getInitialState());
+    componentDidMount() {
+        this.listenTo(masterStore, this.onChange);
+        this.listenTo(entryStore, this.onChange);
     },
 
     onChange () {
         this.setState(this.getInitialState());
     },
 
+    getInitialState () {
+        let {entries, users} = entryStore.getState();
+        let {history, index} = masterStore.getState();
+        let {id} = this.getParams();
+        return {history, index, entries, users, id};
+    },
+
+    componentWillReceiveProps () {
+        this.setState(this.getInitialState());
+    },
+
     render () {
-        let {user, entry, year} = this.state;
+        let {sport, year} = this.props;
+        let {
+            id,
+            users,
+            index,
+            history: historyByYear,
+            entries: entriesByYear
+        } = this.state;
+
+        let history = historyByYear[year];
+        let master = historyByYear[year][index];
+        let user = users[id];
+        let entry = entriesByYear[year][id];
 
         if (!user) {
-            return <UserNotFound />;
+            return <UserNotFound year={year} />;
         }
 
-        if (!entry) {
+        if (user && !entry) {
             return <EntryNotFound {...user} year={year} />;
         }
 
-        return <Bracket {...this.state} locked={true} />;
+        let bracket = entry.bracket;
+        let bracketObj = bracketHelpers({sport, year}).diff({master, entry: bracket});
+
+        let bracketProps = {
+            sport,
+            year,
+            bracketObj,
+            bracket,
+            history,
+            index
+        };
+
+        return <Bracket {...bracketProps} locked={true} />;
     }
 });
+
+module.exports = UserEntry;
