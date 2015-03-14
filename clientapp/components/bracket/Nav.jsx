@@ -4,32 +4,12 @@ let {PureRenderMixin} = require('react/addons').addons;
 
 let Glyphicon = require('react-bootstrap/lib/Glyphicon');
 let Button = require('react-bootstrap/lib/Button');
-let Nav = require('react-bootstrap/lib/Nav');
+let ButtonToolbar = require('react-bootstrap/lib/ButtonToolbar');
+let ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
 
 let bracketEntryActions = require('../../actions/bracketEntryActions');
 let masterActions = require('../../actions/masterActions');
 
-
-
-let BracketLink = React.createClass({
-    mixins: [PureRenderMixin],
-
-    propTypes: {
-        handleClick: PropTypes.func.isRequired,
-        method: PropTypes.string.isRequired,
-        disabled: PropTypes.bool,
-        glyph: PropTypes.string
-    },
-
-    render () {
-        let onClick = this.props.handleClick.bind(null, this.props.method);
-        return (
-            <Button navItem componentClass='button' disabled={this.props.disabled} onClick={onClick}>
-                {this.props.children ? this.props.children : <Glyphicon glyph={this.props.glyph} />}
-            </Button>
-        );
-    }
-});
 
 let BracketNav = React.createClass({
     mixins: [PureRenderMixin],
@@ -65,24 +45,41 @@ let BracketNav = React.createClass({
     render () {
         let {canRewind, canFastForward, canReset} = this.getNavProps();
         let {locked} = this.props;
+        let {handleGenerateClick: generate, handleHistoryClick: history} = this;
 
         let items = [
-            <BracketLink key={0} method='getFirst' glyph='fast-backward' disabled={!canRewind} handleClick={this.handleHistoryClick} />,
-            <BracketLink key={1} method='getPrevious' glyph='step-backward' disabled={!canRewind} handleClick={this.handleHistoryClick} />,
-            <BracketLink key={2} method='getNext' glyph='step-forward' disabled={!canFastForward} handleClick={this.handleHistoryClick} />,
-            <BracketLink key={3} method='getLast' glyph='fast-forward' disabled={!canFastForward} handleClick={this.handleHistoryClick} />
+            <ButtonGroup key={0}>
+                <Button disabled={!canRewind} onClick={history.bind(null, 'getFirst')}>
+                    <Glyphicon glyph='fast-backward' />
+                </Button>
+                <Button disabled={!canRewind} onClick={history.bind(null, 'getPrevious')}>
+                    <Glyphicon glyph='step-backward' />
+                </Button>
+                <Button disabled={!canFastForward} onClick={history.bind(null, 'getNext')}>
+                    <Glyphicon glyph='step-forward' />
+                </Button>
+                <Button disabled={!canFastForward} onClick={history.bind(null, 'getLast')}>
+                    <Glyphicon glyph='fast-forward' />
+                </Button>
+            </ButtonGroup>
         ];
 
         if (!locked) {
             items.push(
-                <BracketLink key={4} method='reset' glyph='ban-circle' disabled={!canReset} handleClick={this.handleHistoryClick} />,
-                <BracketLink key={5} method='lower' handleClick={this.handleGenerateClick}>1</BracketLink>,
-                <BracketLink key={6} method='higher' handleClick={this.handleGenerateClick}>16</BracketLink>,
-                <BracketLink key={7} method='random' glyph='random' handleClick={this.handleGenerateClick} />
+                <ButtonGroup key={1}>
+                    <Button disabled={!canReset} onClick={history.bind(null, 'reset')}>
+                        <Glyphicon glyph='ban-circle' />
+                    </Button>
+                    <Button onClick={generate.bind(null, 'lower')}>1</Button>
+                    <Button onClick={generate.bind(null, 'higher')}>16</Button>
+                    <Button onClick={generate.bind(null, 'random')}>
+                        <Glyphicon glyph='random' />
+                    </Button>
+                </ButtonGroup>
             );
         }
 
-        return <Nav bsStyle="pills">{items}</Nav>;
+        return <ButtonToolbar>{items}</ButtonToolbar>;
     }
 });
 
