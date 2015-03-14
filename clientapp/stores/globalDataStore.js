@@ -29,13 +29,17 @@ class GlobalDataStore {
     // time has expired. If the time is already expired, then the callback
     // will be called synchronously.
     _updateLocked () {
-        this._countdown && this._countdown.cancel();
-        let {locks} = bracketHelpers({sport: this.sport, year: this.year});
-        this._countdown = new Countdown(locks, () => {
-            this.onUpdateLocked(true);
-        });
-        if (this._countdown._id) {
-            this.onUpdateLocked(false);
+        let {locks, locked} = bracketHelpers({sport: this.sport, year: this.year});
+        let isLocked = locked();
+
+        // Synchronously set locked to initial value
+        this.onUpdateLocked(isLocked);
+
+        // If we are not locked, start a timer which will send the action
+        if (!isLocked) {
+            this._countdown = new Countdown(locks, () => {
+                globalDataActions.updateLocked(true);
+            });
         }
     }
 
