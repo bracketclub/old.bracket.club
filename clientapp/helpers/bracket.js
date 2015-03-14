@@ -50,6 +50,8 @@ module.exports = memo(function getBracketHelpers(options) {
         year
     });
 
+    let locked = () => new Date().toJSON() >= locks;
+
     let validator = new BracketValidator({sport, year});
     let updater = new BracketUpdater({sport, year});
     let generator = new BracketGenerator({sport, year});
@@ -63,7 +65,7 @@ module.exports = memo(function getBracketHelpers(options) {
     let boundDiff = scorer.diff.bind(scorer);
 
     return {
-        bracket, regex, locks,
+        bracket, regex, locks, locked,
         emptyBracket: constants.EMPTY,
         totalGames: (constants.TEAMS_PER_REGION * constants.REGION_COUNT) - 1,
         unpickedChar: constants.UNPICKED_MATCH,
