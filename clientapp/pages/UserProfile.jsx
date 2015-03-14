@@ -21,25 +21,23 @@ let UserEntry = React.createClass({
         this.listenTo(entryStore, this.onChange);
     },
 
-    onChange () {
-        this.setState(this.getInitialState());
-    },
-
     getInitialState () {
         let {users} = entryStore.getState();
         let {id} = this.getParams();
-        return {users, id};
+        return {user: users[id]};
     },
 
     componentWillReceiveProps () {
         this.setState(this.getInitialState());
     },
 
+    onChange () {
+        this.setState(this.getInitialState());
+    },
+
     render () {
         let {year} = this.props;
-        let {id, users} = this.state;
-
-        let user = users[id];
+        let {user} = this.state;
 
         if (!user) {
             return <UserNotFound year={year} />;

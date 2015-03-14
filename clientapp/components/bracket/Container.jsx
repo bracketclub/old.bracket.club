@@ -5,6 +5,7 @@ let Bracket = require('./Bracket');
 let BracketNav = require('./Nav');
 let BracketProgress = require('./Progress');
 let ScoreCard = require('./ScoreCard');
+let TweetButton = require('./TweetButton');
 
 
 let BracketContainer = React.createClass({
@@ -21,6 +22,7 @@ let BracketContainer = React.createClass({
 
     render () {
         return (<div>
+            {!this.props.locked ? <TweetButton {...this.props} /> : null}
             <BracketNav {...this.props} />
             <BracketProgress {...this.props} />
             {this.props.entry ? <ScoreCard {...this.props.entry} master={this.props.bracket} /> : null}

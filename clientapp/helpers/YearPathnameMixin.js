@@ -8,7 +8,7 @@ let partial = require('lodash/function/partial');
 // current page to a different year. We need to know how to convert any pathname
 // to a different year. This needs to be kept consistent with the ./routes.jsx file.
 // TODO: find a way to automatically determine from routes
-let yearRoutes = ['user', 'results'];
+let yearRoutes = ['user', 'results', 'resultsCurrent', 'userCurrent'];
 let defaultTo = 'landing';
 let yearParamNames = {landing: 'path'};
 
@@ -18,7 +18,7 @@ module.exports = extend({
         let params = this.getParams();
         let query = this.getQuery();
 
-        let sendTo = yearRoutes.indexOf(route.name) > -1 ? route.name : defaultTo;
+        let sendTo = yearRoutes.indexOf(route.name) > -1 ? route.name.replace('Current', '') : defaultTo;
         let yearParamName = yearParamNames[sendTo] || 'year';
 
         let addYear = function (obj, year) {

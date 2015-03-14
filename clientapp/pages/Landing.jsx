@@ -26,19 +26,19 @@ module.exports = React.createClass({
         let {regex} = bracketHelpers({sport, year});
 
         // The landing page is a few things dependent on state & url:
+
         // 1) A previous completed year
         // 2) The current locked year
-        // 3) The current unlocked entry
-        // 4) A fallback url which will render the 404
-
         if (locked || (bracket && rYear.test(bracket))) {
             return <Master {...this.props} bracket={bracket} />;
         }
 
+        // 3) A fallback url which will render the 404
         if (bracket && !regex.test(bracket)) {
             return <FourOhFour />;
         }
 
+        // 4) The current unlocked entry
         return <Entry {...this.props} bracket={bracket} />;
     }
 });

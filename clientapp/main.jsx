@@ -3,6 +3,7 @@ require('babelify/polyfill');
 let React = require('react');
 let Router = require('react-router');
 let {HistoryLocation, Redirect, Route, NotFoundRoute} = Router;
+let _isNaN = require('lodash/lang/isNaN');
 
 
 // Require the alt singleton and then require each store so that
@@ -39,7 +40,7 @@ let Pages = require('./pages');
 let App = require('./components/App');
 let routes = (
     <Route name='app' path='/' handler={App}>
-        <Route name='subscribe' handler={Pages.Subscribe} />
+        <Route name='subscribe' path='subscribe' handler={Pages.Subscribe} />
 
         <Route name='resultsCurrent' path='results' handler={Pages.Results} />
         <Route name='results' path='results/:year?' handler={Pages.Results} />
@@ -49,6 +50,7 @@ let routes = (
         <Route name='userProfile' path='users/:id/profile' handler={Pages.UserProfile} />
         <Route name='user' path='users/:id/:year?' handler={Pages.User} />
 
+        <Route name='entry' path='entry/:bracket' handler={Pages.Landing} ignoreScrollBehavior={true} />
         <Route name='landing' path=':path?' handler={Pages.Landing} ignoreScrollBehavior={true} />
 
         <NotFoundRoute handler={Pages.FourOhFour} />
@@ -58,10 +60,12 @@ let routes = (
 let globalDataActions = require('./actions/globalDataActions');
 Router.run(routes, HistoryLocation, function (Handler, router) {
     let possibleYear = router.params.year || router.params.path;
+    let masterIndex = parseInt(router.query.game, 10);
     let routeName = router.routes[1].name;
 
     let props = {
         sport,
+        game: _isNaN(masterIndex) ? null : masterIndex,
         year: rYear.test(possibleYear) ? possibleYear : year,
         fluid: routeName === 'landing' || routeName === 'user'
     };
