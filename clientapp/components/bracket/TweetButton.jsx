@@ -32,7 +32,7 @@ let ScoreCard = React.createClass({
         let hashtags = 'tybrkt';
         let tweet = 'https://twitter.com/share?' + qs.stringify({
             text: 'Check out my #bracket!',
-            url: 'https://tweetyourbracket.com/' + bracket,
+            url: 'https://tweetyourbracket.com/' + year + '/' + bracket,
             hashtags,
             lang: 'en',
             related: account,

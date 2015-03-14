@@ -38,6 +38,7 @@ firebase.onAuth(require('./actions/meActions').login);
 
 let Pages = require('./pages');
 let App = require('./components/App');
+let fullWidthRoutes = ['user', 'userCurrent', 'landing', 'entry'];
 let routes = (
     <Route name='app' path='/' handler={App}>
         <Route name='subscribe' path='subscribe' handler={Pages.Subscribe} />
@@ -50,12 +51,13 @@ let routes = (
         <Route name='userProfile' path='users/:id/profile' handler={Pages.UserProfile} />
         <Route name='user' path='users/:id/:year?' handler={Pages.User} />
 
-        <Route name='entry' path='entry/:bracket' handler={Pages.Landing} ignoreScrollBehavior={true} />
+        <Route name='entry' path=':year/:bracket' handler={Pages.CreatedEntry} />
         <Route name='landing' path=':path?' handler={Pages.Landing} ignoreScrollBehavior={true} />
 
         <NotFoundRoute handler={Pages.FourOhFour} />
     </Route>
 );
+
 
 let globalDataActions = require('./actions/globalDataActions');
 Router.run(routes, HistoryLocation, function (Handler, router) {
@@ -67,7 +69,7 @@ Router.run(routes, HistoryLocation, function (Handler, router) {
         sport,
         game: _isNaN(masterIndex) ? null : masterIndex,
         year: rYear.test(possibleYear) ? possibleYear : year,
-        fluid: routeName === 'landing' || routeName === 'user'
+        fluid: fullWidthRoutes.indexOf(routeName) > -1
     };
 
     // Set the year from the url before rendering the page handler so all pages have it
