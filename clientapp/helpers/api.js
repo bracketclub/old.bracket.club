@@ -4,6 +4,7 @@ let {apiUrl} = require('../global');
 module.exports = function (path, action) {
     xhr({
         url: apiUrl + path,
+        useXDR: true
     }, (err, resp, body) => {
         if (err) {
             console.error(err);

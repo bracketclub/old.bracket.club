@@ -19,6 +19,7 @@
     "bracket-updater": "^2.0.4",
     "bracket-validator": "^2.0.4",
     "lodash": "^3.5.0",
+    "qs": "^2.4.1",
     "raf": "^2.0.4",
     "react": "^0.12.2",
     "react-bootstrap": "^0.16.1",
