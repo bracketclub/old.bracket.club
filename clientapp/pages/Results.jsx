@@ -60,7 +60,7 @@ let Results = React.createClass({
 
     render () {
         let {history: historyByYear, index, entries} = this.state;
-        let {locked, sport, year} = this.props;
+        let {locked, sport, year, me} = this.props;
 
         let history = historyByYear[year];
         let {locks} = bracketHelpers({sport, year});
@@ -70,7 +70,7 @@ let Results = React.createClass({
             <tbody>
                 {locked ?
                     this.sortEntriesByScore(entries[year], bracket).map((entry, index) => 
-                        <tr key={index}>
+                        <tr key={index} className={me.id === entry.user_id ? 'info' : ''}>
                             <td>{index + 1}</td>
                             <td><Link to='user' params={{id: entry.user_id, year: year}}>{entry.username}</Link></td>
                             {entry.score.rounds.map((round, index) => 

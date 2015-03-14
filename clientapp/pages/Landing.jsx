@@ -30,7 +30,7 @@ module.exports = React.createClass({
         // 1) A previous completed year
         // 2) The current locked year
         if (locked || (bracket && rYear.test(bracket))) {
-            return <Master {...this.props} bracket={bracket} />;
+            return <Master {...this.props} />;
         }
 
         // 3) A fallback url which will render the 404
