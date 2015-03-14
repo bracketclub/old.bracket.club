@@ -14,7 +14,7 @@ module.exports = React.createClass({
                 <h2>User not found</h2>
                 <p>
                     The user doesn't have any brackets.
-                    Check out the <Link to='currentResults'>results page</Link> for a full list of users.
+                    Check out the <Link to='resultsCurrent'>results page</Link> for a full list of users.
                 </p>
             </div>
         );

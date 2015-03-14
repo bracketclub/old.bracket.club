@@ -1,12 +1,11 @@
 @region-name-horizontal: 23%;
 @large-bracket-min: @screen-md-min;
-@small-bracket-max: (@large-bracket-min - 1);
+@small-bracket-max: 500px;
 
 
 .bracket {
   overflow: hidden;
   position: relative;
-
 
 
   // ------------------------
@@ -398,7 +397,7 @@
   // SCROLLING
   // for small screens
   // ------------------------
-  @media (max-width: 500px) {
+  @media (max-width: @small-bracket-max) {
     .rounds {
       overflow-x: auto;
     }
