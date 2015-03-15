@@ -1,8 +1,4 @@
-let ga = window.ga;
-
-if (window.location.hostname === 'localhost') {
-    ga = console.log.bind(console);
-}
+/* globals ga */
 
 
 module.exports = {

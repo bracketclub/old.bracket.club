@@ -22,8 +22,7 @@ let Master = React.createClass({
     },
 
     getInitialState () {
-        let {history, index} = masterStore.getState();
-        return {history, index};
+        return masterStore.getState();
     },
 
     onChange () {
