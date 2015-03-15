@@ -29,7 +29,7 @@ let ScoreCard = React.createClass({
                     <h2>
                         <Link to='userProfile' params={{id: user_id}}>{username}</Link> 
                         <a className='twitter' href={'https://twitter.com/' + username}>
-                            <img src='https://g.twimg.com/Twitter_logo_blue.png' />
+                            <img src='//g.twimg.com/Twitter_logo_blue.png' />
                         </a>
                     </h2>
                     :

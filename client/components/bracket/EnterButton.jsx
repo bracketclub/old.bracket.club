@@ -37,7 +37,7 @@ let EnterButton = React.createClass({
         let hashtags = 'tybrkt';
         let tweet = 'https://twitter.com/share?' + qs.stringify({
             text: 'Check out my #bracket!',
-            url: 'https://tweetyourbracket.com/' + year + '/' + bracket,
+            url: 'http://tweetyourbracket.com/' + year + '/' + bracket,
             hashtags,
             lang: 'en',
             related: account,
