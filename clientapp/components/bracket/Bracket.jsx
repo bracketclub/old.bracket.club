@@ -1,8 +1,12 @@
 let React = require('react');
 let {PropTypes} = React;
 let {classSet: cx} = require('react/addons').addons;
+
 let chunk = require('lodash/array/chunk');
 let has = require('lodash/object/has');
+let flatten = require('lodash/array/flatten');
+let compact = require('lodash/array/compact');
+
 let bracketEntryActions = require('../../actions/bracketEntryActions');
 
 
@@ -79,9 +83,13 @@ let Region = React.createClass({
             'final-region': this.props.final,
             'initial-region': !this.props.final
         });
+        let games = flatten(this.props.rounds.slice(1));
+        let totalGames = games.length;
+        let picked = compact(games).length;
+
         return (
             <section className={'region ' + classes} data-id={this.props.id}>
-                <h2 className='region-name'>{this.props.name}</h2>
+                <h2 className='region-name'>{this.props.name} ({picked}/{totalGames})</h2>
                 <div className='rounds'>
                     <div className='rounds-scroll'>
                         {this.props.rounds.map((round, index) =>
@@ -101,6 +109,7 @@ let Region = React.createClass({
 let Bracket = React.createClass({
     propTypes: {
         bracketObj: PropTypes.object.isRequired,
+        bracket: PropTypes.string.isRequired,
         locked: PropTypes.bool.isRequired
     },
 
