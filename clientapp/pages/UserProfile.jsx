@@ -4,7 +4,7 @@ let {State} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
 let UserNotFound = require('../components/UserNotFound');
-let EntryNotFound = require('../components/EntryNotFound');
+let UserEntries = require('../components/UserEntries');
 
 let entryStore = require('../stores/entryStore');
 
@@ -43,7 +43,7 @@ let UserEntry = React.createClass({
             return <UserNotFound year={year} />;
         }
 
-        return <EntryNotFound {...user} />;
+        return <UserEntries {...user} />;
     }
 });
 

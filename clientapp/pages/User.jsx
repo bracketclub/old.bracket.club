@@ -5,7 +5,7 @@ let ListenerMixin = require('alt/mixins/ListenerMixin');
 
 let Bracket = require('../components/bracket/Container');
 let UserNotFound = require('../components/UserNotFound');
-let EntryNotFound = require('../components/EntryNotFound');
+let UserEntries = require('../components/UserEntries');
 
 let masterStore = require('../stores/masterStore');
 let entryStore = require('../stores/entryStore');
@@ -61,7 +61,7 @@ let UserEntry = React.createClass({
         }
 
         if (user && !entry) {
-            return <EntryNotFound {...user} year={year} />;
+            return <UserEntries {...user} year={year} />;
         }
 
         let bracket = entry.bracket;
@@ -73,7 +73,9 @@ let UserEntry = React.createClass({
             bracketObj,
             bracket,
             history,
-            index
+            index,
+            master,
+            entry
         };
 
         return <Bracket {...bracketProps} locked={true} />;

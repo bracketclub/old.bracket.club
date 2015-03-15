@@ -4,7 +4,7 @@ let ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
 let ButtonLink = require('react-router-bootstrap/lib/ButtonLink');
 
 
-module.exports = React.createClass({
+let UserEntries = React.createClass({
     propTypes: {
         username: PropTypes.string.isRequired,
         years: PropTypes.array.isRequired,
@@ -26,3 +26,5 @@ module.exports = React.createClass({
         );
     }
 });
+
+module.exports = UserEntries;

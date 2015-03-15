@@ -12,26 +12,30 @@ let ScoreCard = React.createClass({
     propTypes: {
         sport: PropTypes.string.isRequired,
         year: PropTypes.string.isRequired,
-        username: PropTypes.string.isRequired,
+        username: PropTypes.string,
         master: PropTypes.string.isRequired,
         bracket: PropTypes.string.isRequired
     },
 
     render () {
         let {username, sport, year, master, bracket} = this.props;
-        let score =  bracketHelpers({sport, year}).scorer(scoreTypes, {master, bracket});
+        let score =  bracketHelpers({sport, year}).score(scoreTypes, {master, entry: bracket});
 
         return (
             <div className='score-card'>
-                <h2>
-                    {username} 
-                    <a className='twitter' href={'https://twitter.com/' + username}>
-                        <img src='https://g.twimg.com/Twitter_logo_blue.png' />
-                    </a>
-                </h2>
+                {username ?
+                    <h2>
+                        {username} 
+                        <a className='twitter' href={'https://twitter.com/' + username}>
+                            <img src='https://g.twimg.com/Twitter_logo_blue.png' />
+                        </a>
+                    </h2>
+                    :
+                    null
+                }
                 <p>
-                    <strong>Total: </strong> - {score.standard} - <strong>PPR: </strong> - {score.standardPPR}<br/>
-                    <strong>Gooley: </strong>{score.gooley} - <strong>PPR: </strong> - {score.gooleyPPR}
+                    <strong>Total: </strong>{score.standard} – <strong>PPR: </strong>{score.standardPPR}<br/>
+                    <strong>Gooley: </strong>{score.gooley} – <strong>PPR: </strong>{score.gooleyPPR}
                 </p>
             </div>
         );

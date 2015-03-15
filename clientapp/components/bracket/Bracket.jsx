@@ -83,13 +83,19 @@ let Region = React.createClass({
             'final-region': this.props.final,
             'initial-region': !this.props.final
         });
-        let games = flatten(this.props.rounds.slice(1));
-        let totalGames = games.length;
-        let picked = compact(games).length;
+        let name = this.props.name;
+        let unpicked = '';
+
+        if (this.props.canEdit) {
+            let games = flatten(this.props.rounds.slice(1));
+            let totalGames = games.length;
+            let picked = compact(games).length;
+            unpicked = ' (' + picked + '/' + totalGames + ')';
+        }
 
         return (
             <section className={'region ' + classes} data-id={this.props.id}>
-                <h2 className='region-name'>{this.props.name} ({picked}/{totalGames})</h2>
+                <h2 className='region-name'>{name + unpicked}</h2>
                 <div className='rounds'>
                     <div className='rounds-scroll'>
                         {this.props.rounds.map((round, index) =>
