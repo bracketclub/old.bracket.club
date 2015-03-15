@@ -1,6 +1,6 @@
 let _ = require('lodash');
 let test = require('tape');
-let bracket = require('../clientapp/helpers/bracket');
+let bracket = require('../client/helpers/bracket');
 
 let sport = 'ncaa-mens-basketball';
 let years = ['2012', '2013', '2014', '2015'];

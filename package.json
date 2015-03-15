@@ -81,7 +81,7 @@
     "lint": "jsxhint .",
     "local": "nodemon -e js,json,jade index",
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
-    "size": "browserify clientapp/main.jsx --extension=.jsx -t babelify -t [reactify --es6] | js-size",
+    "size": "browserify client/main.jsx --extension=.jsx -t babelify -t [reactify --es6] | js-size",
     "start": "node index",
     "test": "browserify test/index.js --extension=.jsx -t babelify -t [reactify --es6] | tape-run | tap-spec"
   }

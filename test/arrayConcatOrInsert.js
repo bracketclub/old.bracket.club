@@ -1,5 +1,5 @@
 let test = require('tape');
-let arrayConcatOrInsert = require('../clientapp/helpers/arrayConcatOrInsert');
+let arrayConcatOrInsert = require('../client/helpers/arrayConcatOrInsert');
 
 
 test('Adds to end of array', (t) => {
