@@ -1,13 +1,9 @@
 let React = require('react');
 let {PropTypes} = React;
 
-let Affix = require('react-bootstrap/lib/Affix');
-
 let Bracket = require('./Bracket');
-let BracketNav = require('./Nav');
-let BracketProgress = require('./Progress');
+let BracketHeader = require('./Header');
 let ScoreCard = require('./ScoreCard');
-let TweetButton = require('./TweetButton');
 
 
 let BracketContainer = React.createClass({
@@ -25,13 +21,7 @@ let BracketContainer = React.createClass({
     render () {
         return (
             <div>
-                <div className='bracket-header'>
-                    <Affix offsetTop={61}>
-                        <BracketNav {...this.props} />
-                        {!this.props.locked ? <TweetButton {...this.props} /> : null}
-                        <BracketProgress {...this.props} />
-                    </Affix>
-                </div>
+                <BracketHeader {...this.props} />
                 {this.props.entry ? <ScoreCard {...this.props.entry} master={this.props.bracket} /> : null}
                 <Bracket {...this.props} />
             </div>

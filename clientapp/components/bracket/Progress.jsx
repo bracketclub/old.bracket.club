@@ -22,7 +22,7 @@ let BracketProgress = React.createClass({
         let progress = totalGames - (bracket.split(unpickedChar).length - 1);
         let label = "%(now)s of %(max)s " + (locked ? 'games played' : 'picks made');
 
-        return <ProgressBar striped now={progress} min={0} max={totalGames} label={label} />;
+        return <div className='bracket-progress'><ProgressBar striped now={progress} min={0} max={totalGames} label={label} /></div>;
     }
 });
 

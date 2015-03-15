@@ -50,10 +50,10 @@ let ScoreCard = React.createClass({
         );
 
         return (
-            <div className='tweet-button'>
+            <div className='bracket-enter'>
                 {complete ?
                     <OverlayTrigger trigger='hover' placement='bottom' overlay={popover}>
-                        <Button bsStyle='primary' block href={tweet} target='_blank'>Enter My Bracket!</Button>
+                        <Button bsStyle='primary' block href={tweet} target='_blank'>Tweet My Bracket!</Button>
                     </OverlayTrigger>
                     :
                     <Button disabled block bsStyle='primary' componentClass='button'>

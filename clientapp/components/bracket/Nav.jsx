@@ -17,7 +17,8 @@ let BracketNav = React.createClass({
     propTypes: {
         history: PropTypes.array.isRequired,
         index: PropTypes.number.isRequired,
-        locked: PropTypes.bool.isRequired
+        locked: PropTypes.bool.isRequired,
+        className: PropTypes.string
     },
 
     getNavProps () {
@@ -79,7 +80,7 @@ let BracketNav = React.createClass({
             );
         }
 
-        return <ButtonToolbar>{items}</ButtonToolbar>;
+        return <ButtonToolbar className='bracket-nav'>{items}</ButtonToolbar>;
     }
 });
 
