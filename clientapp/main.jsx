@@ -4,6 +4,7 @@ let React = require('react');
 let Router = require('react-router');
 let {HistoryLocation, Redirect, Route, NotFoundRoute} = Router;
 let _isNaN = require('lodash/lang/isNaN');
+let {pageview} = require('./helpers/analytics');
 
 
 // Require the alt singleton and then require each store so that
@@ -76,6 +77,9 @@ Router.run(routes, HistoryLocation, function (Handler, router) {
     // TODO: is this the Right Way to update some globally relied upon store
     // before each page is rendered
     globalDataActions.updateYear(props.year);
+
+    // Call analytics on page change
+    pageview(router.path);
 
     React.render(<Handler {...props} />, document.body);
 });
