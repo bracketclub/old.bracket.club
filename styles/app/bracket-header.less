@@ -3,18 +3,109 @@
 
     height: 38px;
     overflow: hidden;
-    margin: 10px 0;
+    margin: 5px 0 25px;
 
     .affix {
         top: 0;
         left: 0;
         right: 0;
-        padding: 0 (@grid-gutter-width / 2);
-        z-index: 100;
-        background: #ccc;
+        padding: 5px (@grid-gutter-width / 2);
+        z-index: @zindex-navbar + 1;
+        background: @gray-lighter;
+        border-bottom: 1px solid #dedede;
     }
 
-    .btn-toolbar, .tweet-button, .progress {
+    .bracket-nav,
+    .bracket-enter,
+    .bracket-progress {
         float: left
+    }
+
+    .bracket-nav {
+        padding-right: (@grid-gutter-width / 2);
+    }
+
+    .bracket-enter .btn {
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .bracket-progress {
+        margin-top: 9px;
+        padding-left: (@grid-gutter-width / 2);
+
+        .progress {
+            margin: 0;
+        }
+
+        .progress-bar {
+            overflow: hidden;
+            .transition(width .3s);
+        }
+    }
+
+    &.three-columns {
+        .bracket-nav {
+            width: 177px;
+            .btn-group:last-child {
+                display: none;
+            }
+        }
+
+        .bracket-enter {
+            .lh-calc(width, ~"100% - 172px");
+        }
+
+        .bracket-progress {
+            display: none;
+        }
+
+        @media (min-width: @screen-sm) {
+            .bracket-nav {
+                width: 335px;
+                .btn-group:last-child {
+                    display: block;
+                }
+            }
+
+            .bracket-enter {
+                .lh-calc(width, ~"100% - 330px");
+            }
+        }
+
+        @media (min-width: @screen-md) {
+            .bracket-nav {
+                width: 335px;
+                .btn-group:last-child {
+                    display: block;
+                }
+            }
+
+            .bracket-enter {
+                .lh-calc(width, ~"100% - 665px");
+            }
+
+            .bracket-progress {
+                display: block;
+                width: 320px;
+            }
+        }
+    }
+
+    &.two-columns {
+        .bracket-nav {
+            width: 177px;
+        }
+
+        .bracket-progress {
+            .lh-calc(width, ~"100% - 172px");
+        }
+
+        @media (min-width: @screen-sm) {
+            .bracket-progress {
+                float: right;
+                width: 300px;
+            }
+        }
     }
 }

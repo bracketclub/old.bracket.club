@@ -9,8 +9,7 @@ let zipObject = require('lodash/array/zipObject');
 
 let TimeAgo = require('react-timeago');
 let Table = require('react-bootstrap/lib/Table');
-let BracketNav = require('../components/bracket/Nav');
-let BracketProgress = require('../components/bracket/Progress');
+let BracketHeader = require('../components/bracket/Header');
 
 let bracketHelpers = require('../helpers/bracket');
 let entryStore = require('../stores/entryStore');
@@ -93,8 +92,7 @@ let Results = React.createClass({
 
         return (
             <div>
-                <BracketNav locked={true} history={history} index={index} />
-                <BracketProgress bracket={bracket} sport={sport} year={year} locked={locked} />
+                <BracketHeader bracket={bracket} locked={true} history={history} index={index} sport={sport} year={year} />
                 <Table condensed striped responsive>
                     <thead>
                         <tr>
