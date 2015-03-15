@@ -77,8 +77,8 @@ let Results = React.createClass({
                             )}
                             <td>{entry.score.standard}</td>
                             <td>{entry.score.standardPPR}</td>
-                            <td>{entry.score.gooley}</td>
-                            <td>{entry.score.gooleyPPR}</td>
+                            <td className='hidden-xs'>{entry.score.gooley}</td>
+                            <td className='hidden-xs'>{entry.score.gooleyPPR}</td>
                         </tr>
                     ) :
                     <tr>
@@ -93,7 +93,7 @@ let Results = React.createClass({
         return (
             <div>
                 <BracketHeader bracket={bracket} locked={true} history={history} index={index} sport={sport} year={year} />
-                <Table condensed striped responsive>
+                <Table condensed striped>
                     <thead>
                         <tr>
                             <th>Rank</th>
@@ -106,8 +106,8 @@ let Results = React.createClass({
                             <th className='hidden-xs'>NC</th>
                             <th>Score</th>
                             <th>PPR</th>
-                            <th>Gooley</th>
-                            <th>Gooley PPR</th>
+                            <th className='hidden-xs'>Gooley</th>
+                            <th className='hidden-xs'>Gooley PPR</th>
                         </tr>
                     </thead>
                     {tbody}

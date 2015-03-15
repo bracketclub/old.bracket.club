@@ -1,0 +1,20 @@
+.navbar {
+    border: none;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-color: @navbar-default-border;
+}
+
+@media (max-width: @screen-xs-max) {
+    .year-nav {
+        position: absolute;
+        top: 0;
+        left: 179px;
+        margin: 0;
+
+        & > li > a {
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+    }
+}
