@@ -86,7 +86,6 @@ routerContainer.get().run(function (Handler, router) {
     // before each page is rendered
     globalDataActions.updateYear(props.year);
 
-
     // Add the bracket from the url to the bracket entry store
     // only on the initial load (since the router action is null)
     // TODO: yada yada yada, is this the Right Way?
