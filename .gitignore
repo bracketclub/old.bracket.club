@@ -17,9 +17,6 @@ npm-debug.log
 
 *.rdb
 
+.divshot-cache/
 _deploy/
-_pages/
-_gh-pages/
-clientapp/templates.js
 styles/app.css
-.divshot-cache
