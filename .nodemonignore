@@ -1,10 +1,10 @@
-clientapp/collections/
+clientapp/actions/
+clientapp/components/
 clientapp/helpers/
-clientapp/models/
 clientapp/pages/
-clientapp/views/
-clientapp/app.js
-clientapp/router.js
-clientapp/templates.js
+clientapp/stores/
+clientapp/alt.js
+clientapp/global.js
+clientapp/main*
 _deploy/
-clienttemplates/
+node_modules/
