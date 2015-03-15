@@ -27,18 +27,22 @@ module.exports = React.createClass({
 
         // The landing page is a few things dependent on state & url:
 
-        // 1) A previous completed year
-        // 2) The current locked year
-        if (locked || (bracket && rYear.test(bracket))) {
+        // A locked master bracket for a previous year
+        if (locked && rYear.test(bracket)) {
             return <Master {...this.props} />;
         }
 
-        // 3) A fallback url which will render the 404
+        // The current unlocked entry for the current year
+        if (!locked && rYear.test(bracket)) {
+            return <Entry {...this.props} />;
+        }
+
+        // A fallback url which will render the 404 for bad params
         if (bracket && !regex.test(bracket)) {
             return <FourOhFour />;
         }
 
-        // 4) The current unlocked entry
+        // The current unlocked entry
         return <Entry {...this.props} bracket={bracket} />;
     }
 });

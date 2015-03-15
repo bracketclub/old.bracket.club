@@ -60,8 +60,16 @@ let routes = (
 );
 
 
+let routerContainer = require('./routerContainer');
+let bracketHelpers = require('./helpers/bracket');
 let globalDataActions = require('./actions/globalDataActions');
-Router.run(routes, HistoryLocation, function (Handler, router) {
+let bracketEntryActions = require('./actions/bracketEntryActions');
+routerContainer.set(Router.create({
+    routes,
+    location: HistoryLocation
+}));
+
+routerContainer.get().run(function (Handler, router) {
     let possibleYear = router.params.year || router.params.path;
     let masterIndex = parseInt(router.query.game, 10);
     let routeName = router.routes[1].name;
@@ -77,6 +85,15 @@ Router.run(routes, HistoryLocation, function (Handler, router) {
     // TODO: is this the Right Way to update some globally relied upon store
     // before each page is rendered
     globalDataActions.updateYear(props.year);
+
+
+    // Add the bracket from the url to the bracket entry store
+    // only on the initial load (since the router action is null)
+    // TODO: yada yada yada, is this the Right Way?
+    let {regex} = bracketHelpers({sport, year: props.year});
+    if (routeName === 'landing' && router.action === null && regex.test(router.params.path)) {
+        bracketEntryActions.updateBracket(router.params.path);
+    }
 
     // Call analytics on page change
     pageview(router.path);
