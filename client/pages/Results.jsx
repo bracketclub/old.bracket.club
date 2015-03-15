@@ -2,6 +2,7 @@ let React = require('react');
 let {Link} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
+let last = require('lodash/array/last');
 let sortBy = require('lodash/collection/sortBy');
 let map = require('lodash/collection/map');
 let pluck = require('lodash/collection/pluck');
@@ -62,8 +63,17 @@ let Results = React.createClass({
         let {locked, sport, year, me} = this.props;
 
         let history = historyByYear[year];
-        let {locks} = bracketHelpers({sport, year});
         let bracket = history[index];
+        let {locks} = bracketHelpers({sport, year});
+
+        // Protect against switching from game indices that are further along
+        // than the current year. Default is to use the latest bracket
+        // TODO: might not be the best way to do this. It should be protected
+        // in the data store maybe?
+        if (!bracket) {
+            bracket = last(history);
+            index = history.length - 1;
+        }
 
         let tbody = (
             <tbody>
