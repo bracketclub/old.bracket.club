@@ -10,6 +10,7 @@ let Alert = require('react-bootstrap/lib/Alert');
 let TimeAgo = require('react-timeago');
 
 let bracketHelpers = require('../../helpers/bracket');
+let {enterBracket} = require('../../helpers/analytics');
 
 
 let EnterButton = React.createClass({
@@ -19,6 +20,10 @@ let EnterButton = React.createClass({
         bracket: PropTypes.string.isRequired,
         sport: PropTypes.string.isRequired,
         year: PropTypes.string.isRequired
+    },
+
+    handleEnterClick (bracket) {
+        enterBracket(bracket);
     },
 
     render () {
@@ -53,7 +58,7 @@ let EnterButton = React.createClass({
             <div className='bracket-enter' title={!complete ? locks : ''}>
                 {complete ?
                     <OverlayTrigger trigger='hover' placement='bottom' overlay={popover}>
-                        <Button bsStyle='primary' block href={tweet} target='_blank'>Tweet My Bracket!</Button>
+                        <Button bsStyle='primary' block href={tweet} onClick={this.handleEnterClick.bind(null, bracket)} target='_blank'>Tweet My Bracket!</Button>
                     </OverlayTrigger>
                     :
                     <Button disabled block bsStyle='primary' componentClass='button'>
