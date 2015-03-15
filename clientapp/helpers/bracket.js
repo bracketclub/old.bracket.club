@@ -50,6 +50,10 @@ module.exports = memo(function getBracketHelpers(options) {
         year
     });
 
+    // if (year === '2015') {
+    //     locks = new Date(new Date().valueOf() + 5000).toJSON();
+    // }
+
     let locked = () => new Date().toJSON() >= locks;
 
     let validator = new BracketValidator({sport, year});

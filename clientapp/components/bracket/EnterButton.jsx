@@ -12,7 +12,7 @@ let TimeAgo = require('react-timeago');
 let bracketHelpers = require('../../helpers/bracket');
 
 
-let ScoreCard = React.createClass({
+let EnterButton = React.createClass({
     mixins: [PureRenderMixin],
 
     propTypes: {
@@ -50,14 +50,14 @@ let ScoreCard = React.createClass({
         );
 
         return (
-            <div className='bracket-enter'>
+            <div className='bracket-enter' title={!complete ? locks : ''}>
                 {complete ?
                     <OverlayTrigger trigger='hover' placement='bottom' overlay={popover}>
                         <Button bsStyle='primary' block href={tweet} target='_blank'>Tweet My Bracket!</Button>
                     </OverlayTrigger>
                     :
                     <Button disabled block bsStyle='primary' componentClass='button'>
-                        Brackets lock <TimeAgo date={locks} title={locks} />
+                        Brackets lock <TimeAgo date={locks} />
                     </Button>
                 }
             </div>
@@ -65,4 +65,4 @@ let ScoreCard = React.createClass({
     }
 });
 
-module.exports = ScoreCard;
+module.exports = EnterButton;

@@ -17,8 +17,7 @@ let BracketNav = React.createClass({
     propTypes: {
         history: PropTypes.array.isRequired,
         index: PropTypes.number.isRequired,
-        locked: PropTypes.bool.isRequired,
-        className: PropTypes.string
+        locked: PropTypes.bool.isRequired
     },
 
     getNavProps () {

@@ -5,7 +5,7 @@ let {classSet} = require('react/addons').addons;
 let Affix = require('react-bootstrap/lib/Affix');
 
 let BracketProgress = require('./Progress');
-let TweetButton = require('./TweetButton');
+let EnterButton = require('./EnterButton');
 let BracketNav = require('./Nav');
 
 
@@ -29,7 +29,7 @@ let BracketContainer = React.createClass({
             <div className={cx + ' bracket-header'}>
                 <Affix offsetTop={51}>
                     <BracketNav {...this.props} />
-                    {this.props.locked ? null : <TweetButton {...this.props} />}
+                    {this.props.locked ? null : <EnterButton {...this.props} />}
                     <BracketProgress {...this.props} />
                 </Affix>
             </div>
