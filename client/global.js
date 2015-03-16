@@ -1,6 +1,9 @@
+/* global __SPORT__, __YEAR__ */    // From webpack
+
 let Firebase = require('firebase');
 let range = require('lodash/utility/range');
-let {__year: activeYear, __sport: activeSport} = window;
+let activeSport = __SPORT__;
+let activeYear = __YEAR__;
 let years = range(2012, parseInt(activeYear) + 1).map(String);
 
 
