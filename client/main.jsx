@@ -1,5 +1,3 @@
-require('babelify/polyfill');
-
 let React = require('react');
 let Router = require('react-router');
 let {HistoryLocation, Redirect, Route, NotFoundRoute} = Router;
