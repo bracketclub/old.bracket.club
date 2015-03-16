@@ -4,6 +4,7 @@ let {HistoryLocation, Redirect, Route, NotFoundRoute} = Router;
 let _isNaN = require('lodash/lang/isNaN');
 let {pageview} = require('./helpers/analytics');
 
+require('!style!css!less!../styles/loader!');
 
 // Require the alt singleton and then require each store so that
 // they can be instantiated before we bootstrap the window data.

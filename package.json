@@ -19,6 +19,7 @@
     "bracket-updater": "^2.0.4",
     "bracket-validator": "^2.0.4",
     "firebase": "^2.2.2",
+    "lesshat": "^3.0.2",
     "lodash": "^3.5.0",
     "qs": "^2.4.1",
     "raf": "^2.0.4",
@@ -32,19 +33,20 @@
   "devDependencies": {
     "babel-core": "^4.7.12",
     "babel-loader": "^4.2.0",
+    "css-loader": "^0.9.1",
     "divshot-cli": "^1.10.2",
     "function-bind": "^1.0.2",
     "html-webpack-plugin": "^1.1.0",
-    "jade": "^1.9.2",
     "js-size": "^1.0.3",
     "json-loader": "^0.5.1",
     "jsxhint": "^0.12.1",
+    "less": "^2.4.0",
     "less-import-inserter": "^1.0.1",
-    "lesshat": "^3.0.2",
-    "lessitizer": "^2.0.0",
+    "less-loader": "^2.1.0",
     "phantomjs": "^1.9.16",
     "precommit-hook": "^1.0.7",
     "react-hot-loader": "^1.2.3",
+    "style-loader": "^0.8.3",
     "tap-spec": "^2.2.2",
     "tape": "^3.5.0",
     "tape-run": "^0.3.0",
@@ -73,12 +75,13 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com.git"
   },
   "scripts": {
-    "build": "NODE_ENV=production node server",
+    "build": "NODE_ENV=production webpack -p",
     "codeship-setup": "npm run npm-version && npm install && npm run build",
     "codeship-test": "npm test && npm run lint",
     "deploy": "divshot",
     "lint": "jsxhint .",
+    "copy-public": "cp -r public/* _deploy/",
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
-    "start": "node server.js"
+    "start": "webpack-dev-server --config webpack.config.js --colors --progress --hot --history-api-fallback --watch --quiet --port=3000 --host=0.0.0.0"
   }
 }
