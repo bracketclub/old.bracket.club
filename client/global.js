@@ -1,8 +1,8 @@
-/* globals Firebase */
-
+let Firebase = require('firebase');
 let range = require('lodash/utility/range');
 let {__year: activeYear, __sport: activeSport} = window;
 let years = range(2012, parseInt(activeYear) + 1).map(String);
+
 
 // These are all things that will only change once a year
 // All the year stuff is based on the build step
