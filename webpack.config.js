@@ -1,34 +1,42 @@
 var webpack = require('webpack');
 var isProd = process.env.NODE_ENV === 'production';
-
-// TODO: Use extract text to create style bundle
-// '!style!css!less!./styles/loader!',
-// var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-// TODO: use html plugin to create index html file with
-// hash asset names for production
-// var HTMLPlugin = require('html-webpack-plugin');
-
-// TODO: best way to serve public dir in dev and copy to _deply for production
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var HTMLPlugin = require('html-webpack-plugin');
 
 var filename, debug, devtool;
 var entry = ['./client/main'];
+var publicPath = '/assets/';
 var plugins = [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
         __SPORT__: JSON.stringify('ncaa-mens-basketball'),
         __YEAR__: JSON.stringify('2015')
+    }),
+    new HTMLPlugin({
+      template: 'public/index.html',
+      publicPath: publicPath
     })
+];
+var loaders = [
+    { test: /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
+    { test: /\.json$/, loaders: ['json'] }
 ];
 
 
 if (isProd) {
     debug = false;
     filename = 'bundle.[hash].js';
+    loaders.push({
+        test: /.less$/,
+        loader: ExtractTextPlugin.extract('style', 'css!less')
+    });
     plugins.push(
         new webpack.NoErrorsPlugin(),
-        new webpack.optimize.UglifyJsPlugin(),
         new webpack.optimize.DedupePlugin(),
+        new ExtractTextPlugin('bundle.[contenthash].css', {allChunks: true}),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {warnings: false}
+        }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('production')
@@ -44,9 +52,7 @@ else {
         'webpack-dev-server/client?http://0.0.0.0:3000',
         'webpack/hot/only-dev-server'
     );
-    plugins.push(
-        new webpack.HotModuleReplacementPlugin()
-    );
+    plugins.push(new webpack.HotModuleReplacementPlugin());
 }
 
 
@@ -56,7 +62,7 @@ module.exports = {
     entry: entry,
     output: {
         path: './build',
-        publicPath: '/assets/',
+        publicPath: publicPath,
         filename: filename
     },
     plugins: plugins,
@@ -64,9 +70,6 @@ module.exports = {
         extensions: ['', '.js', '.jsx', '.json']
     },
     module: {
-        loaders: [
-            { test: /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
-            { test: /\.json$/, loaders: ['json'] }
-        ]
+        loaders: loaders
     }
 };

@@ -37,7 +37,6 @@
     "css-loader": "^0.9.1",
     "divshot-cli": "^1.10.2",
     "extract-text-webpack-plugin": "^0.3.8",
-    "function-bind": "^1.0.2",
     "html-webpack-plugin": "^1.1.0",
     "js-size": "^1.0.3",
     "json-loader": "^0.5.1",
@@ -75,7 +74,8 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com.git"
   },
   "scripts": {
-    "build": "NODE_ENV=production webpack",
+    "build-after": "mkdir -p build/assets/ && mv build/bundle.* build/assets && rsync -rv --exclude=index.html public/ build/",
+    "build": "rm -rf build/ && NODE_ENV=production webpack && npm run build-after",
     "codeship-setup": "npm run npm-version && npm install && npm run build",
     "codeship-test": "npm test && npm run lint && npm run size",
     "deploy": "divshot",
@@ -83,6 +83,6 @@
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
     "size": "cat build/bundle.*.js | js-size",
     "start": "webpack-dev-server --colors --progress --hot --history-api-fallback --watch --quiet --port=3000 --host=0.0.0.0 --content-base public/",
-    "test": "babel-tape-runner test/index.js | tap-spec"
+    "test": "babel-tape-runner test/*.js | tap-spec"
   }
 }
