@@ -17,9 +17,10 @@ let EnterButton = React.createClass({
     mixins: [PureRenderMixin],
 
     propTypes: {
-        bracket: PropTypes.string.isRequired,
         sport: PropTypes.string.isRequired,
-        year: PropTypes.string.isRequired
+        year: PropTypes.string.isRequired,
+        history: PropTypes.array.isRequired,
+        index: PropTypes.number.isRequired
     },
 
     handleEnterClick (bracket) {
@@ -27,8 +28,9 @@ let EnterButton = React.createClass({
     },
 
     render () {
-        let {sport, year, bracket} = this.props;
+        let {sport, year, history, index} = this.props;
 
+        let bracket = history[index];
         let {locks, unpickedChar} = bracketHelpers({sport, year});
 
         let complete = (bracket.split(unpickedChar).length - 1) === 0;

@@ -114,13 +114,12 @@ let Region = React.createClass({
 
 let Bracket = React.createClass({
     propTypes: {
-        bracketObj: PropTypes.object.isRequired,
-        bracket: PropTypes.string.isRequired,
+        bracket: PropTypes.object.isRequired,
         locked: PropTypes.bool.isRequired
     },
 
     render () {
-        let {locked, bracketObj: bracket} = this.props;
+        let {locked, bracket} = this.props;
         return (
             <div className='bracket row'>
                 <div className='col-md-6 region-side left-side'>

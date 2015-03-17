@@ -3,8 +3,8 @@ let {PropTypes} = React;
 let {State} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
-let UserNotFound = require('../components/UserNotFound');
-let UserEntries = require('../components/UserEntries');
+let UserNotFound = require('../components/user/NotFound');
+let UserEntries = require('../components/user/Entries');
 
 let entryStore = require('../stores/entryStore');
 
