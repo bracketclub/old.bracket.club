@@ -24,16 +24,16 @@ var plugins = [
 
 if (isProd) {
     debug = false;
-    filename = 'bundle.[chunkhash].js';
+    filename = 'bundle.[hash].js';
     plugins.push(
+        new webpack.NoErrorsPlugin(),
         new webpack.optimize.UglifyJsPlugin(),
         new webpack.optimize.DedupePlugin(),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('production')
             }
-        }),
-        new webpack.NoErrorsPlugin()
+        })
     );
 }
 else {
@@ -56,6 +56,7 @@ module.exports = {
     entry: entry,
     output: {
         path: './build',
+        publicPath: '/assets/',
         filename: filename
     },
     plugins: plugins,
