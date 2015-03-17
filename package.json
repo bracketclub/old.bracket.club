@@ -74,8 +74,8 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com.git"
   },
   "scripts": {
-    "build-after": "mkdir -p build/assets/ && mv build/bundle.* build/assets && rsync -rv --exclude=index.html public/ build/",
     "build": "rm -rf build/ && NODE_ENV=production webpack && npm run build-after",
+    "build-after": "mkdir -p build/assets/ && mv build/bundle.* build/assets && rsync -rv --exclude=index.html public/ build/",
     "codeship-setup": "npm run npm-version && npm install && npm run build",
     "codeship-test": "npm test && npm run lint && npm run size",
     "deploy": "divshot",
