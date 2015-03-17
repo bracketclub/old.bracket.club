@@ -10,8 +10,10 @@ module.exports = function arrayConcatOrInsert (_arr, value, index) {
         arr.splice(index + 1, arr.length);
     }
 
-    arr.push(value);
-    index = arr.length - 1;
+    if (arr[arr.length - 1] !== value) {
+        arr.push(value);
+        index = arr.length - 1;
+    }
 
     return {arr, index};
 };

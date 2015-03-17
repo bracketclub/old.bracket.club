@@ -1,5 +1,8 @@
 let React = require('react');
-let {Link} = require('react-router');
+let {Link, State} = require('react-router');
+
+let extend = require('lodash/object/extend');
+let partial = require('lodash/function/partial');
 
 let Navbar = require('react-bootstrap/lib/Navbar');
 let Nav = require('react-bootstrap/lib/Nav');
@@ -11,12 +14,38 @@ let MenuItemLink = require('react-router-bootstrap/lib/MenuItemLink');
 
 let meActions = require('../../actions/meActions');
 
+// This is a bit of a pain, but there exist links in the app to change the
+// current page to a different year. We need to know how to convert any pathname
+// to a different year. This needs to be kept consistent with the ./routes.jsx file.
+// TODO: find a way to automatically determine from routes
 let years = require('../../global').years.slice(0).reverse();
-let YearPathnameMixin = require('../../helpers/YearPathnameMixin');
+let yearRoutes = ['user', 'results', 'resultsCurrent', 'userCurrent'];
+let defaultTo = 'landing';
+let yearParamNames = {landing: 'path'};
 
 
 let Header = React.createClass({
-    mixins: [YearPathnameMixin],
+    mixins: [State],
+
+    getYearPathname () {
+        let route = this.getRoutes()[1];
+        let params = this.getParams();
+        let query = this.getQuery();
+
+        let sendTo = yearRoutes.indexOf(route.name) > -1 ? route.name.replace('Current', '') : defaultTo;
+        let yearParamName = yearParamNames[sendTo] || 'year';
+
+        let addYear = function (obj, year) {
+            let toAdd = {[yearParamName]: year};
+            return extend({}, obj, toAdd);
+        };
+
+        return {
+            to: sendTo,
+            query: query, // TODO: maybe need to only send certain query params to landing page
+            params: partial(addYear, sendTo === defaultTo ? {} : params)
+        };
+    },
 
     propTypes: {
         me: React.PropTypes.object,

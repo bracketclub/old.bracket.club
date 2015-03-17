@@ -6,7 +6,7 @@ let concatOrInsert = require('../helpers/arrayConcatOrInsert');
 
 let routerContainer = require('../routerContainer');
 let {activeYear: year, activeSport: sport} = require('../global');
-let {generate, update, emptyBracket} = require('../helpers/bracket')({sport, year});
+let {generate, update, emptyBracket, regex} = require('../helpers/bracket')({sport, year});
 
 
 class BracketEntryStore {
@@ -24,6 +24,7 @@ class BracketEntryStore {
     }
 
     onUpdateBracket (bracket) {
+        if (!regex.test(bracket)) return;
         let {arr, index} = concatOrInsert(this.history, bracket, this.index);
         this.history = arr;
         this.index = index;

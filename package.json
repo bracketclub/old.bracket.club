@@ -18,6 +18,7 @@
     "bracket-scorer": "^2.3.2",
     "bracket-updater": "^2.0.4",
     "bracket-validator": "^2.0.4",
+    "firebase": "^2.2.2",
     "lesshat": "^3.0.2",
     "lodash": "^3.5.0",
     "qs": "^2.4.1",
