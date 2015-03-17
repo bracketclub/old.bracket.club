@@ -82,7 +82,7 @@
     "lint": "jsxhint .",
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
     "size": "cat build/bundle.*.js | js-size",
-    "start": "webpack-dev-server --colors --progress --hot --history-api-fallback --watch --quiet --port=3000 --host=0.0.0.0",
+    "start": "webpack-dev-server --colors --progress --hot --history-api-fallback --watch --quiet --port=3000 --host=0.0.0.0 --content-base build/",
     "test": "babel-tape-runner test/index.js | tap-spec"
   }
 }

@@ -18,6 +18,3 @@ npm-debug.log
 *.rdb
 
 .divshot-cache/
-build/bundle*.js
-build/bundle*.css
-build/fonts
