@@ -11,9 +11,9 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com/issues"
   },
   "dependencies": {
-    "alt": "^0.14.2",
-    "bootstrap": "^3.3.2",
-    "bracket-data": "^2.2.5",
+    "alt": "^0.14.3",
+    "bootstrap": "^3.3.4",
+    "bracket-data": "^2.2.6",
     "bracket-generator": "^2.0.4",
     "bracket-scorer": "^2.3.2",
     "bracket-updater": "^2.0.4",
@@ -76,7 +76,6 @@
     "codeship-test": "npm test && npm run lint",
     "deploy": "divshot",
     "lint": "jsxhint .",
-    "local": "nodemon -e js,json,jade index",
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
     "size": "browserify client/main.jsx --extension=.jsx -t babelify -t [reactify --es6] | js-size",
     "start": "node index",

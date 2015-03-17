@@ -6,8 +6,8 @@ let ListenerMixin = require('alt/mixins/ListenerMixin');
 let Header = require('./Header');
 let Footer = require('./Footer');
 
-let meStore = require('../stores/meStore');
-let globalDataStore = require('../stores/globalDataStore');
+let meStore = require('../../stores/meStore');
+let globalDataStore = require('../../stores/globalDataStore');
 
 
 let App = React.createClass({

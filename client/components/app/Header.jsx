@@ -9,10 +9,10 @@ let DropdownButton = require('react-bootstrap/lib/DropdownButton');
 let NavItemLink = require('react-router-bootstrap/lib/NavItemLink');
 let MenuItemLink = require('react-router-bootstrap/lib/MenuItemLink');
 
-let meActions = require('../actions/meActions');
+let meActions = require('../../actions/meActions');
 
-let years = require('../global').years.slice(0).reverse();
-let YearPathnameMixin = require('../helpers/YearPathnameMixin');
+let years = require('../../global').years.slice(0).reverse();
+let YearPathnameMixin = require('../../helpers/YearPathnameMixin');
 
 
 let Header = React.createClass({

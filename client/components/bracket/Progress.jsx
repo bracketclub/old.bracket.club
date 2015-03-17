@@ -13,11 +13,13 @@ let BracketProgress = React.createClass({
         sport: PropTypes.string.isRequired,
         year: PropTypes.string.isRequired,
         locked: PropTypes.bool.isRequired,
-        bracket: PropTypes.string.isRequired
+        history: PropTypes.array.isRequired,
+        index: PropTypes.number.isRequired
     },
 
     render () {
-        let {sport, year, locked, bracket} = this.props;
+        let {sport, year, locked, history, index} = this.props;
+        let bracket = history[index];
         let {totalGames, unpickedChar} = bracketHelpers({sport, year});
         let progress = totalGames - (bracket.split(unpickedChar).length - 1);
         let label = "%(now)s of %(max)s " + (locked ? 'games played' : 'picks made');

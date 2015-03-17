@@ -102,7 +102,7 @@ let Results = React.createClass({
 
         return (
             <div>
-                <BracketHeader bracket={bracket} locked={true} history={history} index={index} sport={sport} year={year} />
+                <BracketHeader locked={true} history={history} index={index} sport={sport} year={year} />
                 <Table condensed striped>
                     <thead>
                         <tr>
