@@ -4,13 +4,11 @@ let {State} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
 let Bracket = require('../components/bracket/Container');
-let UserNotFound = require('../components/UserNotFound');
-let UserEntries = require('../components/UserEntries');
+let UserNotFound = require('../components/user/NotFound');
+let UserEntries = require('../components/user/Entries');
 
 let masterStore = require('../stores/masterStore');
 let entryStore = require('../stores/entryStore');
-
-let bracketHelpers = require('../helpers/bracket');
 
 
 let UserEntry = React.createClass({
@@ -42,17 +40,14 @@ let UserEntry = React.createClass({
     },
 
     render () {
-        let {sport, year} = this.props;
+        let {year} = this.props;
         let {
-            id,
-            users,
-            index,
+            id, users, index,
             history: historyByYear,
             entries: entriesByYear
         } = this.state;
 
         let history = historyByYear[year];
-        let master = historyByYear[year][index];
         let user = users[id];
         let entry = entriesByYear[year][id];
 
@@ -64,21 +59,7 @@ let UserEntry = React.createClass({
             return <UserEntries {...user} year={year} />;
         }
 
-        let bracket = entry.bracket;
-        let bracketObj = bracketHelpers({sport, year}).diff({master, entry: bracket});
-
-        let bracketProps = {
-            sport,
-            year,
-            bracketObj,
-            bracket,
-            history,
-            index,
-            master,
-            entry
-        };
-
-        return <Bracket {...bracketProps} locked={true} />;
+        return <Bracket {...this.props} history={history} index={index} entry={entry} locked={true} />;
     }
 });
 

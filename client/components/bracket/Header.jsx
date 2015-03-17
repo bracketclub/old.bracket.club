@@ -15,8 +15,7 @@ let BracketContainer = React.createClass({
         year: PropTypes.string.isRequired,
         locked: PropTypes.bool.isRequired,
         history: PropTypes.array.isRequired,
-        index: PropTypes.number.isRequired,
-        bracket: PropTypes.string.isRequired
+        index: PropTypes.number.isRequired
     },
 
     render () {
@@ -29,7 +28,7 @@ let BracketContainer = React.createClass({
             <div className={cx + ' bracket-header'}>
                 <Affix offsetTop={51}>
                     <BracketNav {...this.props} />
-                    {this.props.locked ? null : <EnterButton {...this.props} />}
+                    {!this.props.locked ? <EnterButton {...this.props} /> : null}
                     <BracketProgress {...this.props} />
                 </Affix>
             </div>
