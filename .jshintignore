@@ -1,6 +1,3 @@
 node_modules
 client/libraries
-client/templates.js
 _deploy/
-_crawl/
-client_archive/
