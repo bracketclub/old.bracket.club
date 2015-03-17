@@ -1,6 +1,6 @@
 {
   "name": "tweetyourbracket",
-  "root": "./_deploy",
+  "root": "./build",
   "clean_urls": true,
   "cache_control": {
     "/fonts/**": 604800,
