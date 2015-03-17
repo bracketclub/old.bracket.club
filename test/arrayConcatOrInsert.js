@@ -48,3 +48,19 @@ test('Adds to beginning of array', (t) => {
 
     t.end();
 });
+
+test('Wont double up value at end of array', (t) => {
+    let start = [0, 1, 2, 3, 4, 5, 6];
+    let {arr, index} = arrayConcatOrInsert(start, 6);
+
+    t.equal(start.length, 7);
+    t.equal(start[6], 6);
+
+    t.equal(arr.length, 7);
+    t.equal(arr[6], 6);
+    t.equal(arr.join(''), '0123456');
+
+    t.equal(index, 6);
+
+    t.end();
+});

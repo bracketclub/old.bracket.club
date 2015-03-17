@@ -1,48 +1,59 @@
 let React = require('react');
 let {State} = require('react-router');
+let ListenerMixin = require('alt/mixins/ListenerMixin');
 
-let Entry = require('../components/Entry');
 let FourOhFour = require('./FourOhFour');
-let Master = require('../components/Master');
+let Bracket = require('../components/bracket/Container');
 
 let {rYear} = require('../global');
 let bracketHelpers = require('../helpers/bracket');
 
+let bracketEntryActions = require('../actions/bracketEntryActions');
+let bracketEntryStore = require('../stores/bracketEntryStore');
+let masterStore = require('../stores/masterStore');
+
 
 module.exports = React.createClass({
-    mixins: [State],
+    mixins: [State, ListenerMixin],
 
-    getInitialState () {
-        return {bracket: this.getParams().path};
+    componentDidMount() {
+        // Update store to contain the bracket from the url
+        // Note: store protects against falsy and bad values
+        bracketEntryActions.updateBracket(this.getParams().path);
+        this.listenTo(bracketEntryStore, this.onChange);
+        this.listenTo(masterStore, this.onChange);
     },
 
-    componentWillReceiveProps () {
+    onChange () {
         this.setState(this.getInitialState());
+    },
+
+    getInitialState (props) {
+        let {locked} = (props || this.props);
+        let {history, index} = (locked ? masterStore : bracketEntryStore).getState();
+        return {history, index, urlParam: this.getParams().path};
+    },
+
+    componentWillReceiveProps (nextProps) {
+        this.setState(this.getInitialState(nextProps));
     },
 
     render () {
         let {locked, sport, year} = this.props;
-        let {bracket} = this.state;
+        let {urlParam, history: stateHistory, index} = this.state;
         let {regex} = bracketHelpers({sport, year});
 
         // The landing page is a few things dependent on state & url:
-
-        // A locked master bracket for a previous year
-        if (locked && rYear.test(bracket)) {
-            return <Master {...this.props} />;
+        if (locked) {
+            // A locked master bracket for a previous year
+            return <Bracket {...this.props} history={stateHistory[year]} index={index} />;
         }
-
-        // The current unlocked entry for the current year
-        if (!locked && rYear.test(bracket)) {
-            return <Entry {...this.props} />;
+        else if (!urlParam || rYear.test(urlParam) || regex.test(urlParam)) {
+            // The current unlocked entry
+            return <Bracket {...this.props} history={stateHistory} index={index} />;
         }
 
         // A fallback url which will render the 404 for bad params
-        if (bracket && !regex.test(bracket)) {
-            return <FourOhFour />;
-        }
-
-        // The current unlocked entry
-        return <Entry {...this.props} bracket={bracket} />;
+        return <FourOhFour />;
     }
 });

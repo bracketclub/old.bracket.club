@@ -24,23 +24,29 @@ let BracketContainer = React.createClass({
         locked: PropTypes.bool.isRequired,
         history: PropTypes.array.isRequired,
         index: PropTypes.number.isRequired,
-        bracket: PropTypes.string.isRequired,
-        bracketObj: PropTypes.object.isRequired,
-        master: PropTypes.string,
         entry: PropTypes.object
     },
 
+    getBracketObj () {
+        let {entry, history, index, sport, year} = this.props;
+        let bracket = history[index];
+        let bracketHelper = bracketHelpers({sport, year});
+
+        if (entry) {
+            return bracketHelper.diff({master: bracket, entry: entry.bracket});
+        }
+        else {
+            return bracketHelper.validate(bracket);
+        }
+    },
+
     render () {
-        let {sport, year, master, entry, isLiveEntry, locked} = this.props;
+        let {sport, year, entry, showEntryMessage, locked} = this.props;
         return (
             <div>
                 <BracketHeader {...this.props} />
-                {entry ?
-                    <ScoreCard {...entry} sport={sport} year={year} master={master} />
-                    :
-                    null
-                }
-                {isLiveEntry && !locked ?
+                {entry ? <ScoreCard {...this.props} {...entry} /> : null}
+                {showEntryMessage || (entry && !locked) ?
                     <Alert bsStyle='info'>
                         Entries are still open for {year} for another <TimeAgo formatter={formatter} date={bracketHelpers({sport, year}).locks} />. 
                         Go to the <Link to='landing'>entry page</Link> to fill out your bracket before it's too late!
@@ -48,7 +54,7 @@ let BracketContainer = React.createClass({
                     : 
                     null
                 }
-                <Bracket {...this.props} locked={isLiveEntry ? true : locked} />
+                <Bracket {...this.props} bracket={this.getBracketObj()} />
             </div>
         );
     }

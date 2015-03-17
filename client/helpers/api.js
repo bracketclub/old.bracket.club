@@ -1,6 +1,7 @@
 let xhr = require('xhr');
 let {apiUrl} = require('../global');
 
+
 module.exports = function (path, action) {
     xhr({
         url: apiUrl + path,
