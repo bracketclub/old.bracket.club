@@ -40,11 +40,11 @@ let {firebase} = require('./global');
 firebase.onAuth(require('./actions/meActions').login);
 
 
+// Import routes and create our router and then set it on the router container
+// so it can be imported by actions/stores
 let routes = require('./routes');
 let routerContainer = require('./routerContainer');
 let globalDataActions = require('./actions/globalDataActions');
-let fullWidthRoutes = ['user', 'userCurrent', 'landing', 'entry'];
-
 routerContainer.set(Router.create({routes, location: HistoryLocation}));
 
 routerContainer.get().run(function (Handler, router) {
@@ -53,10 +53,10 @@ routerContainer.get().run(function (Handler, router) {
     let routeName = router.routes[1].name;
 
     let props = {
-        sport,
+        sport, // Sport is always the same for now
         game: _isNaN(masterIndex) ? null : masterIndex,
         year: rYear.test(possibleYear) ? possibleYear : year,
-        fluid: fullWidthRoutes.indexOf(routeName) > -1
+        fluid: ['user', 'userCurrent', 'landing', 'entry'].indexOf(routeName) > -1
     };
 
     // Set the year from the url before rendering the page handler so all pages have it
