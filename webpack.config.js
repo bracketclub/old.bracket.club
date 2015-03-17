@@ -1,19 +1,24 @@
 var webpack = require('webpack');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-
 var isProd = process.env.NODE_ENV === 'production';
 
+// TODO: Use extract text to create style bundle
+// '!style!css!less!./styles/loader!',
+// var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+// TODO: use html plugin to create index html file with
+// hash asset names for production
+// var HTMLPlugin = require('html-webpack-plugin');
+
+// TODO: best way to serve public dir in dev and copy to _deply for production
+
 var filename, debug, devtool;
-var entry = [
-    //'!style!css!less!./styles/loader!',
-    './client/main'
-];
+var entry = ['./client/main'];
 var plugins = [
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
         __SPORT__: JSON.stringify('ncaa-mens-basketball'),
         __YEAR__: JSON.stringify('2015')
-    }),
-    new webpack.optimize.OccurenceOrderPlugin()
+    })
 ];
 
 
@@ -50,8 +55,7 @@ module.exports = {
     devtool: devtool,
     entry: entry,
     output: {
-        path: './_deploy',
-        publicPath: './public',
+        path: './build',
         filename: filename
     },
     plugins: plugins,
