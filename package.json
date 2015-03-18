@@ -13,7 +13,7 @@
   "dependencies": {
     "alt": "^0.14.3",
     "bootstrap": "^3.3.4",
-    "bracket-data": "^2.2.6",
+    "bracket-data": "^2.2.7",
     "bracket-generator": "^2.0.4",
     "bracket-scorer": "^2.3.2",
     "bracket-updater": "^2.0.4",
