@@ -11,10 +11,6 @@ var plugins = [
     new webpack.DefinePlugin({
         __SPORT__: JSON.stringify('ncaa-mens-basketball'),
         __YEAR__: JSON.stringify('2015')
-    }),
-    new HTMLPlugin({
-      template: 'public/index.html',
-      publicPath: publicPath
     })
 ];
 var loaders = [
@@ -39,6 +35,10 @@ if (isProd) {
         }),
         new webpack.DefinePlugin({
             'process.env': {NODE_ENV: JSON.stringify('production')}
+        }),
+        new HTMLPlugin({
+          template: 'public/prod-index.html',
+          publicPath: publicPath
         })
     );
 }

@@ -1,6 +1,7 @@
 let React = require('react');
 let {State} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
+let raf = require('raf');
 
 let FourOhFour = require('./FourOhFour');
 let Bracket = require('../components/bracket/Container');
@@ -12,6 +13,11 @@ let bracketEntryActions = require('../actions/bracketEntryActions');
 let bracketEntryStore = require('../stores/bracketEntryStore');
 let masterStore = require('../stores/masterStore');
 
+window.crohn = () => {
+    bracketEntryActions.generate('random');
+    raf(window.crohn);
+    return 'So brave. Now just Tweet Your Bracket!';
+};
 
 module.exports = React.createClass({
     mixins: [State, ListenerMixin],
