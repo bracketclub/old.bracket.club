@@ -31,6 +31,8 @@ alt.bootstrap(JSON.stringify({
 // but one day this will probably be moved to individual pages
 // since the API can return data by year only
 require('./actions/masterActions').fetchMasters({stream: true});
+// Dont stream entries right now since we are deploying this after they are locked
+// TODO: base this and master stream on locked
 require('./actions/entryActions').fetchEntries({stream: false});
 
 
