@@ -1,5 +1,6 @@
 let alt = require('../alt');
 let api = require('../helpers/api');
+let eventSource = require('../helpers/eventSource');
 
 
 class MasterActions {
@@ -16,7 +17,10 @@ class MasterActions {
     }
 
     fetchMasters () {
-        api('/masters', this.actions.receiveMasters);
+        api('/masters', (masters) => {
+            eventSource('/masters/events', (data) => this.actions.addMaster(data));
+            this.actions.receiveMasters(masters);
+        });
     }
 }
 

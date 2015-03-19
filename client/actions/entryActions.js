@@ -1,5 +1,6 @@
 let alt = require('../alt');
 let api = require('../helpers/api');
+let eventSource = require('../helpers/eventSource');
 
 
 class EntryActions {
@@ -8,7 +9,10 @@ class EntryActions {
     }
 
     fetchEntries () {
-        api('/entries', this.actions.receiveEntries);
+        api('/entries', (entries) => {
+            eventSource('/entries/events', (data) => this.actions.addEntry(data));
+            this.actions.receiveEntries(entries);
+        });
     }
 }
 
