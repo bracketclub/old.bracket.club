@@ -21,6 +21,13 @@ class EntryStore {
 
     onAddEntry (entry) {
         this.entries[entry.year][entry.user_id] = entry;
+        let years = ((this.users[entry.user_id] || {}).years || []).slice(0);
+        this.users[entry.user_id] = this._pickUser(entry);
+        this.users[entry.user_id].years = years.concat(entry.year);
+    }
+
+    _pickUser (entry) {
+        return pick(entry, 'user_id', 'username', 'name', 'profile_pic');
     }
 
     onReceiveEntries (entries) {
@@ -31,7 +38,7 @@ class EntryStore {
             this.entries[year] = yearEntries;
 
             merge(this.users, yearEntries, (entry, nextEntry) => {
-                let nextUser  = pick(nextEntry, 'user_id', 'username', 'name', 'profile_pic');
+                let nextUser  = this._pickUser(nextEntry);
                 nextUser.years = (entry && entry.years || []).concat(nextEntry.year);
                 return nextUser;
             });
