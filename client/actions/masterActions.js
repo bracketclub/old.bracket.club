@@ -16,9 +16,11 @@ class MasterActions {
         );
     }
 
-    fetchMasters () {
+    fetchMasters (options) {
         api('/masters', (masters) => {
-            eventSource('/masters/events', (data) => this.actions.addMaster(data));
+            if (options.stream) {
+                eventSource('/masters/events', 'masters', this.actions.addMaster);
+            }
             this.actions.receiveMasters(masters);
         });
     }

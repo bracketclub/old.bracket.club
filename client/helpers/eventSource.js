@@ -2,14 +2,12 @@ let hasEventSource = !!window.EventSource;
 let {apiUrl} = require('../global');
 
 
-module.exports = (url, onData) => {
+module.exports = (url, eventName, onData) => {
     if (hasEventSource) {
         let source = new window.EventSource(apiUrl + url);
-        source.addEventListener('entries', (e) => {
-            let data = JSON.parse(e.data);
-            console.log('SSE', url, data);
-            onData(data);
-        }, false);
+        source.addEventListener(eventName, (e) => onData(JSON.parse(e.data)), false);
+        // source.addEventListener('open', (e) => console.log('SSE', url, 'open', e), false);
+        // source.addEventListener('error', (e) => console.log('SSE', url, 'error', e), false);
     } else {
         console.warn('No event source. Cant connect to ' + url);
     }

@@ -8,9 +8,11 @@ class EntryActions {
         this.generateActions('addEntry', 'receiveEntries');
     }
 
-    fetchEntries () {
+    fetchEntries (options) {
         api('/entries', (entries) => {
-            eventSource('/entries/events', (data) => this.actions.addEntry(data));
+            if (options.stream) {
+                eventSource('/entries/events', 'entries', this.actions.addEntry);
+            }
             this.actions.receiveEntries(entries);
         });
     }
