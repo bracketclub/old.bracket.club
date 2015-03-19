@@ -49,7 +49,8 @@ class MasterStore {
 
     onAddMaster (master) {
         // Masters will only be added to the current year
-        this.history[activeYear].push(master);
+        this.history[activeYear].push(master.master);
+        this.index = this.history[activeYear].length - 1;
     }
 
     onGetPrevious () {

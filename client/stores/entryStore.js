@@ -5,6 +5,7 @@ let indexBy = require('lodash/collection/indexBy');
 let zipObject = require('lodash/array/zipObject');
 let merge = require('lodash/object/merge');
 let pick = require('lodash/object/pick');
+let uniq = require('lodash/array/uniq');
 let {years} = require('../global');
 
 
@@ -23,7 +24,7 @@ class EntryStore {
         this.entries[entry.year][entry.user_id] = entry;
         let years = ((this.users[entry.user_id] || {}).years || []).slice(0);
         this.users[entry.user_id] = this._pickUser(entry);
-        this.users[entry.user_id].years = years.concat(entry.year);
+        this.users[entry.user_id].years = uniq(years.concat(entry.year));
     }
 
     _pickUser (entry) {
