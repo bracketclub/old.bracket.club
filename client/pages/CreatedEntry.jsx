@@ -40,7 +40,7 @@ let CreatedEntry = React.createClass({
     },
 
     render () {
-        let {sport, year} = this.props;
+        let {sport, year, locked} = this.props;
         let {bracket, historyByYear, index} = this.state;
         let {regex} = bracketHelpers({sport, year});
 
@@ -48,7 +48,7 @@ let CreatedEntry = React.createClass({
             return <FourOhFour />;
         }
 
-        return <Bracket {...this.props} history={historyByYear[year]} index={index} entry={{bracket}} locked={true} showEntryMessage={true} />;
+        return <Bracket {...this.props} history={historyByYear[year]} index={index} entry={{bracket}} locked={true} showEntryMessage={!locked} />;
     }
 });
 
