@@ -3,6 +3,7 @@ let {Link} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
 let last = require('lodash/array/last');
+let sortedIndex = require('lodash/array/sortedIndex');
 let sortBy = require('lodash/collection/sortBy');
 let map = require('lodash/collection/map');
 let pluck = require('lodash/collection/pluck');
@@ -17,6 +18,8 @@ let entryStore = require('../stores/entryStore');
 let masterStore = require('../stores/masterStore');
 
 let scoreTypes = ['standard', 'standardPPR', 'rounds', 'gooley', 'gooleyPPR'];
+
+let standardScoreDesc = (entry) => -entry.score.standard;
 
 
 let Results = React.createClass({
@@ -34,12 +37,17 @@ let Results = React.createClass({
             })
         );
         
-        return sortBy(map(entries, function (entry, index) {
+        let sorted = sortBy(map(entries, (entry, index) => {
             entry.score = scores[index];
             return entry;
-        }), function (entry) {
-            return -entry.score.standard;
+        }), standardScoreDesc);
+
+        sorted = sorted.map(function (entry) {
+            entry.index = sortedIndex(sorted, entry, standardScoreDesc);
+            return entry;
         });
+
+        return sorted;
     },
 
     getInitialState () {
@@ -80,7 +88,7 @@ let Results = React.createClass({
                 {locked ?
                     this.sortEntriesByScore(entries[year], bracket).map((entry, index) => 
                         <tr key={index} className={me.id === entry.user_id ? 'info' : ''}>
-                            <td>{index + 1}</td>
+                            <td>{entry.index + 1}</td>
                             <td><Link to='user' params={{id: entry.user_id, year: year}}>{entry.username}</Link></td>
                             {entry.score.rounds.map((round, index) => 
                                 <td key={index} className='hidden-xs'>{round}</td>
