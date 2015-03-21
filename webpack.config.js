@@ -15,7 +15,8 @@ var plugins = [
 ];
 var loaders = [
     { test: /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
-    { test: /\.json$/, loaders: ['json'] }
+    { test: /\.json$/, loaders: ['json'] },
+    { test: /\.less$/, loaders: ['style', 'raw', 'less'] },
 ];
 
 
