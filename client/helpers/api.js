@@ -2,15 +2,15 @@ let xhr = require('xhr');
 let {apiUrl} = require('../global');
 
 
-module.exports = function (path, action) {
+module.exports = function (path, cb) {
     xhr({
         url: apiUrl + path,
         useXDR: true
     }, (err, resp, body) => {
         if (err) {
-            console.error(err);
+            cb(err);
         } else {
-            action(JSON.parse(body).response);
+            cb(null, JSON.parse(body).response);
         }
     });
 };
