@@ -22,7 +22,7 @@ let ScoreCard = React.createClass({
 
     render () {
         let {username, user_id, sport, year, history, index, bracket} = this.props;
-        let score =  bracketHelpers({sport, year}).score(scoreTypes, {master: history[index], entry: bracket});
+        let score = bracketHelpers({sport, year}).score(scoreTypes, {master: history[index], entry: bracket});
 
         return (
             <div className='score-card'>
