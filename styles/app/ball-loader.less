@@ -7,11 +7,19 @@
 
 .lh-keyframes(~'ball-shadow, 0%{transform:  translate3d(66.66667px, 66.66667px, -1px) scale3d(1.25, 1.25, 1); animation-timing-function: ease-in;} 45%{transform: translate3d(12.5px, -15px, -1px); animation-timing-function: ease-in;} 50%{transform: translate3d(12.5px, -15px, -1px) scale3d(1, 1, 1); animation-timing-function: linear;} 55%{transform: translate3d(12.5px, -15px, -1px); animation-timing-function: ease-out;} 100%{transform: translate3d(66.66667px, 66.66667px, -1px) scale3d(1.25, 1.25, 1); animation-timing-function: ease-in;}');
 
+.lh-keyframes(~'fade-in-up, 0%{opacity: 0; transform: translate3d(0, 50px, 0); animation-timing-function: ease-out;} 100%{opacity: 1; transform: none; animation-timing-function: ease-out;}');
+
 .page-loader {
     height: 250px;
     margin-top: 20px;
     text-align: center;
     padding-bottom: 30px;
+    opacity: 0;
+    .lh-animation-name(fade-in-up);
+    .lh-animation-duration(400ms);
+    .lh-animation-iteration-count(1);
+    .lh-animation-delay(1s);
+    .lh-animation-fill-mode(forwards);
 
     .ball-container {
         width: 50px;
