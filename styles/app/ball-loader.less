@@ -14,56 +14,56 @@
     padding-bottom: 30px;
 
     .ball-container {
-      width: 50px;
-      margin: 0 auto;
-      overflow: visible;
+        width: 50px;
+        margin: 0 auto;
+        overflow: visible;
     }
 
     /* Styles for old versions of IE */
     .ball {
-      position: relative;
-      display: inline-block;
-      border-radius: 100%;
-      background: #ff8866;
-      width: 50px;
-      height: 50px;
+        position: relative;
+        display: inline-block;
+        border-radius: 100%;
+        background: #ff8866;
+        width: 50px;
+        height: 50px;
     }
 
     /* :not(:required) hides this rule from IE9 and below */
     .ball:not(:required) {
-      .lh-transform-style(preserve-3d);
-      .lh-translate3d(0, 0, 0);
-      .lh-scale3d(1, 1, 1);
-      .lh-transform-origin(0 100%);
-      .lh-animation(ball 1500ms infinite linear);
+        .lh-transform-style(preserve-3d);
+        .lh-translate3d(0, 0, 0);
+        .lh-scale3d(1, 1, 1);
+        .lh-transform-origin(0 100%);
+        .lh-animation(ball 1500ms infinite linear);
 
-      &::after {
-        content: '';
-        position: absolute;
-        top: 4.5px;
-        left: 5.5px;
-        width: 15px;
-        height: 15px;
-        background: #ffb099;
-        border-radius: 100%;
-        .lh-skew(-20, 0);
-        .lh-translate3d(0, 2.5px, 1px);
-        .lh-animation(ball-highlight 1500ms infinite linear);
-      }
+        &::after {
+            content: '';
+            position: absolute;
+            top: 4.5px;
+            left: 5.5px;
+            width: 15px;
+            height: 15px;
+            background: #ffb099;
+            border-radius: 100%;
+            .lh-skew(-20, 0);
+            .lh-translate3d(0, 2.5px, 1px);
+            .lh-animation(ball-highlight 1500ms infinite linear);
+        }
 
-      &::before {
-        content: '';
-        position: absolute;
-        top: 50px;
-        left: 5.5px;
-        width: 50px;
-        height: 15px;
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 100%;
-        .lh-translate3d(66.66667px, 66.66667px, -1px);
-        .lh-scale3d(1.25, 1.25, 1);
-        .lh-animation(ball-shadow 1500ms infinite linear);
-        .lh-blur(1px);
-      }
+        &::before {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 5.5px;
+            width: 50px;
+            height: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 100%;
+            .lh-translate3d(66.66667px, 66.66667px, -1px);
+            .lh-scale3d(1.25, 1.25, 1);
+            .lh-animation(ball-shadow 1500ms infinite linear);
+            .lh-blur(1px);
+        }
     }
 }
