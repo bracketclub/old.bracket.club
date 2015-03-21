@@ -1,0 +1,43 @@
+@footer-height: 120px;
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: @footer-height;
+}
+
+.main-container {
+    padding-bottom: 40px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    right: 15px;
+    height: @footer-height;
+
+    .container, .container-fluid {
+        padding-top: 20px;
+        border-top: 1px solid @gray-light;
+        color: #777;
+    }
+
+    .footer-links {
+        padding: 0;
+
+        li {
+            display: inline;
+            padding: 0 2px;
+        }
+
+        .follow-button {
+            position: relative;
+            top: 5px;
+            padding-left: 4px;
+        }
+    }
+}

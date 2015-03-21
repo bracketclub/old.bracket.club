@@ -38,13 +38,16 @@ let App = React.createClass({
     render () {
         let {me, locked} = this.state;
         let {year, sport, fluid} = this.props;
+        let containerClass = fluid ? 'container-fluid' : 'container';
         return (
             <div>
                 <Header year={year} me={me} />
-                <div className={fluid ? 'container-fluid' : 'container'}>
-                    <RouteHandler sport={sport} year={year} me={me} locked={locked} />
-                    <Footer me={me} />
+                <div className={containerClass}>
+                    <div className='main-container'>
+                        <RouteHandler sport={sport} year={year} me={me} locked={locked} />
+                    </div>
                 </div>
+                <Footer className={containerClass} me={me} />
             </div>
         );
     }
