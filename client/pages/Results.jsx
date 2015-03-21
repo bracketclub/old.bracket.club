@@ -17,6 +17,7 @@ let Glyphicon = require('react-bootstrap/lib/Glyphicon');
 let TimeAgo = require('react-timeago');
 let Table = require('react-bootstrap/lib/Table');
 let BracketHeader = require('../components/bracket/Header');
+let Loading = require('../components/Loading');
 
 let bracketHelpers = require('../helpers/bracket');
 let entryStore = require('../stores/entryStore');
@@ -90,9 +91,9 @@ let Results = React.createClass({
     },
 
     getStateFromStore () {
-        let {index, history} = masterStore.getState();
-        let {entries} = entryStore.getState();
-        return {index, history, entries};
+        let {index, history, loading: masterLoading} = masterStore.getState();
+        let {entries, loading: entryLoading} = entryStore.getState();
+        return {index, history, entries, loading: entryLoading || masterLoading};
     },
 
     getInitialState () {
@@ -119,7 +120,7 @@ let Results = React.createClass({
     },
 
     render () {
-        let {history: historyByYear, index, entries, sortByCol, sortByDir} = this.state;
+        let {history: historyByYear, index, entries, sortByCol, sortByDir, loading} = this.state;
         let {locked, sport, year, me} = this.props;
 
         let history = historyByYear[year];
@@ -136,6 +137,10 @@ let Results = React.createClass({
         }
 
         let headerProps = {sortByCol, sortByDir, handleClick: this.handleSortClick};
+
+        if (loading) {
+            return <Loading />;
+        }
 
         return (
             <div>

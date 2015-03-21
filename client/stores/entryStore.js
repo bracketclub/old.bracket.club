@@ -18,6 +18,9 @@ class EntryStore {
 
         // {1: {...entry, years: ['2014', '2015']}, 2: {...entry, years: ['2014']}}
         this.users = {};
+
+        this.loading = false;
+        this.error = null;
     }
 
     onAddEntry (entry) {
@@ -44,6 +47,14 @@ class EntryStore {
                 return nextUser;
             });
         });
+    }
+
+    onLoading (state) {
+        this.loading = state;
+    }
+
+    onError (err) {
+        this.error = err;
     }
 }
 

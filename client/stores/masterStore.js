@@ -14,6 +14,8 @@ class MasterStore {
         this.bindActions(masterActions);
 
         this.index = 0;
+        this.loading = false;
+        this.error = null;
 
         this.on('bootstrap', () => {
             let {sport} = globalDataStore.getState();
@@ -71,6 +73,14 @@ class MasterStore {
 
     onGetIndex (index) {
         this.index = Math.min(Math.max(0, index), this._getLastIndex());
+    }
+
+    onLoading (state) {
+        this.loading = state;
+    }
+
+    onError (err) {
+        this.error = err;
     }
 }
 

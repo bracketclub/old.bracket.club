@@ -12,16 +12,25 @@ class MasterActions {
             'getNext',
             'getPrevious',
             'getIndex',
-            'receiveMasters'
+            'receiveMasters',
+            'loading',
+            'error'
         );
     }
 
     fetchMasters (options) {
-        api('/masters', (masters) => {
-            if (options.stream) {
-                eventSource('/masters/events', 'masters', this.actions.addMaster);
+        this.actions.loading(true);
+        api('/masters', (err, masters) => {
+            this.actions.loading(false);
+            if (err) {
+                this.actions.error(err);
             }
-            this.actions.receiveMasters(masters);
+            else {
+                if (options.stream) {
+                    eventSource('/masters/events', 'masters', this.actions.addMaster);
+                }
+                this.actions.receiveMasters(masters);
+            }
         });
     }
 }

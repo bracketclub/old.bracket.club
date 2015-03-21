@@ -3,6 +3,7 @@ let {PropTypes} = React;
 let {State} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
+let Loading = require('../components/Loading');
 let Bracket = require('../components/bracket/Container');
 let UserNotFound = require('../components/user/NotFound');
 let UserEntries = require('../components/user/Entries');
@@ -29,10 +30,10 @@ let UserEntry = React.createClass({
     },
 
     getInitialState () {
-        let {entries, users} = entryStore.getState();
-        let {history, index} = masterStore.getState();
+        let {entries, users, loading: entryLoading} = entryStore.getState();
+        let {history, index, loading: masterLoading} = masterStore.getState();
         let {id} = this.getParams();
-        return {history, index, entries, users, id};
+        return {history, index, entries, users, id, loading: entryLoading || masterLoading};
     },
 
     componentWillReceiveProps () {
@@ -42,7 +43,7 @@ let UserEntry = React.createClass({
     render () {
         let {year} = this.props;
         let {
-            id, users, index,
+            id, users, index, loading,
             history: historyByYear,
             entries: entriesByYear
         } = this.state;
@@ -50,6 +51,10 @@ let UserEntry = React.createClass({
         let history = historyByYear[year];
         let user = users[id];
         let entry = entriesByYear[year][id];
+
+        if (loading) {
+            return <Loading />;
+        }
 
         if (!user) {
             return <UserNotFound year={year} />;

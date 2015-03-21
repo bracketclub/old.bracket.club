@@ -36,6 +36,7 @@ require('./actions/masterActions').fetchMasters({stream: true});
 require('./actions/entryActions').fetchEntries({stream: false});
 
 
+
 // Instantiate our firebase reference. This is only used to login
 // with Twitter, so we setup an auth listener which will trigger a login action
 let {firebase} = require('./global');

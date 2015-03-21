@@ -5,15 +5,27 @@ let eventSource = require('../helpers/eventSource');
 
 class EntryActions {
     constructor () {
-        this.generateActions('addEntry', 'receiveEntries');
+        this.generateActions(
+            'addEntry',
+            'receiveEntries',
+            'loading',
+            'error'
+        );
     }
 
     fetchEntries (options) {
-        api('/entries', (entries) => {
-            if (options.stream) {
-                eventSource('/entries/events', 'entries', this.actions.addEntry);
+        this.actions.loading(true);
+        api('/entries', (err, entries) => {
+            this.actions.loading(false);
+            if (err) {
+                this.actions.error(err);
             }
-            this.actions.receiveEntries(entries);
+            else {
+                if (options.stream) {
+                    eventSource('/entries/events', 'entries', this.actions.addEntry);
+                }
+                this.actions.receiveEntries(entries);
+            }
         });
     }
 }
