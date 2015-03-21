@@ -47,7 +47,7 @@ else {
     filename = 'bundle.js';
     devtool = 'eval';
     entry.unshift(
-        'webpack-dev-server/client?http://0.0.0.0:3000',
+        'webpack-dev-server/client?http://0.0.0.0:3002',
         'webpack/hot/only-dev-server'
     );
 }
