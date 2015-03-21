@@ -44,7 +44,7 @@
     "less": "^2.4.0",
     "less-import-inserter": "^1.0.1",
     "less-loader": "^2.1.0",
-    "precommit-hook": "^1.0.7",
+    "precommit-hook": "^2.0.1",
     "pretty-bytes": "^1.0.3",
     "react-hot-loader": "^1.2.3",
     "style-loader": "^0.8.3",
