@@ -18,13 +18,16 @@
     .lh-animation-name(fade-in-up);
     .lh-animation-duration(400ms);
     .lh-animation-iteration-count(1);
-    .lh-animation-delay(1s);
+    .lh-animation-delay(400ms); // Wait this amount to show the loading indicator
     .lh-animation-fill-mode(forwards);
 
     .ball-container {
         width: 50px;
         margin: 0 auto;
         overflow: visible;
+        // The ball animation wont work on iOS 8 without this translate3d
+        // See https://github.com/jlong/css-spinners/issues/10#issuecomment-8454641
+        .lh-translate3d(0, 0, 0);
     }
 
     /* Styles for old versions of IE */
