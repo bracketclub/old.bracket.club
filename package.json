@@ -84,7 +84,7 @@
     "lint": "jsxhint .",
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
     "size": "cat build/assets/bundle.*js | gzip-size | pretty-bytes && cat build/assets/bundle.*css | gzip-size | pretty-bytes",
-    "start": "webpack-dev-server --colors --progress --hot --history-api-fallback --watch --port=3002 --host=0.0.0.0 --content-base public/",
+    "start": "PORT=3002 webpack-dev-server --colors --progress --hot --history-api-fallback --watch --port=3002 --host=0.0.0.0 --content-base public/",
     "test": "babel-tape-runner test/*.js | tap-spec"
   }
 }

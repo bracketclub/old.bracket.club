@@ -36,7 +36,6 @@ require('./actions/masterActions').fetchMasters({stream: true});
 require('./actions/entryActions').fetchEntries({stream: false});
 
 
-
 // Instantiate our firebase reference. This is only used to login
 // with Twitter, so we setup an auth listener which will trigger a login action
 let {firebase} = require('./global');
@@ -49,6 +48,7 @@ let routes = require('./routes');
 let routerContainer = require('./routerContainer');
 let globalDataActions = require('./actions/globalDataActions');
 routerContainer.set(Router.create({routes, location: HistoryLocation}));
+
 
 routerContainer.get().run(function (Handler, router) {
     let possibleYear = router.params.year || router.params.path;
@@ -63,8 +63,6 @@ routerContainer.get().run(function (Handler, router) {
     };
 
     // Set the year from the url before rendering the page handler so all pages have it
-    // TODO: is this the Right Way to update some globally relied upon store
-    // before each page is rendered
     globalDataActions.updateYear(props.year);
 
     // Call analytics on page change

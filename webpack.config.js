@@ -48,7 +48,7 @@ else {
     filename = 'bundle.js';
     devtool = 'eval';
     entry.unshift(
-        'webpack-dev-server/client?http://0.0.0.0:3002',
+        'webpack-dev-server/client?http://0.0.0.0:' + process.env.PORT,
         'webpack/hot/only-dev-server'
     );
 }
