@@ -18,12 +18,12 @@ let Footer = React.createClass({
                         <li><a href='https://github.com/tweetyourbracket'>GitHub</a></li>
                         <li className='muted'>&middot;</li>
                         <li><a href='http://lukecod.es/2014/01/25/tweet-your-bracket/'>What Is This?</a></li>
-                        <li className='follow-button'>
-                            <a className='twitter-follow-button' href='https://twitter.com/TweetTheBracket' data-show-count="false">
-                                Follow @TweetTheBracket
-                            </a>
-                        </li>
                     </ul>
+                    <p>
+                        <a className='twitter-follow-button' href='https://twitter.com/TweetTheBracket' data-show-count="false">
+                            Follow @TweetTheBracket
+                        </a>
+                    </p>
                     <p>
                         Made with love by <a href='https://twitter.com/lukekarrys'>{me.id === '23918006' ? 'You (you\'re great!)' : 'Luke'}</a> in Arizona.
                     </p>
