@@ -42,10 +42,8 @@ let App = React.createClass({
         return (
             <div>
                 <Header year={year} me={me} />
-                <div className={containerClass}>
-                    <div className='main-container'>
-                        <RouteHandler sport={sport} year={year} me={me} locked={locked} />
-                    </div>
+                <div className={containerClass + ' main-container'}>
+                    <RouteHandler sport={sport} year={year} me={me} locked={locked} />
                 </div>
                 <Footer className={containerClass} me={me} />
             </div>
