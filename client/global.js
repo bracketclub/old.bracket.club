@@ -14,6 +14,6 @@ module.exports = {
     activeYear,
     rYear: {test: (year) => years.indexOf((year || '').toString()) > -1},
     years: years,
-    apiUrl: 'http://104.236.223.8:3001',
+    apiUrl: 'http://104.236.223.8',
     firebase: new Firebase('https://tweetyourbracket.firebaseio.com')
 };
