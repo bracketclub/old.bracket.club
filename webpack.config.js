@@ -30,15 +30,19 @@ if (isProd) {
     filename = 'bundle.[hash].js';
     loaders.push({
         test: /.less$/,
-        loader: ExtractTextPlugin.extract('style', 'css!less')
+        loader: ExtractTextPlugin.extract('style', 'raw!less')
     });
     plugins.push(
         new webpack.NoErrorsPlugin(),
         new webpack.optimize.DedupePlugin(),
         new ExtractTextPlugin('bundle.[contenthash].css', {allChunks: true}),
+        // Turn off warnings because otherwise it shows a ton of warnings
+        // for the expected dead code removals
         new webpack.optimize.UglifyJsPlugin({
-            compress: {warnings: false}
+            compress: {warnings: false},
+            output: {comments: false}
         }),
+        // This will cause a lot of dead code removal in React
         new webpack.DefinePlugin({
             'process.env': {NODE_ENV: JSON.stringify('production')}
         }),

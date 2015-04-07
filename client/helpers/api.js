@@ -1,13 +1,12 @@
 /* global __STATIC__ */    // From webpack
 
-let xhr = require('xhr');
-let loadScript = require('load-script');
 let {apiUrl, staticUrl} = require('../global');
+let loadData = require(__STATIC__ ? 'load-script' : 'xhr');
 
 
 module.exports = function (path, cb) {
     if (__STATIC__) {
-        loadScript(staticUrl + path + '.js', (err) => {
+        loadData(staticUrl + path + '.js', (err) => {
             if (err) {
                 cb(err);
             } else {
@@ -19,7 +18,7 @@ module.exports = function (path, cb) {
             }
         });
     } else {
-        xhr({
+        loadData({
             url: apiUrl + path,
             useXDR: true
         }, (err, resp, body) => {

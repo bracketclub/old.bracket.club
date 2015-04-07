@@ -7,11 +7,11 @@
 [ ![Codeship Status for tweetyourbracket/tweetyourbracket.com](https://codeship.com/projects/0e37aee0-7e64-0132-b96b-56aeae6c129c/status?branch=master)](https://codeship.com/projects/56987)
 
 
-### Structure
 
-This is mostly written for myself since I work on the project once a year for
-about a month. *(Hi future Luke!)* Hopefully in 2016 I will remember why things
-went where they did and how things works.
+## Structure
+
+This is mostly written for myself since I work on the project once a year for about a month. *(Hi future Luke!)* Hopefully in 2016 I will remember why things went where they did and how things works.
+
 
 
 ### Fetching API Data
@@ -21,13 +21,83 @@ During the "off-season" the site has no need for a real API since data won't cha
 This will make the site load the data from `cdn.rawgit.com` instead of [`tweetyourbracket.com/api`]('https://github.com/tweetyourbracket/api'). When it comes time to launch the site again each March, we use `npm run build` again and go follow the instructions over at the `api` repo to deploy the whole thing on Digital Ocean (or something similar).
 
 
+
+### Flux
+
+The app is using Alt as the Flux implementation. I like it due to the lack of boilerplate.
+
+#### Actions/Stores
+
+**`bracketEntry`**
+
+These actions are used while bracket entries are open. They are used to track the picks and history of each pick during the bracket entry selection.
+
+**`entry`**
+
+These are the entries for each year. They are used to fetch entries and respond to loading and errors.
+
+**`master`**
+
+These are the master brackets for each year. They are used to fetch the master brackets and respon to loading and erros.
+
+**`globalData`**
+
+The global data is the current year and sport (which is always the same for now) of the bracket being viewed. It also determines whether a certain bracket is locked.
+
+**`me`**
+
+Used to auth with Firebase and get the current active user.
+
+
+
 ### Styles
 
+The app uses Bootstrap and Bootswatch which are installed via npm. There is a build file at `styles/build.js` which builds `styles/theme.less` which is a list of all the less imports used by the site. It modifies the main bootstrap less file with the necessary imports from the bootswatch theme and also imports `styles/app/app.less`.
+
+The styles are built with the Webpack loaders `style!raw!less`. We aren't using the `css-loader` due to [this bug](https://github.com/webpack/less-loader/issues/23#issuecomment-64407832) when combined with `lesshat`. The style loader injects the CSS into the document while in development.
+
+In production, we use the `extract-text-webpack-plugin` to take the all the css and split it into a single bundle which gets saved to the build directory.
 
 
 
-### Components
+### Webpack + Building
 
-### Webpack
+`development` via `npm start`
 
-### Build
+This uses `webpack-dev-server` to serve the content in `public/index.html`. It enables hot module reloading.
+
+`production` via `npm run build`
+
+This builds the JS and CSS bundles and a production html file via `html-webpack-plugin` to the `build/` directory. It also copies all the static assets from `public/` to `build/`. `html-webpack-plugin` uses `public/prod-index.html` instead of `public/index.html` since the production version has a `<link>` for the CSS instead of it being inserted by the `style-loader`.
+
+I know there are probably more idiomatic Webpack ways to require these files and bundle them, but it was pretty easy for now just to rsync the directories. It would be worthwhile to experiment with Webpack more so this isn't necessary.
+
+
+
+### Deployment
+
+Codeship + Divshot.
+
+Codeship is hooked up to the repo to process all pushes. `npm run codeship-setup` and `npm run codeship-test` and run to get the set ready for deployment. Pushes on the development branch are pushed to the development environment on Divshot and pushes on the master branch go to production.
+
+[http://beta.tweetyourbracket.com](http://beta.tweetyourbracket.com) points to the development environment.
+
+`divshot.json` is used for the Divshot settings. All urls are set to be caught by the `index.html` file. And the bundled CSS and JS files are set with a one year cache control header since they are the filename is fingerprinted with the hash of the file contents from Webpack.
+
+
+
+### Routing
+
+The app uses `react-router`. Since the app also uses a Flux implementation, we are using a container for the router instance as described in the [React Router Flux examples](https://github.com/rackt/react-router/blob/f3a44f1bc898848d553c39e7aa53a70d0e91ec11/docs/guides/flux.md#circular-dependencies-in-actions). This is necessary so that in the `bracketEntryStore` we can trigger a route repl
+
+
+
+### React
+
+**Pages** client/pages/
+
+Pages are components that are called directly by the RouteHandler in `react-router`. We are only nesting a single level deep at the moment, so it makes sense to keep the all the top-level pages organized and everything else goes in `components/`.
+
+**Bracket components** client/components/brackets/
+
+These are the components that build a bracket. There is the bracket itself, the progess bar, the navigation for traversing the bracket history, and a bunch of other stuff.
