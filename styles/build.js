@@ -9,7 +9,6 @@ function buildLess () {
         relativeTo: __dirname,
         after: {
             variables: [
-                'bs-united/variables.less',
                 '../node_modules/bootswatch/united/variables',
                 '_override.less'
             ]
