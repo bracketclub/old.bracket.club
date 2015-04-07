@@ -35,6 +35,7 @@
     "babel-core": "^4.7.16",
     "babel-loader": "^4.2.0",
     "babel-tape-runner": "^1.0.0",
+    "bootswatch": "^3.3.4",
     "css-loader": "^0.9.1",
     "divshot-cli": "^1.10.3",
     "extract-text-webpack-plugin": "^0.4.0",

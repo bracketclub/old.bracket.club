@@ -50,6 +50,7 @@ module.exports = memo(function getBracketHelpers(options) {
         year
     });
 
+    // // Make it easy to test when the app locks in 5 seconds
     // if (year === '2015') {
     //     locks = new Date(new Date().valueOf() + 5000).toJSON();
     // }

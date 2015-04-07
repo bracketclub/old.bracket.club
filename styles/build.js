@@ -10,12 +10,13 @@ function buildLess () {
         after: {
             variables: [
                 'bs-united/variables.less',
+                '../node_modules/bootswatch/united/variables',
                 '_override.less'
             ]
         },
         append: [
             '../node_modules/lesshat/build/lesshat-prefixed',
-            'bs-united/bootswatch.less',
+            '../node_modules/bootswatch/united/bootswatch',
             'app/app.less'
         ]
     }).build();
