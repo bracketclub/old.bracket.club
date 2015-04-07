@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var isProd = process.env.NODE_ENV === 'production';
+var isStatic = process.env.TYB_STATIC === 'true';
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HTMLPlugin = require('html-webpack-plugin');
 
@@ -10,7 +11,8 @@ var plugins = [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
         __SPORT__: JSON.stringify('ncaa-mens-basketball'),
-        __YEAR__: JSON.stringify('2015')
+        __YEAR__: JSON.stringify('2015'),
+        __STATIC__: JSON.stringify(isStatic)
     })
 ];
 var loaders = [

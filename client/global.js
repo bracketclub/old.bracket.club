@@ -14,6 +14,7 @@ module.exports = {
     activeYear,
     rYear: {test: (year) => years.indexOf((year || '').toString()) > -1},
     years: years,
+    staticUrl: 'https://cdn.rawgit.com/tweetyourbracket/api/86cb99e67fe7149cfe88a250992e1454733cb089/data-static/ncaa-mens-basketball',
     apiUrl: 'http://104.236.223.8',
     firebase: new Firebase('https://tweetyourbracket.firebaseio.com')
 };
