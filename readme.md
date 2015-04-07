@@ -14,6 +14,13 @@ about a month. *(Hi future Luke!)* Hopefully in 2016 I will remember why things
 went where they did and how things works.
 
 
+### Fetching API Data
+
+During the "off-season" the site has no need for a real API since data won't change until the next year. After the end of each year, we switch the `codeship-setup` npm run-script to use `build-static` instead of `build`.
+
+This will make the site load the data from `cdn.rawgit.com` instead of [`tweetyourbracket.com/api`]('https://github.com/tweetyourbracket/api'). When it comes time to launch the site again each March, we use `npm run build` again and go follow the instructions over at the `api` repo to deploy the whole thing on Digital Ocean (or something similar).
+
+
 ### Styles
 
 ### Components
