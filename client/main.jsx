@@ -30,7 +30,7 @@ alt.bootstrap(JSON.stringify({
 // It's pretty small right now (8.8kb gzip before 2015)
 // but one day this will probably be moved to individual pages
 // since the API can return data by year only
-require('./actions/masterActions').fetchMasters({stream: true});
+require('./actions/masterActions').fetchMasters({stream: false});
 // Dont stream entries right now since we are deploying this after they are locked
 // TODO: base this and master stream on locked
 require('./actions/entryActions').fetchEntries({stream: false});
