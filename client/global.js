@@ -12,6 +12,7 @@ let years = range(2012, parseInt(activeYear) + 1).map(String);
 module.exports = {
     activeSport,
     activeYear,
+    // Meant to look like a regex using a test method
     rYear: {test: (year) => years.indexOf((year || '').toString()) > -1},
     years: years,
     staticUrl: 'https://cdn.rawgit.com/tweetyourbracket/api/6d84c44c991d8250515047655d2a8ed1ae19ee9d/data-static/ncaa-mens-basketball',
