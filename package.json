@@ -79,10 +79,10 @@
   },
   "scripts": {
     "build": "rm -rf build/ && NODE_ENV=production webpack && npm run build-after",
-    "build-assets": "mkdir -p build/assets/ && mv build/bundle.* build/assets",
-    "build-public": "rsync -rv --exclude=*.html public/ build/",
     "build-after": "npm run build-assets && npm run build-public && npm run build-cleancss",
+    "build-assets": "mkdir -p build/assets/ && mv build/bundle.* build/assets",
     "build-cleancss": "cat build/assets/bundle.*css | cleancss -o `find build/assets/*.css -print0`",
+    "build-public": "rsync -rv --exclude=*.html public/ build/",
     "build-static": "TYB_STATIC=true npm run build",
     "codeship-setup": "npm run npm-version && npm install && npm run build-static",
     "codeship-test": "npm test && npm run lint && npm run size",
