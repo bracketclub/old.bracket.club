@@ -1,3 +1,5 @@
+'use strict';
+
 let React = require('react');
 let {Redirect, Route, NotFoundRoute} = require('react-router');
 

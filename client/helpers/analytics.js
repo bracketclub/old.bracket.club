@@ -1,11 +1,13 @@
+'use strict';
+
 /* globals ga */
 
 
 module.exports = {
-    pageview: function (path) {
+    pageview (path) {
         ga('send', 'pageview', path);
     },
-    enterBracket: function (bracket) {
+    enterBracket (bracket) {
         ga('send', 'event', 'bracket-enter', 'click', bracket);
     }
 };

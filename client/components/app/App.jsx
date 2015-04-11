@@ -1,3 +1,5 @@
+'use strict';
+
 let React = require('react');
 let {PropTypes} = React;
 let {RouteHandler} = require('react-router');
@@ -26,7 +28,7 @@ let App = React.createClass({
         };
     },
 
-    componentDidMount() {
+    componentDidMount () {
         this.listenTo(meStore, this.onChange);
         this.listenTo(globalDataStore, this.onChange);
     },

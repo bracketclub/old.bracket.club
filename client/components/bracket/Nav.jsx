@@ -1,3 +1,5 @@
+'use strict';
+
 let React = require('react');
 let {PropTypes} = React;
 let {PureRenderMixin} = require('react/addons').addons;

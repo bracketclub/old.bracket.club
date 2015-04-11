@@ -1,5 +1,7 @@
+'use strict';
+
 let React = require('react');
-let {classSet} = require('react/addons').addons;
+let classNames = require('classnames');
 let {Link} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
@@ -30,7 +32,7 @@ let sortEntryByScore = (sortByScore, dir) => {
 
     if (sortByKey.indexOf('.') > -1) {
         sortByKey = sortByScore.split('.')[0];
-        sortByIndex = parseInt(sortByScore.split('.')[1]);
+        sortByIndex = parseInt(sortByScore.split('.')[1], 10);
     }
     return (entry) => {
         let sortVal = entry.score[sortByKey];
@@ -40,9 +42,19 @@ let sortEntryByScore = (sortByScore, dir) => {
 let standardSort = sortEntryByScore('standard', -1);
 
 let SortableTh = React.createClass({
+    propTypes: {
+        children: React.PropTypes.node.isRequired,
+        hideXs: React.PropTypes.bool,
+        hideSm: React.PropTypes.bool,
+        sortByCol: React.PropTypes.string.isRequired,
+        handleClick: React.PropTypes.func.isRequired,
+        sortKey: React.PropTypes.string.isRequired,
+        sortByDir: React.PropTypes.number.isRequired
+    },
+
     render () {
         let active = this.props.sortKey === this.props.sortByCol;
-        let cx = classSet({
+        let cx = classNames({
             'hidden-xs': this.props.hideXs,
             'hidden-sm': this.props.hideSm,
             'active': active,
@@ -60,6 +72,13 @@ let SortableTh = React.createClass({
 
 let Results = React.createClass({
     mixins: [ListenerMixin],
+
+    propTypes: {
+        sport: React.PropTypes.string.isRequired,
+        year: React.PropTypes.string.isRequired,
+        locked: React.PropTypes.bool,
+        me: React.PropTypes.object
+    },
 
     sortEntriesByScore (entries, bracket) {
         let {year, sport} = this.props;
@@ -80,7 +99,7 @@ let Results = React.createClass({
             return entry;
         }), standardSort);
 
-        // this is our display order but we map the index to the "offical" sort order
+        //this is our display order but we map the index to the "offical" sort order
         // so even if we sort by a different column you can still see the real 1st, 2nd etc
         let displaySort = sortEntryByScore(this.state.sortByCol, this.state.sortByDir);
         return sortBy(standardWithScore, displaySort).map((entry) => {
@@ -164,11 +183,11 @@ let Results = React.createClass({
                     </thead>
                     <tbody>
                         {locked ?
-                            this.sortEntriesByScore(entries[year], bracket).map((entry, index) => 
+                            this.sortEntriesByScore(entries[year], bracket).map((entry, index) =>
                                 <tr key={index} className={me.id === entry.user_id ? 'info' : ''}>
                                     <td>{entry.index + 1}</td>
                                     <td><Link to='user' params={{id: entry.user_id, year: year}}>{entry.username}</Link></td>
-                                    {entry.score.rounds.map((round, index) => 
+                                    {entry.score.rounds.map((round, index) =>
                                         <td key={index} className='hidden-xs'>{round}</td>
                                     )}
                                     <td>{entry.score.standard}</td>
@@ -185,7 +204,6 @@ let Results = React.createClass({
                         }
                     </tbody>
                 </Table>
-                
             </div>
         );
     }

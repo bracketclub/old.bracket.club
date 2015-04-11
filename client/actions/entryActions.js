@@ -1,3 +1,5 @@
+'use strict';
+
 let alt = require('../alt');
 let api = require('../helpers/api');
 let eventSource = require('../helpers/eventSource');

@@ -1,8 +1,9 @@
+'use strict';
+
 let memo = require('lodash/function/memoize');
 let find = require('lodash/collection/find');
 let pluck = require('lodash/collection/pluck');
 let partial = require('lodash/function/partial');
-let flow = require('lodash/function/flow');
 
 let BracketUpdater = require('bracket-updater');
 let BracketGenerator = require('bracket-generator');
@@ -40,7 +41,7 @@ let idResolver = (options) => {
 // Each sport, year combo is memoized since they never change
 // Also the individual methods are also memoized based on their parameters
 // The `scorer.score` is the slowest, but might as well do 'em all
-module.exports = memo(function getBracketHelpers(options) {
+module.exports = memo((options) => {
     let {sport, year} = options;
     let id = idResolver(options);
 
@@ -79,12 +80,10 @@ module.exports = memo(function getBracketHelpers(options) {
         generate: boundGenerator,
 
         // Memoized by id plus the bracket argument
-        validate: memo(flow(boundValidator, getRegions), bracket => id + bracket),
+        validate: memo((bracket) => getRegions(boundValidator(bracket)), (bracket) => id + bracket),
 
         // Memoized by id and the two brackets passed in
-        diff: memo(flow(boundDiff, getRegions), options =>
-            id + options.master + options.entry
-        ),
+        diff: memo((options) => getRegions(boundDiff(options)), (options) => id + options.master + options.entry),
 
         // Memoized by stringifying the options
         // TODO: use individual params since right now different ordered keys

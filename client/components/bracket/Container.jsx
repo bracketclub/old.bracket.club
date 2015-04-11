@@ -1,3 +1,5 @@
+'use strict';
+
 let React = require('react');
 let {PropTypes} = React;
 let {Link} = require('react-router');
@@ -12,7 +14,9 @@ let ScoreCard = require('./ScoreCard');
 let bracketHelpers = require('../../helpers/bracket');
 
 let formatter = (value, unit) => {
-    if (value !== 1) unit += 's';
+    if (value !== 1) {
+        unit += 's';
+    }
     return value + ' ' + unit;
 };
 
@@ -24,20 +28,24 @@ let BracketContainer = React.createClass({
         locked: PropTypes.bool.isRequired,
         history: PropTypes.array.isRequired,
         index: PropTypes.number.isRequired,
-        entry: PropTypes.object
+        entry: PropTypes.object,
+        showEntryMessage: PropTypes.bool
     },
 
     getBracketObj () {
         let {entry, history, index, sport, year} = this.props;
         let bracket = history[index];
         let bracketHelper = bracketHelpers({sport, year});
+        let bracketObj;
 
         if (entry) {
-            return bracketHelper.diff({master: bracket, entry: entry.bracket});
+            bracketObj = bracketHelper.diff({master: bracket, entry: entry.bracket});
         }
         else {
-            return bracketHelper.validate(bracket);
+            bracketObj = bracketHelper.validate(bracket);
         }
+
+        return bracketObj;
     },
 
     render () {
@@ -48,10 +56,10 @@ let BracketContainer = React.createClass({
                 {entry ? <ScoreCard {...this.props} {...entry} /> : null}
                 {showEntryMessage || (entry && !locked) ?
                     <Alert bsStyle='info'>
-                        Entries are still open for {year} for another <TimeAgo formatter={formatter} date={bracketHelpers({sport, year}).locks} />. 
+                        Entries are still open for {year} for another <TimeAgo formatter={formatter} date={bracketHelpers({sport, year}).locks} />.
                         Go to the <Link to='landing'>entry page</Link> to fill out your bracket before it's too late!
                     </Alert>
-                    : 
+                    :
                     null
                 }
                 <Bracket {...this.props} bracket={this.getBracketObj()} />

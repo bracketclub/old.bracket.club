@@ -1,3 +1,5 @@
+'use strict';
+
 let extend = require('lodash/object/extend');
 
 let alt = require('../alt');
@@ -24,7 +26,9 @@ class BracketEntryStore {
     }
 
     onUpdateBracket (bracket) {
-        if (!regex.test(bracket)) return;
+        if (!regex.test(bracket)) {
+            return;
+        }
         let {arr, index} = concatOrInsert(this.history, bracket, this.index);
         this.history = arr;
         this.index = index;

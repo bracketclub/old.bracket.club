@@ -1,6 +1,7 @@
+'use strict';
+
 let React = require('react');
 let {PropTypes} = React;
-let {State} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
 let FourOhFour = require('./FourOhFour');
@@ -11,11 +12,16 @@ let masterStore = require('../stores/masterStore');
 
 
 let CreatedEntry = React.createClass({
-    mixins: [State, ListenerMixin],
+    mixins: [ListenerMixin],
+
+    contextTypes: {
+        router: React.PropTypes.func
+    },
 
     propTypes: {
         sport: PropTypes.string.isRequired,
-        year: PropTypes.string.isRequired
+        year: PropTypes.string.isRequired,
+        locked: PropTypes.bool
     },
 
     getInitialState () {
@@ -23,7 +29,7 @@ let CreatedEntry = React.createClass({
         return {
             index,
             historyByYear: history,
-            bracket: this.getParams().bracket
+            bracket: this.context.router.getCurrentParams().bracket
         };
     },
 
@@ -31,7 +37,7 @@ let CreatedEntry = React.createClass({
         this.setState(this.getInitialState());
     },
 
-    componentDidMount() {
+    componentDidMount () {
         this.listenTo(masterStore, this.onChange);
     },
 

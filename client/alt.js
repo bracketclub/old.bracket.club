@@ -1,3 +1,5 @@
+'use strict';
+
 let Alt = require('alt');
 
 

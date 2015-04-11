@@ -1,3 +1,5 @@
+'use strict';
+
 let React = require('react');
 let {PropTypes} = React;
 let {PureRenderMixin} = require('react/addons').addons;
@@ -21,14 +23,14 @@ let ScoreCard = React.createClass({
     },
 
     render () {
-        let {username, user_id, sport, year, history, index, bracket} = this.props;
+        let {username, user_id: userId, sport, year, history, index, bracket} = this.props;
         let score = bracketHelpers({sport, year}).score(scoreTypes, {master: history[index], entry: bracket});
 
         return (
             <div className='score-card'>
-                {username && user_id ?
+                {username && userId ?
                     <h2>
-                        <Link to='userProfile' params={{id: user_id}}>{username}</Link> 
+                        <Link to='userProfile' params={{id: userId}}>{username}</Link>
                         <a className='twitter' href={'https://twitter.com/' + username}>
                             <img src='//g.twimg.com/Twitter_logo_blue.png' />
                         </a>

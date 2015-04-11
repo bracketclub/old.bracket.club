@@ -1,3 +1,5 @@
+'use strict';
+
 let React = require('react');
 
 let Row = require('react-bootstrap/lib/Row');

@@ -1,3 +1,6 @@
+'use strict';
+
+let log = require('bows')('meStore');
 let alt = require('../alt');
 let meActions = require('../actions/meActions');
 
@@ -11,7 +14,7 @@ class MeStore {
     }
 
     onError (err) {
-        console.error('[AUTH]', err);
+        log('[AUTH]', err);
     }
 
     onLogout () {
@@ -24,7 +27,8 @@ class MeStore {
         if (twitter) {
             this.id = twitter.id;
             this.username = twitter.username;
-        } else {
+        }
+        else {
             this.onLogout();
         }
     }

@@ -1,3 +1,5 @@
+'use strict';
+
 let qs = require('qs');
 let React = require('react');
 let {PropTypes} = React;

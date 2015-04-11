@@ -1,5 +1,6 @@
+'use strict';
+
 let React = require('react');
-let {State} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 let raf = require('raf');
 
@@ -20,12 +21,22 @@ window.crohn = () => {
 };
 
 module.exports = React.createClass({
-    mixins: [State, ListenerMixin],
+    mixins: [ListenerMixin],
 
-    componentDidMount() {
+    contextTypes: {
+        router: React.PropTypes.func
+    },
+
+    propTypes: {
+        sport: React.PropTypes.string.isRequired,
+        year: React.PropTypes.string.isRequired,
+        locked: React.PropTypes.bool
+    },
+
+    componentDidMount () {
         // Update store to contain the bracket from the url
         // Note: store protects against falsy and bad values
-        bracketEntryActions.updateBracket(this.getParams().path);
+        bracketEntryActions.updateBracket(this.context.router.getCurrentParams().path);
         this.listenTo(bracketEntryStore, this.onChange);
         this.listenTo(masterStore, this.onChange);
     },
@@ -37,7 +48,7 @@ module.exports = React.createClass({
     getInitialState (props) {
         let {locked} = (props || this.props);
         let {history, index} = (locked ? masterStore : bracketEntryStore).getState();
-        return {history, index, urlParam: this.getParams().path};
+        return {history, index, urlParam: this.context.router.getCurrentParams().path};
     },
 
     componentWillReceiveProps (nextProps) {

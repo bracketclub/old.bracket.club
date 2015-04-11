@@ -1,3 +1,5 @@
+/* eslint no-var:0 */
+
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HTMLPlugin = require('html-webpack-plugin');
@@ -19,9 +21,9 @@ var plugins = [
     })
 ];
 var loaders = [
-    { test: /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
-    { test: /\.json$/, loaders: ['json'] },
-    { test: /\.less$/, loaders: ['style', 'raw', 'less'] },
+    {test: /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/},
+    {test: /\.json$/, loaders: ['json']},
+    {test: /\.less$/, loaders: ['style', 'raw', 'less']}
 ];
 
 
