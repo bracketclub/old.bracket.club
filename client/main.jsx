@@ -1,3 +1,5 @@
+'use strict';
+
 let React = require('react');
 let Router = require('react-router');
 let {HistoryLocation} = Router;
@@ -50,7 +52,7 @@ let globalDataActions = require('./actions/globalDataActions');
 routerContainer.set(Router.create({routes, location: HistoryLocation}));
 
 
-routerContainer.get().run(function (Handler, router) {
+routerContainer.get().run((Handler, router) => {
     let possibleYear = router.params.year || router.params.path;
     let masterIndex = parseInt(router.query.game, 10);
     let routeName = router.routes[1].name;

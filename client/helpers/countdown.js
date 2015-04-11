@@ -1,3 +1,5 @@
+'use strict';
+
 let raf = require('raf');
 
 
@@ -13,7 +15,9 @@ class Countdown {
     }
 
     cancel () {
-        this._id && raf.cancel(this._id);
+        if (this._id) {
+            raf.cancel(this._id);
+        }
         delete this._id;
     }
 
@@ -21,7 +25,8 @@ class Countdown {
         if (this.diff() < 0) {
             this.cancel();
             this.callback();
-        } else {
+        }
+        else {
             this._id = raf(this.countdown.bind(this));
         }
     }

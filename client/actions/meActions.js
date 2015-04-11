@@ -1,3 +1,5 @@
+'use strict';
+
 let alt = require('../alt');
 let {firebase} = require('../global');
 
@@ -14,8 +16,10 @@ class MasterActions {
     auth () {
         // The main file creates a firebase auth listener so
         // all we need to do here is start the flow and catch the error
-        firebase.authWithOAuthPopup('twitter', err => {
-            if (err) this.actions.error(err);
+        firebase.authWithOAuthPopup('twitter', (err) => {
+            if (err) {
+                this.actions.error(err);
+            }
         });
     }
 }

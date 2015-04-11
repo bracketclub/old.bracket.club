@@ -1,6 +1,8 @@
+'use strict';
+
 let React = require('react');
 let {PropTypes} = React;
-let {classSet} = require('react/addons').addons;
+let classNames = require('classnames');
 
 let Affix = require('react-bootstrap/lib/Affix');
 
@@ -20,7 +22,7 @@ let BracketContainer = React.createClass({
 
     render () {
         let {locked} = this.props;
-        let cx = classSet({
+        let cx = classNames({
             'two-columns': locked,
             'three-columns': !locked
         });

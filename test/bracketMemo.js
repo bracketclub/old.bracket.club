@@ -1,3 +1,5 @@
+'use strict';
+
 let _ = require('lodash');
 let test = require('tape');
 let bracket = require('../client/helpers/bracket');

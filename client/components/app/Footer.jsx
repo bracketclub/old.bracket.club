@@ -1,10 +1,13 @@
+'use strict';
+
 let React = require('react');
 
 
 let Footer = React.createClass({
 
     propTypes: {
-        me: React.PropTypes.object
+        me: React.PropTypes.object,
+        className: React.PropTypes.string
     },
 
     render () {
@@ -20,7 +23,7 @@ let Footer = React.createClass({
                         <li><a href='http://lukecod.es/2014/01/25/tweet-your-bracket/'>What Is This?</a></li>
                     </ul>
                     <p>
-                        <a className='twitter-follow-button' href='https://twitter.com/TweetTheBracket' data-show-count="false">
+                        <a className='twitter-follow-button' href='https://twitter.com/TweetTheBracket' data-show-count='false'>
                             Follow @TweetTheBracket
                         </a>
                     </p>

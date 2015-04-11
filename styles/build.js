@@ -1,11 +1,15 @@
+/* eslint no-var:0 */
+
+'use strict';
+
 var path = require('path');
 var LessImportInserter = require('less-import-inserter');
 
 function buildLess () {
-    var node_modules = path.join(__dirname, '..', 'node_modules');
+    var nm = path.join(__dirname, '..', 'node_modules');
 
     var less = new LessImportInserter({
-        lessPath: node_modules + '/bootstrap/less/bootstrap.less',
+        lessPath: nm + '/bootstrap/less/bootstrap.less',
         relativeTo: __dirname,
         after: {
             variables: [

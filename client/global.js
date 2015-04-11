@@ -1,10 +1,12 @@
+'use strict';
+
 /* global __SPORT__, __YEAR__ */    // From webpack
 
 let Firebase = require('firebase');
 let range = require('lodash/utility/range');
 let activeSport = __SPORT__;
 let activeYear = __YEAR__;
-let years = range(2012, parseInt(activeYear) + 1).map(String);
+let years = range(2012, parseInt(activeYear, 10) + 1).map(String);
 
 
 // These are all things that will only change once a year

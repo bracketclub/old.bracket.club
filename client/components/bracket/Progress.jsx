@@ -1,3 +1,5 @@
+'use strict';
+
 let React = require('react');
 let {PropTypes} = React;
 let {PureRenderMixin} = require('react/addons').addons;
@@ -22,7 +24,7 @@ let BracketProgress = React.createClass({
         let bracket = history[index];
         let {totalGames, unpickedChar} = bracketHelpers({sport, year});
         let progress = totalGames - (bracket.split(unpickedChar).length - 1);
-        let label = "%(now)s of %(max)s " + (locked ? 'games played' : 'picks made');
+        let label = '%(now)s of %(max)s ' + (locked ? 'games played' : 'picks made');
 
         return <div className='bracket-progress'><ProgressBar striped now={progress} min={0} max={totalGames} label={label} /></div>;
     }

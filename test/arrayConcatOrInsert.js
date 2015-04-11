@@ -1,3 +1,5 @@
+'use strict';
+
 let test = require('tape');
 let arrayConcatOrInsert = require('../client/helpers/arrayConcatOrInsert');
 

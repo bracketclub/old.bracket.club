@@ -1,3 +1,5 @@
+'use strict';
+
 let alt = require('../alt');
 let globalDataActions = require('../actions/globalDataActions');
 

@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function arrayConcatOrInsert (_arr, value, index) {
     let arr = _arr.slice(0);
     let lastIndex = arr.length - 1;

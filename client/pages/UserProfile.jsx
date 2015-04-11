@@ -1,6 +1,7 @@
+'use strict';
+
 let React = require('react');
 let {PropTypes} = React;
-let {State} = require('react-router');
 let ListenerMixin = require('alt/mixins/ListenerMixin');
 
 let Loading = require('../components/Loading');
@@ -11,20 +12,24 @@ let entryStore = require('../stores/entryStore');
 
 
 let UserEntry = React.createClass({
-    mixins: [State, ListenerMixin],
+    mixins: [ListenerMixin],
+
+    contextTypes: {
+        router: React.PropTypes.func
+    },
 
     propTypes: {
         sport: PropTypes.string.isRequired,
         year: PropTypes.string.isRequired
     },
 
-    componentDidMount() {
+    componentDidMount () {
         this.listenTo(entryStore, this.onChange);
     },
 
     getInitialState () {
         let {users, loading} = entryStore.getState();
-        let {id} = this.getParams();
+        let {id} = this.context.router.getCurrentParams();
         return {user: users[id], loading};
     },
 

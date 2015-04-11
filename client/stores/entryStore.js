@@ -1,3 +1,5 @@
+'use strict';
+
 let alt = require('../alt');
 let groupBy = require('lodash/collection/groupBy');
 let entryActions = require('../actions/entryActions');
@@ -25,9 +27,9 @@ class EntryStore {
 
     onAddEntry (entry) {
         this.entries[entry.year][entry.user_id] = entry;
-        let years = ((this.users[entry.user_id] || {}).years || []).slice(0);
+        let entryYears = ((this.users[entry.user_id] || {}).years || []).slice(0);
         this.users[entry.user_id] = this._pickUser(entry);
-        this.users[entry.user_id].years = uniq(years.concat(entry.year));
+        this.users[entry.user_id].years = uniq(entryYears.concat(entry.year));
     }
 
     _pickUser (entry) {
@@ -42,7 +44,7 @@ class EntryStore {
             this.entries[year] = yearEntries;
 
             merge(this.users, yearEntries, (entry, nextEntry) => {
-                let nextUser  = this._pickUser(nextEntry);
+                let nextUser = this._pickUser(nextEntry);
                 nextUser.years = (entry && entry.years || []).concat(nextEntry.year);
                 return nextUser;
             });

@@ -1,3 +1,5 @@
+'use strict';
+
 let globalDataStore = require('./globalDataStore');
 let indexBy = require('lodash/collection/indexBy');
 let zipObject = require('lodash/array/zipObject');

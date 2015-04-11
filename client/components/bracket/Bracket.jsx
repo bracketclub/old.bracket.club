@@ -1,6 +1,8 @@
+'use strict';
+
 let React = require('react');
 let {PropTypes} = React;
-let {classSet: cx} = require('react/addons').addons;
+let classNames = require('classnames');
 
 let chunk = require('lodash/array/chunk');
 let has = require('lodash/object/has');
@@ -11,6 +13,16 @@ let bracketEntryActions = require('../../actions/bracketEntryActions');
 
 
 let Team = React.createClass({
+    propTypes: {
+        canEdit: PropTypes.bool.isRequired,
+        eliminated: PropTypes.bool,
+        correct: PropTypes.bool,
+        shouldBe: PropTypes.object,
+        fromRegion: PropTypes.string,
+        seed: PropTypes.number,
+        name: PropTypes.string
+    },
+
     handleClick (data) {
         let {fromRegion, seed, name} = data;
         if (fromRegion && seed && name) {
@@ -21,14 +33,14 @@ let Team = React.createClass({
         }
     },
     render () {
-        let aClasses = cx({
+        let aClasses = classNames({
             pickable: this.props.canEdit,
             eliminated: this.props.eliminated,
             correct: this.props.correct === true,
             incorrect: this.props.correct === false
         });
         let shouldBe = this.props.shouldBe;
-        let shouldBeClasses = cx({hide: !shouldBe});
+        let shouldBeClasses = classNames({hide: !shouldBe});
         let {fromRegion, seed, name} = this.props;
         return (
             <li>
@@ -37,7 +49,7 @@ let Team = React.createClass({
                     className={'team ' + aClasses}
                     data-region={fromRegion}
                     data-seed={seed}
-                    data-name={name} 
+                    data-name={name}
                     data-id={fromRegion + seed}
                 >
                     <span className='seed'>{seed}</span>
@@ -53,6 +65,13 @@ let Team = React.createClass({
 });
 
 let Matchup = React.createClass({
+    propTypes: {
+        matchup: PropTypes.array,
+        key: PropTypes.number,
+        canEdit: PropTypes.bool,
+        fromRegion: PropTypes.string
+    },
+
     render () {
         let {matchup, key, canEdit, fromRegion} = this.props;
         let hasMatchup = has(matchup, '1');
@@ -78,8 +97,16 @@ let Matchup = React.createClass({
 });
 
 let Region = React.createClass({
+    propTypes: {
+        final: PropTypes.bool.isRequired,
+        name: PropTypes.string.isRequired,
+        rounds: PropTypes.array.isRequired,
+        id: PropTypes.string.isRequired,
+        canEdit: PropTypes.bool.isRequired
+    },
+
     render () {
-        let classes = cx({
+        let classes = classNames({
             'final-region': this.props.final,
             'initial-region': !this.props.final
         });

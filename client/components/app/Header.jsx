@@ -1,5 +1,7 @@
+'use strict';
+
 let React = require('react');
-let {Link, State} = require('react-router');
+let {Link} = require('react-router');
 
 let extend = require('lodash/object/extend');
 let partial = require('lodash/function/partial');
@@ -25,17 +27,21 @@ let yearParamNames = {landing: 'path'};
 
 
 let Header = React.createClass({
-    mixins: [State],
+
+    contextTypes: {
+        router: React.PropTypes.func
+    },
 
     getYearPathname () {
-        let route = this.getRoutes()[1];
-        let params = this.getParams();
-        let query = this.getQuery();
+
+        let route = this.context.router.getCurrentRoutes()[1];
+        let params = this.context.router.getCurrentParams();
+        let query = this.context.router.getCurrentQuery();
 
         let sendTo = yearRoutes.indexOf(route.name) > -1 ? route.name.replace('Current', '') : defaultTo;
         let yearParamName = yearParamNames[sendTo] || 'year';
 
-        let addYear = function (obj, year) {
+        let addYear = (obj, year) => {
             let toAdd = {[yearParamName]: year};
             return extend({}, obj, toAdd);
         };
@@ -49,7 +55,7 @@ let Header = React.createClass({
 
     propTypes: {
         me: React.PropTypes.object,
-        year: React.PropTypes.string.isRequired,
+        year: React.PropTypes.string.isRequired
     },
 
     handleLogin (e) {
