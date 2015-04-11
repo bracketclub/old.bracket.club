@@ -91,7 +91,7 @@
     "codeship-setup": "npm run npm-version && npm install && npm run build-static",
     "codeship-test": "npm test && npm run lint && npm run size",
     "deploy": "divshot",
-    "lint": "./node_modules/.bin/eslint --ext .js,.jsx .",
+    "lint": "eslint --ext .js,.jsx .",
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
     "size": "cat build/assets/bundle.*js | gzip-size | pretty-bytes && cat build/assets/bundle.*css | gzip-size | pretty-bytes",
     "start": "TYB_STATIC=true PORT=3002 webpack-dev-server --colors --progress --hot --history-api-fallback --watch --port=3002 --host=0.0.0.0 --content-base public/",
