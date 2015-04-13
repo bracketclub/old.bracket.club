@@ -183,12 +183,12 @@ let Results = React.createClass({
                     </thead>
                     <tbody>
                         {locked ?
-                            this.sortEntriesByScore(entries[year], bracket).map((entry, index) =>
-                                <tr key={index} className={me.id === entry.user_id ? 'info' : ''}>
+                            this.sortEntriesByScore(entries[year], bracket).map((entry) =>
+                                <tr key={entry.username} className={me.id === entry.user_id ? 'info' : ''}>
                                     <td>{entry.index + 1}</td>
                                     <td><Link to='user' params={{id: entry.user_id, year: year}}>{entry.username}</Link></td>
-                                    {entry.score.rounds.map((round, index) =>
-                                        <td key={index} className='hidden-xs'>{round}</td>
+                                    {entry.score.rounds.map((round, roundIndex) =>
+                                        <td key={roundIndex} className='hidden-xs'>{round}</td>
                                     )}
                                     <td>{entry.score.standard}</td>
                                     <td>{entry.score.standardPPR}</td>

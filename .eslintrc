@@ -34,7 +34,7 @@
     "no-else-return": 2,
     "no-var": 2,
     "camelcase": [2, {"properties": "never"}],
-    "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
+    "brace-style": [2, "stroustrup", {"allowSingleLine": true}],
     "func-names": 2,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,

@@ -77,9 +77,9 @@ let Header = React.createClass({
                 <Navbar brand={<Link to='app'>TweetYourBracket</Link>} toggleNavKey={1} fluid>
                     <Nav className='year-nav'>
                         <DropdownButton title={year}>
-                            {years.map(year =>
-                                <MenuItemLink key={year} to={to} params={params(year)} query={query}>
-                                    {year}
+                            {years.map((dropdownYear) =>
+                                <MenuItemLink key={dropdownYear} to={to} params={params(dropdownYear)} query={query}>
+                                    {dropdownYear}
                                 </MenuItemLink>
                             )}
                         </DropdownButton>
