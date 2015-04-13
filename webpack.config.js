@@ -7,6 +7,7 @@ var HTMLPlugin = require('html-webpack-plugin');
 var isProd = process.env.NODE_ENV === 'production';
 var isStatic = process.env.TYB_STATIC === 'true';
 var year = process.env.TYB_YEAR || '2015';
+var sport = process.env.TYB_SPORT || 'ncaa-mens-basketball';
 
 
 var filename, debug, devtool;
@@ -15,7 +16,7 @@ var publicPath = '/assets/';
 var plugins = [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
-        __SPORT__: JSON.stringify('ncaa-mens-basketball'),
+        __SPORT__: JSON.stringify(sport),
         __YEAR__: JSON.stringify(year),
         __STATIC__: JSON.stringify(isStatic)
     })

@@ -125,10 +125,10 @@ let Region = React.createClass({
                 <h2 className='region-name'>{name + unpicked}</h2>
                 <div className='rounds'>
                     <div className='rounds-scroll'>
-                        {this.props.rounds.map((round, index) =>
-                            <div key={index} className='round'>
-                                {chunk(round, 2).map((matchup, index) =>
-                                    <Matchup key={index} fromRegion={this.props.id} matchup={matchup} canEdit={this.props.canEdit} />
+                        {this.props.rounds.map((round, roundIndex) =>
+                            <div key={roundIndex} className='round'>
+                                {chunk(round, 2).map((matchup, matchupIndex) =>
+                                    <Matchup key={matchupIndex} fromRegion={this.props.id} matchup={matchup} canEdit={this.props.canEdit} />
                                 )}
                             </div>
                         )}
