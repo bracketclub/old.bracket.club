@@ -1,7 +1,5 @@
 'use strict';
 
-/* global __STATIC__ */    // From webpack
-
 let {apiUrl, staticUrl} = require('../global');
 let loadData = require(__STATIC__ ? 'load-script' : 'xhr');
 
