@@ -84,19 +84,20 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com.git"
   },
   "scripts": {
-    "build": "TYB_STATIC=true NODE_ENV=production webpack && npm run build-after",
+    "build": "npm run webpack-config && TYB_STATIC=true NODE_ENV=production webpack && npm run build-after",
     "build-assets": "mkdir -p build/assets/ && mv build/bundle.* build/assets",
     "build-cleancss": "cat build/assets/bundle.*css | cleancss -o `find build/assets/*.css -print0`",
     "codeship-setup": "npm run npm-version && npm install && npm run build",
     "codeship-test": "npm test && npm run lint && npm run size",
     "deploy": "divshot",
-    "lint": "eslint --ext .js,.jsx .",
+    "lint": "eslint --ext .js,.jsx,.es6 .",
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
     "postbuild": "npm run build-assets && npm run build-cleancss",
     "prebuild": "rm -rf build && mkdir build",
     "size": "cat build/assets/bundle.*js | gzip-size | pretty-bytes && cat build/assets/bundle.*css | gzip-size | pretty-bytes",
-    "start": "TYB_STATIC=true webpack-dev-server",
+    "start": "npm run webpack-config && TYB_STATIC=true webpack-dev-server",
     "test": "babel-tape-runner test/*.js | tap-spec",
-    "validate": "npm ls >/dev/null"
+    "validate": "npm ls >/dev/null",
+    "webpack-config": "babel webpack.config.es6 --out-file webpack.config.js"
   }
 }
