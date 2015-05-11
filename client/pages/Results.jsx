@@ -99,7 +99,7 @@ let Results = React.createClass({
             return entry;
         }), standardSort);
 
-        //this is our display order but we map the index to the "offical" sort order
+        // this is our display order but we map the index to the "offical" sort order
         // so even if we sort by a different column you can still see the real 1st, 2nd etc
         let displaySort = sortEntryByScore(this.state.sortByCol, this.state.sortByDir);
         return sortBy(standardWithScore, displaySort).map((entry) => {

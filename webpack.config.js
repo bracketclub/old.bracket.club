@@ -1,85 +1,42 @@
-/* eslint no-var:0 */
+'use strict';
 
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HTMLPlugin = require('html-webpack-plugin');
+const webpackConfig = require('hjs-webpack');
+const webpack = require('webpack');
 
-var isProd = process.env.NODE_ENV === 'production';
-var isStatic = process.env.TYB_STATIC === 'true';
-var year = process.env.TYB_YEAR || '2015';
-var sport = process.env.TYB_SPORT || 'ncaa-mens-basketball';
-
-
-var filename, debug, devtool;
-var entry = ['./client/main'];
-var publicPath = '/assets/';
-var plugins = [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.DefinePlugin({
-        __SPORT__: JSON.stringify(sport),
-        __YEAR__: JSON.stringify(year),
-        __STATIC__: JSON.stringify(isStatic)
-    })
-];
-var loaders = [
-    {test: /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/},
-    {test: /\.json$/, loaders: ['json']},
-    {test: /\.less$/, loaders: ['style', 'raw', 'less']}
-];
+const {NODE_ENV, TYB_STATIC, TYB_YEAR, TYB_SPORT} = process.env;
+const isProd = NODE_ENV === 'production';
+const __STATIC__ = JSON.stringify(TYB_STATIC === 'true');
+const __YEAR__ = JSON.stringify(TYB_YEAR || '2015');
+const __SPORT__ = JSON.stringify(TYB_SPORT || 'ncaa-mens-basketball');
 
 
-if (isProd) {
-    debug = false;
-    filename = 'bundle.[hash].js';
-    loaders.push({
-        test: /.less$/,
-        loader: ExtractTextPlugin.extract('style', 'raw!less')
-    });
-    plugins.push(
-        new webpack.NoErrorsPlugin(),
-        new webpack.optimize.DedupePlugin(),
-        new ExtractTextPlugin('bundle.[contenthash].css', {allChunks: true}),
-        // Turn off warnings because otherwise it shows a ton of warnings
-        // for the expected dead code removals
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {warnings: false},
-            output: {comments: false}
-        }),
-        // This will cause a lot of dead code removal in React
-        new webpack.DefinePlugin({
-            'process.env': {NODE_ENV: JSON.stringify('production')}
-        }),
-        new HTMLPlugin({
-          template: 'public/prod-index.html',
-          publicPath: publicPath
-        })
-    );
-}
-else {
-    debug = true;
-    filename = 'bundle.js';
-    devtool = 'eval';
-    entry.unshift(
-        'webpack-dev-server/client?http://0.0.0.0:' + process.env.PORT,
-        'webpack/hot/only-dev-server'
-    );
-}
-
-
-module.exports = {
-    debug: debug,
-    devtool: devtool,
-    entry: entry,
+module.exports = webpackConfig({
+    isDev: !isProd,
+    in: './client/main',
+    out: 'build',
     output: {
-        path: './build',
-        publicPath: publicPath,
-        filename: filename
+        filename: 'bundle',
+        cssFilename: 'bundle',
+        hash: true
     },
-    plugins: plugins,
-    resolve: {
-        extensions: ['', '.js', '.jsx', '.json']
-    },
-    module: {
-        loaders: loaders
+    plugins: [
+        new webpack.DefinePlugin({__SPORT__, __YEAR__, __STATIC__})
+    ],
+    html: (context) => {
+        return `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Tweet Your Bracket</title>
+                <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+                <meta name="apple-mobile-web-app-capable" content="yes">
+                <link rel="stylesheet" href="${context.css}">
+            </head>
+            <body>
+                <script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='https://www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create','UA-8402584-9','auto');window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));</script>
+                <script src="${context.main}"></script>
+            </body>
+            </html>
+        `;
     }
-};
+});
