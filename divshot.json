@@ -9,9 +9,7 @@
     "/*.svg": 31536000,
     "/*.ttf": 31536000,
     "/*.eot": 31536000,
-    "/*.woff": 31536000,
-    "/*.html": "no-cache, no-store",
-    "/**/*.html": "no-cache, no-store"
+    "/*.woff": 31536000
   },
   "routes": {
     "/**": "index.html"
