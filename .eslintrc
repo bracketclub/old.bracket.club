@@ -5,6 +5,11 @@
     "node": true,
     "es6": true
   },
+  "globals": {
+    "__YEAR__": false,
+    "__SPORT__": false,
+    "__STATIC__": false
+  },
   "ecmaFeatures": {
     "es6": true
   },

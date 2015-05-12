@@ -1,5 +1,5 @@
 {
-  "name": "tweetyourbracket",
+  "name": "tyb",
   "description": "Tweet. Your. Bracket.",
   "version": "3.1.0",
   "author": {
@@ -35,30 +35,32 @@
     "xhr": "^2.0.1"
   },
   "devDependencies": {
+    "autoprefixer-core": "^5.1.11",
     "babel-core": "^4.0.0",
-    "babel-eslint": "^2.0.2",
+    "babel-eslint": "^3.1.1",
     "babel-loader": "^5.0.0",
     "babel-tape-runner": "^1.1.0",
-    "clean-css": "^3.1.9",
+    "clean-css": "^3.2.9",
+    "css-loader": "^0.12.0",
     "divshot-cli": "^1.10.4",
-    "eslint": "^0.19.0",
-    "eslint-plugin-react": "^2.1.0",
-    "extract-text-webpack-plugin": "^0.5.0",
+    "eslint": "^0.21.0",
+    "eslint-plugin-react": "^2.2.0",
+    "file-loader": "^0.8.1",
     "gzip-size": "^1.0.0",
-    "html-webpack-plugin": "^1.1.0",
+    "hjs-webpack": "^2.2.0",
     "json-loader": "^0.5.1",
     "less": "^2.5.0",
     "less-import-inserter": "^1.0.1",
     "less-loader": "^2.2.0",
+    "node-libs-browser": "^0.5.0",
+    "postcss-loader": "^0.4.3",
     "precommit-hook": "^2.0.1",
     "pretty-bytes": "^1.0.4",
-    "raw-loader": "^0.5.1",
-    "react-hot-loader": "^1.2.4",
-    "style-loader": "^0.10.1",
     "tap-spec": "^3.0.0",
     "tape": "^4.0.0",
-    "webpack": "^1.8.4",
-    "webpack-dev-server": "^1.8.0"
+    "url-loader": "^0.5.5",
+    "webpack": "^1.9.4",
+    "webpack-dev-server": "^1.8.2"
   },
   "engines": {
     "node": "^0.10.35",
@@ -74,6 +76,7 @@
   "main": "server.js",
   "pre-commit": [
     "lint",
+    "validate",
     "test"
   ],
   "private": true,
@@ -82,19 +85,20 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com.git"
   },
   "scripts": {
-    "build": "rm -rf build/ && NODE_ENV=production webpack && npm run build-after",
-    "build-after": "npm run build-assets && npm run build-public && npm run build-cleancss",
-    "build-assets": "mkdir -p build/assets/ && mv build/bundle.* build/assets",
-    "build-cleancss": "cat build/assets/bundle.*css | cleancss -o `find build/assets/*.css -print0`",
-    "build-public": "rsync -rv --exclude=*.html public/ build/",
-    "build-static": "TYB_STATIC=true npm run build",
-    "codeship-setup": "npm run npm-version && npm install && npm run build-static",
-    "codeship-test": "npm test && npm run lint && npm run size",
+    "build": "npm run webpack-config && TYB_STATIC=true NODE_ENV=production webpack --progress",
+    "cleancss": "cat build/assets/tyb.*css | cleancss -o `find build/assets/*.css -print0`",
+    "codeship-setup": "npm run npm-version && npm install && npm run build",
+    "codeship-test": "npm test && npm run lint && npm run validate && npm run size",
     "deploy": "divshot",
-    "lint": "eslint --ext .js,.jsx .",
+    "lint": "eslint --ext .js,.jsx,.es6 .",
+    "move-assets": "mkdir -p build/assets/ && find build -type f -maxdepth 1 -not -name index.html -exec mv '{}' build/assets \\;",
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
-    "size": "cat build/assets/bundle.*js | gzip-size | pretty-bytes && cat build/assets/bundle.*css | gzip-size | pretty-bytes",
-    "start": "TYB_STATIC=true PORT=3002 webpack-dev-server --colors --progress --hot --history-api-fallback --watch --port=3002 --host=0.0.0.0 --content-base public/",
-    "test": "babel-tape-runner test/*.js | tap-spec"
+    "postbuild": "npm run move-assets && npm run cleancss && npm run size",
+    "prebuild": "rm -rf build && mkdir build",
+    "size": "for file in build/assets/*; do echo `cat $file | gzip-size | pretty-bytes` $file; done;",
+    "start": "npm run webpack-config && TYB_STATIC=true webpack-dev-server --progress",
+    "test": "babel-tape-runner test/*.js | tap-spec",
+    "validate": "npm ls >/dev/null",
+    "webpack-config": "babel webpack.config.es6 --out-file webpack.config.js"
   }
 }
