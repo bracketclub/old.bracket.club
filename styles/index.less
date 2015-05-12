@@ -1,6 +1,9 @@
-/* eslint no-var:0 */
-
-'use strict';
+// Woah! This isn't a less file! Well, hold on, there's actually a (semi-)good
+// reason for this. This is the lessest (ha!) of the evils I've found. It allows
+// the preconfigured loaders from hjs-webpack to be used, and only edited a bit
+// to include the val-loader as the first loader before less-loader. The other
+// option would be to reconfigure all the loaders we want instead in our own
+// webpack.config which isnt ideal.
 
 var path = require('path');
 var LessImportInserter = require('less-import-inserter');
