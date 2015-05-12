@@ -8,19 +8,15 @@ const isDev = NODE_ENV !== 'production';
 const __YEAR__ = JSON.stringify(TYB_YEAR || '2015');
 const __SPORT__ = JSON.stringify(TYB_SPORT || 'ncaa-mens-basketball');
 const __STATIC__ = JSON.stringify(TYB_STATIC === 'true');
+const defintions = new webpack.DefinePlugin({__YEAR__, __SPORT__, __STATIC__});
 
 const config = webpackConfig({
     isDev,
-    in: './client/main.jsx',
+    in: './client/main',
     out: 'build',
     output: {
-        filename: 'bundle',
-        cssFilename: 'bundle',
         hash: true
     },
-    plugins: [
-        new webpack.DefinePlugin({__SPORT__, __YEAR__, __STATIC__})
-    ],
     html: (context) => {
         return `
             <!DOCTYPE html>
@@ -39,5 +35,7 @@ const config = webpackConfig({
         `;
     }
 });
+
+config.plugins.push(defintions);
 
 module.exports = config;
