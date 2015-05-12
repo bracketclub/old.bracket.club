@@ -12,14 +12,8 @@ require('../styles/index.less');
 // This just moves our favicon (without renaming it based on hash) to our build dir
 require('file?name=favicon.ico!../favicon.ico');
 
-// Require the alt singleton and then require each store so that
-// they can be instantiated before we bootstrap the window data.
+// Require the alt singleton
 let alt = require('./alt');
-require('./stores/bracketEntryStore');
-require('./stores/entryStore');
-require('./stores/globalDataStore');
-require('./stores/masterStore');
-require('./stores/meStore');
 
 // Some data is added to window via the build step
 // Right now sport never changes, and year is used to set
@@ -34,9 +28,9 @@ alt.bootstrap(JSON.stringify({
 // It's pretty small right now (8.8kb gzip before 2015)
 // but one day this will probably be moved to individual pages
 // since the API can return data by year only
-require('./actions/masterActions').fetchMasters({stream: false});
 // Dont stream entries right now since we are deploying this after they are locked
 // TODO: base this and master stream on locked
+require('./actions/masterActions').fetchMasters({stream: false});
 require('./actions/entryActions').fetchEntries({stream: false});
 
 // Instantiate our firebase reference. This is only used to login
