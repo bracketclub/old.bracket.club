@@ -52,9 +52,9 @@ Used to auth with Firebase and get the current active user.
 
 ### Styles
 
-The app uses Bootstrap and Bootswatch which are installed via npm. There is a build file at `styles/build.js` which builds `styles/theme.less` which is a list of all the less imports used by the site. It modifies the main bootstrap less file with the necessary imports from the bootswatch theme and also imports `styles/app/app.less`.
+The app uses Bootstrap and Bootswatch which are installed via npm. There is a build file at `styles/index.js2less` which creates a string of valid Less which is a list of all the less imports used by the site. It modifies the main bootstrap less file with the necessary imports from the bootswatch theme and also imports `styles/app/app.less`.
 
-The styles are built with the Webpack loaders `style!raw!less`. We aren't using the `css-loader` due to [this bug](https://github.com/webpack/less-loader/issues/23#issuecomment-64407832) when combined with `lesshat`. The style loader injects the CSS into the document while in development.
+The styles are built with the Webpack loaders `style!css!postcss!less!val`. The style loader injects the CSS into the document while in development. Some of those are configured by [`hjs-webpack`](https://github.com/henrikjoreteg/hjs-webpack) but we need to do it again here so that the extract text stuff is all in one place and we have to use `val-loader` which takes the built Less string and passes it to the next loader.
 
 In production, we use the `extract-text-webpack-plugin` to take the all the css and split it into a single bundle which gets saved to the build directory.
 
@@ -64,13 +64,11 @@ In production, we use the `extract-text-webpack-plugin` to take the all the css 
 
 `development` via `npm start`
 
-This uses `webpack-dev-server` to serve the content in `public/index.html`. It enables hot module reloading.
+This uses `webpack-dev-server` to serve the content from the `webpack.config.es6` via [`hjs-webpack`](https://github.com/henrikjoreteg/hjs-webpack). It enables hot module reloading and a few other nice to haves.
 
 `production` via `npm run build`
 
-This builds the JS and CSS bundles and a production html file via `html-webpack-plugin` to the `build/` directory. It also copies all the static assets from `public/` to `build/`. `html-webpack-plugin` uses `public/prod-index.html` instead of `public/index.html` since the production version has a `<link>` for the CSS instead of it being inserted by the `style-loader`.
-
-I know there are probably more idiomatic Webpack ways to require these files and bundle them, but it was pretty easy for now just to rsync the directories. It would be worthwhile to experiment with Webpack more so this isn't necessary.
+This builds the JS and CSS bundles and am html file via [`hjs-webpack`](https://github.com/henrikjoreteg/hjs-webpack) to the `build/` directory. It also copies any other assets required throughout the app via the `file-loader`.
 
 
 
