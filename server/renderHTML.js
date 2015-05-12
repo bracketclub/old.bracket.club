@@ -1,6 +1,8 @@
 'use strict';
 
 const {renderToString, createElement} = require('react');
+
+// TODO: make this method run the full react router handler
 const render = (page, data = {}) => renderToString(createElement(page, data));
 
 const renderHTML = (context, page, data) => {
