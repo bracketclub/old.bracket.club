@@ -6,7 +6,10 @@ let {HistoryLocation} = Router;
 let _isNaN = require('lodash/lang/isNaN');
 let {pageview} = require('./helpers/analytics');
 
+// This builds our less file and all the loaders take care of the rest
 require('../styles/index.less');
+
+// This just moves our favicon (without renaming it based on hash) to our build dir
 require('file?name=favicon.ico!../favicon.ico');
 
 // Require the alt singleton and then require each store so that
