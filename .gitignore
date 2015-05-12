@@ -4,3 +4,6 @@ npm-debug.log
 .divshot-cache/
 build/
 webpack.config.js
+.validate.json
+.jshintignore
+.jshintrc
