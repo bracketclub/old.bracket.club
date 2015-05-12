@@ -8,11 +8,10 @@ const isDev = NODE_ENV !== 'production';
 const __YEAR__ = JSON.stringify(TYB_YEAR || '2015');
 const __SPORT__ = JSON.stringify(TYB_SPORT || 'ncaa-mens-basketball');
 const __STATIC__ = JSON.stringify(TYB_STATIC === 'true');
-const defintions = new webpack.DefinePlugin({__YEAR__, __SPORT__, __STATIC__});
 
 const config = webpackConfig({
     isDev,
-    in: './client/main',
+    in: 'client/main.js',
     out: 'build',
     output: {
         hash: true
@@ -32,10 +31,10 @@ const config = webpackConfig({
                 <script src="${context.main}"></script>
             </body>
             </html>
-        `;
+        `.replace(/\n\s*/g, '');
     }
 });
 
-config.plugins.push(defintions);
+config.plugins.push(new webpack.DefinePlugin({__YEAR__, __SPORT__, __STATIC__}));
 
 module.exports = config;

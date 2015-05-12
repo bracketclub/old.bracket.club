@@ -3,7 +3,6 @@
   "root": "./build",
   "clean_urls": true,
   "cache_control": {
-    "/fonts/**": 604800,
     "/assets/**": 31536000
   },
   "routes": {
