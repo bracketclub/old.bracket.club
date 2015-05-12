@@ -11,7 +11,7 @@
     "/*.eot": 31536000,
     "/*.woff": 31536000,
     "/*.html": "no-cache, no-store",
-    "/**/*.html": "no-cache, no-store",
+    "/**/*.html": "no-cache, no-store"
   },
   "routes": {
     "/**": "index.html"

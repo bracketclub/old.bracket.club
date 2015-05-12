@@ -86,7 +86,7 @@
   "scripts": {
     "build": "npm run webpack-config && TYB_STATIC=true NODE_ENV=production webpack --progress",
     "codeship-setup": "npm run npm-version && npm install && npm run build",
-    "codeship-test": "npm test && npm run lint && npm run validate && npm run size",
+    "codeship-test": "npm test && npm run lint",
     "deploy": "divshot",
     "lint": "eslint --ext .js,.jsx,.es6 .",
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
