@@ -41,11 +41,11 @@ let idResolver = (options) => {
 // Each sport, year combo is memoized since they never change
 // Also the individual methods are also memoized based on their parameters
 // The `scorer.score` is the slowest, but might as well do 'em all
-module.exports = memo((options) => {
-    let {sport, year} = options;
-    let id = idResolver(options);
+module.exports = memo((sportYearOptions) => {
+    let {sport, year} = sportYearOptions;
+    let id = idResolver(sportYearOptions);
 
-    let {constants, regex, locks, bracket} = new BracketData({
+    let {constants, regex, locks, bracket: bracketObj} = new BracketData({
         props: ['constants', 'locks', 'regex', 'bracket'],
         sport,
         year
@@ -71,7 +71,8 @@ module.exports = memo((options) => {
     let boundDiff = scorer.diff.bind(scorer);
 
     return {
-        bracket, regex, locks, locked,
+        regex, locks, locked,
+        bracket: bracketObj,
         emptyBracket: constants.EMPTY,
         totalGames: (constants.TEAMS_PER_REGION * constants.REGION_COUNT) - 1,
         unpickedChar: constants.UNPICKED_MATCH,

@@ -12,9 +12,7 @@ let finals = [ // 2012, 2013, 2014
     'S191241131021411101111E1812463721437477W1812463721462122MW185411147284112828FFEMWE'
 ];
 
-let bracketsByYear = (years) => {
-    return years.map(year => bracket({sport, year}));
-};
+let bracketsByYear = (bracketYears) => bracketYears.map(year => bracket({sport, year}));
 
 // Prime the memoization cache
 bracketsByYear(years);
