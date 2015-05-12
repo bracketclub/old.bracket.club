@@ -15,12 +15,18 @@ module.exports = new LessImportInserter({
     after: {
         variables: [
             '../node_modules/bootswatch/united/variables',
-            '_override.less'
+            'variables.less'
         ]
     },
     append: [
         '../node_modules/lesshat/build/lesshat-prefixed',
         '../node_modules/bootswatch/united/bootswatch',
-        'app/app.less'
+        'app/main.less',
+        'app/main-nav.less',
+        'app/bracket.less',
+        'app/bracket-header.less',
+        'app/score-card.less',
+        'app/ball-loader.less',
+        'app/footer.less'
     ]
 }).build();
