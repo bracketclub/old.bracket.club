@@ -9,6 +9,8 @@ const __YEAR__ = JSON.stringify(TYB_YEAR || '2015');
 const __SPORT__ = JSON.stringify(TYB_SPORT || 'ncaa-mens-basketball');
 const __STATIC__ = JSON.stringify(TYB_STATIC === 'true');
 
+const findLessLoader = (l) => (l.loader || '').indexOf('!less') > -1;
+
 const config = webpackConfig({
     isDev,
     in: 'client/main.js',
@@ -36,7 +38,7 @@ const config = webpackConfig({
     }
 });
 
-let loader = find(config.module.loaders, (l) => (l.loader || '').indexOf('!less') > -1);
-loader.loader += '!val-loader';
+// Mutate in place the less loader in all env to have the val-loader first
+find(config.module.loaders, findLessLoader).loader += '!val-loader';
 
 module.exports = config;
