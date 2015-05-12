@@ -6,7 +6,7 @@ let {HistoryLocation} = Router;
 let _isNaN = require('lodash/lang/isNaN');
 let {pageview} = require('./helpers/analytics');
 
-require('../styles/theme.less');
+require('../styles/index.js2less');
 require('file?name=favicon.ico!../favicon.ico');
 
 // Require the alt singleton and then require each store so that
