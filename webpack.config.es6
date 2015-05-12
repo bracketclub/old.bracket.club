@@ -12,9 +12,6 @@ const __YEAR__ = JSON.stringify(TYB_YEAR || '2015');
 const __SPORT__ = JSON.stringify(TYB_SPORT || 'ncaa-mens-basketball');
 const __STATIC__ = JSON.stringify(TYB_STATIC === 'true');
 
-// Pages
-const Subscribe = require('./client/pages/Subscribe');
-
 const config = webpackConfig({
     isDev,
     in: 'client/main.js',
@@ -25,8 +22,7 @@ const config = webpackConfig({
     define: {__YEAR__, __SPORT__, __STATIC__},
     html: (context) => {
         return {
-            'index.html': renderHTML(context),
-            'subscribe.html': renderHTML(context, Subscribe)
+            'index.html': renderHTML(context)
         };
     }
 });
