@@ -1,7 +1,7 @@
 'use strict';
 
 const webpackConfig = require('hjs-webpack');
-const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const {NODE_ENV, TYB_STATIC, TYB_YEAR, TYB_SPORT} = process.env;
 const isDev = NODE_ENV !== 'production';
@@ -16,6 +16,7 @@ const config = webpackConfig({
     output: {
         hash: true
     },
+    define: {__YEAR__, __SPORT__, __STATIC__},
     html: (context) => {
         return `
             <!DOCTYPE html>
@@ -35,6 +36,20 @@ const config = webpackConfig({
     }
 });
 
-config.plugins.push(new webpack.DefinePlugin({__YEAR__, __SPORT__, __STATIC__}));
+if (!isDev) {
+    config.plugins.push(new ExtractTextPlugin(config.output.cssFilename, {
+        allChunks: true
+    }));
+    config.module.loaders.push({
+        test: /\.js2less$/,
+        loader: ExtractTextPlugin.extract('style', 'css!postcss!less!val')
+    });
+}
+else {
+    config.module.loaders.push({
+      test: /\.js2less$/,
+      loader: 'style!css!postcss!less!val'
+    });
+}
 
 module.exports = config;
