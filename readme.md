@@ -52,7 +52,7 @@ Used to auth with Firebase and get the current active user.
 
 ### Styles
 
-The app uses Bootstrap and Bootswatch which are installed via npm. There is a build file at `styles/index.js2less` which creates a string of valid Less which is a list of all the less imports used by the site. It modifies the main bootstrap less file with the necessary imports from the bootswatch theme and also imports `styles/app/app.less`.
+The app uses Bootstrap and Bootswatch which are installed via npm. There is a build file at `styles/index.less` which creates a string of valid Less which is a list of all the less imports used by the site. It modifies the main bootstrap less file with the necessary imports from the bootswatch theme and also imports `styles/app/app.less`.
 
 The styles are built with the Webpack loaders `style!css!postcss!less!val`. The style loader injects the CSS into the document while in development. Some of those are configured by [`hjs-webpack`](https://github.com/henrikjoreteg/hjs-webpack) but we need to do it again here so that the extract text stuff is all in one place and we have to use `val-loader` which takes the built Less string and passes it to the next loader.
 
