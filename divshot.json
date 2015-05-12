@@ -3,7 +3,15 @@
   "root": "./build",
   "clean_urls": true,
   "cache_control": {
-    "/assets/**": 31536000
+    "/*.css": 31536000,
+    "/*.js": 31536000,
+    "/*.woff2": 31536000,
+    "/*.svg": 31536000,
+    "/*.ttf": 31536000,
+    "/*.eot": 31536000,
+    "/*.woff": 31536000,
+    "/*.html": "no-cache, no-store",
+    "/**/*.html": "no-cache, no-store",
   },
   "routes": {
     "/**": "index.html"
