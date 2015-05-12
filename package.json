@@ -48,6 +48,7 @@
     "file-loader": "^0.8.1",
     "gzip-size": "^1.0.0",
     "hjs-webpack": "^2.2.0",
+    "json-loader": "^0.5.1",
     "less": "^2.5.0",
     "less-import-inserter": "^1.0.1",
     "less-loader": "^2.2.0",
@@ -95,7 +96,7 @@
     "postbuild": "npm run build-assets && npm run build-cleancss",
     "prebuild": "rm -rf build && mkdir build",
     "size": "cat build/assets/bundle.*js | gzip-size | pretty-bytes && cat build/assets/bundle.*css | gzip-size | pretty-bytes",
-    "start": "npm run webpack-config && TYB_STATIC=true webpack-dev-server",
+    "start": "npm run webpack-config && TYB_STATIC=true webpack-dev-server --colors --progress",
     "test": "babel-tape-runner test/*.js | tap-spec",
     "validate": "npm ls >/dev/null",
     "webpack-config": "babel webpack.config.es6 --out-file webpack.config.js"
