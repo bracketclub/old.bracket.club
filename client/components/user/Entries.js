@@ -21,8 +21,8 @@ let UserEntries = React.createClass({
                 {year ? <h2>No {year} entry for {username}</h2> : <h2>{username}</h2>}
                 {year ? <p>The user does not have an entry for {year}.</p> : null}
                 <h3>Entries</h3>
-                <ButtonGroup>{years.map(year =>
-                    <ButtonLink key={year} to='user' params={{id: user_id, year: year}}>{year}</ButtonLink>
+                <ButtonGroup>{years.map((buttonYear) =>
+                    <ButtonLink key={buttonYear} to='user' params={{id: user_id, year: buttonYear}}>{buttonYear}</ButtonLink>
                 )}</ButtonGroup>
             </div>
         );

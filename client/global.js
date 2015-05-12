@@ -1,7 +1,5 @@
 'use strict';
 
-/* global __SPORT__, __YEAR__ */    // From webpack
-
 let Firebase = require('firebase');
 let range = require('lodash/utility/range');
 let activeSport = __SPORT__;

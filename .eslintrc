@@ -5,6 +5,11 @@
     "node": true,
     "es6": true
   },
+  "globals": {
+    "__YEAR__": false,
+    "__SPORT__": false,
+    "__STATIC__": false
+  },
   "ecmaFeatures": {
     "es6": true
   },
@@ -34,7 +39,7 @@
     "no-else-return": 2,
     "no-var": 2,
     "camelcase": [2, {"properties": "never"}],
-    "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
+    "brace-style": [2, "stroustrup", {"allowSingleLine": true}],
     "func-names": 2,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
