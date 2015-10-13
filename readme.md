@@ -72,13 +72,11 @@ This builds the JS and CSS bundles and am html file via [`hjs-webpack`](https://
 
 ### Deployment
 
-Codeship + Divshot.
+Codeship + Surge.
 
-Codeship is hooked up to the repo to process all pushes. `npm run codeship-setup` and `npm run codeship-test` and run to get the set ready for deployment. Pushes on the development branch are pushed to the development environment on Divshot and pushes on the master branch go to production.
+Codeship is hooked up to the repo to process all pushes. `npm run codeship-setup` and `npm run codeship-test` and run to get the set ready for deployment. Pushes on the master branch go to production. Currently pushes on the development branch don't trigger builds.
 
-[http://beta.tweetyourbracket.com](http://beta.tweetyourbracket.com) points to the development environment.
-
-`divshot.json` is used for the Divshot settings. All urls are set to be caught by the `index.html` file. And the bundled CSS and JS files are set with a one year cache control header since they are the filename is fingerprinted with the hash of the file contents from Webpack.
+All urls are set to be caught by the `200.html` file. And the bundled CSS and JS filenames are fingerprinted with the hash of the file contents from Webpack.
 
 
 
