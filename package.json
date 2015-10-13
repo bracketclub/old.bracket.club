@@ -68,7 +68,7 @@
     "yeticss": "^7.0.5"
   },
   "engines": {
-    "node": "^0.10.35",
+    "node": "^4.0.0",
     "npm": "^3.3.6"
   },
   "homepage": "http://tweetyourbracket.com",
