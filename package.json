@@ -41,7 +41,7 @@
     "babel-eslint": "^3.1.15",
     "babel-loader": "^5.0.0",
     "babel-tape-runner": "^1.1.0",
-    "css-loader": "^0.14.5",
+    "css-loader": "^0.19.0",
     "eslint": "^0.22.1",
     "eslint-plugin-react": "^2.5.0",
     "file-loader": "^0.8.1",
@@ -52,7 +52,7 @@
     "less-import-inserter": "^1.0.1",
     "less-loader": "^2.2.0",
     "node-libs-browser": "^0.5.2",
-    "postcss-loader": "^0.4.3",
+    "postcss-loader": "^0.6.0",
     "precommit-hook": "^2.0.1",
     "pretty-bytes": "^2.0.1",
     "react-hot-loader": "^1.2.7",
@@ -69,7 +69,7 @@
   },
   "engines": {
     "node": "^0.10.35",
-    "npm": "^2.7.0"
+    "npm": "^3.3.6"
   },
   "homepage": "http://tweetyourbracket.com",
   "keywords": [
