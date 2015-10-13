@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
 npm-debug.log
-.divshot-cache/
 build/
 webpack.config.js
 .validate.json
