@@ -4,7 +4,7 @@ const React = require('react');
 const {PropTypes} = React;
 const classNames = require('classnames');
 
-const Affix = require('react-bootstrap/lib/Affix');
+const Affix = require('react-overlays/lib/Affix');
 
 const BracketProgress = require('./Progress');
 const EnterButton = require('./EnterButton');
