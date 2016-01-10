@@ -1,7 +1,6 @@
 'use strict';
 
-let Alt = require('alt');
-
+const Alt = require('alt');
 
 module.exports = new Alt();
 

@@ -1,102 +1,102 @@
 'use strict';
 
-let React = require('react');
-let {Link} = require('react-router');
+const React = require('react');
+const {Link} = require('react-router');
 
-let extend = require('lodash/object/extend');
-let partial = require('lodash/function/partial');
+const extend = require('lodash/object/extend');
+const partial = require('lodash/function/partial');
 
-let Navbar = require('react-bootstrap/lib/Navbar');
-let Nav = require('react-bootstrap/lib/Nav');
-let MenuItem = require('react-bootstrap/lib/MenuItem');
-let DropdownButton = require('react-bootstrap/lib/DropdownButton');
+const Navbar = require('react-bootstrap/lib/Navbar');
+const Nav = require('react-bootstrap/lib/Nav');
+const MenuItem = require('react-bootstrap/lib/MenuItem');
+const DropdownButton = require('react-bootstrap/lib/DropdownButton');
 
-let NavItemLink = require('react-router-bootstrap/lib/NavItemLink');
-let MenuItemLink = require('react-router-bootstrap/lib/MenuItemLink');
+const NavItemLink = require('react-router-bootstrap/lib/NavItemLink');
+const MenuItemLink = require('react-router-bootstrap/lib/MenuItemLink');
 
-let meActions = require('../../actions/meActions');
+const meActions = require('../../actions/meActions');
 
 // This is a bit of a pain, but there exist links in the app to change the
 // current page to a different year. We need to know how to convert any pathname
 // to a different year. This needs to be kept consistent with the ./routes.jsx file.
 // TODO: find a way to automatically determine from routes
-let years = require('../../global').years.slice(0).reverse();
-let yearRoutes = ['user', 'results', 'resultsCurrent', 'userCurrent'];
-let defaultTo = 'landing';
-let yearParamNames = {landing: 'path'};
+const years = require('../../global').years.slice(0).reverse();
+const yearRoutes = ['user', 'results', 'resultsCurrent', 'userCurrent'];
+const defaultTo = 'landing';
+const yearParamNames = {landing: 'path'};
 
+const Header = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.func
+  },
 
-let Header = React.createClass({
+  getYearPathname() {
+    const route = this.context.router.getCurrentRoutes()[1];
+    const params = this.context.router.getCurrentParams();
+    const query = this.context.router.getCurrentQuery();
 
-    contextTypes: {
-        router: React.PropTypes.func
-    },
+    const sendTo = yearRoutes.indexOf(route.name) > -1 ? route.name.replace('Current', '') : defaultTo;
+    const yearParamName = yearParamNames[sendTo] || 'year';
 
-    getYearPathname () {
+    const addYear = (obj, year) => {
+      const toAdd = {[yearParamName]: year};
+      return extend({}, obj, toAdd);
+    };
 
-        let route = this.context.router.getCurrentRoutes()[1];
-        let params = this.context.router.getCurrentParams();
-        let query = this.context.router.getCurrentQuery();
+    return {
+      to: sendTo,
+      query, // TODO: maybe need to only send certain query params to landing page
+      params: partial(addYear, sendTo === defaultTo ? {} : params)
+    };
+  },
 
-        let sendTo = yearRoutes.indexOf(route.name) > -1 ? route.name.replace('Current', '') : defaultTo;
-        let yearParamName = yearParamNames[sendTo] || 'year';
+  propTypes: {
+    me: React.PropTypes.object,
+    year: React.PropTypes.string.isRequired
+  },
 
-        let addYear = (obj, year) => {
-            let toAdd = {[yearParamName]: year};
-            return extend({}, obj, toAdd);
-        };
+  handleLogin(e) {
+    e.preventDefault();
+    meActions.auth();
+  },
 
-        return {
-            to: sendTo,
-            query: query, // TODO: maybe need to only send certain query params to landing page
-            params: partial(addYear, sendTo === defaultTo ? {} : params)
-        };
-    },
+  handleLogout(e) {
+    e.preventDefault();
+    meActions.logout();
+  },
 
-    propTypes: {
-        me: React.PropTypes.object,
-        year: React.PropTypes.string.isRequired
-    },
+  render() {
+    const {me, year} = this.props;
+    const {to, params, query} = this.getYearPathname();
 
-    handleLogin (e) {
-        e.preventDefault();
-        meActions.auth();
-    },
-
-    handleLogout (e) {
-        e.preventDefault();
-        meActions.logout();
-    },
-
-    render () {
-        let {me, year} = this.props;
-        let {to, params, query} = this.getYearPathname();
-
-        return (
-            <header>
-                <Navbar brand={<Link to='app'>TweetYourBracket</Link>} toggleNavKey={1} fluid>
-                    <Nav className='year-nav'>
-                        <DropdownButton title={year}>
-                            {years.map((dropdownYear) =>
-                                <MenuItemLink key={dropdownYear} to={to} params={params(dropdownYear)} query={query}>
-                                    {dropdownYear}
-                                </MenuItemLink>
-                            )}
-                        </DropdownButton>
-                    </Nav>
-                    <Nav eventKey={1} right={true}>
-                        <NavItemLink to='subscribe'>Subscribe</NavItemLink>
-                        <NavItemLink to='resultsCurrent'>Results</NavItemLink>
-                        {[me.id ? <DropdownButton key={0} title={me.username}>
-                            <MenuItemLink to='userCurrent' params={{id: me.id}}>Bracket</MenuItemLink>
-                            <MenuItem divider />
-                            <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
-                        </DropdownButton> : <MenuItem key={1} onClick={this.handleLogin}>Login</MenuItem>]}
-                    </Nav>
-                </Navbar>
-            </header>
-        );
-    }
+    return (
+      <header>
+        <Navbar brand={<Link to='app'>TweetYourBracket</Link>} toggleNavKey={1} fluid>
+          <Nav className='year-nav'>
+            <DropdownButton title={year}>
+              {years.map((dropdownYear) =>
+                <MenuItemLink key={dropdownYear} to={to} params={params(dropdownYear)} query={query}>
+                  {dropdownYear}
+                </MenuItemLink>
+              )}
+            </DropdownButton>
+          </Nav>
+          <Nav eventKey={1} right>
+            <NavItemLink to='subscribe'>Subscribe</NavItemLink>
+            <NavItemLink to='resultsCurrent'>Results</NavItemLink>
+            {me.id
+              ? <DropdownButton key={0} title={me.username}>
+                <MenuItemLink to='userCurrent' params={{id: me.id}}>Bracket</MenuItemLink>
+                <MenuItem divider />
+                <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
+              </DropdownButton>
+              : <MenuItem key={1} onClick={this.handleLogin}>Login</MenuItem>
+            }
+          </Nav>
+        </Navbar>
+      </header>
+    );
+  }
 });
 
 module.exports = Header;

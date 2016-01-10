@@ -1,76 +1,76 @@
 'use strict';
 
-let React = require('react');
-let ListenerMixin = require('alt/mixins/ListenerMixin');
-let raf = require('raf');
+const React = require('react');
+const ListenerMixin = require('alt/mixins/ListenerMixin');
+const raf = require('raf');
 
-let FourOhFour = require('./FourOhFour');
-let Bracket = require('../components/bracket/Container');
+const FourOhFour = require('./FourOhFour');
+const Bracket = require('../components/bracket/Container');
 
-let {rYear} = require('../global');
-let bracketHelpers = require('../helpers/bracket');
+const {rYear} = require('../global');
+const bracketHelpers = require('../helpers/bracket');
 
-let bracketEntryActions = require('../actions/bracketEntryActions');
-let bracketEntryStore = require('../stores/bracketEntryStore');
-let masterStore = require('../stores/masterStore');
+const bracketEntryActions = require('../actions/bracketEntryActions');
+const bracketEntryStore = require('../stores/bracketEntryStore');
+const masterStore = require('../stores/masterStore');
 
 window.crohn = () => {
-    bracketEntryActions.generate('random');
-    raf(window.crohn);
-    return 'So brave. Now just Tweet Your Bracket!';
+  bracketEntryActions.generate('random');
+  raf(window.crohn);
+  return 'So brave. Now just Tweet Your Bracket!';
 };
 
 module.exports = React.createClass({
-    mixins: [ListenerMixin],
+  mixins: [ListenerMixin],
 
-    contextTypes: {
-        router: React.PropTypes.func
-    },
+  contextTypes: {
+    router: React.PropTypes.func
+  },
 
-    propTypes: {
-        sport: React.PropTypes.string.isRequired,
-        year: React.PropTypes.string.isRequired,
-        locked: React.PropTypes.bool
-    },
+  propTypes: {
+    sport: React.PropTypes.string.isRequired,
+    year: React.PropTypes.string.isRequired,
+    locked: React.PropTypes.bool
+  },
 
-    componentDidMount () {
-        // Update store to contain the bracket from the url
-        // Note: store protects against falsy and bad values
-        bracketEntryActions.updateBracket(this.context.router.getCurrentParams().path);
-        this.listenTo(bracketEntryStore, this.onChange);
-        this.listenTo(masterStore, this.onChange);
-    },
+  componentDidMount() {
+    // Update store to contain the bracket from the url
+    // Note: store protects against falsy and bad values
+    bracketEntryActions.updateBracket(this.context.router.getCurrentParams().path);
+    this.listenTo(bracketEntryStore, this.onChange);
+    this.listenTo(masterStore, this.onChange);
+  },
 
-    onChange () {
-        this.setState(this.getInitialState());
-    },
+  onChange() {
+    this.setState(this.getInitialState());
+  },
 
-    getInitialState (props) {
-        let {locked} = (props || this.props);
-        let {history, index} = (locked ? masterStore : bracketEntryStore).getState();
-        return {history, index, urlParam: this.context.router.getCurrentParams().path};
-    },
+  getInitialState(props) {
+    const {locked} = (props || this.props);
+    const {history, index} = (locked ? masterStore : bracketEntryStore).getState();
+    return {history, index, urlParam: this.context.router.getCurrentParams().path};
+  },
 
-    componentWillReceiveProps (nextProps) {
-        this.setState(this.getInitialState(nextProps));
-    },
+  componentWillReceiveProps(nextProps) {
+    this.setState(this.getInitialState(nextProps));
+  },
 
-    render () {
-        let {locked, sport, year} = this.props;
-        let {urlParam, history: stateHistory, index} = this.state;
-        let {regex} = bracketHelpers({sport, year});
+  render() {
+    const {locked, sport, year} = this.props;
+    const {urlParam, history: stateHistory, index} = this.state;
+    const {regex} = bracketHelpers({sport, year});
 
-        // The landing page is a few things dependent on state & url:
-        if (locked) {
-            // A locked master bracket for a previous year
-            return <Bracket {...this.props} history={stateHistory[year]} index={index} />;
-        }
-        else if (!urlParam || rYear.test(urlParam) || regex.test(urlParam)) {
-            // The current unlocked entry
-            return <Bracket {...this.props} history={stateHistory} index={index} />;
-        }
-
-        // A fallback url which will render the 404 for bad params
-        return <FourOhFour />;
+    // The landing page is a few things dependent on state & url:
+    if (locked) {
+      // A locked master bracket for a previous year
+      return <Bracket {...this.props} history={stateHistory[year]} index={index} />;
     }
+    else if (!urlParam || rYear.test(urlParam) || regex.test(urlParam)) {
+      // The current unlocked entry
+      return <Bracket {...this.props} history={stateHistory} index={index} />;
+    }
+
+    // A fallback url which will render the 404 for bad params
+    return <FourOhFour />;
+  }
 });
