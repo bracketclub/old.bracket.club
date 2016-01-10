@@ -3,11 +3,10 @@
 const webpackConfig = require('hjs-webpack');
 const find = require('lodash/collection/find');
 
-const {NODE_ENV, TYB_STATIC, TYB_YEAR, TYB_SPORT} = process.env;
-const isDev = NODE_ENV !== 'production';
-const __YEAR__ = JSON.stringify(TYB_YEAR || '2015');
-const __SPORT__ = JSON.stringify(TYB_SPORT || 'ncaa-mens-basketball');
-const __STATIC__ = JSON.stringify(TYB_STATIC === 'true');
+const isDev = process.env.NODE_ENV !== 'production';
+const __YEAR__ = JSON.stringify(process.env.TYB_YEAR || '2015');
+const __SPORT__ = JSON.stringify(process.env.TYB_SPORT || 'ncaa-mens-basketball');
+const __STATIC__ = JSON.stringify(process.env.TYB_STATIC === 'true');
 
 const renderHTML = (context) =>
   `<!DOCTYPE html>
