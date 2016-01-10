@@ -2,7 +2,7 @@
 
 const React = require('react');
 const {PropTypes} = React;
-const {PureRenderMixin} = require('react/addons').addons;
+const {PureRenderMixin} = require('react-pure-render/mixin');
 const {Link} = require('react-router');
 
 const bracketHelpers = require('../../helpers/bracket');

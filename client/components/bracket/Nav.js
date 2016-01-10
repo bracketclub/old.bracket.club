@@ -2,7 +2,7 @@
 
 const React = require('react');
 const {PropTypes} = React;
-const {PureRenderMixin} = require('react/addons').addons;
+const {PureRenderMixin} = require('react-pure-render/mixin');
 
 const Glyphicon = require('react-bootstrap/lib/Glyphicon');
 const Button = require('react-bootstrap/lib/Button');

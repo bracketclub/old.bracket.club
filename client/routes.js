@@ -1,7 +1,7 @@
 'use strict';
 
 const React = require('react');
-const {Redirect, Route, NotFoundRoute} = require('react-router');
+const {Redirect, Route, IndexRoute} = require('react-router');
 
 const App = require('./components/app/App');
 const Subscribe = require('./pages/Subscribe');
@@ -12,22 +12,30 @@ const CreatedEntry = require('./pages/CreatedEntry');
 const Landing = require('./pages/Landing');
 const FourOhFour = require('./pages/FourOhFour');
 
-const routes = (
-  <Route name='app' path='/' handler={App}>
-    <Route name='subscribe' path='subscribe' handler={Subscribe} />
+//     <Redirect from='users' to='results' />
 
-    <Route name='resultsCurrent' path='results' handler={Results} />
-    <Route name='results' path='results/:year?' handler={Results} />
+const routes = (
+  <Route path='/' component={App}>
+    <IndexRoute component={Landing} />
+
+    <Route path='subscribe' component={Subscribe} />
+
+    <Route path='results'>
+      <IndexRoute component={Results} />
+      <Route path=':year' component={Results} />
+    </Route>
+
     <Redirect from='users' to='results' />
 
-    <Route name='userCurrent' path='users/:id' handler={User} />
-    <Route name='userProfile' path='users/:id/profile' handler={UserProfile} />
-    <Route name='user' path='users/:id/:year?' handler={User} />
+    <Route path='users'>
+      <Route path=':id' component={User} />
+      <Route path=':id/profile' component={UserProfile} />
+      <Route path=':id/:year' component={User} />
+    </Route>
 
-    <Route name='entry' path=':year/:bracket' handler={CreatedEntry} />
-    <Route name='landing' path=':path?' handler={Landing} ignoreScrollBehavior />
+    <Route path=':year/:bracket' component={CreatedEntry} />
 
-    <NotFoundRoute handler={FourOhFour} />
+    <Route path='*' component={FourOhFour} />
   </Route>
 );
 

@@ -2,7 +2,6 @@
 
 const React = require('react');
 const {PropTypes} = React;
-const {RouteHandler} = require('react-router');
 const ListenerMixin = require('alt/mixins/ListenerMixin');
 
 const Header = require('./Header');
@@ -14,10 +13,15 @@ const globalDataStore = require('../../stores/globalDataStore');
 const App = React.createClass({
   mixins: [ListenerMixin],
 
+  getDefaultProps() {
+    return {fluid: true, sport: 'ncaa-mens-basketball', year: '2015'};
+  },
+
   propTypes: {
-    fluid: PropTypes.bool.isRequired,
-    sport: PropTypes.string.isRequired,
-    year: PropTypes.string.isRequired
+    fluid: PropTypes.bool,
+    sport: PropTypes.string,
+    year: PropTypes.string,
+    children: PropTypes.node.isRequired
   },
 
   getInitialState() {
@@ -38,13 +42,14 @@ const App = React.createClass({
 
   render() {
     const {me, locked} = this.state;
-    const {year, sport, fluid} = this.props;
+    const {year, sport, fluid, children} = this.props;
     const containerClass = fluid ? 'container-fluid' : 'container';
+    console.log(children)
     return (
       <div>
         <Header year={year} me={me} />
         <div className={`${containerClass} main-container`}>
-          <RouteHandler sport={sport} year={year} me={me} locked={locked} />
+          {React.cloneElement(children, {sport, year, me, locked})}
         </div>
         <Footer className={containerClass} me={me} />
       </div>

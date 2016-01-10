@@ -29,9 +29,11 @@ const BracketContainer = React.createClass({
     return (
       <div className={`${cx} bracket-header`}>
         <Affix offsetTop={offsetTop}>
-          <BracketNav {...this.props} />
-          {!this.props.locked ? <EnterButton {...this.props} /> : null}
-          <BracketProgress {...this.props} />
+          <div>
+            <BracketNav {...this.props} />
+            {!this.props.locked ? <EnterButton {...this.props} /> : null}
+            <BracketProgress {...this.props} />
+          </div>
         </Affix>
       </div>
     );

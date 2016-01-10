@@ -36,7 +36,7 @@ module.exports = React.createClass({
   componentDidMount() {
     // Update store to contain the bracket from the url
     // Note: store protects against falsy and bad values
-    bracketEntryActions.updateBracket(this.context.router.getCurrentParams().path);
+    bracketEntryActions.updateBracket(this.props.location.path);
     this.listenTo(bracketEntryStore, this.onChange);
     this.listenTo(masterStore, this.onChange);
   },
@@ -48,7 +48,7 @@ module.exports = React.createClass({
   getInitialState(props) {
     const {locked} = (props || this.props);
     const {history, index} = (locked ? masterStore : bracketEntryStore).getState();
-    return {history, index, urlParam: this.context.router.getCurrentParams().path};
+    return {history, index, urlParam: this.props.location.path};
   },
 
   componentWillReceiveProps(nextProps) {

@@ -2,8 +2,8 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-const Router = require('react-router');
-const {HistoryLocation} = Router;
+const {Router} = require('react-router');
+const createBrowserHistory = require('history/lib/createBrowserHistory');
 const _isNaN = require('lodash/lang/isNaN');
 const {pageview} = require('./helpers/analytics');
 
@@ -42,27 +42,23 @@ firebase.onAuth(require('./actions/meActions').login);
 // Import routes and create our router and then set it on the router container
 // so it can be imported by actions/stores
 const routes = require('./routes');
-const routerContainer = require('./routerContainer');
 const globalDataActions = require('./actions/globalDataActions');
-routerContainer.set(Router.create({routes, location: HistoryLocation}));
 
-routerContainer.get().run((Handler, router) => {
-  const possibleYear = router.params.year || router.params.path;
-  const masterIndex = parseInt(router.query.game, 10);
-  const routeName = router.routes[1].name;
+const history = createBrowserHistory();
 
-  const props = {
-    sport, // Sport is always the same for now
-    game: _isNaN(masterIndex) ? null : masterIndex,
-    year: rYear.test(possibleYear) ? possibleYear : year,
-    fluid: ['user', 'userCurrent', 'landing', 'entry'].indexOf(routeName) > -1
-  };
+// const possibleYear = router.params.year || router.params.path;
+// const masterIndex = parseInt(router.query.game, 10);
+// const routeName = router.routes[1].name;
 
-    // Set the year from the url before rendering the page handler so all pages have it
-  globalDataActions.updateYear(props.year);
+// const props = {
+//   sport, // Sport is always the same for now
+//   game: _isNaN(masterIndex) ? null : masterIndex,
+//   year: rYear.test(possibleYear) ? possibleYear : year,
+//   fluid: ['user', 'userCurrent', 'landing', 'entry'].indexOf(routeName) > -1
+// };
 
-    // Call analytics on page change
-  pageview(router.path);
+// globalDataActions.updateYear(props.year);
 
-  ReactDOM.render(<Handler {...props} />, document.body);
-});
+// // pageview(router.path);
+
+ReactDOM.render(<Router history={history}>{routes}</Router>, document.getElementById('root'));
