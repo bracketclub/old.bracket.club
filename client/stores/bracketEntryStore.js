@@ -6,7 +6,7 @@ const alt = require('../alt');
 const bracketEntryActions = require('../actions/bracketEntryActions');
 const concatOrInsert = require('../helpers/arrayConcatOrInsert');
 
-const routerContainer = require('../routerContainer');
+// const routerContainer = require('../routerContainer');
 const {activeYear: year, activeSport: sport} = require('../global');
 const {generate, update, emptyBracket, regex} = require('../helpers/bracket')({sport, year});
 
@@ -19,9 +19,9 @@ class BracketEntryStore {
   }
 
   _replaceBracketUrl() {
-    const {history, index} = this;
-    const path = history[index];
-    setTimeout(() => routerContainer.get().replaceWith('landing', {path}), 0);
+    // const {history, index} = this;
+    // const path = history[index];
+    // setTimeout(() => routerContainer.get().replaceWith('landing', {path}), 0);
   }
 
   onUpdateBracket(bracket) {

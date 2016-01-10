@@ -2,7 +2,7 @@
 
 const React = require('react');
 const {PropTypes} = React;
-const {PureRenderMixin} = require('react/addons').addons;
+const {PureRenderMixin} = require('react-pure-render/mixin');
 
 const ProgressBar = require('react-bootstrap/lib/ProgressBar');
 const bracketHelpers = require('../../helpers/bracket');
