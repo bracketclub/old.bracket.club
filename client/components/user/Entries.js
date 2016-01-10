@@ -3,7 +3,8 @@
 const React = require('react');
 const {PropTypes} = React;
 const ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
-const ButtonLink = require('react-router-bootstrap/lib/ButtonLink');
+const Button = require('react-bootstrap/lib/Button');
+const LinkContainer = require('react-router-bootstrap/lib/LinkContainer');
 
 const UserEntries = React.createClass({
   propTypes: {
@@ -28,7 +29,11 @@ const UserEntries = React.createClass({
         <h3>Entries</h3>
         <ButtonGroup>
           {years.map((buttonYear) =>
-            <ButtonLink key={buttonYear} to='user' params={{id: userId, year: buttonYear}}>{buttonYear}</ButtonLink>
+            <LinkContainer key={buttonYear} to='user' params={{id: userId, year: buttonYear}}>
+              <Button>
+                {buttonYear}
+              </Button>
+            </LinkContainer>
           )}
         </ButtonGroup>
       </div>

@@ -9,10 +9,10 @@ const partial = require('lodash/function/partial');
 const Navbar = require('react-bootstrap/lib/Navbar');
 const Nav = require('react-bootstrap/lib/Nav');
 const MenuItem = require('react-bootstrap/lib/MenuItem');
+const NavItem = require('react-bootstrap/lib/NavItem');
 const DropdownButton = require('react-bootstrap/lib/DropdownButton');
 
-const NavItemLink = require('react-router-bootstrap/lib/NavItemLink');
-const MenuItemLink = require('react-router-bootstrap/lib/MenuItemLink');
+const LinkContainer = require('react-router-bootstrap/lib/LinkContainer');
 
 const meActions = require('../../actions/meActions');
 
@@ -75,18 +75,18 @@ const Header = React.createClass({
           <Nav className='year-nav'>
             <DropdownButton title={year}>
               {years.map((dropdownYear) =>
-                <MenuItemLink key={dropdownYear} to={to} params={params(dropdownYear)} query={query}>
-                  {dropdownYear}
-                </MenuItemLink>
+                <LinkContainer key={dropdownYear} to={to} params={params(dropdownYear)} query={query}>
+                  <MenuItem>{dropdownYear}</MenuItem>
+                </LinkContainer>
               )}
             </DropdownButton>
           </Nav>
           <Nav eventKey={1} right>
-            <NavItemLink to='subscribe'>Subscribe</NavItemLink>
-            <NavItemLink to='resultsCurrent'>Results</NavItemLink>
+            <LinkContainer to='subscribe'><NavItem>Subscribe</NavItem></LinkContainer>
+            <LinkContainer to='resultsCurrent'><NavItem>Results</NavItem></LinkContainer>
             {me.id
               ? <DropdownButton key={0} title={me.username}>
-                <MenuItemLink to='userCurrent' params={{id: me.id}}>Bracket</MenuItemLink>
+                <LinkContainer to='userCurrent' params={{id: me.id}}><MenuItem>Bracket</MenuItem></LinkContainer>
                 <MenuItem divider />
                 <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
               </DropdownButton>
