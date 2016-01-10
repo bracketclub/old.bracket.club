@@ -1,56 +1,55 @@
 'use strict';
 
-let React = require('react');
-let {PropTypes} = React;
-let {RouteHandler} = require('react-router');
-let ListenerMixin = require('alt/mixins/ListenerMixin');
+const React = require('react');
+const {PropTypes} = React;
+const {RouteHandler} = require('react-router');
+const ListenerMixin = require('alt/mixins/ListenerMixin');
 
-let Header = require('./Header');
-let Footer = require('./Footer');
+const Header = require('./Header');
+const Footer = require('./Footer');
 
-let meStore = require('../../stores/meStore');
-let globalDataStore = require('../../stores/globalDataStore');
+const meStore = require('../../stores/meStore');
+const globalDataStore = require('../../stores/globalDataStore');
 
+const App = React.createClass({
+  mixins: [ListenerMixin],
 
-let App = React.createClass({
-    mixins: [ListenerMixin],
+  propTypes: {
+    fluid: PropTypes.bool.isRequired,
+    sport: PropTypes.string.isRequired,
+    year: PropTypes.string.isRequired
+  },
 
-    propTypes: {
-        fluid: PropTypes.bool.isRequired,
-        sport: PropTypes.string.isRequired,
-        year: PropTypes.string.isRequired
-    },
+  getInitialState() {
+    return {
+      me: meStore.getState(),
+      locked: globalDataStore.getState().locked
+    };
+  },
 
-    getInitialState () {
-        return {
-            me: meStore.getState(),
-            locked: globalDataStore.getState().locked
-        };
-    },
+  componentDidMount() {
+    this.listenTo(meStore, this.onChange);
+    this.listenTo(globalDataStore, this.onChange);
+  },
 
-    componentDidMount () {
-        this.listenTo(meStore, this.onChange);
-        this.listenTo(globalDataStore, this.onChange);
-    },
+  onChange() {
+    this.setState(this.getInitialState());
+  },
 
-    onChange () {
-        this.setState(this.getInitialState());
-    },
-
-    render () {
-        let {me, locked} = this.state;
-        let {year, sport, fluid} = this.props;
-        let containerClass = fluid ? 'container-fluid' : 'container';
-        return (
-            <div>
-                <Header year={year} me={me} />
-                <div className={containerClass + ' main-container'}>
-                    <RouteHandler sport={sport} year={year} me={me} locked={locked} />
-                </div>
-                <Footer className={containerClass} me={me} />
-            </div>
-        );
-    }
+  render() {
+    const {me, locked} = this.state;
+    const {year, sport, fluid} = this.props;
+    const containerClass = fluid ? 'container-fluid' : 'container';
+    return (
+      <div>
+        <Header year={year} me={me} />
+        <div className={`${containerClass} main-container`}>
+          <RouteHandler sport={sport} year={year} me={me} locked={locked} />
+        </div>
+        <Footer className={containerClass} me={me} />
+      </div>
+    );
+  }
 });
 
 module.exports = App;

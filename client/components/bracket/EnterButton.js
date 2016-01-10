@@ -1,77 +1,84 @@
 'use strict';
 
-let qs = require('qs');
-let React = require('react');
-let {PropTypes} = React;
-let {PureRenderMixin} = require('react/addons').addons;
+const qs = require('qs');
+const React = require('react');
+const {PropTypes} = React;
+const {PureRenderMixin} = require('react/addons').addons;
 
-let Button = require('react-bootstrap/lib/Button');
-let OverlayTrigger = require('react-bootstrap/lib/OverlayTrigger');
-let Popover = require('react-bootstrap/lib/Popover');
-let Alert = require('react-bootstrap/lib/Alert');
-let TimeAgo = require('react-timeago');
+const Button = require('react-bootstrap/lib/Button');
+const OverlayTrigger = require('react-bootstrap/lib/OverlayTrigger');
+const Popover = require('react-bootstrap/lib/Popover');
+const Alert = require('react-bootstrap/lib/Alert');
+const TimeAgo = require('react-timeago');
 
-let bracketHelpers = require('../../helpers/bracket');
-let {enterBracket} = require('../../helpers/analytics');
+const bracketHelpers = require('../../helpers/bracket');
+const {enterBracket} = require('../../helpers/analytics');
 
+const EnterButton = React.createClass({
+  mixins: [PureRenderMixin],
 
-let EnterButton = React.createClass({
-    mixins: [PureRenderMixin],
+  propTypes: {
+    sport: PropTypes.string.isRequired,
+    year: PropTypes.string.isRequired,
+    history: PropTypes.array.isRequired,
+    index: PropTypes.number.isRequired
+  },
 
-    propTypes: {
-        sport: PropTypes.string.isRequired,
-        year: PropTypes.string.isRequired,
-        history: PropTypes.array.isRequired,
-        index: PropTypes.number.isRequired
-    },
+  handleEnterClick(bracket) {
+    enterBracket(bracket);
+  },
 
-    handleEnterClick (bracket) {
-        enterBracket(bracket);
-    },
+  render() {
+    const {sport, year, history, index} = this.props;
 
-    render () {
-        let {sport, year, history, index} = this.props;
+    const bracket = history[index];
+    const {locks, unpickedChar} = bracketHelpers({sport, year});
 
-        let bracket = history[index];
-        let {locks, unpickedChar} = bracketHelpers({sport, year});
+    const complete = (bracket.split(unpickedChar).length - 1) === 0;
 
-        let complete = (bracket.split(unpickedChar).length - 1) === 0;
+    const account = 'tweetthebracket';
+    const hashtags = 'tybrkt';
+    const tweetBase = 'https://twitter.com/share?';
+    const tweetQs = qs.stringify({
+      text: 'Check out my #bracket!',
+      url: `http://tweetyourbracket.com/${year}/${bracket}`,
+      hashtags,
+      lang: 'en',
+      related: account,
+      via: account,
+      count: 'none'
+    });
 
-        let account = 'tweetthebracket';
-        let hashtags = 'tybrkt';
-        let tweet = 'https://twitter.com/share?' + qs.stringify({
-            text: 'Check out my #bracket!',
-            url: 'http://tweetyourbracket.com/' + year + '/' + bracket,
-            hashtags,
-            lang: 'en',
-            related: account,
-            via: account,
-            count: 'none'
-        });
+    const popover = (
+      <Popover>
+        <p>You'll be taken to <strong>twitter.com</strong> to tweet your bracket!</p>
+        <Alert bsStyle='info'>
+          <strong>Important!</strong> Don't alter the <strong>url</strong> or <strong>#tybrkt hashtag</strong> of the tweet. We use those to verify your entry.
+        </Alert>
+      </Popover>
+    );
 
-        let popover = (
-            <Popover>
-                <p>You'll be taken to <strong>twitter.com</strong> to tweet your bracket!</p>
-                <Alert bsStyle='info'>
-                      <strong>Important!</strong> Don't alter the <strong>url</strong> or <strong>#tybrkt hashtag</strong> of the tweet. We use those to verify your entry.
-                </Alert>
-            </Popover>
-        );
-
-        return (
-            <div className='bracket-enter' title={!complete ? locks : ''}>
-                {complete ?
-                    <OverlayTrigger trigger='hover' placement='bottom' overlay={popover}>
-                        <Button bsStyle='primary' block href={tweet} onClick={this.handleEnterClick.bind(null, bracket)} target='_blank'>Tweet My Bracket!</Button>
-                    </OverlayTrigger>
-                    :
-                    <Button disabled block bsStyle='primary' componentClass='button'>
-                        Brackets lock <TimeAgo date={locks} />
-                    </Button>
-                }
-            </div>
-        );
-    }
+    return (
+      <div className='bracket-enter' title={!complete ? locks : ''}>
+        {complete
+          ? <OverlayTrigger trigger='hover' placement='bottom' overlay={popover}>
+            <Button
+              bsStyle='primary'
+              block
+              href={`${tweetBase}${tweetQs}`}
+              onClick={this.handleEnterClick.bind(null, bracket)}
+              target='_blank'
+            >
+              Tweet My Bracket!
+            </Button>
+          </OverlayTrigger>
+          : <Button disabled block bsStyle='primary' componentClass='button'>
+            Brackets lock <TimeAgo date={locks} />
+          </Button>
+        }
+      </div>
+    );
+  }
 });
 
 module.exports = EnterButton;
