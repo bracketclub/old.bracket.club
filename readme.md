@@ -2,9 +2,7 @@
 
 [tweetyourbracket.com](http://tweetyourbracket.com)
 
-[ ![Codeship Status for tweetyourbracket/tweetyourbracket.com](https://codeship.com/projects/0e37aee0-7e64-0132-b96b-56aeae6c129c/status?branch=master)](https://codeship.com/projects/56987)
-
-
+[![forthebadge](http://forthebadge.com/images/badges/gluten-free.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/no-ragrets.svg)](http://forthebadge.com) [ ![Codeship Status for tweetyourbracket/tweetyourbracket.com](https://codeship.com/projects/0e37aee0-7e64-0132-b96b-56aeae6c129c/status?branch=master)](https://codeship.com/projects/56987)
 
 ## Structure
 
@@ -16,35 +14,13 @@ This is mostly written for myself since I work on the project once a year for ab
 
 During the "off-season" the site has no need for a real API since data won't change until the next year. After the end of each year, we switch the `codeship-setup` npm run-script to use `build-static` instead of `build`.
 
-This will make the site load the data from `cdn.rawgit.com` instead of [`tweetyourbracket.com/api`]('https://github.com/tweetyourbracket/api'). When it comes time to launch the site again each March, we use `npm run build` again and go follow the instructions over at the `api` repo to deploy the whole thing on Digital Ocean (or something similar).
+This will make the site load the data from `cdn.rawgit.com` instead of [`api.tweetyourbracket.com`](https://github.com/tweetyourbracket/api). When it comes time to launch the site again each March, we use `npm run build` again and go follow the instructions over at the `api` repo to deploy the whole thing on Digital Ocean (or something similar).
 
 
 
-### Flux
+### Redux
 
-The app is using Alt as the Flux implementation. I like it due to the lack of boilerplate.
-
-#### Actions/Stores
-
-**`bracketEntry`**
-
-These actions are used while bracket entries are open. They are used to track the picks and history of each pick during the bracket entry selection.
-
-**`entry`**
-
-These are the entries for each year. They are used to fetch entries and respond to loading and errors.
-
-**`master`**
-
-These are the master brackets for each year. They are used to fetch the master brackets and respon to loading and erros.
-
-**`globalData`**
-
-The global data is the current year and sport (which is always the same for now) of the bracket being viewed. It also determines whether a certain bracket is locked.
-
-**`me`**
-
-Used to auth with Firebase and get the current active user.
+TODO
 
 
 
@@ -82,7 +58,7 @@ All urls are set to be caught by the `200.html` file. And the bundled CSS and JS
 
 ### Routing
 
-The app uses `react-router`. Since the app also uses a Flux implementation, we are using a container for the router instance as described in the [React Router Flux examples](https://github.com/rackt/react-router/blob/f3a44f1bc898848d553c39e7aa53a70d0e91ec11/docs/guides/flux.md#circular-dependencies-in-actions). This is necessary so that in the `bracketEntryStore` we can trigger a route repl
+The app uses `react-router`.
 
 
 

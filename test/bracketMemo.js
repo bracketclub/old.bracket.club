@@ -1,10 +1,8 @@
-'use strict';
+import _ from 'lodash';
+import test from 'tape';
+import bracket from '../src/lib/bracket';
 
-const _ = require('lodash');
-const test = require('tape');
-const bracket = require('../client/helpers/bracket');
-
-const sport = 'ncaa-mens-basketball';
+const sport = 'ncaam';
 const years = ['2012', '2013', '2014', '2015'];
 const finals = [ // 2012, 2013, 2014
   'S18124113101514310131W1954637151437474E185463721462122MW181213113102113112122FFSMWS',

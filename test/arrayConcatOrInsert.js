@@ -1,13 +1,12 @@
 /* eslint no-magic-numbers:0 */
 
-'use strict';
-
-const test = require('tape');
-const arrayConcatOrInsert = require('../client/helpers/arrayConcatOrInsert');
+import test from 'tape';
+import arrayConcatOrInsert from '../src/lib/arrayConcatOrInsert';
 
 test('Adds to end of array', (t) => {
   const start = [0, 1, 2, 3, 4, 5, 6];
-  const {arr, index} = arrayConcatOrInsert(start, 7);
+  const arr = arrayConcatOrInsert(start, 7);
+  const index = arr.length - 1;
 
   t.equal(start.length, 7);
   t.equal(start[6], 6);
@@ -22,7 +21,8 @@ test('Adds to end of array', (t) => {
 
 test('Adds to middle of array', (t) => {
   const start = [0, 1, 2, 3, 4, 5, 6];
-  const {arr, index} = arrayConcatOrInsert(start, 7, 4);
+  const arr = arrayConcatOrInsert(start, 7, 4);
+  const index = arr.length - 1;
 
   t.equal(start.length, 7);
   t.equal(start[6], 6);
@@ -38,7 +38,8 @@ test('Adds to middle of array', (t) => {
 
 test('Adds to beginning of array', (t) => {
   const start = [0, 1, 2, 3, 4, 5, 6];
-  const {arr, index} = arrayConcatOrInsert(start, 7, 0);
+  const arr = arrayConcatOrInsert(start, 7, 0);
+  const index = arr.length - 1;
 
   t.equal(start.length, 7);
   t.equal(start[6], 6);
@@ -54,7 +55,8 @@ test('Adds to beginning of array', (t) => {
 
 test('Wont double up value at end of array', (t) => {
   const start = [0, 1, 2, 3, 4, 5, 6];
-  const {arr, index} = arrayConcatOrInsert(start, 6);
+  const arr = arrayConcatOrInsert(start, 6);
+  const index = arr.length - 1;
 
   t.equal(start.length, 7);
   t.equal(start[6], 6);
