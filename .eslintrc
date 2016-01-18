@@ -1,11 +1,7 @@
 {
   "extends": "@lukekarrys/eslint-config",
-  "globals": {
-    "__YEAR__": false,
-    "__STATIC__": false,
-    "__SPORT__": false
-  },
   "rules": {
-    "react/prefer-es6-class": 0
+    "no-case-declarations": 0,
+    "no-magic-numbers": 0
   }
 }
