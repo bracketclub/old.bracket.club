@@ -4,8 +4,8 @@ import findById from '../lib/findById';
 import event from './event';
 import * as bracketSelectors from './bracket';
 
-export const masters = (state) => state.masters.records;
-export const index = (state) => state.masters.index;
+const masters = (state) => state.masters.records;
+const index = (state) => state.masters.index;
 
 export const brackets = createSelector(
   event,
@@ -36,10 +36,11 @@ export const bracket = createSelector(
 );
 
 export const progress = createSelector(
-  bracketSelectors.helpers,
+  bracketSelectors.total,
+  bracketSelectors.unpicked,
   bracketString,
-  ({totalGames, unpickedChar}, $bracket = '') => ({
-    total: totalGames,
-    current: totalGames - ($bracket.split(unpickedChar).length - 1)
+  ($total, $unpicked, $bracket = '') => ({
+    total: $total,
+    current: $total - ($bracket.split($unpicked).length - 1)
   })
 );

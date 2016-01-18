@@ -1,7 +1,6 @@
 'use strict';
 
 const webpackConfig = require('hjs-webpack');
-const find = require('lodash/collection/find');
 
 const env = process.env;
 const isDev = env.NODE_ENV !== 'production';
@@ -48,9 +47,5 @@ const config = webpackConfig({
     [isDev ? 'index.html' : '200.html']: renderHTML(context)
   })
 });
-
-// Mutate in place the less loader in all env to have the val-loader first
-const findLessLoader = (l) => (l.loader || '').indexOf('!less') > -1;
-find(config.module.loaders, findLessLoader).loader += '!val-loader';
 
 module.exports = config;

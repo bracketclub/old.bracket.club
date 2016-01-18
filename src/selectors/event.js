@@ -2,8 +2,10 @@ import {createSelector} from 'reselect';
 
 import eventDisplayName from '../lib/eventDisplayName';
 
+const event = (state) => state.event;
+
 export default createSelector(
-  (state) => state.event,
+  event,
   ({sport, year}) => ({
     sport,
     year,

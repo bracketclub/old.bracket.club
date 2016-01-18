@@ -28,3 +28,13 @@ export const empty = createSelector(
   helpers,
   picker('emptyBracket')
 );
+
+export const total = createSelector(
+  helpers,
+  picker('totalGames')
+);
+
+export const unpicked = createSelector(
+  helpers,
+  picker('unpickedChar')
+);
