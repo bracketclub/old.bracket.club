@@ -1,6 +1,6 @@
 'use strict';
 
-import '../styles/index.less';
+import 'style!css!postcss!less!val!../styles';
 import 'file?name=favicon.ico!../public/favicon.ico';
 
 import React from 'react';
@@ -17,15 +17,13 @@ import * as meActions from './actions/me';
 
 const history = createHistory();
 const reduxRouterMiddleware = syncHistory(history);
-const store = configureStore({
-  middleware: [reduxRouterMiddleware]
-});
+const store = configureStore({middleware: [reduxRouterMiddleware]});
+
+reduxRouterMiddleware.listenForReplays(store);
 
 // Firebase will trigger the action if the user is logged in from a previous
 // session when first loading the page
 firebase.onAuth((auth) => store.dispatch(meActions.syncLogin(auth)));
-
-reduxRouterMiddleware.listenForReplays(store);
 
 ReactDOM.render(
   <Provider store={store}>

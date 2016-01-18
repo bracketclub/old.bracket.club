@@ -1,6 +1,5 @@
 import {createSelector} from 'reselect';
 
-import picker from '../lib/picker';
 import findById from '../lib/findById';
 import event from './event';
 import * as bracketSelectors from './bracket';
@@ -13,13 +12,8 @@ const byEvent = createSelector(
   ($event, $entry) => findById($entry, $event.id) || {index: -1, brackets: []}
 );
 
-const bracketsAndIndex = createSelector(
-  byEvent,
-  picker('brackets', 'index')
-);
-
 const current = createSelector(
-  bracketsAndIndex,
+  byEvent,
   bracketSelectors.empty,
   // To pass to a view, the entry brackets always need to include
   // the empty bracket for that event as the base
@@ -45,10 +39,11 @@ export const navigation = createSelector(
 );
 
 export const progress = createSelector(
-  bracketSelectors.helpers,
+  bracketSelectors.total,
+  bracketSelectors.unpicked,
   bracketString,
-  ({totalGames: $total, unpickedChar: $char}, $bracket = '') => {
-    const unpicked = $bracket.split($char).length - 1;
+  ($total, $unpicked, $bracket = '') => {
+    const unpicked = $bracket.split($unpicked).length - 1;
     return {
       total: $total,
       current: $total - unpicked,
