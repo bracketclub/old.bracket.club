@@ -33,7 +33,7 @@ export default class Header extends Component {
 
     return (
       <NavDropdown title={me.username} id='me-nav'>
-        <LinkContainer to={`users/${me.id}`}>
+        <LinkContainer to={`/users/${me.id}`}>
           <MenuItem>Bracket</MenuItem>
         </LinkContainer>
         <MenuItem divider />
@@ -42,13 +42,19 @@ export default class Header extends Component {
     );
   }
 
-  getEventPath = (e) => {
+  getEventPath(e) {
     const {component} = this.props;
 
     return component.getEventPath
       ? `/${component.getEventPath(e)}`
       : `/${e}`;
-  };
+  }
+
+  getEventTitle() {
+    // TODO: Display a generic "Pick event" title if the page does not have a context
+    // of a specific event (user profile, subscribe, etc)
+    return this.props.event.display;
+  }
 
   render() {
     const {me, event} = this.props;
@@ -60,7 +66,7 @@ export default class Header extends Component {
             <Link to={`/${event.id}`}>TweetYourBracket</Link>
           </Navbar.Brand>
           <Nav className='year-nav'>
-            <NavDropdown title={event.display} id='event-nav'>
+            <NavDropdown title={this.getEventTitle()} id='event-nav'>
               {events.map((e) =>
                 <LinkContainer key={e} to={this.getEventPath(e)}>
                   <MenuItem>{eventDisplayName(e)}</MenuItem>
