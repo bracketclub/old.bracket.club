@@ -14,6 +14,7 @@ import * as mastersSelectors from '../selectors/masters';
 
 import Page from '../components/containers/Page';
 import DiffBracket from '../components/bracket/DiffBracket';
+import UserInfo from '../components/user/Info';
 
 const mapStateToProps = (state, props) => ({
   event: eventSelector(state),
@@ -48,8 +49,8 @@ export default class UserEntry extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.routeParams.id !== this.props.id) {
-      this.props.entryActions.fetchOne(nextProps.routeParams.id);
+    if (nextProps.id !== this.props.id) {
+      this.props.entryActions.fetchOne(nextProps.id);
     }
     if (nextProps.event.id !== this.props.event.id) {
       this.props.mastersActions.fetchOne(nextProps.event.id);
@@ -59,8 +60,16 @@ export default class UserEntry extends Component {
   render() {
     const {sync, entry, master, diff} = this.props;
 
+    // TODO: event context should switch to a url like
+    // /:event/users/:currentUserId (this will need a new api route)
+    // which will see if the user has an entry for that event,
+    // if so, the url will get rewritten to /:event/entries/:entryId
+    // if not, it will show a 404 saying the user doesnt have an entry
+    // for that event
+
     return (
       <Page sync={sync} width='full'>
+        <UserInfo user={entry.user} />
         <DiffBracket {...{diff, entry: entry.bracket, master}} />
       </Page>
     );
