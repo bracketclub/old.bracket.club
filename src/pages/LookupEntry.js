@@ -20,7 +20,7 @@ const mapStateToProps = (state, props) => ({
   event: eventSelector(state),
   diff: bracketSelectors.diff(state),
   master: mastersSelectors.bracketString(state),
-  entry: entriesSelectors.currentWithUser(state),
+  entry: entriesSelectors.currentByUser(state),
   sync: mergeSyncState(state.entries, state.masters),
   id: props.routeParams.id
 });
@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class UserEntry extends Component {
+export default class LookupEntry extends Component {
   static propTypes = {
     event: PropTypes.object,
     diff: PropTypes.func,
@@ -43,16 +43,16 @@ export default class UserEntry extends Component {
     id: PropTypes.string
   };
 
-  static getEventPath = (e, params) => `${e}/users/${params.userId}`;
+  static getEventPath = (e, params) => `${e}/users/${params.id}`;
 
   componentDidMount() {
-    this.props.entryActions.fetchOne(this.props.id);
+    this.props.entryActions.fetchOne(`${this.props.event.id}/users/${this.props.id}`);
     this.props.mastersActions.fetchOne(this.props.event.id);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.id !== this.props.id) {
-      this.props.entryActions.fetchOne(nextProps.id);
+    if (nextProps.id !== this.props.id || nextProps.event.id !== this.props.event.id) {
+      this.props.entryActions.fetchOne(`${nextProps.event.id}/users/${nextProps.id}`);
     }
     if (nextProps.event.id !== this.props.event.id) {
       this.props.mastersActions.fetchOne(nextProps.event.id);
@@ -61,6 +61,8 @@ export default class UserEntry extends Component {
 
   render() {
     const {sync, entry, master, diff} = this.props;
+
+    // TODO: non-scary 404 mssage saying there is no entry for event+user combo
 
     return (
       <Page sync={sync} width='full'>

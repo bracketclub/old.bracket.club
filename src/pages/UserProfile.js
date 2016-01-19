@@ -30,10 +30,9 @@ export default class UserProfile extends Component {
     id: PropTypes.string.isRequired
   };
 
-  fetchData = (props) => {
-    const {fetchOne} = props.userActions;
-    return fetchOne(props.id);
-  };
+  fetchData(props) {
+    return props.userActions.fetchOne(props.id);
+  }
 
   componentDidMount() {
     return this.fetchData(this.props);

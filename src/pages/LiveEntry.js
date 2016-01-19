@@ -3,6 +3,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import analytics from '../lib/analytics';
 
 import eventSelector from '../selectors/event';
 import * as entrySelectors from '../selectors/entry';
@@ -69,7 +70,7 @@ export default class LiveEntry extends Component {
   };
 
   handleEnter = (bracket) => {
-    // TODO analaytics
+    analytics.enterBracket(bracket);
   };
 
   render() {

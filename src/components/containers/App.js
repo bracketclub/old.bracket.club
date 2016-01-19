@@ -8,6 +8,7 @@ import {last} from 'lodash';
 import countdown from '../../lib/countdown';
 import eventSelector from '../../selectors/event';
 import * as bracketSelectors from '../../selectors/bracket';
+import * as entriesSelectors from '../../selectors/entries';
 import * as meActionCreators from '../../actions/me';
 
 import Header from '../app/Header';
@@ -16,6 +17,7 @@ import Footer from '../app/Footer';
 const mapStateToProps = (state) => ({
   event: eventSelector(state),
   lock: bracketSelectors.lock(state),
+  userId: entriesSelectors.currentUserId(state),
   me: state.me
 });
 
@@ -31,7 +33,9 @@ export default class App extends Component {
     me: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
     lock: PropTypes.object.isRequired,
-    routes: PropTypes.array
+    routes: PropTypes.array,
+    userId: PropTypes.string,
+    params: PropTypes.object
   };
 
   // The top level App component is responsible for setting the locked status
@@ -58,13 +62,14 @@ export default class App extends Component {
   }
 
   render() {
-    const {me, event, children, meActions, routes} = this.props;
-    const lastComponent = (last(routes) || {}).component;
+    const {me, event, children, meActions, routes, userId, params} = this.props;
+    const {getEventPath} = (last(routes) || {}).component;
+    const eventPathParams = {...params, userId};
 
     return (
       <div className='main-container'>
         <Header
-          component={lastComponent}
+          eventPath={getEventPath ? (e) => getEventPath(e, eventPathParams) : null}
           me={me}
           event={event}
           onLogin={meActions.login}
