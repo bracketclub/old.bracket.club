@@ -14,9 +14,6 @@ import CreatedEntry from './pages/CreatedEntry';
 import LiveOrMaster from './pages/LiveOrMaster';
 import FourOhFour from './pages/FourOhFour';
 
-// TODO: analytics
-// import {pageview} from './lib/analytics';
-
 export default (
   <Route path='/' component={App}>
     {/* These paths are accessible without an eventId because it defaults
