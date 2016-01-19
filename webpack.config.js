@@ -4,16 +4,15 @@ const webpackConfig = require('hjs-webpack');
 
 const env = process.env;
 const isDev = env.NODE_ENV !== 'production';
-const __YEAR__ = `"${env.TYB_YEAR || '2016'}"`;
-const __SPORT__ = `"${env.TYB_SPORT || 'ncaam'}"`;
-const __EVENTS__ = JSON.stringify([
+
+const __EVENTS__ = [
   'ncaam-2016',
   'ncaaw-2016',
   'ncaam-2015',
   'ncaam-2014',
   'ncaam-2013',
   'ncaam-2012'
-]);
+];
 
 const renderHTML = (context) =>
   `<!DOCTYPE html>
@@ -39,7 +38,11 @@ const config = webpackConfig({
     config: `src/config/${isDev ? 'development' : 'production'}.js`
   },
   output: {hash: true},
-  define: {__YEAR__, __SPORT__, __EVENTS__},
+  define: {
+    __YEAR__: JSON.stringify(env.TYB_YEAR || '2016'),
+    __SPORT__: JSON.stringify(env.TYB_SPORT || 'ncaam'),
+    __EVENTS__: JSON.stringify(__EVENTS__)
+  },
   devServer: {
     contentBase: 'public'
   },
