@@ -19,6 +19,16 @@ const current = createSelector(
   ) || {}
 );
 
+const byUser = createSelector(
+  entries,
+  pathname,
+  ($entries, $pathname) => findById(
+    $entries,
+    $pathname.replace(/.*\/users\//, ''),
+    'user'
+  ) || {}
+);
+
 // Exports
 export const byEvent = createSelector(
   entries,
@@ -29,6 +39,21 @@ export const byEvent = createSelector(
 export const currentWithUser = createSelector(
   users,
   current,
+  ($users, $entry) => transformKey(
+    $entry,
+    'user',
+    (user) => findById($users, user, 'user_id')
+  )
+);
+
+export const currentUserId = createSelector(
+  current,
+  ($entry) => $entry ? $entry.user : null
+);
+
+export const currentByUser = createSelector(
+  users,
+  byUser,
   ($users, $entry) => transformKey(
     $entry,
     'user',

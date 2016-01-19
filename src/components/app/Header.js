@@ -15,7 +15,8 @@ export default class Header extends Component {
     onLogout: PropTypes.func.isRequired,
     me: PropTypes.object,
     event: PropTypes.object,
-    component: PropTypes.element
+    component: PropTypes.func,
+    eventPath: PropTypes.func
   };
 
   handleLogin = (e) => {
@@ -43,17 +44,19 @@ export default class Header extends Component {
   }
 
   getEventPath(e) {
-    const {component} = this.props;
+    const {eventPath} = this.props;
 
-    return component.getEventPath
-      ? `/${component.getEventPath(e)}`
+    return eventPath
+      ? `/${eventPath(e)}`
       : `/${e}`;
   }
 
   getEventTitle() {
-    // TODO: Display a generic "Pick event" title if the page does not have a context
-    // of a specific event (user profile, subscribe, etc)
-    return this.props.event.display;
+    const {eventPath} = this.props;
+
+    return eventPath
+      ? this.props.event.display
+      : 'Event';
   }
 
   render() {
@@ -78,9 +81,16 @@ export default class Header extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight>
-            <LinkContainer to='/subscribe'><NavItem>Subscribe</NavItem></LinkContainer>
-            <LinkContainer to={`/${event.id}/entries`}><NavItem>Results</NavItem></LinkContainer>
-            {me.id ? this.getMeDropdown() : <MenuItem key={1} onClick={this.handleLogin}>Login</MenuItem>}
+            <LinkContainer to='/subscribe'>
+              <NavItem>Subscribe</NavItem>
+            </LinkContainer>
+            <LinkContainer to={`/${event.id}/entries`}>
+              <NavItem>Results</NavItem>
+            </LinkContainer>
+            {me.id
+              ? this.getMeDropdown()
+              : <MenuItem key={1} onClick={this.handleLogin}>Login</MenuItem>
+            }
           </Nav>
         </Navbar.Collapse>
       </Navbar>

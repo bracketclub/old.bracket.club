@@ -18,6 +18,8 @@ export default class LiveOrMaster extends Component {
     lock: PropTypes.object.isRequired
   };
 
+  static getEventPath = (e) => e;
+
   render() {
     const {lock} = this.props;
 

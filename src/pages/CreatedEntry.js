@@ -37,9 +37,9 @@ export default class CreatedEntry extends Component {
     sync: PropTypes.object.isRequired
   };
 
-  fetchData = (props) => {
+  fetchData(props) {
     props.mastersActions.fetchOne(props.event.id);
-  };
+  }
 
   componentDidMount() {
     this.fetchData(this.props);
