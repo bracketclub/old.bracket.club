@@ -40,7 +40,7 @@ export default class LiveEntry extends Component {
     lock: PropTypes.object.isRequired,
     validate: PropTypes.func.isRequired,
     bracketHelpers: PropTypes.object.isRequired,
-    bracket: PropTypes.object.isRequired,
+    bracket: PropTypes.string.isRequired,
     navigation: PropTypes.object.isRequired,
     progress: PropTypes.object.isRequired,
     entryActions: PropTypes.object.isRequired
