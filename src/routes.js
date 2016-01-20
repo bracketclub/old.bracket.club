@@ -16,16 +16,14 @@ import FourOhFour from './pages/FourOhFour';
 
 export default (
   <Route path='/' component={App}>
-    {/* These paths are accessible without an eventId because it defaults
-        to the default from the env variables injected by webpack */}
+    {/* The landing page is accessible without an eventId because it defaults
+        to the active event from the env variables injected by webpack */}
     <IndexRoute component={LiveOrMaster} />
-    <Route path='entries' component={Results} />
 
     {/* Redirect for past tweeted entries, the event is now always first */}
     <Redirect from='entry/:eventId/:bracket' to=':eventId/entry/:bracket' />
 
-    {/* Redirect to entries since thats similar and there is no list of users */}
-    <Redirect from='users' to='entries' />
+    {/* A user profile page doesnt need to live at an event url */}
     <Route path='users/:id' component={UserProfile} />
 
     {/* Static pages */}
@@ -37,8 +35,10 @@ export default (
       <Route path='entries' component={Results} />
       <Route path='entries/:id' component={UserEntry} />
       <Route path='users/:id' component={LookupEntry} />
-      {/* This is only only accessible via an event since otherwise the bracket param is ambiguous */}
+      {/* These are the links the get posted to twitter */}
       <Route path='entry/:bracket' component={CreatedEntry} />
+      {/* This is the fallback so that the url looks the same as the bracket during entry */}
+      <Route path=':bracket' component={LiveOrMaster} />
     </Route>
 
     {/* 404 fallback */}

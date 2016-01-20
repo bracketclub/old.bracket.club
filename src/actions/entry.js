@@ -1,19 +1,17 @@
 import * as actions from '../constants/entry';
 
-export const updateGame = ({game, current, update}) => ({
+export const pushBracket = (bracket) => ({
   type: actions.PUSH_BRACKET,
-  bracket: update({...game, currentMaster: current})
+  bracket
 });
 
-export const generateBracket = ({method, generate}) => ({
-  type: actions.PUSH_BRACKET,
-  bracket: generate(method)
-});
+export const updateGame = ({game, current, update}) => pushBracket(
+  update({...game, currentMaster: current})
+);
 
-export const reset = (emptyBracket) => ({
-  type: actions.PUSH_BRACKET,
-  bracket: emptyBracket
-});
+export const generateBracket = ({method, generate}) => pushBracket(
+  generate(method)
+);
 
 export const goToFirst = () => ({
   type: actions.GOTO_FIRST

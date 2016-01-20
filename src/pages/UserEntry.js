@@ -14,10 +14,12 @@ import * as mastersSelectors from '../selectors/masters';
 
 import Page from '../components/containers/Page';
 import DiffBracket from '../components/bracket/DiffBracket';
+import LockMessage from '../components/bracket/LockMessage';
 import UserInfo from '../components/user/Info';
 
 const mapStateToProps = (state, props) => ({
   event: eventSelector(state),
+  lock: bracketSelectors.lock(state),
   diff: bracketSelectors.diff(state),
   master: mastersSelectors.bracketString(state),
   entry: entriesSelectors.currentWithUser(state),
@@ -34,6 +36,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default class UserEntry extends Component {
   static propTypes = {
     event: PropTypes.object,
+    lock: PropTypes.object,
     diff: PropTypes.func,
     entry: PropTypes.object,
     master: PropTypes.string,
@@ -60,10 +63,11 @@ export default class UserEntry extends Component {
   }
 
   render() {
-    const {sync, entry, master, diff} = this.props;
+    const {sync, entry, master, diff, lock, event} = this.props;
 
     return (
       <Page sync={sync} width='full'>
+        <LockMessage lock={lock} event={event} />
         <UserInfo user={entry.user} />
         <DiffBracket {...{diff, entry: entry.bracket, master}} />
       </Page>

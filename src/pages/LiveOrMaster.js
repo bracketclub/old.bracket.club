@@ -23,6 +23,8 @@ export default class LiveOrMaster extends Component {
   render() {
     const {lock} = this.props;
 
-    return lock.isLocked() ? <MasterBracket /> : <LiveEntry />;
+    return lock.isLocked()
+      ? <MasterBracket {...this.props} />
+      : <LiveEntry {...this.props} />;
   }
 }

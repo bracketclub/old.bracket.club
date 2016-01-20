@@ -3,6 +3,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {routeActions} from 'redux-simple-router';
 import analytics from '../lib/analytics';
 
 import eventSelector from '../selectors/event';
@@ -25,12 +26,14 @@ const mapStateToProps = (state, props) => ({
   bracketHelpers: bracketSelectors.helpers(state),
   // Entry
   bracket: entrySelectors.bracketString(state),
+  routeBracket: props.routeParams.bracket,
   navigation: entrySelectors.navigation(state),
   progress: entrySelectors.progress(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  entryActions: bindActionCreators(entryActions, dispatch)
+  entryActions: bindActionCreators(entryActions, dispatch),
+  routeActions: bindActionCreators(routeActions, dispatch)
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -41,10 +44,30 @@ export default class LiveEntry extends Component {
     validate: PropTypes.func.isRequired,
     bracketHelpers: PropTypes.object.isRequired,
     bracket: PropTypes.string.isRequired,
+    routeBracket: PropTypes.string,
     navigation: PropTypes.object.isRequired,
     progress: PropTypes.object.isRequired,
-    entryActions: PropTypes.object.isRequired
+    entryActions: PropTypes.object.isRequired,
+    routeActions: PropTypes.object.isRequired
   };
+
+  componentDidMount() {
+    if (this.props.routeBracket) {
+      this.props.entryActions.pushBracket(this.props.routeBracket);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateUrl(nextProps);
+  }
+
+  updateUrl(props) {
+    const pathname = `/${props.event.id}/${props.bracket}`;
+    const current = props.location.pathname;
+    if (current !== pathname) {
+      props.routeActions.replace(pathname);
+    }
+  }
 
   handleNavigate = (method) => {
     this.props.entryActions[method]();
@@ -59,7 +82,9 @@ export default class LiveEntry extends Component {
   };
 
   handleReset = () => {
-    this.props.entryActions.reset(this.props.bracketHelpers.emptyBracket);
+    this.props.entryActions.pushBracket(
+      this.props.bracketHelpers.emptyBracket
+    );
   };
 
   handleGenerate = (method) => {
@@ -105,7 +130,11 @@ export default class LiveEntry extends Component {
             progress={progress}
           />
         </BracketHeader>
-        <LiveBracket validate={validate} bracket={bracket} onUpdate={this.handleUpdate} />
+        <LiveBracket
+          validate={validate}
+          bracket={bracket}
+          onUpdate={this.handleUpdate}
+        />
       </Page>
     );
   }
