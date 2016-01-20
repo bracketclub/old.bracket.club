@@ -26,7 +26,7 @@ const current = createSelector(
 // Exports
 export const bracketString = createSelector(
   current,
-  ($selected) => $selected.brackets[$selected.index]
+  ({brackets: $brackets, index: $index}) => $brackets[$index]
 );
 
 export const navigation = createSelector(

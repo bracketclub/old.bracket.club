@@ -14,7 +14,6 @@ export default (_arr, value, index) => {
 
   if (arr[arr.length - 1] !== value) {
     arr.push(value);
-    index = arr.length - 1;
   }
 
   return arr;
