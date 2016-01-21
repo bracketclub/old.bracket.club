@@ -1,7 +1,5 @@
 /* eslint-disable */
 
-'use strict';
-
 const React = require('react');
 const classNames = require('classnames');
 const {Link} = require('react-router');

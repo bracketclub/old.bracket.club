@@ -1,5 +1,3 @@
-'use strict';
-
 import {memoize, find, pluck, partial} from 'lodash';
 import bracketData from 'bracket-data';
 import BracketUpdater from 'bracket-updater';

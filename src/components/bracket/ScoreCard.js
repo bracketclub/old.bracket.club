@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {PropTypes, Component} from 'react';
 
 const scoreTypes = ['standard', 'gooley', 'standardPPR', 'gooleyPPR'];

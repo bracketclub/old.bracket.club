@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -29,7 +27,7 @@ const mapDispatchToProps = (dispatch) => ({
 @connect(mapStateToProps, mapDispatchToProps)
 export default class MasterBracket extends Component {
   static propTypes = {
-    bracket: PropTypes.object.isRequired,
+    bracket: PropTypes.object,
     event: PropTypes.object.isRequired,
     navigation: PropTypes.object.isRequired,
     progress: PropTypes.object.isRequired,

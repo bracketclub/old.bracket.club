@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {Component} from 'react';
 import {Row, Col, Input, Button} from 'react-bootstrap';
 

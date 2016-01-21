@@ -1,5 +1,3 @@
-'use strict';
-
 export default (_arr, value, index) => {
   const arr = _arr.slice(0);
   const lastIndex = arr.length - 1;

@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {Component, PropTypes} from 'react';
 import {Alert} from 'react-bootstrap';
 import TimeAgo from 'react-timeago';

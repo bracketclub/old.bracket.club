@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {PropTypes, Component} from 'react';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 import {Glyphicon, Button, ButtonToolbar, ButtonGroup} from 'react-bootstrap';

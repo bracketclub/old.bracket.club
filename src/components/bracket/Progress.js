@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {Component, PropTypes} from 'react';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 import {ProgressBar} from 'react-bootstrap';

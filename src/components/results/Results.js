@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {PropTypes, Component} from 'react';
 import {LinkContainer} from 'react-router-bootstrap';
 import {PageHeader, ListGroup, ListGroupItem} from 'react-bootstrap';
