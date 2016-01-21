@@ -15,11 +15,10 @@ export const brackets = createSelector(
 
 export const navigation = createSelector(
   index,
-  masters,
-  ($index, $masters) => ({
-    canGoBack: $masters.length > 0 && $index > 0,
-    canGoForward: $masters.length > 0 && $index < $masters.length - 1,
-    canReset: $masters.length > 1
+  brackets,
+  ($index, $brackets) => ({
+    canGoBack: $brackets.length > 0 && $index > 0,
+    canGoForward: $brackets.length > 0 && $index < $brackets.length - 1
   })
 );
 
