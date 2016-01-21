@@ -6,7 +6,9 @@ export default ({middleware = [], initialState = {}}) => {
   const middlewares = [thunk].concat(middleware);
 
   if (process.env.NODE_ENV !== 'production') {
-    middlewares.push(require('redux-logger')());
+    middlewares.push(require('redux-logger')({
+      predicate: () => window.localStorage.getItem('tyb_log') !== 'false'
+    }));
   }
 
   const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);

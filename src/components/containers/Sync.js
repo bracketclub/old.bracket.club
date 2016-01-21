@@ -14,7 +14,7 @@ export default class SyncContainer extends Component {
 
   constructor() {
     super();
-    this.state = {showLoading: true};
+    this.state = {showLoading: false};
   }
 
   componentDidMount() {

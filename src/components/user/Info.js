@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {PropTypes, Component} from 'react';
 import {Link} from 'react-router';
 import {PageHeader} from 'react-bootstrap';

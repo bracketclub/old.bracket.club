@@ -32,7 +32,7 @@ export const bracketString = createSelector(
 export const bracket = createSelector(
   bracketSelectors.validate,
   bracketString,
-  ($validate, $bracket = '') => $validate($bracket)
+  ($validate, $bracket = '') => $bracket ? $validate($bracket) : null
 );
 
 export const progress = createSelector(

@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Redirect, Route, IndexRoute} from 'react-router';
 
@@ -38,7 +36,7 @@ export default (
       {/* These are the links the get posted to twitter */}
       <Route path='entry/:bracket' component={CreatedEntry} />
       {/* This is the fallback so that the url looks the same as the bracket during entry */}
-      <Route path=':bracket' component={LiveOrMaster} />
+      <Route path=':bracket' component={CreatedEntry} />
     </Route>
 
     {/* 404 fallback */}

@@ -1,5 +1,3 @@
-'use strict';
-
 import 'style!css!postcss!less!val!../styles';
 import 'file?name=favicon.ico!../public/favicon.ico';
 

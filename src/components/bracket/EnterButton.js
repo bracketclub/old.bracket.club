@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {PropTypes, Component} from 'react';
 import qs from 'query-string';
 import {Button, Popover, Alert, OverlayTrigger} from 'react-bootstrap';

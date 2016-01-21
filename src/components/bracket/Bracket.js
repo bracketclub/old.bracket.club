@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {PropTypes, Component} from 'react';
 import classNames from 'classnames';
 import {chunk, has, flatten, compact} from 'lodash';
@@ -159,7 +157,7 @@ export default class Bracket extends Component {
   };
 
   static propTypes = {
-    bracket: PropTypes.object.isRequired,
+    bracket: PropTypes.object,
     onUpdate: PropTypes.func
   };
 
@@ -167,6 +165,10 @@ export default class Bracket extends Component {
     const {bracket, onUpdate} = this.props;
     const common = {onUpdate};
     const borders = (<div className='final-round-borders' />);
+
+    if (!bracket) {
+      return null;
+    }
 
     if (bracket instanceof Error) {
       return (

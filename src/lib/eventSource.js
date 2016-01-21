@@ -1,5 +1,3 @@
-'use strict';
-
 import bows from 'bows';
 import {apiUrl} from 'config';
 
