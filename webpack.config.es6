@@ -22,7 +22,7 @@ const config = webpackConfig({
     define: {__YEAR__, __SPORT__, __STATIC__},
     html: (context) => {
         return {
-            'index.html': renderHTML(context)
+            [isDev ? 'index.html' : '200.html']: renderHTML(context)
         };
     }
 });
