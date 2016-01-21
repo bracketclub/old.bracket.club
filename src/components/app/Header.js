@@ -89,7 +89,7 @@ export default class Header extends Component {
             </LinkContainer>
             {me.id
               ? this.getMeDropdown()
-              : <MenuItem key={1} onClick={this.handleLogin}>Login</MenuItem>
+              : <MenuItem onClick={this.handleLogin}>Login</MenuItem>
             }
           </Nav>
         </Navbar.Collapse>
