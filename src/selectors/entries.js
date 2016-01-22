@@ -10,8 +10,7 @@ const entries = (state) => state.entries.records;
 const entryId = (state, props) => props.params.entryId;
 
 const findUser = ($users) => ($user) => findById($users, $user, 'user_id');
-const transformUser = ($users) => ($entry) =>
-  transformKey($entry, 'user', findUser($users));
+const transformUser = ($users) => ($entry) => transformKey($entry, 'user', findUser($users));
 
 const current = createSelector(
   entries,
