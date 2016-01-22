@@ -1,14 +1,14 @@
 import {createSelector} from 'reselect';
 
 import findById from '../lib/findById';
-import event from './event';
+import eventInfo from './event';
 import * as bracketSelectors from './bracket';
 
 const masters = (state) => state.masters.records;
 const index = (state) => state.masters.index;
 
 export const brackets = createSelector(
-  event,
+  eventInfo,
   masters,
   ($event, $masters) => (findById($masters, $event.id) || {}).brackets || []
 );

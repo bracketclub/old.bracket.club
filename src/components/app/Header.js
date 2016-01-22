@@ -71,7 +71,7 @@ export default class Header extends Component {
           <Nav className='year-nav'>
             <NavDropdown title={this.getEventTitle()} id='event-nav'>
               {events.map((e) =>
-                <LinkContainer key={e} to={this.getEventPath(e)}>
+                <LinkContainer onlyActiveOnIndex key={e} to={this.getEventPath(e)}>
                   <MenuItem>{eventDisplayName(e)}</MenuItem>
                 </LinkContainer>
               )}

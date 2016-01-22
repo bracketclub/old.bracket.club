@@ -8,7 +8,7 @@ export default class BracketEnterButton extends Component {
     event: PropTypes.object.isRequired,
     bracket: PropTypes.string.isRequired,
     onEnter: PropTypes.func.isRequired,
-    lock: PropTypes.object.isRequired,
+    locks: PropTypes.string.isRequired,
     progress: PropTypes.object.isRequired
   };
 
@@ -29,7 +29,7 @@ export default class BracketEnterButton extends Component {
   }
 
   getOverlay() {
-    const {onEnter, bracket} = this.props;
+    const {onEnter, bracket, locks} = this.props;
 
     const popover = (
       <Popover id='enter-popover'>
@@ -49,27 +49,27 @@ export default class BracketEnterButton extends Component {
           onClick={() => onEnter(bracket)}
           target='_blank'
         >
-          Tweet My Bracket!
+          Tweet My Bracket! <TimeAgo date={locks} />
         </Button>
       </OverlayTrigger>
     );
   }
 
   getLock() {
-    const {lock} = this.props;
+    const {locks} = this.props;
 
     return (
       <Button disabled block bsStyle='primary' componentClass='button'>
-        Brackets lock <TimeAgo date={lock.timeLeft} />
+        Brackets lock <TimeAgo date={locks} />
       </Button>
     );
   }
 
   render() {
-    const {progress, lock} = this.props;
+    const {progress, locks} = this.props;
 
     return (
-      <div className='bracket-enter' title={progress.complete ? '' : lock.timeLeft}>
+      <div className='bracket-enter' title={progress.complete ? '' : locks}>
         {progress.complete ? this.getOverlay() : this.getLock()}
       </div>
     );

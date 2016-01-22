@@ -26,6 +26,12 @@ const getRegionsFor = (finalId, firstId, bracket) => {
 
 const idResolver = (o) => o.sport + o.year;
 
+// // Make it easy to test when the app locks in 5 seconds
+// const globalLocks = {
+//   ncaam2016: new Date(new Date().valueOf() + 5000).toJSON(),
+//   ncaaw2016: new Date( new Date().valueOf() + 20000).toJSON()
+// };
+
 // Each sport, year combo is memoized since they never change
 // Also the individual methods are also memoized based on their parameters
 // The `scorer.score` is the slowest, but might as well do 'em all
@@ -37,13 +43,6 @@ module.exports = memoize((options) => {
   const id = idResolver(sportYear);
 
   const {constants, regex, locks, bracket: bracketObj} = bracketData(sportYear);
-
-  // // Make it easy to test when the app locks in 5 seconds
-  // if (year === '2016') {
-  //   locks = new Date(new Date().valueOf() + 5000).toJSON();
-  // }
-
-  const locked = () => new Date().toJSON() >= locks;
 
   const validator = new BracketValidator(sportYear);
   const updater = new BracketUpdater(sportYear);
@@ -59,8 +58,7 @@ module.exports = memoize((options) => {
 
   return {
     regex,
-    timeLeft: locks,
-    isLocked: locked,
+    locks,
     bracket: bracketObj,
     emptyBracket: constants.EMPTY,
     totalGames: (constants.TEAMS_PER_REGION * constants.REGION_COUNT) - 1,

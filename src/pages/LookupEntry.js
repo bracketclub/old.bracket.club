@@ -1,13 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-
+import {Alert} from 'react-bootstrap';
+import mapDispatchToProps from '../lib/mapDispatchToProps';
 import mergeSyncState from '../lib/mergeSyncState';
-import * as entryActions from '../actions/entries';
+
+import * as usersActions from '../actions/users';
 import * as mastersActions from '../actions/masters';
-import eventSelector from '../selectors/event';
 import * as bracketSelectors from '../selectors/bracket';
-import * as entriesSelectors from '../selectors/entries';
+import * as usersSelectors from '../selectors/users';
 import * as mastersSelectors from '../selectors/masters';
 
 import Page from '../components/containers/Page';
@@ -15,42 +15,31 @@ import DiffBracket from '../components/bracket/DiffBracket';
 import UserInfo from '../components/user/Info';
 
 const mapStateToProps = (state, props) => ({
-  event: eventSelector(state),
-  diff: bracketSelectors.diff(state),
-  master: mastersSelectors.bracketString(state),
-  entry: entriesSelectors.currentByUser(state),
-  sync: mergeSyncState(state.entries, state.masters),
-  id: props.routeParams.id
+  diff: bracketSelectors.diff(state, props),
+  master: mastersSelectors.bracketString(state, props),
+  user: usersSelectors.currentWithEntryByEvent(state, props),
+  sync: mergeSyncState(state.entries, state.masters)
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  entryActions: bindActionCreators(entryActions, dispatch),
-  mastersActions: bindActionCreators(mastersActions, dispatch)
-});
-
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(mapStateToProps, mapDispatchToProps({usersActions, mastersActions}))
 export default class LookupEntry extends Component {
   static propTypes = {
-    event: PropTypes.object,
     diff: PropTypes.func,
-    entry: PropTypes.object,
+    user: PropTypes.object,
     master: PropTypes.string,
-    sync: PropTypes.object,
-    entryActions: PropTypes.object,
-    mastersActions: PropTypes.object,
-    id: PropTypes.string
+    sync: PropTypes.object
   };
 
-  static getEventPath = (e, params) => `${e}/users/${params.id}`;
+  static getEventPath = (e, params) => `${e}/users/${params.userId}`;
 
   componentDidMount() {
-    this.props.entryActions.fetchOne(`${this.props.event.id}/users/${this.props.id}`);
+    this.props.usersActions.fetchOne(`${this.props.params.userId}/${this.props.event.id}`);
     this.props.mastersActions.fetchOne(this.props.event.id);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.id !== this.props.id || nextProps.event.id !== this.props.event.id) {
-      this.props.entryActions.fetchOne(`${nextProps.event.id}/users/${nextProps.id}`);
+    if (nextProps.params.userId !== this.props.params.userId || nextProps.event.id !== this.props.event.id) {
+      this.props.usersActions.fetchOne(`${nextProps.params.userId}/${nextProps.event.id}`);
     }
     if (nextProps.event.id !== this.props.event.id) {
       this.props.mastersActions.fetchOne(nextProps.event.id);
@@ -58,14 +47,16 @@ export default class LookupEntry extends Component {
   }
 
   render() {
-    const {sync, entry, master, diff} = this.props;
-
-    // TODO: non-scary 404 mssage saying there is no entry for event+user combo
+    const {sync, user, master, diff} = this.props;
+    const {entry} = user;
 
     return (
-      <Page sync={sync} width='full'>
-        <UserInfo user={entry.user} />
-        <DiffBracket {...{diff, entry: entry.bracket, master}} />
+      <Page sync={{syncing: sync.syncing}} width='full'>
+        <UserInfo user={user} />
+        {entry
+          ? <DiffBracket {...{diff, entry: entry.bracket, master}} />
+          : <Alert bsStyle='warning'>This user does not have an entry for this event.</Alert>
+        }
       </Page>
     );
   }

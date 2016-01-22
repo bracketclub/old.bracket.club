@@ -18,10 +18,6 @@ const dispatchNestedEntities = (dispatch, entities, mainResourceType) => {
 export default (config) => {
   const {schema, url} = config;
 
-  if (!schema) {
-    throw new Error('A schema is required to generate rest actions');
-  }
-
   const resource = schema.getKey();
   const resourceAction = actionName(resource);
 

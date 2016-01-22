@@ -1,11 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-
+import mapDispatchToProps from '../lib/mapDispatchToProps';
 import mergeSyncState from '../lib/mergeSyncState';
+
 import * as entryActions from '../actions/entries';
 import * as mastersActions from '../actions/masters';
-import eventSelector from '../selectors/event';
 import * as bracketSelectors from '../selectors/bracket';
 import * as entriesSelectors from '../selectors/entries';
 import * as mastersSelectors from '../selectors/masters';
@@ -16,56 +15,43 @@ import LockMessage from '../components/bracket/LockMessage';
 import UserInfo from '../components/user/Info';
 
 const mapStateToProps = (state, props) => ({
-  event: eventSelector(state),
-  lock: bracketSelectors.lock(state),
-  diff: bracketSelectors.diff(state),
-  master: mastersSelectors.bracketString(state),
-  entry: entriesSelectors.currentWithUser(state),
-  sync: mergeSyncState(state.entries, state.masters),
-  id: props.routeParams.id
+  diff: bracketSelectors.diff(state, props),
+  master: mastersSelectors.bracketString(state, props),
+  entry: entriesSelectors.currentWithUser(state, props),
+  sync: mergeSyncState(state.entries, state.masters)
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  entryActions: bindActionCreators(entryActions, dispatch),
-  mastersActions: bindActionCreators(mastersActions, dispatch)
-});
-
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(mapStateToProps, mapDispatchToProps({entryActions, mastersActions}))
 export default class UserEntry extends Component {
   static propTypes = {
-    event: PropTypes.object,
-    lock: PropTypes.object,
     diff: PropTypes.func,
     entry: PropTypes.object,
     master: PropTypes.string,
-    sync: PropTypes.object,
-    entryActions: PropTypes.object,
-    mastersActions: PropTypes.object,
-    id: PropTypes.string
+    sync: PropTypes.object
   };
 
   static getEventPath = (e, params) => `${e}/users/${params.userId}`;
 
   componentDidMount() {
-    this.props.entryActions.fetchOne(this.props.id);
+    this.props.entryActions.fetchOne(this.props.params.entryId);
     this.props.mastersActions.fetchOne(this.props.event.id);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.id !== this.props.id) {
-      this.props.entryActions.fetchOne(nextProps.id);
+    if (nextProps.params.entryId !== this.props.params.entryId) {
+      nextProps.entryActions.fetchOne(nextProps.params.entryId);
     }
     if (nextProps.event.id !== this.props.event.id) {
-      this.props.mastersActions.fetchOne(nextProps.event.id);
+      nextProps.mastersActions.fetchOne(nextProps.event.id);
     }
   }
 
   render() {
-    const {sync, entry, master, diff, lock, event} = this.props;
+    const {sync, entry, master, diff, locks, event, locked} = this.props;
 
     return (
       <Page sync={sync} width='full'>
-        <LockMessage lock={lock} event={event} />
+        <LockMessage locked={locked} locks={locks} event={event} />
         <UserInfo user={entry.user} />
         <DiffBracket {...{diff, entry: entry.bracket, master}} />
       </Page>

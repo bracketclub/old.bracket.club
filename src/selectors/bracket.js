@@ -2,16 +2,16 @@ import {createSelector} from 'reselect';
 
 import bh from '../lib/bracket';
 import picker from '../lib/picker';
-import event from './event';
+import eventInfo from './event';
 
 export const helpers = createSelector(
-  event,
+  eventInfo,
   bh
 );
 
-export const lock = createSelector(
+export const locks = createSelector(
   helpers,
-  picker('timeLeft', 'isLocked')
+  picker('locks'),
 );
 
 export const diff = createSelector(

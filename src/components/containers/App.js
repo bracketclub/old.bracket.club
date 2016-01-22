@@ -4,36 +4,41 @@ import {bindActionCreators} from 'redux';
 import {last} from 'lodash';
 
 import countdown from '../../lib/countdown';
-import eventSelector from '../../selectors/event';
+import eventInfo from '../../selectors/event';
 import * as bracketSelectors from '../../selectors/bracket';
-import * as entriesSelectors from '../../selectors/entries';
 import * as meActionCreators from '../../actions/me';
+import * as eventActionCreators from '../../actions/event';
 
 import Header from '../app/Header';
 import Footer from '../app/Footer';
 
-const mapStateToProps = (state) => ({
-  event: eventSelector(state),
-  lock: bracketSelectors.lock(state),
-  userId: entriesSelectors.currentUserId(state),
-  me: state.me
-});
+const mapStateToProps = (state, props) => {
+  const event = eventInfo(state, props);
+  const locked = (state.event[event.id] || {}).locked;
+  const locks = bracketSelectors.locks(state, props);
+  return {
+    locks,
+    event,
+    me: state.me,
+    locked: typeof locked !== 'undefined' ? locked : new Date().toJSON() >= locks
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
-  meActions: bindActionCreators(meActionCreators, dispatch)
+  meActions: bindActionCreators(meActionCreators, dispatch),
+  eventActions: bindActionCreators(eventActionCreators, dispatch)
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class App extends Component {
   static propTypes = {
-    meActions: PropTypes.object.isRequired,
     event: PropTypes.object.isRequired,
     me: PropTypes.object.isRequired,
-    children: PropTypes.node.isRequired,
-    lock: PropTypes.object.isRequired,
-    routes: PropTypes.array,
-    userId: PropTypes.string,
-    params: PropTypes.object
+    locks: PropTypes.string.isRequired,
+    locked: PropTypes.bool.isRequired,
+    children: PropTypes.node,
+    lockedComponent: PropTypes.node,
+    unlockedComponent: PropTypes.node
   };
 
   // The top level App component is responsible for setting the locked status
@@ -47,33 +52,49 @@ export default class App extends Component {
   }
 
   componentWillUnmount() {
-    this.cancelCountdown();
+    this.endCountdown();
   }
 
-  startCountdown({lock}) {
-    if (!lock.isLocked()) {
-      if (this.cancelCountdown) {
-        this.cancelCountdown();
-      }
-      this.cancelCountdown = countdown(lock.timeLeft, () => this.forceUpdate());
+  endCountdown() {
+    if (this.cancelCountdown) {
+      this.cancelCountdown();
     }
   }
 
+  startCountdown(props) {
+    if (props.locked) return;
+
+    // Start a countdown to lock the event
+    this.endCountdown();
+    this.cancelCountdown = countdown(props.locks, () => props.eventActions.lock(props.event));
+  }
+
   render() {
-    const {me, event, children, meActions, routes, userId, params} = this.props;
-    const {getEventPath} = (last(routes) || {}).component;
-    const eventPathParams = {...params, userId};
+    const {me, event, meActions, locked, locks} = this.props;
+    const {routes, params} = this.props;
+    const {children, lockedComponent, unlockedComponent} = this.props;
+
+    let renderedChild, getEventPath;
+
+    if (lockedComponent && unlockedComponent) {
+      renderedChild = locked ? lockedComponent : unlockedComponent;
+      getEventPath = renderedChild.type.getEventPath;
+    }
+    else {
+      renderedChild = children;
+      getEventPath = last(routes).component.getEventPath;
+    }
 
     return (
       <div className='main-container'>
         <Header
-          eventPath={getEventPath ? (e) => getEventPath(e, eventPathParams) : null}
+          eventPath={getEventPath ? (e) => getEventPath(e, params) : null}
           me={me}
           event={event}
           onLogin={meActions.login}
           onLogout={meActions.logout}
         />
-        {children}
+        {React.cloneElement(renderedChild, {locked, event, locks})}
         <Footer />
       </div>
     );

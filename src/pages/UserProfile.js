@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import mapDispatchToProps from '../lib/mapDispatchToProps';
 
-import * as userActions from '../actions/users';
+import * as usersActions from '../actions/users';
 import * as usersSelectors from '../selectors/users';
 
 import Page from '../components/containers/Page';
@@ -10,35 +10,24 @@ import UserEntries from '../components/user/Entries';
 import UserInfo from '../components/user/Info';
 
 const mapStateToProps = (state, props) => ({
-  user: usersSelectors.currentWithEntries(state),
-  sync: state.users.sync,
-  id: props.routeParams.id
+  user: usersSelectors.currentWithEntries(state, props),
+  sync: state.users.sync
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  userActions: bindActionCreators(userActions, dispatch)
-});
-
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(mapStateToProps, mapDispatchToProps({usersActions}))
 export default class UserProfile extends Component {
   static propTypes = {
-    sync: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    userActions: PropTypes.object.isRequired,
-    id: PropTypes.string.isRequired
+    sync: PropTypes.object,
+    user: PropTypes.object
   };
 
-  fetchData(props) {
-    return props.userActions.fetchOne(props.id);
-  }
-
   componentDidMount() {
-    return this.fetchData(this.props);
+    this.props.usersActions.fetchOne(this.props.params.userId);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.id !== this.props.id) {
-      return this.fetchData(nextProps);
+    if (nextProps.params.userId !== this.props.params.userId) {
+      nextProps.userActions.fetchOne(nextProps.params.userId);
     }
   }
 

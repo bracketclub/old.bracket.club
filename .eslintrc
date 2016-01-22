@@ -2,6 +2,22 @@
   "extends": "@lukekarrys/eslint-config",
   "rules": {
     "no-case-declarations": 0,
-    "no-magic-numbers": 0
+    "no-magic-numbers": 0,
+    "react/prop-types": [2, {
+      "ignore": [
+        "dispatch",
+        "params",
+        "routes",
+        "event",
+        "locks",
+        "locked",
+        "entriesActions",
+        "entryActions",
+        "eventActions",
+        "mastersActions",
+        "meActions",
+        "usersActions"
+      ]
+    }]
   }
 }

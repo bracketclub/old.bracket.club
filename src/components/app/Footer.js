@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {PropTypes, Component} from 'react';
 
 const middot = String.fromCharCode(183);
 
 export default class Footer extends Component {
   static propTypes = {
-    className: React.PropTypes.string
+    className: PropTypes.string
   };
 
   render() {
