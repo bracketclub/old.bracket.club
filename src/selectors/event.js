@@ -17,9 +17,9 @@ export default createSelector(
       year = matches && matches[2] && matches[2];
     }
 
-    // The reducer also stores event info which it falls back to here
-    // The reason is that not every url has the above info, and in those cases
-    // the state is used as a "last viewed" thing
+    // The reducer also stores event info which it falls back to here. The reason
+    // is that not every url has the above info, and in those cases the state
+    // is used as a "last viewed" thing, so it cant be fully derived
     if (!sport) sport = $event.sport;
     if (!year) year = $event.year;
 
