@@ -2,6 +2,8 @@
 
 import {UPDATE_LOCATION} from 'redux-simple-router';
 
+import * as types from '../constants/event';
+
 const initialState = {
   sport: __SPORT__,
   year: __YEAR__
@@ -22,6 +24,15 @@ export default (state = initialState, action) => {
       ...state,
       sport: sport || state.sport,
       year: year || state.year
+    };
+
+  case types.LOCK:
+    return {
+      ...state,
+      [action.payload.id]: {
+        ...(state[action.payload.id] || {}),
+        locked: true
+      }
     };
 
   default:

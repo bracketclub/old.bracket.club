@@ -8,22 +8,24 @@ const formatter = (value, unit) => `${value} ${unit}${value !== 1 ? 's' : ''}`;
 export default class LockMessage extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
-    lock: PropTypes.object.isRequired
+    locks: PropTypes.string.isRequired,
+    locked: PropTypes.bool.isRequired
   };
 
   render() {
     const {
       event,
-      lock
+      locks,
+      locked
     } = this.props;
 
-    if (lock.isLocked()) {
+    if (locked) {
       return null;
     }
 
     return (
       <Alert bsStyle='info'>
-        Entries are still open for {event.displayName} for another <TimeAgo formatter={formatter} date={lock.timeLeft} />.
+        Entries are still open for {event.displayName} for another <TimeAgo formatter={formatter} date={locks} />.
         Go to the <Link to={`/${event.id}`}>entry page</Link> to fill out your bracket before it's too late!
       </Alert>
     );

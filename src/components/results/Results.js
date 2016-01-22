@@ -14,10 +14,13 @@ export default class Results extends Component {
       <div>
         <PageHeader>Results</PageHeader>
         <ListGroup>
+          {!entries.length &&
+            <ListGroupItem>There are no results yet.</ListGroupItem>
+          }
           {entries.map((entry) =>
-            <LinkContainer key={entry.data_id} to={`/${entry.sport}-${entry.year}/entries/${entry.data_id}`}>
+            <LinkContainer key={entry.data_id} to={`/${entry.sport}-${entry.year}/entries/${entry.user.user_id}/${entry.data_id}`}>
               <ListGroupItem>
-                {entry.data_id}
+                @{entry.user.username}
               </ListGroupItem>
             </LinkContainer>
           )}

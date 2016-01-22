@@ -1,13 +1,12 @@
 import concatOrInsert from '../lib/arrayConcatOrInsert';
 import * as types from '../constants/entry';
-import eventSelector from '../selectors/event';
 
 // This reducer only updates the index of masters since that depends
 // on the rest of the state tree. The specifc dependent bits have been
 // implemented in the selectors for masters
 export default (state, action) => {
   const {entry} = state;
-  const {id} = eventSelector(state);
+  const id = `${state.event.sport}-${state.event.year}`;
   const {index = -1, brackets = []} = entry[id] || {};
 
   const updateState = (newState) => ({

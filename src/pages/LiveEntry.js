@@ -1,10 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {routeActions} from 'redux-simple-router';
 import analytics from '../lib/analytics';
+import mapDispatchToProps from '../lib/mapDispatchToProps';
 
-import eventSelector from '../selectors/event';
 import * as entrySelectors from '../selectors/entry';
 import * as bracketSelectors from '../selectors/bracket';
 import * as entryActions from '../actions/entry';
@@ -17,52 +16,41 @@ import BracketHeader from '../components/bracket/Header';
 import BracketEnterButton from '../components/bracket/EnterButton';
 
 const mapStateToProps = (state, props) => ({
-  // Event
-  event: eventSelector(state),
-  lock: bracketSelectors.lock(state),
-  validate: bracketSelectors.validate(state),
-  bracketHelpers: bracketSelectors.helpers(state),
-  // Entry
-  bracket: entrySelectors.bracketString(state),
-  routeBracket: props.routeParams.bracket,
-  navigation: entrySelectors.navigation(state),
-  progress: entrySelectors.progress(state)
+  validate: bracketSelectors.validate(state, props),
+  bracketHelpers: bracketSelectors.helpers(state, props),
+  bracket: entrySelectors.bracketString(state, props),
+  navigation: entrySelectors.navigation(state, props),
+  progress: entrySelectors.progress(state, props)
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  entryActions: bindActionCreators(entryActions, dispatch),
-  routeActions: bindActionCreators(routeActions, dispatch)
-});
-
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(mapStateToProps, mapDispatchToProps({entryActions, routeActions}))
 export default class LiveEntry extends Component {
   static propTypes = {
-    event: PropTypes.object.isRequired,
-    lock: PropTypes.object.isRequired,
-    validate: PropTypes.func.isRequired,
-    bracketHelpers: PropTypes.object.isRequired,
-    bracket: PropTypes.string.isRequired,
-    routeBracket: PropTypes.string,
-    navigation: PropTypes.object.isRequired,
-    progress: PropTypes.object.isRequired,
-    entryActions: PropTypes.object.isRequired,
-    routeActions: PropTypes.object.isRequired
+    validate: PropTypes.func,
+    bracketHelpers: PropTypes.object,
+    bracket: PropTypes.string,
+    navigation: PropTypes.object,
+    progress: PropTypes.object
   };
 
+  static getEventPath = (e) => e;
+
   componentDidMount() {
-    if (this.props.routeBracket) {
-      this.props.entryActions.pushBracket(this.props.routeBracket);
+    if (this.props.params.routeBracket) {
+      this.props.entryActions.pushBracket(this.props.params.routeBracket);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    this.updateUrl(nextProps);
+    if (nextProps.event.id === this.props.event.id) {
+      this.updateUrl(nextProps);
+    }
   }
 
   updateUrl(props) {
     const pathname = `/${props.event.id}/${props.bracket}`;
     const current = props.location.pathname;
-    if (current !== pathname) {
+    if (!props.locked && current !== pathname) {
       props.routeActions.replace(pathname);
     }
   }
@@ -101,7 +89,7 @@ export default class LiveEntry extends Component {
       navigation,
       event,
       progress,
-      lock,
+      locks,
       bracket,
       validate
     } = this.props;
@@ -120,7 +108,7 @@ export default class LiveEntry extends Component {
             event={event}
             bracket={bracket}
             onEnter={this.handleEnter}
-            lock={lock}
+            locks={locks}
             progress={progress}
           />
           <BracketProgress

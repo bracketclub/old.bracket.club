@@ -1,8 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import mapDispatchToProps from '../lib/mapDispatchToProps';
 
-import eventSelector from '../selectors/event';
 import * as bracketSelectors from '../selectors/bracket';
 import * as mastersSelectors from '../selectors/masters';
 import * as mastersActions from '../actions/masters';
@@ -12,57 +11,48 @@ import DiffBracket from '../components/bracket/DiffBracket';
 import LockMessage from '../components/bracket/LockMessage';
 
 const mapStateToProps = (state, props) => ({
-  event: eventSelector(state),
-  lock: bracketSelectors.lock(state),
-  diff: bracketSelectors.diff(state),
-  master: mastersSelectors.bracketString(state),
-  entry: props.routeParams.bracket,
+  diff: bracketSelectors.diff(state, props),
+  master: mastersSelectors.bracketString(state, props),
   sync: state.masters.sync
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  mastersActions: bindActionCreators(mastersActions, dispatch)
-});
-
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(mapStateToProps, mapDispatchToProps({mastersActions}))
 export default class CreatedEntry extends Component {
   static propTypes = {
-    entry: PropTypes.string.isRequired,
-    diff: PropTypes.func.isRequired,
-    master: PropTypes.string.isRequired,
-    event: PropTypes.object.isRequired,
-    lock: PropTypes.object.isRequired,
-    sync: PropTypes.object.isRequired
+    master: PropTypes.string,
+    entry: PropTypes.string,
+    diff: PropTypes.func,
+    sync: PropTypes.object
   };
 
-  fetchData(props) {
-    props.mastersActions.fetchOne(props.event.id);
-  }
+  static getEventPath = (e) => e;
 
   componentDidMount() {
-    this.fetchData(this.props);
+    this.mastersActions.fetchOne(this.props.event.id);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.event.id !== this.props.event.id) {
-      this.fetchData(nextProps);
+      this.mastersActions.fetchOne(nextProps.event.id);
     }
   }
 
   render() {
     const {
-      entry,
       diff,
       master,
       event,
-      lock,
+      locks,
+      locked,
       sync
     } = this.props;
 
+    const {bracket} = this.props.params;
+
     return (
       <Page width='full' sync={sync}>
-        <LockMessage lock={lock} event={event} />
-        <DiffBracket {...{diff, entry, master}} />
+        <LockMessage locked={locked} locks={locks} event={event} />
+        <DiffBracket {...{diff, entry: bracket, master}} />
       </Page>
     );
   }
