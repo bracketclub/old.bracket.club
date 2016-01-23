@@ -35,7 +35,7 @@ export default class MasterBracket extends Component {
   static getEventPath = (e) => e;
 
   handleNavigate = (method) => {
-    this.props.mastersActions[method]();
+    this.props.dispatch(mastersActions[method]());
   };
 
   render() {
