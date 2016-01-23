@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import mapDispatchToProps from '../lib/mapDispatchToProps';
+import fetch from '../lib/fetchDecorator';
 
 import * as bracketSelectors from '../selectors/bracket';
 import * as mastersSelectors from '../selectors/masters';
@@ -16,7 +16,12 @@ const mapStateToProps = (state, props) => ({
   sync: state.masters.sync
 });
 
-@connect(mapStateToProps, mapDispatchToProps({mastersActions}))
+const mapPropsToActions = (props) => ({
+  masters: [mastersActions.fetchOne, props.event.id]
+});
+
+@connect(mapStateToProps)
+@fetch(mapPropsToActions)
 export default class CreatedEntry extends Component {
   static propTypes = {
     master: PropTypes.string,
@@ -26,16 +31,6 @@ export default class CreatedEntry extends Component {
   };
 
   static getEventPath = (e) => e;
-
-  componentDidMount() {
-    this.mastersActions.fetchOne(this.props.event.id);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.event.id !== this.props.event.id) {
-      this.mastersActions.fetchOne(nextProps.event.id);
-    }
-  }
 
   render() {
     const {

@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import mapDispatchToProps from '../lib/mapDispatchToProps';
+import fetch from '../lib/fetchDecorator';
 import mergeSyncState from '../lib/mergeSyncState';
 
-import * as entryActions from '../actions/entries';
+import * as entriesActions from '../actions/entries';
 import * as mastersActions from '../actions/masters';
 import * as bracketSelectors from '../selectors/bracket';
 import * as entriesSelectors from '../selectors/entries';
@@ -21,7 +21,13 @@ const mapStateToProps = (state, props) => ({
   sync: mergeSyncState(state.entries, state.masters)
 });
 
-@connect(mapStateToProps, mapDispatchToProps({entryActions, mastersActions}))
+const mapPropsToActions = (props) => ({
+  entries: [entriesActions.fetchOne, props.params.entryId],
+  masters: [mastersActions.fetchOne, props.event.id]
+});
+
+@connect(mapStateToProps)
+@fetch(mapPropsToActions)
 export default class UserEntry extends Component {
   static propTypes = {
     diff: PropTypes.func,
@@ -31,20 +37,6 @@ export default class UserEntry extends Component {
   };
 
   static getEventPath = (e, params) => `${e}/users/${params.userId}`;
-
-  componentDidMount() {
-    this.props.entryActions.fetchOne(this.props.params.entryId);
-    this.props.mastersActions.fetchOne(this.props.event.id);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.params.entryId !== this.props.params.entryId) {
-      nextProps.entryActions.fetchOne(nextProps.params.entryId);
-    }
-    if (nextProps.event.id !== this.props.event.id) {
-      nextProps.mastersActions.fetchOne(nextProps.event.id);
-    }
-  }
 
   render() {
     const {sync, entry, master, diff, locks, event, locked} = this.props;

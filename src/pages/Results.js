@@ -1,11 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import mapDispatchToProps from '../lib/mapDispatchToProps';
+import fetch from '../lib/fetchDecorator';
 import mergeSyncState from '../lib/mergeSyncState';
 
 import * as mastersSelectors from '../selectors/masters';
 import * as entriesSelectors from '../selectors/entries';
-import * as entryActions from '../actions/entries';
+import * as entriesActions from '../actions/entries';
 import * as mastersActions from '../actions/masters';
 
 import Page from '../components/containers/Page';
@@ -22,7 +22,13 @@ const mapStateToProps = (state, props) => ({
   progress: mastersSelectors.progress(state, props)
 });
 
-@connect(mapStateToProps, mapDispatchToProps({entryActions, mastersActions}))
+const mapPropsToActions = (props) => ({
+  masters: [mastersActions.fetchOne, props.event.id],
+  entries: [entriesActions.fetchAll, props.event.id]
+});
+
+@connect(mapStateToProps)
+@fetch(mapPropsToActions)
 export default class Results extends Component {
   static propTypes = {
     entries: PropTypes.array,
@@ -33,18 +39,6 @@ export default class Results extends Component {
   };
 
   static getEventPath = (e) => `${e}/entries`;
-
-  componentDidMount() {
-    this.props.mastersActions.fetchOne(this.props.event.id);
-    this.props.entryActions.fetchAll(this.props.event.id);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.event.id !== this.props.event.id) {
-      this.props.mastersActions.fetchOne(nextProps.event.id);
-      this.props.entryActions.fetchAll(nextProps.event.id);
-    }
-  }
 
   render() {
     const {sync, entries, master, event, navigation, progress} = this.props;

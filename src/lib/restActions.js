@@ -25,13 +25,13 @@ export default (config) => {
   const FETCH_SUCCESS = `${resourceAction}_FETCH_SUCCESS`;
   const FETCH_ERROR = `${resourceAction}_FETCH_ERROR`;
 
-  const fetchOne = (id) => (dispatch) => {
+  const fetch = (normalizeSchema) => (id) => (dispatch) => {
     dispatch({type: FETCH_START});
 
     axios.get(`${url}${id ? `/${id}` : ''}`)
     .then(
       (response) => {
-        const {entities} = normalize(response.data, schema);
+        const {entities} = normalize(response.data, normalizeSchema);
         dispatchNestedEntities(dispatch, entities, resource);
         dispatch({type: FETCH_SUCCESS, data: values(entities[resource])});
       },
@@ -39,19 +39,8 @@ export default (config) => {
     );
   };
 
-  const fetchAll = (id) => (dispatch) => {
-    dispatch({type: FETCH_START});
-
-    axios.get(`${url}${id ? `/${id}` : ''}`)
-    .then(
-      (response) => {
-        const {entities} = normalize(response.data, arrayOf(schema));
-        dispatchNestedEntities(dispatch, entities, resource);
-        dispatch({type: FETCH_SUCCESS, data: values(entities[resource])});
-      },
-      (err) => dispatch({type: FETCH_ERROR, error: err})
-    );
+  return {
+    fetchOne: fetch(schema),
+    fetchAll: fetch(arrayOf(schema))
   };
-
-  return {fetchOne, fetchAll};
 };

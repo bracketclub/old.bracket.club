@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import mapDispatchToProps from '../lib/mapDispatchToProps';
+import fetch from '../lib/fetchDecorator';
 
 import * as mastersSelectors from '../selectors/masters';
 import * as mastersActions from '../actions/masters';
@@ -18,7 +18,12 @@ const mapStateToProps = (state, props) => ({
   sync: state.masters.sync
 });
 
-@connect(mapStateToProps, mapDispatchToProps({mastersActions}))
+const mapPropsToActions = (props) => ({
+  masters: [mastersActions.fetchOne, props.event.id]
+});
+
+@connect(mapStateToProps)
+@fetch(mapPropsToActions)
 export default class MasterBracket extends Component {
   static propTypes = {
     bracket: PropTypes.object,
@@ -28,16 +33,6 @@ export default class MasterBracket extends Component {
   };
 
   static getEventPath = (e) => e;
-
-  componentDidMount() {
-    this.props.mastersActions.fetchOne(this.props.event.id);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.event.id !== this.props.event.id) {
-      this.props.mastersActions.fetchOne(nextProps.event.id);
-    }
-  }
 
   handleNavigate = (method) => {
     this.props.mastersActions[method]();
