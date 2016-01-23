@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import mapDispatchToProps from '../lib/mapDispatchToProps';
+import fetch from '../lib/fetchDecorator';
 
 import * as usersActions from '../actions/users';
 import * as usersSelectors from '../selectors/users';
@@ -14,23 +14,17 @@ const mapStateToProps = (state, props) => ({
   sync: state.users.sync
 });
 
-@connect(mapStateToProps, mapDispatchToProps({usersActions}))
+const mapPropsToActions = (props) => ({
+  users: [usersActions.fetchOne, props.params.userId]
+});
+
+@connect(mapStateToProps)
+@fetch(mapPropsToActions)
 export default class UserProfile extends Component {
   static propTypes = {
     sync: PropTypes.object,
     user: PropTypes.object
   };
-
-  componentDidMount() {
-    this.props.usersActions.fetchOne(this.props.params.userId);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.params.userId !== this.props.params.userId) {
-      nextProps.userActions.fetchOne(nextProps.params.userId);
-    }
-  }
-
   render() {
     const {sync, user} = this.props;
 

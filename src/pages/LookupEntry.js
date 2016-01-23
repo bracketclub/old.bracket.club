@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Alert} from 'react-bootstrap';
-import mapDispatchToProps from '../lib/mapDispatchToProps';
+import fetch from '../lib/fetchDecorator';
 import mergeSyncState from '../lib/mergeSyncState';
 
 import * as usersActions from '../actions/users';
@@ -21,7 +21,13 @@ const mapStateToProps = (state, props) => ({
   sync: mergeSyncState(state.entries, state.masters)
 });
 
-@connect(mapStateToProps, mapDispatchToProps({usersActions, mastersActions}))
+const mapPropsToActions = (props) => ({
+  users: [usersActions.fetchOne, `${props.params.userId}/${props.event.id}`],
+  masters: [mastersActions.fetchOne, props.event.id]
+});
+
+@connect(mapStateToProps)
+@fetch(mapPropsToActions)
 export default class LookupEntry extends Component {
   static propTypes = {
     diff: PropTypes.func,
@@ -31,20 +37,6 @@ export default class LookupEntry extends Component {
   };
 
   static getEventPath = (e, params) => `${e}/users/${params.userId}`;
-
-  componentDidMount() {
-    this.props.usersActions.fetchOne(`${this.props.params.userId}/${this.props.event.id}`);
-    this.props.mastersActions.fetchOne(this.props.event.id);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.params.userId !== this.props.params.userId || nextProps.event.id !== this.props.event.id) {
-      this.props.usersActions.fetchOne(`${nextProps.params.userId}/${nextProps.event.id}`);
-    }
-    if (nextProps.event.id !== this.props.event.id) {
-      this.props.mastersActions.fetchOne(nextProps.event.id);
-    }
-  }
 
   render() {
     const {sync, user, master, diff} = this.props;

@@ -1,6 +1,6 @@
 import {transform} from 'lodash';
 
-export default (obj, selectKey, keyTransform, newKey) => {
+export default (obj, selectKey, keyTransform, newKey = '') => {
   if (!obj) return null;
 
   return transform(obj, (res, val, key) => {
