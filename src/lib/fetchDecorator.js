@@ -10,6 +10,8 @@ export default (mapPropsToActions) => (WrappedComponent) => {
       dispatch: PropTypes.func.isRequired
     };
 
+    static displayName = `FetchOnUpdate(${getDisplayName(WrappedComponent)})`;
+
     componentDidMount() {
       const {dispatch} = this.props;
       const actions = mapPropsToActions(this.props);
@@ -39,8 +41,6 @@ export default (mapPropsToActions) => (WrappedComponent) => {
       );
     }
   }
-
-  FetchOnUpdate.displayName = `FetchOnUpdate(${getDisplayName(WrappedComponent)})`;
 
   return hoistStatics(FetchOnUpdate, WrappedComponent);
 };
