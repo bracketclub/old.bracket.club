@@ -8,6 +8,7 @@
         "dispatch",
         "params",
         "routes",
+        "location",
         "event",
         "locks",
         "locked",
