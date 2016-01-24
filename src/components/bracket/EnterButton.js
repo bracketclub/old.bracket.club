@@ -49,7 +49,7 @@ export default class BracketEnterButton extends Component {
           onClick={() => onEnter(bracket)}
           target='_blank'
         >
-          Tweet My Bracket! <TimeAgo date={locks} />
+          Tweet My Bracket!
         </Button>
       </OverlayTrigger>
     );
