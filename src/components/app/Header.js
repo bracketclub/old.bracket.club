@@ -66,7 +66,10 @@ export default class Header extends Component {
       <Navbar fluid>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to={`/${event.id}`}>TweetYourBracket</Link>
+            <Link to={`/${event.id}`}>
+              <span className='hidden-xs'>tweetyourbracket</span>
+              <span className='visible-xs-block'>tyb</span>
+            </Link>
           </Navbar.Brand>
           <Nav className='year-nav'>
             <NavDropdown title={this.getEventTitle()} id='event-nav'>

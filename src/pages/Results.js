@@ -40,6 +40,10 @@ export default class Results extends Component {
 
   static getEventPath = (e) => `${e}/entries`;
 
+  handleNavigate = (method) => {
+    this.props.dispatch(mastersActions[method]());
+  };
+
   render() {
     const {sync, entries, master, event, navigation, progress} = this.props;
 
