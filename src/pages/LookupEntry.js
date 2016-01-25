@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {Alert} from 'react-bootstrap';
 import fetch from '../lib/fetchDecorator';
 import mergeSyncState from '../lib/mergeSyncState';
 
@@ -14,6 +13,7 @@ import Page from '../components/containers/Page';
 import DiffBracket from '../components/bracket/DiffBracket';
 import MasterNav from '../components/connected/MasterNav';
 import UserInfo from '../components/user/Info';
+import UserNoEntry from '../components/user/NoEntry';
 
 const mapStateToProps = (state, props) => ({
   diff: bracketSelectors.diff(state, props),
@@ -55,7 +55,7 @@ export default class LookupEntry extends Component {
         <UserInfo user={user} />
         {entry
           ? <DiffBracket {...{diff, entry: entry.bracket, master}} />
-          : <Alert bsStyle='warning'>This user does not have an entry for this event.</Alert>
+          : <UserNoEntry user={user} />
         }
       </Page>
     );
