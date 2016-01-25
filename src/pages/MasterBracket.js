@@ -37,7 +37,7 @@ export default class MasterBracket extends Component {
 
     return (
       <Page sync={sync} width='full'>
-        <MasterNav location={this.props.location} />
+        <MasterNav {...this.props} />
         <Bracket bracket={bracket} />
       </Page>
     );
