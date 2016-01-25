@@ -1,22 +1,36 @@
 import config from 'config';
-import * as actions from '../constants/masters';
 import restActions from '../lib/restActions';
+import {routeActions} from 'redux-simple-router';
 import {masters as schema} from '../schema';
 
-const goToFirst = () => ({
-  type: actions.GOTO_FIRST
+const goToIndex = ({game, location}) => (dispatch) => {
+  dispatch(routeActions.replace({
+    ...location,
+    query: {
+      ...location.query,
+      game
+    }
+  }));
+};
+
+const goToFirst = ({location}) => goToIndex({
+  location,
+  game: 0
 });
 
-const goToLast = () => ({
-  type: actions.GOTO_LAST
+const goToPrevious = ({current, location}) => goToIndex({
+  location,
+  game: Math.max(0, current - 1)
 });
 
-const goToNext = () => ({
-  type: actions.GOTO_NEXT
+const goToNext = ({current, total, location}) => goToIndex({
+  location,
+  game: Math.min(total, current + 1)
 });
 
-const goToPrevious = () => ({
-  type: actions.GOTO_PREVIOUS
+const goToLast = ({total, location}) => goToIndex({
+  location,
+  game: total
 });
 
 export default {

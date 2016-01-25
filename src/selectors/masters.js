@@ -5,12 +5,19 @@ import eventInfo from './event';
 import * as bracketSelectors from './bracket';
 
 const masters = (state) => state.masters.records;
-const index = (state) => state.masters.index;
+const urlIndex = (state, props) => props.location.query.game;
 
 export const brackets = createSelector(
   eventInfo,
   masters,
   ($event, $masters) => (findById($masters, $event.id) || {}).brackets || []
+);
+
+export const index = createSelector(
+  urlIndex,
+  brackets,
+  ($index, $brackets) =>
+    parseInt(typeof $index === 'undefined' ? $brackets.length - 1 : $index, 10)
 );
 
 export const navigation = createSelector(

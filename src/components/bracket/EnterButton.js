@@ -29,7 +29,7 @@ export default class BracketEnterButton extends Component {
   }
 
   getOverlay() {
-    const {onEnter, bracket, locks} = this.props;
+    const {onEnter, bracket} = this.props;
 
     const popover = (
       <Popover id='enter-popover'>

@@ -10,16 +10,12 @@ import * as mastersActions from '../actions/masters';
 
 import Page from '../components/containers/Page';
 import ResultsList from '../components/results/Results';
-import BracketNav from '../components/bracket/Nav';
-import BracketProgress from '../components/bracket/Progress';
-import BracketHeader from '../components/bracket/Header';
+import MasterNav from '../components/connected/MasterNav';
 
 const mapStateToProps = (state, props) => ({
   entries: entriesSelectors.byEvent(state, props),
   master: mastersSelectors.bracketString(state, props),
-  sync: mergeSyncState(state.entries, state.masters),
-  navigation: mastersSelectors.navigation(state, props),
-  progress: mastersSelectors.progress(state, props)
+  sync: mergeSyncState(state.entries, state.masters)
 });
 
 const mapPropsToActions = (props) => ({
@@ -33,26 +29,17 @@ export default class Results extends Component {
   static propTypes = {
     entries: PropTypes.array,
     master: PropTypes.string,
-    navigation: PropTypes.object,
-    progress: PropTypes.object,
     sync: PropTypes.object
   };
 
   static getEventPath = (e) => `${e}/entries`;
 
-  handleNavigate = (method) => {
-    this.props.dispatch(mastersActions[method]());
-  };
-
   render() {
-    const {sync, entries, master, event, navigation, progress} = this.props;
+    const {sync, entries, master} = this.props;
 
     return (
       <Page sync={sync}>
-        <BracketHeader>
-          <BracketNav navigation={navigation} event={event} onNavigate={this.handleNavigate} />
-          <BracketProgress message='games played' progress={progress} />
-        </BracketHeader>
+        <MasterNav location={this.props.location} />
         <ResultsList entries={entries} master={master} />
       </Page>
     );
