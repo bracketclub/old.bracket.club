@@ -25,8 +25,7 @@ export default class LockMessage extends Component {
 
     return (
       <Alert bsStyle='info'>
-        Entries are still open for {event.displayName} for another <TimeAgo formatter={formatter} date={locks} />.
-        Go to the <Link to={`/${event.id}`}>entry page</Link> to fill out your bracket before it's too late!
+        Entries are still open for the <strong>{event.display} Bracket</strong> for another <TimeAgo formatter={formatter} date={locks} />. Go to the <Link to={`/${event.id}`}>entry page</Link> to fill out your bracket before it's too late!
       </Alert>
     );
   }

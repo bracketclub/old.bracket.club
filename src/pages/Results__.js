@@ -164,13 +164,7 @@ const Results = React.createClass({
 
     return (
       <div>
-        <BracketHeader
-          locked
-          history={history}
-          index={index}
-          sport={sport}
-          year={year}
-        />
+
         <Table condensed striped className='results-table'>
           <thead>
             <tr>

@@ -10,7 +10,6 @@ import * as mastersActions from '../actions/masters';
 import Page from '../components/containers/Page';
 import DiffBracket from '../components/bracket/DiffBracket';
 import MasterNav from '../components/connected/MasterNav';
-import LockMessage from '../components/bracket/LockMessage';
 
 const mapStateToProps = (state, props) => ({
   diff: bracketSelectors.diff(state, props),
@@ -38,9 +37,6 @@ export default class CreatedEntry extends Component {
     const {
       diff,
       master,
-      event,
-      locks,
-      locked,
       sync
     } = this.props;
 
@@ -48,8 +44,7 @@ export default class CreatedEntry extends Component {
 
     return (
       <Page width='full' sync={sync}>
-        <MasterNav location={this.props.location} />
-        <LockMessage locked={locked} locks={locks} event={event} />
+        <MasterNav {...this.props} />
         <DiffBracket {...{diff, entry: bracket, master}} />
       </Page>
     );

@@ -8,6 +8,7 @@ import * as mastersActions from '../../actions/masters';
 import BracketNav from '../bracket/Nav';
 import BracketProgress from '../bracket/Progress';
 import BracketHeader from '../bracket/Header';
+import LockMessage from '../bracket/LockMessage';
 
 const mapStateToProps = (state, props) => ({
   navigation: mastersSelectors.navigation(state, props),
@@ -38,16 +39,19 @@ export default class MasterNav extends Component {
   };
 
   render() {
-    const {navigation, progress} = this.props;
+    const {navigation, progress, locked, locks, event} = this.props;
 
     return (
-      <BracketHeader>
-        <BracketNav
-          navigation={navigation}
-          onNavigate={this.handleNavigate}
-        />
-        <BracketProgress message='games played' progress={progress} />
-      </BracketHeader>
+      <div>
+        <BracketHeader>
+          <BracketNav
+            navigation={navigation}
+            onNavigate={this.handleNavigate}
+          />
+          <BracketProgress message='games played' progress={progress} />
+        </BracketHeader>
+        <LockMessage locked={locked} locks={locks} event={event} />
+      </div>
     );
   }
 }

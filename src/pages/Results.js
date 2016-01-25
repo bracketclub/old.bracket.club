@@ -39,7 +39,7 @@ export default class Results extends Component {
 
     return (
       <Page sync={sync}>
-        <MasterNav location={this.props.location} />
+        <MasterNav {...this.props} />
         <ResultsList entries={entries} master={master} />
       </Page>
     );
