@@ -9,8 +9,8 @@ import * as bracketSelectors from '../../selectors/bracket';
 import * as meActionCreators from '../../actions/me';
 import * as eventActionCreators from '../../actions/event';
 
-import Header from '../app/Header';
-import Footer from '../app/Footer';
+import Header from '../layout/Header';
+import Footer from '../layout/Footer';
 
 const mapStateToProps = (state, props) => {
   const event = eventInfo(state, props);

@@ -3,11 +3,13 @@
 'use strict';
 
 const webpackConfig = require('hjs-webpack');
-const transform = require('lodash/object/transform');
+const transform = require('lodash').transform;
 
 const env = process.env;
 const isDev = env.NODE_ENV !== 'production';
 
+const SPORT = 'ncaam';
+const YEAR = '2016';
 const EVENTS = [
   'ncaam-2016',
   'ncaaw-2016',
@@ -16,8 +18,6 @@ const EVENTS = [
   'ncaam-2013',
   'ncaam-2012'
 ];
-const SPORT = EVENTS[0].split('-')[0];
-const YEAR = EVENTS[0].split('-')[1];
 
 const renderHTML = (context) =>
   `<!DOCTYPE html>
@@ -40,6 +40,7 @@ const config = webpackConfig({
   isDev,
   'in': 'src/main.js',
   out: 'build',
+  clearBeforeBuild: true,
   replace: {
     config: `src/config/${isDev ? 'development' : 'production'}.js`
   },
@@ -54,5 +55,9 @@ const config = webpackConfig({
     [isDev ? 'index.html' : '200.html']: renderHTML(context)
   })
 });
+
+// Mutate in place the less loader in all env to have the val-loader first
+const findLessLoader = (l) => (l.loader || '').indexOf('!less') > -1;
+config.module.loaders.find(findLessLoader).loader += '!val-loader';
 
 module.exports = config;

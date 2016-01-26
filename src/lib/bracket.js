@@ -1,4 +1,4 @@
-import {memoize, find, pluck, partial} from 'lodash';
+import {memoize, find, partial, map} from 'lodash';
 import bracketData from 'bracket-data';
 import BracketUpdater from 'bracket-updater';
 import BracketGenerator from 'bracket-generator';
@@ -8,7 +8,7 @@ import BracketScorer from 'bracket-scorer';
 // These help format validated brackets and scored brackets into a normalized
 // object for use by our views
 const findNextRegion = (bracket, regions) =>
-  find(bracket, (region) => pluck(regions, 'id').indexOf(region.id) === -1);
+  find(bracket, (region) => map(regions, 'id').indexOf(region.id) === -1);
 
 const getRegionsFor = (finalId, firstId, bracket) => {
   if (bracket instanceof Error) {

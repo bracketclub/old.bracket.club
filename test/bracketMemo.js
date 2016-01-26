@@ -18,9 +18,9 @@ bracketsByYear(years);
 test('Initial teams are correct', (t) => {
   const brackets = bracketsByYear(years);
 
-  const teams = _.chain(brackets).pluck('bracket').map((b) =>
+  const teams = _.chain(brackets).map('bracket').map((b) =>
     b.regions[_.keys(b.regions)[0]].teams
-  ).pluck('0').value();
+  ).map('0').value();
 
   const validated = _.chain(brackets).map((b) => {
     const firstTeam = b.validate(b.emptyBracket).region1.rounds[0][0];
@@ -41,8 +41,8 @@ test('Initial teams are correct', (t) => {
   const teams = _.chain(bracketsByYear(['2012', '2013', '2014'])).map(winner).value();
   const teams2 = _.chain(bracketsByYear(['2014', '2013', '2012'])).map(winnerBackward).value();
 
-  t.equal(_.pluck(teams, 'name').join(' '), 'Kentucky Louisville UConn');
-  t.equal(_.pluck(teams2, 'name').join(' '), 'UConn Louisville Kentucky');
+  t.equal(_.map(teams, 'name').join(' '), 'Kentucky Louisville UConn');
+  t.equal(_.map(teams2, 'name').join(' '), 'UConn Louisville Kentucky');
 
   t.end();
 });

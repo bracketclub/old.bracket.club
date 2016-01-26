@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
 
-import SyncContainer from './Sync';
+import SyncContainer from '../containers/Sync';
 
 export default class Page extends Component {
   static propTypes = {

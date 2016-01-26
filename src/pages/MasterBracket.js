@@ -6,7 +6,7 @@ import mapDispatchToProps from '../lib/mapDispatchToProps';
 import * as mastersSelectors from '../selectors/masters';
 import * as mastersActions from '../actions/masters';
 
-import Page from '../components/containers/Page';
+import Page from '../components/layout/Page';
 import Bracket from '../components/bracket/Bracket';
 import MasterNav from '../components/connected/MasterNav';
 

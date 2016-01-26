@@ -5,6 +5,13 @@ import {Link} from 'react-router';
 import {LinkContainer} from 'react-router-bootstrap';
 import {Navbar, Nav, MenuItem, NavItem, NavDropdown} from 'react-bootstrap';
 
+const {
+  Header: NavbarHeader,
+  Brand: NavbarBrand,
+  Toggle: NavbarToggle,
+  Collapse: NavbarCollapse
+} = Navbar;
+
 import eventDisplayName from '../../lib/eventDisplayName';
 
 const events = __EVENTS__;
@@ -64,13 +71,13 @@ export default class Header extends Component {
 
     return (
       <Navbar fluid>
-        <Navbar.Header>
-          <Navbar.Brand>
+        <NavbarHeader>
+          <NavbarBrand>
             <Link to={`/${event.id}`}>
               <span className='hidden-xs'>tweetyourbracket</span>
               <span className='visible-xs-block'>tyb</span>
             </Link>
-          </Navbar.Brand>
+          </NavbarBrand>
           <Nav className='year-nav'>
             <NavDropdown title={this.getEventTitle()} id='event-nav'>
               {events.map((e) =>
@@ -80,9 +87,9 @@ export default class Header extends Component {
               )}
             </NavDropdown>
           </Nav>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
+          <NavbarToggle />
+        </NavbarHeader>
+        <NavbarCollapse>
           <Nav pullRight>
             <LinkContainer to='/subscribe'>
               <NavItem>Subscribe</NavItem>
@@ -95,7 +102,7 @@ export default class Header extends Component {
               : <MenuItem onClick={this.handleLogin}>Login</MenuItem>
             }
           </Nav>
-        </Navbar.Collapse>
+        </NavbarCollapse>
       </Navbar>
     );
   }

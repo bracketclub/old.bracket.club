@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Row, Col, Input, Button} from 'react-bootstrap';
 
-import Page from '../components/containers/Page';
+import Page from '../components/layout/Page';
 
 export default class Subscribe extends Component {
   render() {

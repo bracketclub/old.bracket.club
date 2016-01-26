@@ -1,4 +1,4 @@
-import 'style!css!postcss!less!val!../styles';
+import '../styles/index.less';
 import 'file?name=favicon.ico!../public/favicon.ico';
 
 import React from 'react';

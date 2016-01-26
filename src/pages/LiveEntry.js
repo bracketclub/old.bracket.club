@@ -8,7 +8,7 @@ import * as entrySelectors from '../selectors/entry';
 import * as bracketSelectors from '../selectors/bracket';
 import * as entryActions from '../actions/entry';
 
-import Page from '../components/containers/Page';
+import Page from '../components/layout/Page';
 import LiveBracket from '../components/bracket/LiveBracket';
 import BracketNav from '../components/bracket/Nav';
 import BracketProgress from '../components/bracket/Progress';
