@@ -1,5 +1,4 @@
-import App from './components/containers/App';
-
+import App from './components/connected/App';
 import Subscribe from './pages/Subscribe';
 import Results from './pages/Results';
 import UserEntry from './pages/UserEntry';

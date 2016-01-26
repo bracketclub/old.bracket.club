@@ -24,6 +24,11 @@ export const validate = createSelector(
   picker('validate')
 );
 
+export const score = createSelector(
+  helpers,
+  picker('score')
+);
+
 export const empty = createSelector(
   helpers,
   picker('emptyBracket')

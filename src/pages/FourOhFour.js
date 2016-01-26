@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
 
-import Page from '../components/containers/Page';
+import Page from '../components/layout/Page';
 
 export default class FourOhFour extends Component {
   render() {

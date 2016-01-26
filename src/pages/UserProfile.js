@@ -5,7 +5,7 @@ import fetch from '../lib/fetchDecorator';
 import * as usersActions from '../actions/users';
 import * as usersSelectors from '../selectors/users';
 
-import Page from '../components/containers/Page';
+import Page from '../components/layout/Page';
 import UserEntries from '../components/user/Entries';
 import UserInfo from '../components/user/Info';
 

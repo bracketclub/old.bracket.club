@@ -9,7 +9,7 @@ import * as bracketSelectors from '../selectors/bracket';
 import * as usersSelectors from '../selectors/users';
 import * as mastersSelectors from '../selectors/masters';
 
-import Page from '../components/containers/Page';
+import Page from '../components/layout/Page';
 import DiffBracket from '../components/bracket/DiffBracket';
 import MasterNav from '../components/connected/MasterNav';
 import UserInfo from '../components/user/Info';

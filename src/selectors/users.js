@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect';
-import {findWhere, pick} from 'lodash';
+import {find, pick} from 'lodash';
 
 import findById from '../lib/findById';
 import transformKey from '../lib/transformKey';
@@ -37,7 +37,7 @@ export const currentWithEntryByEvent = createSelector(
   ($user, $event) => transformKey(
     $user,
     'entries',
-    ($userEntries) => findWhere($userEntries, pick($event, 'sport', 'year')),
+    ($userEntries) => find($userEntries, pick($event, 'sport', 'year')),
     'entry'
   )
 );
