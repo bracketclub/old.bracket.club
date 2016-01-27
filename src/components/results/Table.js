@@ -47,7 +47,7 @@ export default class ResultsTable extends Component {
               <tr key={entry.data_id}>
                 <td>{entry.score.index}</td>
                 <td>
-                  <Link to={`/${entry.sport}-${entry.year}/entries/${entry.user.user_id}/${entry.data_id}`}>
+                  <Link to={`/${entry.sport}-${entry.year}/entries/${entry.user.user_id}`}>
                     {entry.user.username}
                   </Link>
                 </td>

@@ -5,6 +5,8 @@ import BracketGenerator from 'bracket-generator';
 import BracketValidator from 'bracket-validator';
 import BracketScorer from 'bracket-scorer';
 
+const SCORE_TYPES = ['standard', 'standardPPR', 'rounds', 'gooley', 'gooleyPPR'];
+
 // These help format validated brackets and scored brackets into a normalized
 // object for use by our views
 const findNextRegion = (bracket, regions) =>
@@ -53,7 +55,7 @@ module.exports = memoize((options) => {
   const boundValidator = validator.validate.bind(validator);
   const boundUpdater = updater.update.bind(updater);
   const boundGenerator = generator.generate.bind(generator);
-  const boundScorer = scorer.score.bind(scorer);
+  const boundScorer = scorer.score.bind(scorer, SCORE_TYPES);
   const boundDiff = scorer.diff.bind(scorer);
 
   return {
@@ -80,9 +82,9 @@ module.exports = memoize((options) => {
 
     // Memoized by types (array), master (string), and entry (array)
     // Important: this only allows it to be used by passing the entry
-    // as an array or string, not an object
-    score: memoize(boundScorer, (types, o) =>
-      id + types.join() + o.master + (typeof o.entry === 'string' ? o.entry : o.entry.join())
+    // as a string
+    score: memoize(boundScorer, (o) =>
+      id + o.master + (typeof o.entry === 'string' ? o.entry : Math.random())
     )
   };
 }, idResolver);
