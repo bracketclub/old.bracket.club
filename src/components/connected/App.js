@@ -71,7 +71,7 @@ export default class App extends Component {
 
   render() {
     const {me, event, meActions, locked, locks} = this.props;
-    const {routes, params} = this.props;
+    const {routes, params, location} = this.props;
     const {children, lockedComponent, unlockedComponent} = this.props;
 
     let renderedChild, getEventPath;
@@ -88,7 +88,7 @@ export default class App extends Component {
     return (
       <div className='main-container'>
         <Header
-          eventPath={getEventPath ? (e) => getEventPath(e, params) : null}
+          eventPath={getEventPath ? (e) => getEventPath(e, params, location.query) : null}
           me={me}
           event={event}
           onLogin={meActions.login}

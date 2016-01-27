@@ -33,7 +33,7 @@ export default class LiveEntry extends Component {
     progress: PropTypes.object
   };
 
-  static getEventPath = (e) => e;
+  static getEventPath = (e) => ({pathname: `/${e}`});
 
   componentDidMount() {
     if (this.props.params.routeBracket) {

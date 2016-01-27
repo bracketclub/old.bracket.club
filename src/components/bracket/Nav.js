@@ -29,7 +29,14 @@ export default class BracketNav extends Component {
     }
 
     return (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip>Click here to jump to the last game from this event.</Tooltip>}>
+      <OverlayTrigger
+        placement='bottom'
+        overlay={
+          <Tooltip id='has-more-games'>
+            Click here to jump to the last game from this event.
+          </Tooltip>
+        }
+      >
         {button}
       </OverlayTrigger>
     );

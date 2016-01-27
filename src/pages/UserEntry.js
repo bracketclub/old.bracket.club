@@ -38,7 +38,7 @@ export default class UserEntry extends Component {
     sync: PropTypes.object
   };
 
-  static getEventPath = (e, params) => `${e}/entries/${params.userId}`;
+  static getEventPath = (e, params, query) => ({pathname: `/${e}/entries/${params.userId}`, query});
 
   render() {
     const {

@@ -54,7 +54,7 @@ export default class Header extends Component {
     const {eventPath} = this.props;
 
     return eventPath
-      ? `/${eventPath(e)}`
+      ? eventPath(e)
       : `/${e}`;
   }
 

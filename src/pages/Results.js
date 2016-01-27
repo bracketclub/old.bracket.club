@@ -32,7 +32,7 @@ export default class Results extends Component {
     sync: PropTypes.object
   };
 
-  static getEventPath = (e) => `${e}/entries`;
+  static getEventPath = (e, params, query) => ({pathname: `/${e}/entries`, query});
 
   handleSort = (key) => {
     const {location, sortParams} = this.props;
