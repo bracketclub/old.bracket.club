@@ -23,7 +23,7 @@ export default class UserEntries extends Component {
     return (
       <ListGroup>
         {user.entries.map((entry) =>
-          <LinkContainer key={entry.data_id} to={`/${entry.sport}-${entry.year}/entries/${user.user_id}/${entry.data_id}`}>
+          <LinkContainer key={entry.data_id} to={`/${entry.sport}-${entry.year}/entries/${user.user_id}`}>
             <ListGroupItem>{eventDisplayName(entry)}</ListGroupItem>
           </LinkContainer>
         )}

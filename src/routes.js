@@ -2,7 +2,6 @@ import App from './components/connected/App';
 import Subscribe from './pages/Subscribe';
 import Results from './pages/Results';
 import UserEntry from './pages/UserEntry';
-import LookupEntry from './pages/LookupEntry';
 import UserProfile from './pages/UserProfile';
 import CreatedEntry from './pages/CreatedEntry';
 import MasterBracket from './pages/MasterBracket';
@@ -23,8 +22,7 @@ const eventRoutes = {
   indexRoute,
   childRoutes: [
     {path: 'entries', component: Results},
-    {path: 'entries/:userId/:entryId', component: UserEntry},
-    {path: 'users/:userId', component: LookupEntry},
+    {path: 'entries/:userId', component: UserEntry},
     // These are the links the get posted to twitter
     {path: 'entry/:bracket', component: CreatedEntry},
     // These are the local url during a live entry, might as well render

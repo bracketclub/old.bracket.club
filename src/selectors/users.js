@@ -4,12 +4,16 @@ import {find, pick} from 'lodash';
 import findById from '../lib/findById';
 import transformKey from '../lib/transformKey';
 import eventInfo from './event';
+import * as bracketSelectors from './bracket';
+import * as mastersSelectors from './masters';
 
 const entries = (state) => state.entries.records;
 const users = (state) => state.users.records;
 const userId = (state, props) => props.params.userId;
 
-const findEntry = ($entries) => ($id) => findById($entries, $id, 'data_id');
+const findEntry = ($entries) => (param) => typeof param === 'string'
+    ? findById($entries, param, 'data_id')
+    : find($entries, pick(param, 'sport', 'year'));
 
 const current = createSelector(
   userId,
@@ -21,6 +25,24 @@ const current = createSelector(
   ) || {}
 );
 
+export const currentWithEntry = createSelector(
+  current,
+  eventInfo,
+  entries,
+  bracketSelectors.score,
+  mastersSelectors.bracketString,
+  ($user, $event, $entries, $score, $master) => {
+    const entry = findEntry($entries)(pick($event, 'sport', 'year'));
+    return {
+      ...$user,
+      entry: entry || null,
+      score: entry && $master
+        ? $score({master: $master, entry: entry.bracket})
+        : null
+    };
+  }
+);
+
 export const currentWithEntries = createSelector(
   entries,
   current,
@@ -28,16 +50,5 @@ export const currentWithEntries = createSelector(
     $user,
     'entries',
     ($userEntries) => $userEntries.map(findEntry($entries))
-  )
-);
-
-export const currentWithEntryByEvent = createSelector(
-  currentWithEntries,
-  eventInfo,
-  ($user, $event) => transformKey(
-    $user,
-    'entries',
-    ($userEntries) => find($userEntries, pick($event, 'sport', 'year')),
-    'entry'
   )
 );
