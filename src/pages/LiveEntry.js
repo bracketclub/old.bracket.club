@@ -24,7 +24,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 @connect(mapStateToProps, mapDispatchToProps({entryActions, routeActions}))
-export default class LiveEntry extends Component {
+export default class LiveEntryPage extends Component {
   static propTypes = {
     validate: PropTypes.func,
     bracketHelpers: PropTypes.object,

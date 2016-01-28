@@ -3,7 +3,7 @@ import {Row, Col, Input, Button} from 'react-bootstrap';
 
 import Page from '../components/layout/Page';
 
-export default class Subscribe extends Component {
+export default class SubscribePage extends Component {
   render() {
     return (
       <Page>

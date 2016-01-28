@@ -21,7 +21,7 @@ const mapPropsToActions = (props) => ({
 
 @connect(mapStateToProps, mapDispatchToProps({mastersActions}))
 @fetch(mapPropsToActions)
-export default class MasterBracket extends Component {
+export default class MasterBracketPage extends Component {
   static propTypes = {
     bracket: PropTypes.object,
     sync: PropTypes.object

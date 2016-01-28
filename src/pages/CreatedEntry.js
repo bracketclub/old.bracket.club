@@ -23,7 +23,7 @@ const mapPropsToActions = (props) => ({
 
 @connect(mapStateToProps, mapDispatchToProps({mastersActions}))
 @fetch(mapPropsToActions)
-export default class CreatedEntry extends Component {
+export default class CreatedEntryPage extends Component {
   static propTypes = {
     master: PropTypes.string,
     entry: PropTypes.string,

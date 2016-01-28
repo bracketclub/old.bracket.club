@@ -25,7 +25,7 @@ const mapPropsToActions = (props) => ({
 
 @connect(mapStateToProps, mapDispatchToProps({entriesActions}))
 @fetch(mapPropsToActions)
-export default class Results extends Component {
+export default class ResultsPage extends Component {
   static propTypes = {
     entries: PropTypes.array,
     sortParams: PropTypes.object,
