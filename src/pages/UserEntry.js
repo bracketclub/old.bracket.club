@@ -10,10 +10,9 @@ import * as usersSelectors from '../selectors/users';
 import * as mastersSelectors from '../selectors/masters';
 
 import Page from '../components/layout/Page';
-import DiffBracket from '../components/bracket/DiffBracket';
 import MasterNav from '../components/connected/MasterNav';
 import UserInfo from '../components/user/Info';
-import UserNoEntry from '../components/user/NoEntry';
+import UserEntry from '../components/user/Entry';
 import ScoreCard from '../components/user/ScoreCard';
 
 const mapStateToProps = (state, props) => ({
@@ -30,7 +29,7 @@ const mapPropsToActions = (props) => ({
 
 @connect(mapStateToProps)
 @fetch(mapPropsToActions)
-export default class UserEntry extends Component {
+export default class UserEntryPage extends Component {
   static propTypes = {
     diff: PropTypes.func,
     user: PropTypes.object,
@@ -48,17 +47,12 @@ export default class UserEntry extends Component {
       diff
     } = this.props;
 
-    const {entry} = user;
-
     return (
       <Page sync={sync} width='full'>
         <MasterNav {...this.props} />
         <UserInfo user={user} />
         <ScoreCard score={user.score} />
-        {entry
-          ? <DiffBracket {...{diff, entry: entry.bracket, master}} />
-          : <UserNoEntry user={user} />
-        }
+        <UserEntry user={user} diff={diff} master={master} />
       </Page>
     );
   }

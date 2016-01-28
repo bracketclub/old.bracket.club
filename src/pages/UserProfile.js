@@ -20,7 +20,7 @@ const mapPropsToActions = (props) => ({
 
 @connect(mapStateToProps)
 @fetch(mapPropsToActions)
-export default class UserProfile extends Component {
+export default class UserProfilePage extends Component {
   static propTypes = {
     sync: PropTypes.object,
     user: PropTypes.object

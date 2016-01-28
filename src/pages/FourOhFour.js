@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 
 import Page from '../components/layout/Page';
 
-export default class FourOhFour extends Component {
+export default class FourOhFourPage extends Component {
   render() {
     return (
       <Page>
