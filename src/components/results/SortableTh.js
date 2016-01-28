@@ -12,8 +12,13 @@ export default class SortableTh extends Component {
     hideSm: PropTypes.bool
   };
 
+  handleClick = (e) => {
+    e.preventDefault();
+    this.props.onClick(this.props.sortKey);
+  };
+
   render() {
-    const {onClick, sortKey, sortParams, hideXs, hideSm} = this.props;
+    const {sortKey, sortParams, hideXs, hideSm} = this.props;
 
     const active = sortKey === sortParams.key;
     const cx = classNames({
@@ -24,11 +29,13 @@ export default class SortableTh extends Component {
     });
 
     return (
-      <th className={cx} onClick={() => onClick(sortKey)}>
-        {this.props.children}
-        {active &&
-          <Glyphicon glyph={`chevron-${sortParams.dir === 'asc' ? 'up' : 'down'}`} />
-        }
+      <th className={cx}>
+        <a href='#' onClick={this.handleClick}>
+          {this.props.children}
+          {active &&
+            <Glyphicon glyph={`chevron-${sortParams.dir === 'asc' ? 'up' : 'down'}`} />
+          }
+        </a>
       </th>
     );
   }

@@ -41,7 +41,7 @@ export default class ResultsTable extends Component {
           </thead>
           <tbody>
             {!entries.length &&
-              <tr><td colSpan='3'>There are no results yet for this event.</td></tr>
+              <tr><td colSpan='12'>There are no results yet for this event.</td></tr>
             }
             {entries.map((entry) =>
               <tr key={entry.data_id}>
