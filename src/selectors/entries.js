@@ -46,6 +46,7 @@ export const scoredByEvent = createSelector(
   mastersSelectors.bracketString,
   sortParams,
   ($entries, $score, $master, $sort) => {
+    if (!$master || !$entries.length) return $entries;
     // This adds a score object to each entry
     const scoredEntries = $score({master: $master, entry: $entries});
     const standardOrder = sortBy(scoredEntries, DEFAULT_SORT);

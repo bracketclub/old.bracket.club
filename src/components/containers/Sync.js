@@ -1,4 +1,4 @@
-import React, {Component, PropTypes, Children} from 'react';
+import React, {Component, PropTypes} from 'react';
 
 import Error from '../layout/Error';
 import Loading from '../layout/Loading';
@@ -21,8 +21,6 @@ export default class SyncContainer extends Component {
     }
 
     // Ensure we always render 1 child
-    return Children.count(children) === 1
-      ? children
-      : <div>{children}</div>;
+    return <div>{children}</div>;
   }
 }
