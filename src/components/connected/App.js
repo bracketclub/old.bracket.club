@@ -44,11 +44,11 @@ export default class App extends Component {
   // The top level App component is responsible for setting the locked status
   // of the event it is currently displaying
   componentDidMount() {
-    this.startCountdown(this.props);
+    this.startCountdown();
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.startCountdown(nextProps);
+  componentDidUpdate() {
+    this.startCountdown();
   }
 
   componentWillUnmount() {
@@ -61,12 +61,14 @@ export default class App extends Component {
     }
   }
 
-  startCountdown(props) {
-    if (props.locked) return;
+  startCountdown() {
+    const {locks, eventActions, event, locked} = this.props;
+
+    if (locked) return;
 
     // Start a countdown to lock the event
     this.endCountdown();
-    this.cancelCountdown = countdown(props.locks, () => props.eventActions.lock(props.event));
+    this.cancelCountdown = countdown(locks, () => eventActions.lock(event));
   }
 
   render() {

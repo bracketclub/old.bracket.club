@@ -22,10 +22,10 @@ export default (mapPropsToActions) => (WrappedComponent) => {
       });
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidUpdate(prevProps) {
       const {dispatch} = this.props;
-      const prevActions = mapPropsToActions(this.props);
-      const actions = mapPropsToActions(nextProps);
+      const prevActions = mapPropsToActions(prevProps);
+      const actions = mapPropsToActions(this.props);
 
       Object.keys(actions).forEach((key) => {
         const [action, param] = actions[key];
