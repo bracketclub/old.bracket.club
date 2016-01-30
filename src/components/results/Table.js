@@ -44,10 +44,10 @@ export default class ResultsTable extends Component {
               <tr><td colSpan='12'>There are no results yet for this event.</td></tr>
             }
             {entries.map((entry) =>
-              <tr key={entry.data_id}>
+              <tr key={entry.id}>
                 <td>{entry.score.index}</td>
                 <td>
-                  <Link to={`/${entry.sport}-${entry.year}/entries/${entry.user.user_id}`}>
+                  <Link to={`/${entry.sport}-${entry.year}/entries/${entry.user.id}`}>
                     {entry.user.username}
                   </Link>
                 </td>

@@ -15,7 +15,7 @@ const users = (state) => state.users.records;
 const entries = (state) => state.entries.records;
 const urlSort = (state, props) => props.location.query.sort;
 
-const findUser = ($users) => ($user) => findById($users, $user, 'user_id');
+const findUser = ($users) => ($user) => findById($users, $user);
 const transformUser = ($users) => ($entry) => transformKey($entry, 'user', findUser($users));
 const addSortedIndex = ($order) => ($entry) => {
   $entry.score.index = sortedIndexBy($order, $entry, DEFAULT_SORT) + 1;
