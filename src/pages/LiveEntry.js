@@ -41,17 +41,18 @@ export default class LiveEntryPage extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.event.id === this.props.event.id) {
-      this.updateUrl(nextProps);
+  componentDidUpdate(prevProps) {
+    if (prevProps.event.id === this.props.event.id) {
+      this.updateUrl();
     }
   }
 
-  updateUrl(props) {
-    const pathname = `/${props.event.id}/${props.bracket}`;
-    const current = props.location.pathname;
-    if (!props.locked && current !== pathname) {
-      props.routeActions.replace(pathname);
+  updateUrl() {
+    const {event, bracket, location, locked} = this.props;
+    const pathname = `/${event.id}/${bracket}`;
+    const current = location.pathname;
+    if (!locked && current !== pathname) {
+      this.props.routeActions.replace(pathname);
     }
   }
 

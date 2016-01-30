@@ -17,7 +17,8 @@
         "eventActions",
         "mastersActions",
         "meActions",
-        "usersActions"
+        "usersActions",
+        "routeActions"
       ]
     }]
   }
