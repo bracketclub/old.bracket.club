@@ -1,8 +1,8 @@
 import {Schema, arrayOf} from 'normalizr';
 
-const users = new Schema('users', {idAttribute: 'user_id'});
-const entries = new Schema('entries', {idAttribute: 'data_id'});
-const masters = new Schema('masters', {idAttribute: 'id'});
+const users = new Schema('users');
+const entries = new Schema('entries');
+const masters = new Schema('masters');
 
 entries.define({
   user: users

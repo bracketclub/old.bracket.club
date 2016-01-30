@@ -26,7 +26,7 @@ export default class UserEntry extends Component {
         <Alert bsStyle='info'>
           <strong>@{user.username}</strong> does not have an entry for this event.
           {' '}
-          Go to their <Link to={`/users/${user.user_id}`}>user page</Link> to see all their entries.
+          Go to their <Link to={`/users/${user.id}`}>user page</Link> to see all their entries.
         </Alert>
       );
     }

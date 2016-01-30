@@ -12,17 +12,13 @@ const users = (state) => state.users.records;
 const userId = (state, props) => props.params.userId;
 
 const findEntry = ($entries) => (param) => typeof param === 'string'
-    ? findById($entries, param, 'data_id')
+    ? findById($entries, param)
     : find($entries, pick(param, 'sport', 'year'));
 
 const current = createSelector(
   userId,
   users,
-  ($userId, $users) => findById(
-    $users,
-    $userId,
-    'user_id'
-  ) || {}
+  ($userId, $users) => findById($users, $userId) || {}
 );
 
 export const currentWithEntry = createSelector(
