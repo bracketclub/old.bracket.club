@@ -12,30 +12,18 @@ import LockMessage from '../bracket/LockMessage';
 
 const mapStateToProps = (state, props) => ({
   navigation: mastersSelectors.navigation(state, props),
-  progress: mastersSelectors.progress(state, props),
-  index: mastersSelectors.index(state, props)
+  progress: mastersSelectors.progress(state, props)
 });
 
 @connect(mapStateToProps, mapDispatchToProps({mastersActions}))
 export default class MasterNav extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-    progress: PropTypes.object,
-    index: PropTypes.number
+    progress: PropTypes.object
   };
 
   handleNavigate = (method) => {
-    const {
-      index,
-      location,
-      progress: {total}
-    } = this.props;
-
-    this.props.mastersActions[method]({
-      current: index,
-      location,
-      total
-    });
+    this.props.mastersActions[method]();
   };
 
   render() {
