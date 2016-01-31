@@ -1,17 +1,28 @@
 import * as actions from '../constants/entry';
+import {routeActions} from 'redux-simple-router';
 
-export const pushBracket = (bracket) => ({
-  type: actions.PUSH_BRACKET,
-  bracket
+export const pushBracket = ({event, location, bracket}) => (dispatch) => {
+  dispatch(routeActions.replace({
+    ...location,
+    pathname: `/${event.id}/${bracket}`
+  }));
+  dispatch({
+    type: actions.PUSH_BRACKET,
+    bracket
+  });
+};
+
+export const updateGame = ({event, location, game, current, update}) => pushBracket({
+  event,
+  location,
+  bracket: update({...game, currentMaster: current})
 });
 
-export const updateGame = ({game, current, update}) => pushBracket(
-  update({...game, currentMaster: current})
-);
-
-export const generateBracket = ({method, generate}) => pushBracket(
-  generate(method)
-);
+export const generateBracket = ({event, location, method, generate}) => pushBracket({
+  event,
+  location,
+  bracket: generate(method)
+});
 
 export const goToFirst = () => ({
   type: actions.GOTO_FIRST

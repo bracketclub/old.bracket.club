@@ -6,7 +6,7 @@ import mapDispatchToProps from '../lib/mapDispatchToProps';
 
 import * as entrySelectors from '../selectors/entry';
 import * as bracketSelectors from '../selectors/bracket';
-import * as entryActions from '../actions/entry';
+import * as entryActionCreators from '../actions/entry';
 
 import Page from '../components/layout/Page';
 import LiveBracket from '../components/bracket/LiveBracket';
@@ -23,7 +23,7 @@ const mapStateToProps = (state, props) => ({
   progress: entrySelectors.progress(state, props)
 });
 
-@connect(mapStateToProps, mapDispatchToProps({entryActions, routeActions}))
+@connect(mapStateToProps, mapDispatchToProps({entryActions: entryActionCreators, routeActions}))
 export default class LiveEntryPage extends Component {
   static propTypes = {
     validate: PropTypes.func,
@@ -35,49 +35,36 @@ export default class LiveEntryPage extends Component {
 
   static getEventPath = (e) => ({pathname: `/${e}`});
 
-  componentDidMount() {
-    if (this.props.params.routeBracket) {
-      this.props.entryActions.pushBracket(this.props.params.routeBracket);
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.event.id === this.props.event.id) {
-      this.updateUrl();
-    }
-  }
-
-  updateUrl() {
-    const {event, bracket, location, locked} = this.props;
-    const pathname = `/${event.id}/${bracket}`;
-    const current = location.pathname;
-    if (!locked && current !== pathname) {
-      this.props.routeActions.replace(pathname);
-    }
-  }
-
   handleNavigate = (method) => {
     this.props.entryActions[method]();
   };
 
   handleUpdate = (game) => {
-    this.props.entryActions.updateGame({
-      game,
-      update: this.props.bracketHelpers.update,
-      current: this.props.bracket
+    const {entryActions, location, event, bracket, bracketHelpers} = this.props;
+    entryActions.updateGame({
+      location,
+      event,
+      current: bracket,
+      update: bracketHelpers.update
     });
   };
 
   handleReset = () => {
-    this.props.entryActions.pushBracket(
-      this.props.bracketHelpers.emptyBracket
-    );
+    const {event, location, entryActions, bracketHelpers} = this.props;
+    entryActions.pushBracket({
+      event,
+      location,
+      bracket: bracketHelpers.emptyBracket
+    });
   };
 
   handleGenerate = (method) => {
-    this.props.entryActions.generateBracket({
+    const {entryActions, bracketHelpers, event, location} = this.props;
+    entryActions.generateBracket({
+      event,
+      location,
       method,
-      generate: this.props.bracketHelpers.generate
+      generate: bracketHelpers.generate
     });
   };
 
