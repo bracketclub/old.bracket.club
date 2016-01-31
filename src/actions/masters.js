@@ -1,27 +1,23 @@
 import config from 'config';
 import restActions from '../lib/restActions';
-import * as routeActions from './routing';
+import {replaceQuery} from './routing';
 import {masters as schema} from '../schema';
+import * as mastersSelectors from '../selectors/masters';
 
-const goToFirst = ({location}) => routeActions.replaceQuery({
-  location,
-  query: {game: 0}
-});
+const routeToIndex = (getIndex) => () => (dispatch, getState) => {
+  const state = getState();
+  const {location} = state.routing;
+  const current = mastersSelectors.index(state, {location});
+  const {total} = mastersSelectors.progress(state, {location});
+  const game = typeof getIndex === 'function' ? getIndex({current, total}) : getIndex;
 
-const goToPrevious = ({current, location}) => routeActions.replaceQuery({
-  location,
-  query: {game: Math.max(0, current - 1)}
-});
+  dispatch(replaceQuery({location, query: {game}}));
+};
 
-const goToNext = ({current, total, location}) => routeActions.replaceQuery({
-  location,
-  query: {game: Math.min(total, current + 1)}
-});
-
-const goToLast = ({total, location}) => routeActions.replaceQuery({
-  location,
-  query: {game: total}
-});
+const goToFirst = routeToIndex(0);
+const goToPrevious = routeToIndex(({current}) => Math.max(0, current - 1));
+const goToNext = routeToIndex(({current, total}) => Math.min(total, current + 1));
+const goToLast = routeToIndex(({total}) => total);
 
 export default {
   ...restActions({
