@@ -5,6 +5,7 @@ import eventInfo from './event';
 import * as bracketSelectors from './bracket';
 
 const entry = (state) => state.entry;
+const bracketParam = (state, props) => props.params && props.params.bracket;
 
 const byEvent = createSelector(
   eventInfo,
@@ -14,13 +15,22 @@ const byEvent = createSelector(
 
 const current = createSelector(
   byEvent,
+  bracketParam,
   bracketSelectors.empty,
   // To pass to a view, the entry brackets always need to include
   // the empty bracket for that event as the base
-  ({brackets: $brackets, index: $index}, $empty) => ({
-    brackets: [$empty].concat($brackets),
-    index: $index + 1
-  })
+  ({brackets: $brackets, index: $index}, $bracketParam, $empty) => {
+    const $current = $brackets[$index];
+    const brackets = [$empty].concat($brackets);
+    let index = $index + 1;
+
+    if ($bracketParam && $current !== $bracketParam) {
+      brackets.push($bracketParam);
+      index += 1;
+    }
+
+    return {brackets, index};
+  }
 );
 
 // Exports

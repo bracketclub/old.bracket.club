@@ -40,29 +40,21 @@ export default class LiveEntryPage extends Component {
   };
 
   handleUpdate = (game) => {
-    const {entryActions, location, event, bracket, bracketHelpers} = this.props;
+    const {entryActions, bracket, bracketHelpers} = this.props;
     entryActions.updateGame({
-      location,
-      event,
       current: bracket,
       update: bracketHelpers.update
     });
   };
 
   handleReset = () => {
-    const {event, location, entryActions, bracketHelpers} = this.props;
-    entryActions.pushBracket({
-      event,
-      location,
-      bracket: bracketHelpers.emptyBracket
-    });
+    const {entryActions, bracketHelpers} = this.props;
+    entryActions.pushBracket(bracketHelpers.emptyBracket);
   };
 
   handleGenerate = (method) => {
-    const {entryActions, bracketHelpers, event, location} = this.props;
+    const {entryActions, bracketHelpers} = this.props;
     entryActions.generateBracket({
-      event,
-      location,
       method,
       generate: bracketHelpers.generate
     });
