@@ -35,13 +35,7 @@ export default class ResultsPage extends Component {
   static getEventPath = (e, params, query) => ({pathname: `/${e}/entries`, query});
 
   handleSort = (key) => {
-    const {location, sortParams} = this.props;
-
-    this.props.entriesActions.sort({
-      location,
-      current: sortParams,
-      sort: key
-    });
+    this.props.entriesActions.sort(key);
   };
 
   render() {
