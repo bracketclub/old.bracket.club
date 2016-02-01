@@ -6,9 +6,14 @@ export default ({middleware = [], initialState = {}}) => {
   const middlewares = [thunk].concat(middleware);
 
   if (process.env.NODE_ENV !== 'production') {
+    const {localStorage} = window;
+    const key = 'tyblog';
     middlewares.push(require('redux-logger')({
-      predicate: () => window.localStorage.getItem('tyb_log') !== 'false'
+      predicate: () => localStorage.getItem(key) !== key
     }));
+    window._toggleLogs = () => localStorage.getItem(key) === null
+      ? localStorage.setItem(key, key)
+      : localStorage.removeItem(key);
   }
 
   const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
