@@ -4,101 +4,62 @@ import * as entrySelectors from '../selectors/entry';
 import * as actions from '../constants/entry';
 
 const eventId = (state) => `${state.event.sport}-${state.event.year}`;
-const MIN = -1;
 
-// Dispatchers
-const pushBracket = ({bracket, state}) => ({
-  type: actions.PUSH_BRACKET,
-  event: eventId(state),
-  bracket
-});
-
-const goToIndex = ({index, state}) => ({
-  type: actions.GOTO_INDEX,
-  event: eventId(state),
-  index
-});
-
-const routeToBracket = ({bracket, state}) => routeActions.replace({
+// Replace bracket in current url
+const replaceBracket = ({bracket, state}) => routeActions.replace({
   pathname: `/${eventId(state)}/${bracket}`
 });
 
-const pushAndRoute = ({dispatch, bracket, state}) => {
-  dispatch(pushBracket({bracket, state}));
-  dispatch(routeToBracket({bracket, state}));
-};
-
 // Add new brackets to entry
-export const reset = () => (dispatch, getState) => {
+const routeToBracket = (getBracket) => (dispatch, getState) => {
   const state = getState();
   const {location} = state.routing;
-  const bracket = bracketSelectors.empty(state, {location});
+  const bracket = getBracket(state, {location});
 
-  pushAndRoute({bracket, state, dispatch});
+  dispatch({
+    type: actions.PUSH_BRACKET,
+    event: eventId(state),
+    bracket
+  });
+  dispatch(replaceBracket({bracket, state}));
 };
 
-export const updateGame = (game) => (dispatch, getState) => {
-  const state = getState();
-  const {location} = state.routing;
-  const current = entrySelectors.bracketString(state, {location});
-  const update = bracketSelectors.update(state, {location});
-  const bracket = update({...game, currentMaster: current});
+export const reset = () => routeToBracket((...args) =>
+  bracketSelectors.empty(...args)
+);
 
-  pushAndRoute({bracket, state, dispatch});
-};
+export const generateBracket = (method) => routeToBracket((...args) =>
+  bracketSelectors.generate(...args)(method)
+);
 
-export const generateBracket = (method) => (dispatch, getState) => {
-  const state = getState();
-  const {location} = state.routing;
-  const generate = bracketSelectors.generate(state, {location});
-  const bracket = generate(method);
-
-  pushAndRoute({bracket, state, dispatch});
-};
+export const updateGame = (game) => routeToBracket((...args) => {
+  const current = entrySelectors.bracketString(...args);
+  const update = bracketSelectors.update(...args);
+  return update({...game, currentMaster: current});
+});
 
 // Navigate between entry brackets
-const currentBrackets = (getState) => {
+const routeToIndex = (getIndex) => () => (dispatch, getState) => {
   const state = getState();
   const {location} = state.routing;
-  const {brackets, index: currentIndex} = entrySelectors.byEvent(state, {location});
+  const {brackets, index: current} = entrySelectors.byEvent(state, {location});
+  const total = brackets.length - 1;
+  const index = getIndex({current, total});
 
-  return {brackets, currentIndex, state};
-};
-
-const indexAndRoute = ({dispatch, brackets, index, state}) => {
   let bracket = brackets[index];
-  if (index === MIN) {
-    bracket = bracketSelectors.empty(state, {location: state.routing.location});
+  if (index === actions.MIN_INDEX) {
+    bracket = bracketSelectors.empty(state, {location});
   }
 
-  dispatch(goToIndex({index, state}));
-  dispatch(routeToBracket({bracket, state}));
+  dispatch({
+    type: actions.GOTO_INDEX,
+    event: eventId(state),
+    index
+  });
+  dispatch(replaceBracket({bracket, state}));
 };
 
-export const goToFirst = () => (dispatch, getState) => {
-  const {brackets, state} = currentBrackets(getState);
-  const index = MIN;
-
-  indexAndRoute({dispatch, brackets, index, state});
-};
-
-export const goToLast = () => (dispatch, getState) => {
-  const {brackets, state} = currentBrackets(getState);
-  const index = brackets.length - 1;
-
-  indexAndRoute({dispatch, brackets, index, state});
-};
-
-export const goToNext = () => (dispatch, getState) => {
-  const {brackets, currentIndex, state} = currentBrackets(getState);
-  const index = Math.min(brackets.length - 1, currentIndex + 1);
-
-  indexAndRoute({dispatch, brackets, index, state});
-};
-
-export const goToPrevious = () => (dispatch, getState) => {
-  const {brackets, currentIndex, state} = currentBrackets(getState);
-  const index = Math.max(MIN, currentIndex - 1);
-
-  indexAndRoute({dispatch, brackets, index, state});
-};
+export const goToFirst = routeToIndex(() => actions.MIN_INDEX);
+export const goToLast = routeToIndex(({total}) => total);
+export const goToNext = routeToIndex(({total, current}) => Math.min(total, current + 1));
+export const goToPrevious = routeToIndex(({current}) => Math.max(actions.MIN_INDEX, current - 1));
