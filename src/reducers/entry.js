@@ -1,57 +1,31 @@
 import concatOrInsert from '../lib/arrayConcatOrInsert';
 import * as types from '../constants/entry';
 
-// This reducer only updates the index of masters since that depends
-// on the rest of the state tree. The specifc dependent bits have been
-// implemented in the selectors for masters
-export default (state, action) => {
-  const {entry} = state;
-  const id = `${state.event.sport}-${state.event.year}`;
-  const {index = -1, brackets = []} = entry[id] || {};
+const initialState = {
+  __DEFAULT__: {index: 0, brackets: []}
+};
+
+export default (state = initialState, action) => {
+  const id = action.event || '__DEFAULT__';
+  const {index = 0, brackets = []} = state[id] || {};
 
   const updateState = (newState) => ({
     ...state,
-    entry: {
-      ...entry,
-      [id]: {
-        index,
-        brackets,
-        ...newState
-      }
-    }
+    [id]: {index, brackets, ...newState}
   });
 
   switch (action.type) {
 
   case types.PUSH_BRACKET:
-    // concatOrInsert will insert a bracket at the current index and remove
-    // everything after that index if necessary. The purpose is to allow the user
-    // to go back through their entry, and then make a different pick which will
-    // reset any "next" brackets in their stack
-    const bracketsWithGame = concatOrInsert(brackets, action.bracket, index + 1);
+    const newBrackets = concatOrInsert(brackets, action.bracket, index + 1);
     return updateState({
-      index: bracketsWithGame.length - 1,
-      brackets: bracketsWithGame
+      index: newBrackets.length - 1,
+      brackets: newBrackets
     });
 
-  case types.GOTO_FIRST:
+  case types.GOTO_INDEX:
     return updateState({
-      index: -1
-    });
-
-  case types.GOTO_LAST:
-    return updateState({
-      index: brackets.length - 1
-    });
-
-  case types.GOTO_NEXT:
-    return updateState({
-      index: Math.min(index + 1, brackets.length - 1)
-    });
-
-  case types.GOTO_PREVIOUS:
-    return updateState({
-      index: Math.max(-1, index - 1)
+      index: action.index
     });
 
   default:
