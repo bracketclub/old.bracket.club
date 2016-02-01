@@ -17,7 +17,6 @@ import BracketEnterButton from '../components/bracket/EnterButton';
 
 const mapStateToProps = (state, props) => ({
   validate: bracketSelectors.validate(state, props),
-  bracketHelpers: bracketSelectors.helpers(state, props),
   bracket: entrySelectors.bracketString(state, props),
   navigation: entrySelectors.navigation(state, props),
   progress: entrySelectors.progress(state, props)
@@ -27,7 +26,6 @@ const mapStateToProps = (state, props) => ({
 export default class LiveEntryPage extends Component {
   static propTypes = {
     validate: PropTypes.func,
-    bracketHelpers: PropTypes.object,
     bracket: PropTypes.string,
     navigation: PropTypes.object,
     progress: PropTypes.object
@@ -40,24 +38,15 @@ export default class LiveEntryPage extends Component {
   };
 
   handleUpdate = (game) => {
-    const {entryActions, bracket, bracketHelpers} = this.props;
-    entryActions.updateGame({
-      current: bracket,
-      update: bracketHelpers.update
-    });
+    this.props.entryActions.updateGame(game);
   };
 
   handleReset = () => {
-    const {entryActions, bracketHelpers} = this.props;
-    entryActions.pushBracket(bracketHelpers.emptyBracket);
+    this.props.entryActions.reset();
   };
 
   handleGenerate = (method) => {
-    const {entryActions, bracketHelpers} = this.props;
-    entryActions.generateBracket({
-      method,
-      generate: bracketHelpers.generate
-    });
+    this.props.entryActions.generateBracket(method);
   };
 
   handleEnter = (bracket) => {

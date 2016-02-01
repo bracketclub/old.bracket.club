@@ -29,6 +29,16 @@ export const score = createSelector(
   picker('score')
 );
 
+export const update = createSelector(
+  helpers,
+  picker('update')
+);
+
+export const generate = createSelector(
+  helpers,
+  picker('generate')
+);
+
 export const empty = createSelector(
   helpers,
   picker('emptyBracket')

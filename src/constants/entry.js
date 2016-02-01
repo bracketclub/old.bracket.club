@@ -1,5 +1,2 @@
 export const PUSH_BRACKET = 'ENTRY_PUSH_BRACKET';
-export const GOTO_FIRST = 'ENTRY_GOTO_FIRST';
-export const GOTO_LAST = 'ENTRY_GOTO_LAST';
-export const GOTO_NEXT = 'ENTRY_GOTO_NEXT';
-export const GOTO_PREVIOUS = 'ENTRY_GOTO_PREVIOUS';
+export const GOTO_INDEX = 'ENTRY_GOTO_INDEX';
