@@ -1,12 +1,7 @@
-export default (_arr, value, index) => {
-  const arr = _arr.slice(0);
-  const lastIndex = arr.length - 1;
+export default ({values, index = values.length - 1}, value) => {
+  const arr = [...values];
 
-  if (typeof index === 'undefined') {
-    index = lastIndex;
-  }
-
-  if (arr.length > 0 && index < lastIndex) {
+  if (arr.length > 0 && index < arr.length - 1) {
     arr.splice(index + 1, arr.length);
   }
 

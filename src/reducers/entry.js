@@ -1,32 +1,29 @@
 import concatOrInsert from '../lib/arrayConcatOrInsert';
 import * as types from '../constants/entry';
 
-const initialState = {
-  __DEFAULT__: {index: 0, brackets: []}
-};
+const initialState = {};
+const baseEventEntry = {index: types.MIN_INDEX, brackets: []};
 
 export default (state = initialState, action) => {
-  const id = action.event || '__DEFAULT__';
-  const {index = 0, brackets = []} = state[id] || {};
+  const id = action.event;
+  const event = state[id] || baseEventEntry;
 
-  const updateState = (newState) => ({
-    ...state,
-    [id]: {index, brackets, ...newState}
+  const updateEvent = (newEvent) => ({...state, [id]: {...event, ...newEvent}});
+  const updateBrackets = (brackets) => updateEvent({
+    brackets,
+    index: brackets.length - 1
   });
 
   switch (action.type) {
 
   case types.PUSH_BRACKET:
-    const newBrackets = concatOrInsert(brackets, action.bracket, index + 1);
-    return updateState({
-      index: newBrackets.length - 1,
-      brackets: newBrackets
-    });
+    return updateBrackets(concatOrInsert({
+      values: event.brackets,
+      index: event.index
+    }, action.bracket));
 
   case types.GOTO_INDEX:
-    return updateState({
-      index: action.index
-    });
+    return updateEvent({index: action.index});
 
   default:
     return state;
