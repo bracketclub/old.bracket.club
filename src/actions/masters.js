@@ -14,18 +14,17 @@ const routeToIndex = (getIndex) => () => (dispatch, getState) => {
   dispatch(replaceQuery({location, query: {game}}));
 };
 
-const goToFirst = routeToIndex(() => 0);
-const goToPrevious = routeToIndex(({current}) => Math.max(0, current - 1));
-const goToNext = routeToIndex(({current, total}) => Math.min(total, current + 1));
-const goToLast = routeToIndex(({total}) => total);
+const navigationActions = {
+  goToFirst: routeToIndex(() => 0),
+  goToPrevious: routeToIndex(({current}) => Math.max(0, current - 1)),
+  goToNext: routeToIndex(({current, total}) => Math.min(total, current + 1)),
+  goToLast: routeToIndex(({total}) => total)
+};
 
 export default {
+  navigate: (method) => navigationActions[method](),
   ...restActions({
     schema,
     url: `${config.apiUrl}/masters`
-  }),
-  goToFirst,
-  goToLast,
-  goToNext,
-  goToPrevious
+  })
 };

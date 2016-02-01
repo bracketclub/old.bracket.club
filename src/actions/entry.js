@@ -5,37 +5,46 @@ import * as actions from '../constants/entry';
 
 const eventId = (state) => `${state.event.sport}-${state.event.year}`;
 
-// Replace bracket in current url
-const replaceBracket = ({bracket, state}) => routeActions.replace({
-  pathname: `/${eventId(state)}/${bracket}`
-});
+// Helper to so actions can be called with just a bracket in which case it will
+// use the thunk middleware to get the event from getState,
+// or state can be passed in directly
+const eventAction = (action) => (bracket, state) => state
+  ? action(bracket, state)
+  : (dispatch, getState) => dispatch(action(bracket, getState()));
 
-// Add new brackets to entry
+// Replace bracket in current url
+export const updatePath = eventAction((bracket, state) => routeActions.replace({
+  pathname: `/${eventId(state)}/${bracket}`
+}));
+
+// Push a bracket onto the stack of entries
+export const pushBracket = eventAction((bracket, state) => ({
+  type: actions.PUSH_BRACKET,
+  event: eventId(state),
+  bracket
+}));
+
+// Add new brackets to entry and change the url
 const routeToBracket = (getBracket) => (dispatch, getState) => {
   const state = getState();
   const {location} = state.routing;
   const bracket = getBracket(state, {location});
 
-  dispatch({
-    type: actions.PUSH_BRACKET,
-    event: eventId(state),
-    bracket
-  });
-  dispatch(replaceBracket({bracket, state}));
+  dispatch(pushBracket(bracket, state));
+  dispatch(updatePath(bracket, state));
 };
 
 export const reset = () => routeToBracket((...args) =>
   bracketSelectors.empty(...args)
 );
 
-export const generateBracket = (method) => routeToBracket((...args) =>
+export const generate = (method) => routeToBracket((...args) =>
   bracketSelectors.generate(...args)(method)
 );
 
-export const updateGame = (game) => routeToBracket((...args) => {
+export const update = (game) => routeToBracket((...args) => {
   const current = entrySelectors.bracketString(...args);
-  const update = bracketSelectors.update(...args);
-  return update({...game, currentMaster: current});
+  return bracketSelectors.update(...args)({...game, currentMaster: current});
 });
 
 // Navigate between entry brackets
@@ -51,15 +60,15 @@ const routeToIndex = (getIndex) => () => (dispatch, getState) => {
     bracket = bracketSelectors.empty(state, {location});
   }
 
-  dispatch({
-    type: actions.GOTO_INDEX,
-    event: eventId(state),
-    index
-  });
-  dispatch(replaceBracket({bracket, state}));
+  dispatch({type: actions.GOTO_INDEX, event: eventId(state), index});
+  dispatch(updatePath(bracket, state));
 };
 
-export const goToFirst = routeToIndex(() => actions.MIN_INDEX);
-export const goToLast = routeToIndex(({total}) => total);
-export const goToNext = routeToIndex(({total, current}) => Math.min(total, current + 1));
-export const goToPrevious = routeToIndex(({current}) => Math.max(actions.MIN_INDEX, current - 1));
+const navigationActions = {
+  goToFirst: routeToIndex(() => actions.MIN_INDEX),
+  goToLast: routeToIndex(({total}) => total),
+  goToNext: routeToIndex(({total, current}) => Math.min(total, current + 1)),
+  goToPrevious: routeToIndex(({current}) => Math.max(actions.MIN_INDEX, current - 1))
+};
+
+export const navigate = (method) => navigationActions[method]();
