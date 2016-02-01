@@ -23,7 +23,7 @@ export default class MasterNav extends Component {
   };
 
   handleNavigate = (method) => {
-    this.props.mastersActions[method]();
+    this.props.mastersActions.navigate(method);
   };
 
   render() {

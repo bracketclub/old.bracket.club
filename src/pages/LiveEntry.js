@@ -18,6 +18,7 @@ import BracketEnterButton from '../components/bracket/EnterButton';
 const mapStateToProps = (state, props) => ({
   validate: bracketSelectors.validate(state, props),
   bracket: entrySelectors.bracketString(state, props),
+  empty: bracketSelectors.empty(state, props),
   navigation: entrySelectors.navigation(state, props),
   progress: entrySelectors.progress(state, props)
 });
@@ -27,18 +28,38 @@ export default class LiveEntryPage extends Component {
   static propTypes = {
     validate: PropTypes.func,
     bracket: PropTypes.string,
+    empty: PropTypes.string,
     navigation: PropTypes.object,
     progress: PropTypes.object
   };
 
   static getEventPath = (e) => ({pathname: `/${e}`});
 
+  componentDidMount() {
+    const {bracket, empty} = this.props;
+    const {bracket: bracketParam} = this.props.params;
+
+    // Mounting with a url bracket means we need to add that bracket to the store
+    if (bracketParam && bracketParam !== bracket && bracketParam !== empty) {
+      this.props.entryActions.pushBracket(bracketParam);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    // Changing events means that we need to sync the the url if there is a
+    // current entry in the store
+    if (prevProps.event.id !== this.props.event.id) {
+      const {bracket} = this.props;
+      if (bracket) this.props.entryActions.updatePath(bracket);
+    }
+  }
+
   handleNavigate = (method) => {
-    this.props.entryActions[method]();
+    this.props.entryActions.navigate(method);
   };
 
   handleUpdate = (game) => {
-    this.props.entryActions.updateGame(game);
+    this.props.entryActions.update(game);
   };
 
   handleReset = () => {
@@ -46,7 +67,7 @@ export default class LiveEntryPage extends Component {
   };
 
   handleGenerate = (method) => {
-    this.props.entryActions.generateBracket(method);
+    this.props.entryActions.generate(method);
   };
 
   handleEnter = (bracket) => {
