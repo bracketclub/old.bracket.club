@@ -10,13 +10,19 @@ const entry = (state) => state.entry;
 export const byEvent = createSelector(
   eventInfo,
   entry,
-  ($event, $entry) => findById($entry, $event.id) || {index: MIN_INDEX, brackets: []}
+  ($event, $entry) => findById($entry, $event.id) || {
+    index: MIN_INDEX,
+    brackets: []
+  }
 );
 
 export const bracketString = createSelector(
   byEvent,
   bracketSelectors.empty,
-  ({brackets: $brackets, index: $index}, $empty) => $index === MIN_INDEX ? $empty : $brackets[$index]
+  ({brackets: $brackets, index: $index}, $empty) =>
+    $index === MIN_INDEX
+      ? $empty
+      : $brackets[$index]
 );
 
 export const navigation = createSelector(
