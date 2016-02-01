@@ -3,7 +3,9 @@ import {createSelector} from 'reselect';
 import eventDisplayName from '../lib/eventDisplayName';
 
 const event = (state) => state.event;
-const eventId = (state, props) => props && props.params && props.params.eventId;
+const eventId = (state, props) => props &&
+  (props.params && props.params.eventId) ||
+  (props.location && props.location.pathname);
 
 export default createSelector(
   event,
@@ -12,7 +14,7 @@ export default createSelector(
     let sport, year;
 
     if ($eventId) {
-      const matches = $eventId.match(/(\w+)-(\d{4})/);
+      const matches = $eventId.match(/^\/?(\w+)-(\d{4})/);
       sport = matches && matches[1] && matches[1];
       year = matches && matches[2] && matches[2];
     }
