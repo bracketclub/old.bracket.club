@@ -38,7 +38,7 @@ export default class Page extends Component {
     } = this.props;
 
     return (
-      <Grid fluid={width === 'full'} style={{paddingBottom: '20px', minHeight: '300px'}}>
+      <Grid fluid={width === 'full'} style={{paddingBottom: '50px', minHeight: '300px'}}>
         <Row>
           <Col {...this.getColumnWidths()}>
             <SyncContainer sync={sync}>{children}</SyncContainer>

@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect';
 
-import findById from '../lib/findById';
+import findById from 'lib/findById';
 import eventInfo from './event';
 import * as bracketSelectors from './bracket';
 

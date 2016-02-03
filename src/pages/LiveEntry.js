@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {routeActions} from 'redux-simple-router';
-import analytics from '../lib/analytics';
-import mapDispatchToProps from '../lib/mapDispatchToProps';
 
+import analytics from 'lib/analytics';
+import mapDispatchToProps from 'lib/mapDispatchToProps';
 import * as entrySelectors from '../selectors/entry';
 import * as bracketSelectors from '../selectors/bracket';
 import * as entryActionCreators from '../actions/entry';
@@ -36,21 +36,37 @@ export default class LiveEntryPage extends Component {
   static getEventPath = (e) => ({pathname: `/${e}`});
 
   componentDidMount() {
+    // Mounting with a url bracket means we need to
+    // add that bracket to the store
+    this.pushBracket();
+    // Or we might mount with a bracket in the store
+    // but no param so the path should update
+    this.updatePath();
+  }
+
+  componentDidUpdate(prevProps) {
+    // Changing events means that we need to sync the
+    // url if there is an entry in the store
+    if (prevProps.event.id !== this.props.event.id) {
+      this.updatePath();
+    }
+  }
+
+  pushBracket() {
     const {bracket, empty} = this.props;
     const {bracket: bracketParam} = this.props.params;
 
-    // Mounting with a url bracket means we need to add that bracket to the store
     if (bracketParam && bracketParam !== bracket && bracketParam !== empty) {
       this.props.entryActions.pushBracket(bracketParam);
     }
   }
 
-  componentDidUpdate(prevProps) {
-    // Changing events means that we need to sync the the url if there is a
-    // current entry in the store
-    if (prevProps.event.id !== this.props.event.id) {
-      const {bracket} = this.props;
-      if (bracket) this.props.entryActions.updatePath(bracket);
+  updatePath() {
+    const {bracket, empty} = this.props;
+    const {bracket: bracketParam} = this.props.params;
+
+    if (bracket && bracket !== bracketParam && bracket !== empty) {
+      this.props.entryActions.updatePath(bracket);
     }
   }
 

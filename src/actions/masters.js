@@ -1,5 +1,5 @@
 import config from 'config';
-import restActions from '../lib/restActions';
+import restActions from 'lib/restActions';
 import {replaceQuery} from './routing';
 import {masters as schema} from '../schema';
 import * as mastersSelectors from '../selectors/masters';

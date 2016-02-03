@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import {chunk, has, flatten, compact} from 'lodash';
 import {Row, Col, Alert} from 'react-bootstrap';
 
+import getScrollbarWidth from 'lib/scrollbarWidth';
+
 class Team extends Component {
   static propTypes = {
     onUpdate: PropTypes.func,
@@ -28,28 +30,21 @@ class Team extends Component {
   };
 
   render() {
-    const aClasses = classNames({
+    const teamClasses = classNames('team', {
       pickable: this.props.onUpdate,
       eliminated: this.props.eliminated,
       correct: this.props.correct === true,
       incorrect: this.props.correct === false
     });
     const shouldBe = this.props.shouldBe;
-    const shouldBeClasses = classNames({hide: !shouldBe});
-    const {fromRegion, seed, name} = this.props;
+    const shouldBeClasses = classNames('should-be', {hide: !shouldBe});
+    const {seed, name} = this.props;
     return (
       <li>
-        <a
-          onClick={this.handleClick}
-          className={`team ${aClasses}`}
-          data-region={fromRegion}
-          data-seed={seed}
-          data-name={name}
-          data-id={fromRegion + seed}
-        >
+        <a onClick={this.handleClick} className={teamClasses}>
           <span className='seed'>{seed}</span>
           <span className='team-name'>{name}</span>
-          <span className={`should-be ${shouldBeClasses}`}>
+          <span className={shouldBeClasses}>
             <span className='seed'>{shouldBe ? shouldBe.seed : ''}</span>
             <span className='team-name'>{shouldBe ? shouldBe.name : ''}</span>
           </span>
@@ -113,7 +108,7 @@ class Region extends Component {
   render() {
     const {final, name, id, onUpdate, rounds} = this.props;
 
-    const classes = classNames({
+    const regionClasses = classNames('region', {
       'final-region': final,
       'initial-region': !final
     });
@@ -128,7 +123,7 @@ class Region extends Component {
     }
 
     return (
-      <section className={`region ${classes}`} data-id={id}>
+      <section className={regionClasses}>
         <h2 className='region-name'>{name + unpicked}</h2>
         <div className='rounds'>
           <div className='rounds-scroll'>
@@ -165,6 +160,7 @@ export default class Bracket extends Component {
     const {bracket, onUpdate} = this.props;
     const common = {onUpdate};
     const borders = (<div className='final-round-borders' />);
+    const bracketClasses = classNames('bracket', `has-scroll-${getScrollbarWidth()}`);
 
     if (!bracket) {
       return null;
@@ -180,7 +176,7 @@ export default class Bracket extends Component {
     }
 
     return (
-      <Row className='bracket'>
+      <Row className={bracketClasses}>
         <Col md={6} className='region-side left-side'>
           <Region {...bracket.region1} {...common} />
           {borders}

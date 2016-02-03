@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
-import mapDispatchToProps from '../../lib/mapDispatchToProps';
+import mapDispatchToProps from 'lib/mapDispatchToProps';
 
 import * as mastersSelectors from '../../selectors/masters';
 import * as mastersActions from '../../actions/masters';

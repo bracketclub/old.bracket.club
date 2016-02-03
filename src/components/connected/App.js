@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {last} from 'lodash';
 
-import countdown from '../../lib/countdown';
+import countdown from 'lib/countdown';
 import eventInfo from '../../selectors/event';
 import * as bracketSelectors from '../../selectors/bracket';
 import * as meActionCreators from '../../actions/me';

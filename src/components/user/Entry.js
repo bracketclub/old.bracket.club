@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Alert} from 'react-bootstrap';
 import {Link} from 'react-router';
+
 import DiffBracket from '../bracket/DiffBracket';
 
 export default class UserEntry extends Component {

@@ -1,4 +1,4 @@
-import concatOrInsert from '../lib/arrayConcatOrInsert';
+import concatOrInsert from 'lib/arrayConcatOrInsert';
 import * as types from '../constants/entry';
 
 const initialState = {};

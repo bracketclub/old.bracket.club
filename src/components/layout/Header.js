@@ -12,7 +12,7 @@ const {
   Collapse: NavbarCollapse
 } = Navbar;
 
-import eventDisplayName from '../../lib/eventDisplayName';
+import eventDisplayName from 'lib/eventDisplayName';
 
 const events = __EVENTS__;
 

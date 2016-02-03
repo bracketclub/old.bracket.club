@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import fetch from '../lib/fetchDecorator';
-import mergeSyncState from '../lib/mergeSyncState';
-import mapDispatchToProps from '../lib/mapDispatchToProps';
 
+import fetch from 'lib/fetchDecorator';
+import mergeSyncState from 'lib/mergeSyncState';
+import mapDispatchToProps from 'lib/mapDispatchToProps';
 import * as entriesSelectors from '../selectors/entries';
 import * as entriesActions from '../actions/entries';
 import * as mastersActions from '../actions/masters';
