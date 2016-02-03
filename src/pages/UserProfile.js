@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import fetch from '../lib/fetchDecorator';
 
+import fetch from 'lib/fetchDecorator';
 import * as usersActions from '../actions/users';
 import * as usersSelectors from '../selectors/users';
 

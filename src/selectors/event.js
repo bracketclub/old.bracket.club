@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect';
 
-import eventDisplayName from '../lib/eventDisplayName';
+import eventDisplayName from 'lib/eventDisplayName';
 
 const event = (state) => state.event;
 const eventId = (state, props) => props &&

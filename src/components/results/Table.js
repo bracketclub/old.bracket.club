@@ -13,11 +13,12 @@ export default class ResultsTable extends Component {
 
   render() {
     const {entries, sortParams} = this.props;
+    const hasResults = entries.length;
 
-    const headerProps = {
+    const headerProps = hasResults ? {
       sortParams,
       onClick: this.props.onSort
-    };
+    } : {};
 
     return (
       <div>
@@ -40,7 +41,7 @@ export default class ResultsTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {!entries.length &&
+            {!hasResults &&
               <tr><td colSpan='12'>There are no results yet for this event.</td></tr>
             }
             {entries.map((entry) =>

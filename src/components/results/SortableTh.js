@@ -5,32 +5,34 @@ import classNames from 'classnames';
 export default class SortableTh extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    onClick: PropTypes.func.isRequired,
     sortKey: PropTypes.string.isRequired,
-    sortParams: PropTypes.object.isRequired,
+    onClick: PropTypes.func,
+    sortParams: PropTypes.object,
     hideXs: PropTypes.bool,
     hideSm: PropTypes.bool
   };
 
   handleClick = (e) => {
     e.preventDefault();
-    this.props.onClick(this.props.sortKey);
+    const {onClick, sortKey} = this.props;
+    if (onClick) onClick(sortKey);
   };
 
   render() {
     const {sortKey, sortParams, hideXs, hideSm} = this.props;
+    const disabled = !sortParams;
 
-    const active = sortKey === sortParams.key;
-    const cx = classNames({
+    const active = !disabled && sortKey === sortParams.key;
+    const aClasses = classNames({disabled});
+    const thClasses = classNames({
       active,
       'hidden-xs': hideXs,
-      'hidden-sm': hideSm,
-      'sortable-col': true
+      'hidden-sm': hideSm
     });
 
     return (
-      <th className={cx}>
-        <a href='#' onClick={this.handleClick}>
+      <th className={thClasses}>
+        <a href='#' className={aClasses} onClick={this.handleClick}>
           {this.props.children}
           {active &&
             <Glyphicon glyph={`chevron-${sortParams.dir === 'asc' ? 'up' : 'down'}`} />

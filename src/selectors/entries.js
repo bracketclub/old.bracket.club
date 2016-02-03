@@ -1,8 +1,8 @@
 import {createSelector} from 'reselect';
 import {filter, pick, sortedIndexBy, orderBy, sortBy} from 'lodash';
 
-import findById from '../lib/findById';
-import transformKey from '../lib/transformKey';
+import findById from 'lib/findById';
+import transformKey from 'lib/transformKey';
 import eventInfo from './event';
 import * as bracketSelectors from './bracket';
 import * as mastersSelectors from './masters';

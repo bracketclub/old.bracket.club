@@ -1,4 +1,5 @@
 import {routeActions} from 'redux-simple-router';
+
 import * as bracketSelectors from '../selectors/bracket';
 import * as entrySelectors from '../selectors/entry';
 import * as actions from '../constants/entry';
@@ -14,7 +15,7 @@ const eventAction = (action) => (bracket, state) => state
 
 // Replace bracket in current url
 export const updatePath = eventAction((bracket, state) => routeActions.replace({
-  pathname: `/${eventId(state)}/${bracket}`
+  pathname: `/${eventId(state)}${bracket ? `/${bracket}` : ''}`
 }));
 
 // Push a bracket onto the stack of entries
@@ -54,11 +55,7 @@ const routeToIndex = (getIndex) => () => (dispatch, getState) => {
   const {brackets, index: current} = entrySelectors.byEvent(state, {location});
   const total = brackets.length - 1;
   const index = getIndex({current, total});
-
-  let bracket = brackets[index];
-  if (index === actions.MIN_INDEX) {
-    bracket = bracketSelectors.empty(state, {location});
-  }
+  const bracket = brackets[index];
 
   dispatch({type: actions.GOTO_INDEX, event: eventId(state), index});
   dispatch(updatePath(bracket, state));

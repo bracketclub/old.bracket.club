@@ -2,8 +2,9 @@
 
 'use strict';
 
+const path = require('path');
 const webpackConfig = require('hjs-webpack');
-const transform = require('lodash').transform;
+const _ = require('lodash');
 
 const env = process.env;
 const isDev = env.NODE_ENV !== 'production';
@@ -45,9 +46,10 @@ const config = webpackConfig({
     config: `src/config/${isDev ? 'development' : 'production'}.js`
   },
   output: {hash: true},
-  define: transform({YEAR, SPORT, EVENTS}, (res, val, key) => {
+  define: _.transform({YEAR, SPORT, EVENTS}, (res, val, key) => {
     res[`__${key}__`] = JSON.stringify(val);
   }),
+  hostname: 'lukekarrys.local',
   devServer: {
     contentBase: 'public'
   },
@@ -55,6 +57,11 @@ const config = webpackConfig({
     [isDev ? 'index.html' : '200.html']: renderHTML(context)
   })
 });
+
+// Allow for src/lib files to be required without relative paths
+config.resolve.alias = {
+  lib: path.resolve(__dirname, 'src', 'lib')
+};
 
 // Mutate in place the less loader in all env to have the val-loader first
 const findLessLoader = (l) => (l.loader || '').indexOf('!less') > -1;

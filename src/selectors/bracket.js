@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect';
 
-import bh from '../lib/bracket';
-import picker from '../lib/picker';
+import bh from 'lib/bracket';
+import picker from 'lib/picker';
 import eventInfo from './event';
 
 export const helpers = createSelector(

@@ -13,20 +13,23 @@
   .region {
     position: relative;
     z-index: 2;
+    margin: 20px 0 44px;
+    @media (min-width: @large-bracket-min) {
+      margin-bottom: 0;
+    }
   }
 
   .region-name {
     position: absolute;
-    top: 46%;
+    top: 50%;
     right: @region-name-horizontal;
     margin: 0;
     font-size: 24px;
+    line-height: 1em;
     @media (max-width: @screen-xs-max) {
       font-size: 18px;
-      top: 47%;
     }
   }
-
 
 
   // ------------------------
@@ -44,7 +47,7 @@
       }
 
       &:last-child {
-        margin-bottom: 0;
+        margin-bottom: 0 !important;
       }
     }
 
@@ -196,18 +199,16 @@
       border-right: 1px solid #000;
       position: absolute;
       right: 15px;
-      height: 301px;
-      bottom: 25%;
-      .lh-calc(bottom, ~"25% + 8px");
+      height: 400px;
+      bottom: 259px;
       width: 1px;
       z-index: 1;
     }
 
     .initial-region:first-child + .final-round-borders {
       bottom: inherit;
-      top: 25%;
-      .lh-calc(top, ~"25% - 8px");
-      height: 302px;
+      top: 306px;
+      height: 281px;
       border-bottom: 1px solid #000;
       width: 200px;
     }
@@ -267,8 +268,9 @@
   // FINAL FOUR
   // ------------------------
   .final-region {
+    margin-bottom: 0;
+
     .region-name {
-      top: 42%;
       right: 36%;
     }
 
@@ -322,8 +324,8 @@
         margin: 0;
       }
 
-      .round .matchup li, .round .matchup li:last-child
-      {
+      .round .matchup li,
+      .round .matchup li:last-child {
         margin: 0;
         padding: 0;
         border: none;
@@ -398,7 +400,11 @@
   // ------------------------
   @media (max-width: @small-bracket-max) {
     .rounds {
-      overflow-x: auto;
+      overflow-x: scroll;
+      padding-bottom: 15px;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-points-x: repeat(50%);
+      scroll-snap-type: mandatory;
     }
 
     .region-name {
@@ -408,25 +414,26 @@
       font-size: 24px;
     }
 
-    .rounds {
-      margin-top: 7px;
-    }
-
-    .rounds-scroll {
-      .lh-calc(width, ~"250vw - 75px");
-    }
-
-    .round {
-      .lh-calc(width, ~"50vw - 15px");
-    }
-
-    .final-region {
+    .rounds-width(@gutter) {
+      @roundWidth: 50vw;
+      @rounds: @roundWidth * 5;
+      @roundGutter: @gutter * 5;
+      @finalRounds: @roundWidth * 3;
+      @finalRoundGutter: @gutter * 3;
       .rounds-scroll {
-        .lh-calc(width, ~"150vw - 45px");
+        .lh-calc(width, ~"@{rounds} - @{roundGutter}");
       }
+
       .round {
-        .lh-calc(width, ~"50vw - 15px");
+        .lh-calc(width, ~"@{roundWidth} - @{gutter}");
+      }
+
+      .final-region .rounds-scroll {
+        .lh-calc(width, ~"@{finalRounds} - @{finalRoundGutter}");
       }
     }
+
+    .rounds-width(15px);
+    &.has-scroll-15 { .rounds-width(22.5px); }
   }
 }

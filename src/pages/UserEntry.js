@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import fetch from '../lib/fetchDecorator';
-import mergeSyncState from '../lib/mergeSyncState';
 
+import fetch from 'lib/fetchDecorator';
+import mergeSyncState from 'lib/mergeSyncState';
 import * as usersActions from '../actions/users';
 import * as mastersActions from '../actions/masters';
 import * as bracketSelectors from '../selectors/bracket';

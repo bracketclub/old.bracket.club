@@ -3,7 +3,15 @@
   .border-top-radius(0);
 }
 
-th .glyphicon {
-  margin-left: 5px;
-  font-size: 11px;
+th {
+  a.disabled:hover {
+    text-decoration: none;
+    color: @link-color;
+    cursor: default;
+  }
+
+  .glyphicon {
+    margin-left: 5px;
+    font-size: 11px;
+  }
 }

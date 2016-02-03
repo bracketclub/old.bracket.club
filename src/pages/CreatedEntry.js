@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import fetch from '../lib/fetchDecorator';
-import mapDispatchToProps from '../lib/mapDispatchToProps';
 
+import fetch from 'lib/fetchDecorator';
+import mapDispatchToProps from 'lib/mapDispatchToProps';
 import * as bracketSelectors from '../selectors/bracket';
 import * as mastersSelectors from '../selectors/masters';
 import * as mastersActions from '../actions/masters';

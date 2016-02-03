@@ -1,6 +1,7 @@
-import firebase from '../lib/firebase';
-import * as actions from '../constants/me';
 import {pick} from 'lodash';
+
+import firebase from 'lib/firebase';
+import * as actions from '../constants/me';
 
 export const syncLogin = (auth) => {
   if (!auth) {
