@@ -5,20 +5,13 @@
 const path = require('path');
 const webpackConfig = require('hjs-webpack');
 const _ = require('lodash');
+const config = require('getconfig');
 
-const env = process.env;
-const isDev = env.NODE_ENV !== 'production';
-
-const SPORT = 'ncaam';
-const YEAR = '2016';
-const EVENTS = [
-  'ncaam-2016',
-  'ncaaw-2016',
-  'ncaam-2015',
-  'ncaam-2014',
-  'ncaam-2013',
-  'ncaam-2012'
-];
+const isDev = config.getconfig.isDev;
+const define = _(config)
+  .pick('year', 'sport', 'events', 'mock')
+  .transform((res, val, key) => res[`__${key.toUpperCase()}__`] = JSON.stringify(val))
+  .value();
 
 const renderHTML = (context) =>
   `<!DOCTYPE html>
@@ -37,21 +30,17 @@ const renderHTML = (context) =>
   </body>
   </html>`.replace(/\n\s*/g, '');
 
-const config = webpackConfig({
+const webpack = webpackConfig({
   isDev,
+  define,
   'in': 'src/main.js',
   out: 'build',
   clearBeforeBuild: true,
+  output: {hash: true},
+  hostname: 'lukekarrys.local',
+  devServer: {contentBase: 'public'},
   replace: {
     config: `src/config/${isDev ? 'development' : 'production'}.js`
-  },
-  output: {hash: true},
-  define: _.transform({YEAR, SPORT, EVENTS}, (res, val, key) => {
-    res[`__${key}__`] = JSON.stringify(val);
-  }),
-  hostname: 'lukekarrys.local',
-  devServer: {
-    contentBase: 'public'
   },
   html: (context) => ({
     [isDev ? 'index.html' : '200.html']: renderHTML(context)
@@ -59,12 +48,12 @@ const config = webpackConfig({
 });
 
 // Allow for src/lib files to be required without relative paths
-config.resolve.alias = {
+webpack.resolve.alias = {
   lib: path.resolve(__dirname, 'src', 'lib')
 };
 
 // Mutate in place the less loader in all env to have the val-loader first
 const findLessLoader = (l) => (l.loader || '').indexOf('!less') > -1;
-config.module.loaders.find(findLessLoader).loader += '!val-loader';
+webpack.module.loaders.find(findLessLoader).loader += '!val-loader';
 
-module.exports = config;
+module.exports = webpack;

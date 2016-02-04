@@ -1,7 +1,12 @@
+/* global __MOCK__ */
+
 import React, {PropTypes, Component} from 'react';
 import qs from 'query-string';
 import {Button, Popover, Alert, OverlayTrigger} from 'react-bootstrap';
 import TimeAgo from 'react-timeago';
+import dateFormat from 'dateformat';
+
+const isOpen = (id) => __MOCK__.indexOf(id) === -1;
 
 export default class BracketEnterButton extends Component {
   static propTypes = {
@@ -16,7 +21,7 @@ export default class BracketEnterButton extends Component {
     const {event, bracket} = this.props;
 
     const tweetQs = qs.stringify({
-      text: 'Check out my #bracket!',
+      text: 'Already planning my #bracket!',
       url: `http://tweetyourbracket.com/${event.id}/entry/${bracket}`,
       hashtags: 'tybrkt',
       lang: 'en',
@@ -29,14 +34,31 @@ export default class BracketEnterButton extends Component {
   }
 
   getOverlay() {
-    const {onEnter, bracket} = this.props;
+    const {onEnter, bracket, locks, event} = this.props;
+    const open = isOpen(event.id);
 
     const popover = (
       <Popover id='enter-popover'>
         <p>You'll be taken to <strong>twitter.com</strong> to tweet your bracket!</p>
-        <Alert bsStyle='info'>
-          <strong>Important!</strong> Don't alter the <strong>url</strong> or <strong>#tybrkt hashtag</strong> of the tweet. We use those to verify your entry.
-        </Alert>
+        {open &&
+          <Alert bsStyle='info'>
+            Don't alter the <strong>url</strong> or <strong>#tybrkt hashtag</strong> of the tweet.
+            {' '}
+            We use those to verify your entry.
+          </Alert>
+        }
+        {!open &&
+          <Alert bsStyle='info'>
+            <strong>Hey!</strong>
+            {' '}
+            Entries aren't open yet (this is just the the latest projected bracket).
+            You're welcome to tweet it, but make sure to come back before
+            {' '}
+            <strong>{dateFormat(new Date(locks), 'mmmm dS h:MMTT')}</strong>
+            {' '}
+            to tweet your bracket for real.
+          </Alert>
+        }
       </Popover>
     );
 
