@@ -1,11 +1,20 @@
-/* globals ga */
+/* global __GA__ */
 
-export default {
-  pageview(path) {
-    ga('send', 'pageview', path);
-  },
+import ga from 'react-ga';
+import bows from 'bows';
 
-  enterBracket(bracket) {
-    ga('send', 'event', 'bracket-enter', 'click', bracket);
-  }
-};
+let analytics;
+
+if (process.env.NODE_ENV === 'production') {
+  ga.initialize(__GA__);
+  analytics = ga;
+}
+else {
+  const log = bows('analytics');
+  analytics = {
+    pageview: log,
+    event: log
+  };
+}
+
+export default analytics;
