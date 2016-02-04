@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {routeActions} from 'redux-simple-router';
+import {routeActions} from 'react-router-redux';
 
 import analytics from 'lib/analytics';
 import mapDispatchToProps from 'lib/mapDispatchToProps';

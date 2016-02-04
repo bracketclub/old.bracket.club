@@ -1,4 +1,4 @@
-import {routeActions} from 'redux-simple-router';
+import {routeActions} from 'react-router-redux';
 
 import * as bracketSelectors from '../selectors/bracket';
 import * as entrySelectors from '../selectors/entry';

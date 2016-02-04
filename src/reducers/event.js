@@ -1,6 +1,6 @@
 /* global __SPORT__, __YEAR__ */
 
-import {UPDATE_LOCATION} from 'redux-simple-router';
+import {UPDATE_LOCATION} from 'react-router-redux';
 
 import * as types from '../constants/event';
 

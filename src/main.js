@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
-import {syncHistory} from 'redux-simple-router';
+import {syncHistory} from 'react-router-redux';
 
 import ga from 'lib/analytics';
 import firebase from 'lib/firebase';

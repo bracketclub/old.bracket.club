@@ -1,14 +1,14 @@
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import rootReducer from '../reducers';
 import thunk from 'redux-thunk';
 
-export default ({middleware = [], initialState = {}}) => {
-  const middlewares = [thunk].concat(middleware);
+export default ({middleware = []} = {}) => {
+  const storeEnhancers = [];
 
   if (process.env.NODE_ENV !== 'production') {
     const {localStorage} = window;
     const key = 'tyblog';
-    middlewares.push(require('redux-logger')({
+    middleware.push(require('redux-logger')({
       predicate: () => localStorage.getItem(key) !== key
     }));
     window._toggleLogs = () => localStorage.getItem(key) === null
@@ -16,8 +16,13 @@ export default ({middleware = [], initialState = {}}) => {
       : localStorage.removeItem(key);
   }
 
-  const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
-  const store = createStoreWithMiddleware(rootReducer, initialState);
+  const store = createStore(
+    rootReducer,
+    compose(
+      applyMiddleware(thunk, ...middleware),
+      ...storeEnhancers
+    )
+  );
 
   if (module.hot) {
     module.hot.accept('../reducers', () => {
