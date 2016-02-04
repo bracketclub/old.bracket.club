@@ -17,9 +17,8 @@ import * as meActions from './actions/me';
 const reduxRouterMiddleware = syncHistory(browserHistory);
 const store = configureStore({middleware: [reduxRouterMiddleware]});
 
-if (process.env.NODE_ENV === 'production') {
-  browserHistory.listen(({pathname}) => ga.pageview(pathname));
-}
+// Google analytics for each history change
+browserHistory.listen(({pathname, search}) => ga.pageview(pathname + search));
 
 // Firebase will trigger the action if the user is logged in from a previous
 // session when first loading the page

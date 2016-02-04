@@ -72,22 +72,45 @@ export default class LiveEntryPage extends Component {
 
   handleNavigate = (method) => {
     this.props.entryActions.navigate(method);
+    analytics.event({
+      category: 'Entry',
+      action: 'navigate',
+      value: method
+    });
   };
 
   handleUpdate = (game) => {
     this.props.entryActions.update(game);
+    analytics.event({
+      category: 'Entry',
+      action: 'update',
+      value: game
+    });
   };
 
   handleReset = () => {
     this.props.entryActions.reset();
+    analytics.event({
+      category: 'Entry',
+      action: 'reset'
+    });
   };
 
   handleGenerate = (method) => {
     this.props.entryActions.generate(method);
+    analytics.event({
+      category: 'Entry',
+      action: 'generate',
+      value: method
+    });
   };
 
   handleEnter = (bracket) => {
-    analytics.enterBracket(bracket);
+    analytics.event({
+      category: 'Entry',
+      action: 'tweet',
+      value: bracket
+    });
   };
 
   render() {
