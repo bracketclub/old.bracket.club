@@ -1,43 +1,43 @@
-@footer-height: 120px;
+@footer-height: 100px;
 
 html {
-    position: relative;
-    min-height: 100%;
+  position: relative;
+  min-height: 100%;
 }
 
 body {
-    margin-bottom: @footer-height;
-}
-
-.main-container {
-    padding-bottom: 40px;
+  margin-bottom: @footer-height;
 }
 
 footer {
-    position: absolute;
-    bottom: 0;
-    left: 15px;
-    right: 15px;
-    height: @footer-height;
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  right: 15px;
+  height: @footer-height;
 
-    .container, .container-fluid {
-        padding-top: 20px;
-        border-top: 1px solid @gray-light;
-        color: #777;
+  .container, .container-fluid {
+    padding-top: 20px;
+    border-top: 1px solid @gray-light;
+    color: #777;
+  }
+
+  p.twitter {
+    margin-bottom: 5px;
+  }
+
+  .footer-links {
+    padding: 0;
+
+    li {
+      display: inline;
+      padding: 0 2px;
     }
 
-    .footer-links {
-        padding: 0;
-
-        li {
-            display: inline;
-            padding: 0 2px;
-        }
-
-        .follow-button {
-            position: relative;
-            top: 5px;
-            padding-left: 4px;
-        }
+    .follow-button {
+      position: relative;
+      top: 5px;
+      padding-left: 4px;
     }
+  }
 }

@@ -1,0 +1,46 @@
+import React, {Component, PropTypes} from 'react';
+import hoistStatics from 'hoist-non-react-statics';
+
+const getDisplayName = (WrappedComponent) =>
+  WrappedComponent.displayName || WrappedComponent.name || 'Component';
+
+export default (mapPropsToActions) => (WrappedComponent) => {
+  class FetchOnUpdate extends Component {
+    static propTypes = {
+      dispatch: PropTypes.func.isRequired
+    };
+
+    static displayName = `FetchOnUpdate(${getDisplayName(WrappedComponent)})`;
+
+    componentDidMount() {
+      const {dispatch} = this.props;
+      const actions = mapPropsToActions(this.props);
+
+      Object.keys(actions).forEach((key) => {
+        const [action, param] = actions[key];
+        dispatch(action(param));
+      });
+    }
+
+    componentDidUpdate(prevProps) {
+      const {dispatch} = this.props;
+      const prevActions = mapPropsToActions(prevProps);
+      const actions = mapPropsToActions(this.props);
+
+      Object.keys(actions).forEach((key) => {
+        const [action, param] = actions[key];
+        if (param !== prevActions[key][1]) {
+          dispatch(action(param));
+        }
+      });
+    }
+
+    render() {
+      return (
+        <WrappedComponent {...this.props} />
+      );
+    }
+  }
+
+  return hoistStatics(FetchOnUpdate, WrappedComponent);
+};

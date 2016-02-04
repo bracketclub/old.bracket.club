@@ -1,15 +1,22 @@
-.popover-content .alert:last-child {
-    margin: 0 -15px -10px;
-    .border-top-radius(0);
+.popover-content .alert {
+  margin: 0 -15px;
+  border-radius: 0;
+
+  &:last-child {
+    .border-bottom-radius(@border-radius-large);
+    margin-bottom: -10px;
+  }
 }
 
-.results-table {
-    thead th.sortable-col {
-        cursor: pointer;
+th {
+  a.disabled:hover {
+    text-decoration: none;
+    color: @link-color;
+    cursor: default;
+  }
 
-        .glyphicon {
-            margin-left: 5px;
-            font-size: 11px;
-        }
-    }
+  .glyphicon {
+    margin-left: 5px;
+    font-size: 11px;
+  }
 }

@@ -1,47 +1,45 @@
 .navbar {
-    border: none;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-color: @navbar-default-border;
+  border: none;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-color: @navbar-default-border;
 }
 
 .navbar-default .year-nav .open .dropdown-menu {
-    min-width: 75px;
+  min-width: 75px;
 }
 
 @media (max-width: @screen-xs-max) {
-    .navbar-default .year-nav {
-        position: absolute;
-        top: 0;
-        left: 179px;
-        margin: 0;
+  .navbar-default .year-nav {
+    float: left;
+    margin: 0;
 
-        & > li > a {
-            padding-top: 15px;
-            padding-bottom: 15px;
-        }
-
-        // Override the small screen dropdown styles within a nav
-        .open .dropdown-menu {
-            position: absolute;
-            float: left;
-            width: auto;
-            margin: 0;
-            background-color: @dropdown-bg;
-            border: 1px solid @dropdown-fallback-border; // IE8 fallback
-            border: 1px solid @dropdown-border;
-            .border-top-radius(0);
-            .box-shadow(0 6px 12px rgba(0,0,0,.175));
-
-            & > li > a {
-                padding: 3px 20px;
-                color: @dropdown-link-color;
-                &:hover,
-                &:focus {
-                    color: @dropdown-link-hover-color;
-                    background-color: @dropdown-link-hover-bg;
-                }
-            }
-        }
+    & > li > a {
+      padding-top: 15px;
+      padding-bottom: 15px;
     }
+
+    // Override the small screen dropdown styles within a nav
+    .open .dropdown-menu {
+      position: absolute;
+      float: left;
+      width: auto;
+      margin: 0;
+      background-color: @dropdown-bg;
+      border: 1px solid @dropdown-fallback-border; // IE8 fallback
+      border: 1px solid @dropdown-border;
+      .border-top-radius(0);
+      .box-shadow(0 6px 12px rgba(0,0,0,.175));
+
+      & > li > a {
+        padding: 3px 20px;
+        color: @dropdown-link-color;
+        &:hover,
+        &:focus {
+          color: @dropdown-link-hover-color;
+          background-color: @dropdown-link-hover-bg;
+        }
+      }
+    }
+  }
 }
