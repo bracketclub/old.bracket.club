@@ -18,7 +18,7 @@ export default class Footer extends Component {
             <li className='muted'>{middot}</li>
             <li><a href='http://lukecod.es/2014/01/25/tweet-your-bracket/'>What Is This?</a></li>
           </ul>
-          <p>
+          <p className='twitter'>
             <a className='twitter-follow-button' href='https://twitter.com/TweetTheBracket' data-show-count='false'>
               Follow @TweetTheBracket
             </a>

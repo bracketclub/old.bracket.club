@@ -1,0 +1,16 @@
+{
+  "sport": "ncaam",
+  "year": "2016",
+  "mock": [
+    "ncaam-2016",
+    "ncaaw-2016"
+  ],
+  "events": [
+    "ncaam-2016",
+    "ncaaw-2016",
+    "ncaam-2015",
+    "ncaam-2014",
+    "ncaam-2013",
+    "ncaam-2012"
+  ]
+}
