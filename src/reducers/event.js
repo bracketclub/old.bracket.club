@@ -15,7 +15,8 @@ export default (state = initialState, action) => {
   case UPDATE_LOCATION:
     // Looks for a pathname that looks like
     // /ncaam-2016 -> {sport: ncaam, year: 2016}
-    const matches = action.payload.pathname.match(/^\/(\w+)-(\d{4})/);
+    // The sport is optionally only because previous year urls did not include it
+    const matches = action.payload.pathname.match(/^\/(\w+)?-?(\d{4})/);
     const sport = matches && matches[1] && matches[1];
     const year = matches && matches[2] && matches[2];
 
