@@ -70,46 +70,12 @@ export default class LiveEntryPage extends Component {
     }
   }
 
-  handleNavigate = (method) => {
-    this.props.entryActions.navigate(method);
-    analytics.event({
-      category: 'Entry',
-      action: 'navigate',
-      value: method
-    });
-  };
-
-  handleUpdate = (game) => {
-    this.props.entryActions.update(game);
-    analytics.event({
-      category: 'Entry',
-      action: 'update',
-      value: game
-    });
-  };
-
-  handleReset = () => {
-    this.props.entryActions.reset();
-    analytics.event({
-      category: 'Entry',
-      action: 'reset'
-    });
-  };
-
-  handleGenerate = (method) => {
-    this.props.entryActions.generate(method);
-    analytics.event({
-      category: 'Entry',
-      action: 'generate',
-      value: method
-    });
-  };
-
   handleEnter = (bracket) => {
     analytics.event({
+      event: this.props.event,
       category: 'Entry',
       action: 'tweet',
-      value: bracket
+      label: bracket
     });
   };
 
@@ -120,7 +86,8 @@ export default class LiveEntryPage extends Component {
       progress,
       locks,
       bracket,
-      validate
+      validate,
+      entryActions
     } = this.props;
 
     return (
@@ -129,9 +96,9 @@ export default class LiveEntryPage extends Component {
           <BracketNav
             navigation={navigation}
             event={event}
-            onNavigate={this.handleNavigate}
-            onGenerate={this.handleGenerate}
-            onReset={this.handleReset}
+            onNavigate={entryActions.navigate}
+            onGenerate={entryActions.generate}
+            onReset={entryActions.reset}
           />
           <BracketEnterButton
             event={event}
@@ -148,7 +115,7 @@ export default class LiveEntryPage extends Component {
         <LiveBracket
           validate={validate}
           bracket={bracket}
-          onUpdate={this.handleUpdate}
+          onUpdate={entryActions.update}
         />
       </Page>
     );

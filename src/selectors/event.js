@@ -3,9 +3,9 @@ import {createSelector} from 'reselect';
 import eventDisplayName from 'lib/eventDisplayName';
 
 const event = (state) => state.event;
-const eventId = (state, props) => props &&
-  (props.params && props.params.eventId) ||
-  (props.location && props.location.pathname);
+export const eventId = (state, props) => props
+  ? (props.params && props.params.eventId) || (props.location && props.location.pathname)
+  : `${state.event.sport}-${state.event.year}`;
 
 export default createSelector(
   event,
@@ -14,7 +14,8 @@ export default createSelector(
     let sport, year;
 
     if ($eventId) {
-      const matches = $eventId.match(/^\/?(\w+)-(\d{4})/);
+      // The sport is optionally only because previous year urls did not include it
+      const matches = $eventId.match(/^\/?(\w+)?-?(\d{4})/);
       sport = matches && matches[1] && matches[1];
       year = matches && matches[2] && matches[2];
     }
