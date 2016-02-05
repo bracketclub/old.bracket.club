@@ -18,7 +18,7 @@ export default class UserEntry extends Component {
       master
     } = this.props;
 
-    if (!user || !diff || !master) {
+    if (!user) {
       return null;
     }
 
@@ -30,6 +30,10 @@ export default class UserEntry extends Component {
           Go to their <Link to={`/users/${user.id}`}>user page</Link> to see all their entries.
         </Alert>
       );
+    }
+
+    if (!diff || !master) {
+      return null;
     }
 
     return (
