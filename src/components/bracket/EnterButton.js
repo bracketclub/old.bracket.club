@@ -7,6 +7,7 @@ import TimeAgo from 'react-timeago';
 import dateFormat from 'dateformat';
 
 const isOpen = (id) => __MOCK__.indexOf(id) === -1;
+const formatter = (value, unit) => `${value} ${unit}${value !== 1 ? 's' : ''}`;
 
 export default class BracketEnterButton extends Component {
   static propTypes = {
@@ -82,7 +83,7 @@ export default class BracketEnterButton extends Component {
 
     return (
       <Button disabled block bsStyle='primary' componentClass='button'>
-        Brackets lock <TimeAgo date={locks} />
+        Entries lock in <TimeAgo date={locks} formatter={formatter} />
       </Button>
     );
   }
