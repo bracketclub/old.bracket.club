@@ -26,13 +26,13 @@ const getRegionsFor = (finalId, firstId, bracket) => {
   return {region1, region2, region3, region4, regionFinal};
 };
 
-const idResolver = (o) => o.sport + o.year;
+const idResolver = (o) => `${o.sport}-${o.year}`;
 
-// // Make it easy to test when the app locks in 5 seconds
-// const globalLocks = {
-//   ncaam2016: new Date(new Date().valueOf() + 5000).toJSON(),
-//   ncaaw2016: new Date( new Date().valueOf() + 20000).toJSON()
-// };
+// Make it easy to test when the app locks in 5 seconds
+const globalLocks = {} || {
+  'ncaam-2016': new Date(new Date().valueOf() + 5000).toJSON(),
+  'ncaaw-2016': new Date(new Date().valueOf() + 20000).toJSON()
+};
 
 // Each sport, year combo is memoized since they never change
 // Also the individual methods are also memoized based on their parameters
@@ -60,7 +60,7 @@ module.exports = memoize((options) => {
 
   return {
     regex,
-    locks,
+    locks: globalLocks[id] || locks,
     bracket: bracketObj,
     emptyBracket: constants.EMPTY,
     totalGames: (constants.TEAMS_PER_REGION * constants.REGION_COUNT) - 1,

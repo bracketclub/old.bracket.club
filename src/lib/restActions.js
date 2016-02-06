@@ -25,8 +25,8 @@ export default (config) => {
   const FETCH_SUCCESS = `${resourceAction}_FETCH_SUCCESS`;
   const FETCH_ERROR = `${resourceAction}_FETCH_ERROR`;
 
-  const fetch = (normalizeSchema) => (id) => (dispatch) => {
-    dispatch({type: FETCH_START});
+  const fetch = (normalizeSchema) => (id, {refresh = false} = {}) => (dispatch) => {
+    dispatch({type: FETCH_START, refresh});
 
     axios.get(`${url}${id ? `/${id}` : ''}`)
     .then(

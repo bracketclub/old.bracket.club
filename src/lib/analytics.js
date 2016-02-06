@@ -1,18 +1,15 @@
 /* global __GA__ */
 
-import ga from 'react-ga';
-import bows from 'bows';
 import {eventId} from '../selectors/event';
 
-let analytics;
+const {hostname} = window.location;
+const noop = () => void 0;
+let analytics = {pageview: noop, event: noop};
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && hostname === 'tweetyourbracket.com') {
+  const ga = require('react-ga');
   ga.initialize(__GA__);
   analytics = ga;
-}
-else {
-  const log = bows('analytics');
-  analytics = {pageview: log, event: log};
 }
 
 export default {
