@@ -1,4 +1,4 @@
-import '../styles/index.less';
+import '../styles/index.js2less';
 import 'file?name=favicon.ico!../public/favicon.ico';
 import 'file?name=favicon.png!../public/favicon.png';
 
