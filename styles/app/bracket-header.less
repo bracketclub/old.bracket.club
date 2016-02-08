@@ -6,6 +6,12 @@
   margin: 5px -15px 0 -15px;
   padding: 5px (@grid-gutter-width / 2);
 
+  // hack to fix bar disappearing on iOS 9 when it switches to affix
+  // http://stackoverflow.com/a/32891079/1290619
+  & > div {
+    transform: translate3d(0, 0, 0);
+  }
+
   .affix {
     top: 0;
     left: 0;
