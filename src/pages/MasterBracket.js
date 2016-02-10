@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
+import es from 'lib/eventSource';
 import fetch from 'lib/fetchDecorator';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
 import * as mastersSelectors from '../selectors/masters';
@@ -28,6 +29,18 @@ export default class MasterBracketPage extends Component {
   };
 
   static getEventPath = (e, params, query) => ({pathname: `/${e}`, query});
+
+  componentDidMount() {
+    const {event} = this.props;
+    this.closeSource = es(
+      '/masters/events',
+      () => this.props.mastersActions.fetchOne(event.id, {refresh: true})
+    );
+  }
+
+  componentWillUnmount() {
+    this.closeSource();
+  }
 
   render() {
     const {

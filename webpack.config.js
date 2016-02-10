@@ -3,6 +3,8 @@
 'use strict';
 
 const path = require('path');
+const cssnano = require('cssnano');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpackConfig = require('hjs-webpack');
 const _ = require('lodash');
 const config = require('getconfig');
@@ -37,7 +39,7 @@ const webpack = webpackConfig({
   out: 'build',
   clearBeforeBuild: true,
   output: {hash: true},
-  hostname: 'lukekarrys.local',
+  hostname: 'localhost',
   devServer: {contentBase: 'public'},
   replace: {
     config: `src/config/${isDev ? 'development' : 'production'}.js`
@@ -47,13 +49,39 @@ const webpack = webpackConfig({
   })
 });
 
+const replaceLoader = (loader, replacer) => (l) => {
+  const match = new RegExp(`(^|!)(${loader}-loader)($|!)`);
+  if (l && l.loader && l.loader.match(match)) {
+    l.loader = l.loader.replace(match, replacer);
+  }
+};
+
+// debuggable selectors in dev, super compact selectors in prod
+const cssDevIdent = isDev ? '[path][name]___[local]___' : '';
+const cssModulesLoader = `?modules&localIdentName=${cssDevIdent}[hash:base64:5]`;
+webpack.module.loaders.forEach(replaceLoader('css', `$1$2${cssModulesLoader}$3`));
+
+// Custom extension for the js file that builds bootstrap+theme which requires
+// the loaders to start with val-loader, but doesn't mess with other css/less loaders
+webpack.module.loaders.unshift({
+  test: /\.js2less$/,
+  loader: isDev
+    ? 'style-loader!css-loader!postcss-loader!less-loader!val-loader'
+    : ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!less-loader!val-loader')
+});
+
+webpack.postcss.push(cssnano({
+  // Required to work with relative Common JS style urls for css-modules
+  normalizeUrl: false,
+  // Core is on by default so disabling it for dev allows for more readable
+  // css since it retains whitespace and bracket newlines
+  core: !isDev,
+  discardComments: {removeAll: !isDev}
+}));
+
 // Allow for src/lib files to be required without relative paths
 webpack.resolve.alias = {
   lib: path.resolve(__dirname, 'src', 'lib')
 };
-
-// Mutate in place the less loader in all env to have the val-loader first
-const findLessLoader = (l) => (l.loader || '').indexOf('!less') > -1;
-webpack.module.loaders.find(findLessLoader).loader += '!val-loader';
 
 module.exports = webpack;

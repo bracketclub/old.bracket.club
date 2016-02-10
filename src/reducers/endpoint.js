@@ -19,6 +19,7 @@ export default (entity) => {
   const defaultState = {
     sync: {
       syncing: false,
+      refreshing: false,
       lastError: null
     },
     records: []
@@ -31,20 +32,20 @@ export default (entity) => {
     case `${resourceType}_FETCH_START`:
       return {
         ...state,
-        sync: {syncing: true, lastError: null}
+        sync: {syncing: !action.refresh, refreshing: !!action.refresh, lastError: null}
       };
 
     case `${resourceType}_FETCH_SUCCESS`:
       return {
         ...state,
         records: action.data,
-        sync: {syncing: false, lastError: null}
+        sync: {syncing: false, refreshing: false, lastError: null}
       };
 
     case `${resourceType}_FETCH_ERROR`:
       return {
         ...state,
-        sync: {syncing: false, lastError: makeErrorObject(action.error)}
+        sync: {syncing: false, refreshing: false, lastError: makeErrorObject(action.error)}
       };
 
     default:
