@@ -27,7 +27,7 @@ const renderHTML = (context) => minify`
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="icon" href="/favicon.png">
     <link rel="icon" sizes="192x192" href="/favicon.png">
-    <link rel="apple-touch-icon-precomposed" href="/favicon-180x180.png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.png">
     <link rel="stylesheet" href="/${context.css}">
   </head>
   <body>
