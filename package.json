@@ -72,6 +72,7 @@
     "file-loader": "^0.8.5",
     "getconfig": "^2.2.0",
     "hjs-webpack": "^7.2.0",
+    "html-tagged-literals": "^1.0.1",
     "json-loader": "^0.5.4",
     "less": "^2.6.0",
     "less-import-inserter": "^1.0.1",
