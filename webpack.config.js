@@ -6,6 +6,7 @@ const path = require('path');
 const cssnano = require('cssnano');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpackConfig = require('hjs-webpack');
+const minify = require('html-tagged-literals').minify;
 const _ = require('lodash');
 const config = require('getconfig');
 
@@ -15,22 +16,23 @@ const define = _(config)
   .transform((res, val, key) => res[`__${key.toUpperCase()}__`] = JSON.stringify(val))
   .value();
 
-const renderHTML = (context) =>
-  `<!DOCTYPE html>
+const renderHTML = (context) => minify`
+  <!DOCTYPE html>
   <html>
   <head>
-      <title>Tweet Your Bracket</title>
-      <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
-      <meta name="apple-mobile-web-app-capable" content="yes">
-      <meta name="apple-mobile-web-app-status-bar-style" content="default">
-      <link rel="stylesheet" href="/${context.css}">
+    <title>Tweet Your Bracket</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="stylesheet" href="/${context.css}">
   </head>
   <body>
-      <div id='root'></div>
-      <script>window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));</script>
-      <script src="/${context.main}"></script>
+    <div id='root'></div>
+    <script>window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));</script>
+    <script src="/${context.main}"></script>
   </body>
-  </html>`.replace(/\n\s*/g, '');
+  </html>
+`;
 
 const webpack = webpackConfig({
   isDev,
