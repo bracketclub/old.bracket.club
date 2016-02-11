@@ -1,6 +1,7 @@
 import '../styles/index.js2less';
 import 'file?name=favicon.ico!../public/favicon.ico';
 import 'file?name=favicon.png!../public/favicon.png';
+import 'file?name=favicon-180x180.png!../public/favicon-180x180.png';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
