@@ -22,6 +22,10 @@ const renderHTML = (context) => minify`
   <head>
     <title>Tweet Your Bracket</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.png">
+    <link rel="icon" sizes="192x192" href="/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link rel="stylesheet" href="/${context.css}">
