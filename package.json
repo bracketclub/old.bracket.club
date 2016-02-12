@@ -30,6 +30,7 @@
     "raf": "^3.1.0",
     "react": "^0.14.7",
     "react-bootstrap": "^0.28.2",
+    "react-clone": "^1.0.0",
     "react-css-modules": "^3.7.4",
     "react-dom": "^0.14.7",
     "react-ga": "^1.2.0",
