@@ -12,26 +12,58 @@ export default (mapPropsToActions) => (WrappedComponent) => {
 
     static displayName = `FetchOnUpdate(${getDisplayName(WrappedComponent)})`;
 
+    eventSource({key, prevParam, param, sse}) {
+      const SSEKey = `_sse_${param}_${key}`;
+      const prevSSEKey = `_sse_${prevParam}_${key}`;
+
+      if (typeof this[SSEKey] === 'function') {
+        this[SSEKey]();
+      }
+
+      if (typeof this[prevSSEKey] === 'function') {
+        this[prevSSEKey]();
+      }
+
+      if (sse) {
+        this[SSEKey] = this.props.dispatch(sse(param));
+      }
+    }
+
+    forEachAction(iterator) {
+      const actions = mapPropsToActions(this.props);
+      Object.keys(actions).forEach((key) => iterator({
+        key,
+        action: actions[key][0],
+        param: actions[key][1],
+        sse: actions[key][2]
+      }));
+    }
+
     componentDidMount() {
       const {dispatch} = this.props;
-      const actions = mapPropsToActions(this.props);
 
-      Object.keys(actions).forEach((key) => {
-        const [action, param] = actions[key];
+      this.forEachAction(({key, action, param, sse}) => {
         dispatch(action(param));
+        this.eventSource({key, param, sse});
       });
     }
 
     componentDidUpdate(prevProps) {
       const {dispatch} = this.props;
       const prevActions = mapPropsToActions(prevProps);
-      const actions = mapPropsToActions(this.props);
 
-      Object.keys(actions).forEach((key) => {
-        const [action, param] = actions[key];
-        if (param !== prevActions[key][1]) {
+      this.forEachAction(({key, action, param, sse}) => {
+        const prevParam = prevActions[key][1];
+        if (param !== prevParam) {
           dispatch(action(param));
+          this.eventSource({key, prevParam, param, sse});
         }
+      });
+    }
+
+    componentWillUnmount() {
+      this.forEachAction(({key, action, param}) => {
+        this.eventSource({key, param});
       });
     }
 
