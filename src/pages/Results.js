@@ -19,8 +19,8 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapPropsToActions = (props) => ({
-  masters: [mastersActions.fetchOne, props.event.id],
-  entries: [entriesActions.fetchAll, props.event.id]
+  masters: [mastersActions.fetchOne, props.event.id, mastersActions.sse],
+  entries: [entriesActions.fetchAll, props.event.id, entriesActions.sse]
 });
 
 @connect(mapStateToProps, mapDispatchToProps({entriesActions}))

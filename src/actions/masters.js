@@ -1,9 +1,13 @@
 import config from 'config';
 import restActions from 'lib/restActions';
 import analytics from 'lib/analytics';
+import es from 'lib/eventSource';
 import {replaceQuery} from './routing';
 import {masters as schema} from '../schema';
 import * as mastersSelectors from '../selectors/masters';
+import {eventId} from '../selectors/event';
+
+const ENDPOINT = 'masters';
 
 const routeToIndex = (getIndex, label) => () => (dispatch, getState) => {
   const state = getState();
@@ -23,10 +27,21 @@ const navigationActions = {
   goToLast: routeToIndex(({total}) => total, 'goToLast')
 };
 
+const mastersRestActions = restActions({
+  schema,
+  url: `${config.apiUrl}/${ENDPOINT}`
+});
+
 export default {
+  ...mastersRestActions,
   navigate: (method) => navigationActions[method](),
-  ...restActions({
-    schema,
-    url: `${config.apiUrl}/masters`
-  })
+  sse: () => (dispatch, getState) => {
+    const event = eventId(getState());
+    return es({
+      event: `${ENDPOINT}-${event}`,
+      url: `${config.apiUrl}/${ENDPOINT}/events`
+    }, () => {
+      dispatch(mastersRestActions.fetchOne(event, {refresh: true}));
+    });
+  }
 };

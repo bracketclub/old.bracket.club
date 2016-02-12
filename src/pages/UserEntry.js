@@ -23,8 +23,8 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapPropsToActions = (props) => ({
-  users: [usersActions.fetchOne, `${props.params.userId}/${props.event.id}`],
-  masters: [mastersActions.fetchOne, props.event.id]
+  users: [usersActions.fetchOne, `${props.params.userId}/${props.event.id}`, usersActions.sse],
+  masters: [mastersActions.fetchOne, props.event.id, mastersActions.sse]
 });
 
 @connect(mapStateToProps)
