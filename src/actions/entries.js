@@ -1,10 +1,13 @@
 import config from 'config';
 import restActions from 'lib/restActions';
 import analytics from 'lib/analytics';
+import es from 'lib/eventSource';
 import {replaceQuery} from './routing';
 import {entries as schema} from '../schema';
 import * as entriesSelectors from '../selectors/entries';
+import {eventId} from '../selectors/event';
 
+const ENDPOINT = 'entries';
 const reverse = (dir) => dir === 'asc' ? 'desc' : 'asc';
 
 const sortAction = (sortBy) => (dispatch, getState) => {
@@ -20,10 +23,21 @@ const sortAction = (sortBy) => (dispatch, getState) => {
   dispatch(replaceQuery({location, query: {sort}}));
 };
 
+const entriesRestActions = restActions({
+  schema,
+  url: `${config.apiUrl}/${ENDPOINT}`
+});
+
 export default {
+  ...entriesRestActions,
   sort: sortAction,
-  ...restActions({
-    schema,
-    url: `${config.apiUrl}/entries`
-  })
+  sse: () => (dispatch, getState) => {
+    const event = eventId(getState());
+    return es({
+      event: `${ENDPOINT}-${event}`,
+      url: `${config.apiUrl}/${ENDPOINT}/events`
+    }, () => {
+      dispatch(entriesRestActions.fetchAll(event, {refresh: true}));
+    });
+  }
 };

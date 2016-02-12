@@ -6,7 +6,7 @@ const path = require('path');
 const cssnano = require('cssnano');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpackConfig = require('hjs-webpack');
-const minify = require('html-tagged-literals').minify;
+const html = require('html-tagged-literals');
 const _ = require('lodash');
 const config = require('getconfig');
 
@@ -16,7 +16,7 @@ const define = _(config)
   .transform((res, val, key) => res[`__${key.toUpperCase()}__`] = JSON.stringify(val))
   .value();
 
-const renderHTML = (context) => minify`
+const renderHTML = (context) => html[isDev ? 'unindent' : 'minify']`
   <!DOCTYPE html>
   <html>
   <head>
@@ -24,6 +24,7 @@ const renderHTML = (context) => minify`
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="TYB">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="icon" href="/favicon.png">
     <link rel="icon" sizes="192x192" href="/favicon.png">

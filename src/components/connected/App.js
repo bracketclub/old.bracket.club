@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import Clone from 'react-clone';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {last} from 'lodash';
@@ -96,7 +97,10 @@ export default class App extends Component {
           onLogin={meActions.login}
           onLogout={meActions.logout}
         />
-        {React.cloneElement(renderedChild, {locked, event, locks})}
+        <Clone
+          element={renderedChild}
+          {...{locked, event, locks}}
+        />
         <Footer />
       </div>
     );

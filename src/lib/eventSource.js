@@ -1,12 +1,10 @@
-import {apiUrl} from 'config';
-
 const {EventSource} = window;
 
-export default (url, onData) => {
+export default ({url, event}, onData) => {
   if (!EventSource) return () => void 0;
 
-  const source = new EventSource(apiUrl + url);
-  source.addEventListener(url.split('/')[1], onData, false);
+  const source = new EventSource(url);
+  source.addEventListener(event, (e) => onData(JSON.parse(e.data)), false);
 
   return () => source.close();
 };
