@@ -99,7 +99,6 @@ export default class App extends Component {
         />
         <Clone
           element={renderedChild}
-          key={location.pathname}
           {...{locked, event, locks}}
         />
         <Footer />
