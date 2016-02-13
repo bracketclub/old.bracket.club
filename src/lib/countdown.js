@@ -7,7 +7,8 @@ export default (time, cb) => {
   const countdown = () => {
     if (date - new Date() <= 0) {
       raf.cancel(rafId);
-      return cb();
+      cb();
+      return;
     }
 
     rafId = raf(countdown);
