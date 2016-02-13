@@ -90,8 +90,7 @@
     "webpack": "^1.12.13"
   },
   "engines": {
-    "node": "^5.2.0",
-    "npm": "^3.3.12"
+    "node": "^5.2.0"
   },
   "homepage": "http://tweetyourbracket.com",
   "keywords": [
@@ -115,10 +114,9 @@
     "build": "NODE_ENV=production webpack --progress",
     "codeship-deploy": "surge --project build/ --domain tweetyourbracket.com",
     "codeship-deploy-beta": "surge --project build/ --domain beta.tweetyourbracket.com",
-    "codeship-setup": "npm run npm-version && npm install && npm run build",
+    "codeship-setup": "npm install && npm run build",
     "codeship-test": "npm test && npm run lint",
     "lint": "eslint --ignore-path .gitignore .",
-    "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
     "postinstall": "rm .validate.json .jshint{rc,ignore} &>/dev/null; exit 0",
     "prebuild": "rm -rf build && mkdir build",
     "start": "hjs-dev-server",
