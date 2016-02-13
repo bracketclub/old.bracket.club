@@ -13,7 +13,9 @@ const config = require('getconfig');
 const isDev = config.getconfig.isDev;
 const define = _(config)
   .pick('year', 'sport', 'events', 'mock', 'ga')
-  .transform((res, val, key) => res[`__${key.toUpperCase()}__`] = JSON.stringify(val))
+  .transform((res, val, key) => {
+    res[`__${key.toUpperCase()}__`] = JSON.stringify(val);
+  })
   .value();
 
 const renderHTML = (context) => html[isDev ? 'unindent' : 'minify']`
