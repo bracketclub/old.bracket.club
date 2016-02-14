@@ -1,3 +1,4 @@
+
 import React, {Component, PropTypes} from 'react';
 
 export default class Loading extends Component {
@@ -14,6 +15,14 @@ export default class Loading extends Component {
     this.state = {showLoading: false};
   }
 
+  componentDidMount() {
+    this.startTimer();
+  }
+
+  componentWillUnmount() {
+    this.cancelTimer();
+  }
+
   startTimer() {
     this.loadingTimeout = setTimeout(() => {
       this.setState({showLoading: true});
@@ -24,14 +33,6 @@ export default class Loading extends Component {
     if (this.loadingTimeout) {
       clearTimeout(this.loadingTimeout);
     }
-  }
-
-  componentDidMount() {
-    this.startTimer();
-  }
-
-  componentWillUnmount() {
-    this.cancelTimer();
   }
 
   render() {
