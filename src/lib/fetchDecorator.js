@@ -1,6 +1,3 @@
-/* eslint react/prop-types:0 */
-// https://github.com/yannickcr/eslint-plugin-react/issues/443
-
 import React, {Component, PropTypes} from 'react';
 import hoistStatics from 'hoist-non-react-statics';
 
