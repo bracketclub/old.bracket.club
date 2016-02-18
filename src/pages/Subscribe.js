@@ -13,7 +13,7 @@ export default class SubscribePage extends Component {
           <Row>
             <Col xs={12}>
               <h3>Sign up to be notified on all the latest Tweet Your Bracket news.</h3>
-              <p>We'll never spam you or do bad things with your email. Promise.</p>
+              <p>No spam. Promise.</p>
             </Col>
             <Col xs={12} md={4} lg={3}>
               <Input

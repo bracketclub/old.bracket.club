@@ -66,8 +66,7 @@ class Matchup extends Component {
     const {matchup, onUpdate} = this.props;
     const hasMatchup = has(matchup, '1');
 
-    // The last team in each region is actually the final
-    // so we update the fromRegion so it works with the updateGame action
+    // The last team in each region is actually the final region
     if (!hasMatchup) {
       fromRegion = 'FF';
     }
