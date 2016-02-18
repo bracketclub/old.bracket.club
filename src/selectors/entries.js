@@ -52,7 +52,8 @@ export const scoredByEvent = createSelector(
     const standardOrder = sortBy(scoredEntries, DEFAULT_SORT);
     return orderBy(
       scoredEntries.map(addSortedIndex(standardOrder)),
-      `score.${$sort.key}`, $sort.dir
+      // Break ties by falling back to descending by standard score
+      [`score.${$sort.key}`, 'score.standard'], [$sort.dir, 'desc']
     );
   }
 );

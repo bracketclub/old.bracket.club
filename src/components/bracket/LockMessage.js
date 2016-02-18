@@ -13,6 +13,15 @@ export default class LockMessage extends Component {
     mocked: PropTypes.bool.isRequired
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {visible: true};
+  }
+
+  hideAlert = () => {
+    this.setState({visible: false});
+  };
+
   render() {
     const {
       event,
@@ -21,13 +30,20 @@ export default class LockMessage extends Component {
       mocked
     } = this.props;
 
-    if (locked || mocked) {
+    const {
+      visible
+    } = this.state;
+
+    if (locked || mocked || !visible) {
       return null;
     }
 
     return (
-      <Alert bsStyle='info'>
-        Entries are still open for the <strong>{event.display} Bracket</strong> for <TimeAgo formatter={formatter} date={locks} />. Go to the <Link to={`/${event.id}`}>entry page</Link> to fill out your bracket before it's too late!
+      <Alert className='margin-collapse mt1 text-center' bsStyle='info' onDismiss={this.hideAlert}>
+        Entries are still open for the <strong>{event.display} Bracket</strong> for <TimeAgo formatter={formatter} date={locks} />.
+        <br className='visible-lg-block' />
+        {' '}
+        Go to the <Link to={`/${event.id}`}>entry page</Link> to fill out your bracket before it's too late!
       </Alert>
     );
   }
