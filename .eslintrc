@@ -12,6 +12,7 @@
         "event",
         "locks",
         "locked",
+        "mocked",
         "entriesActions",
         "entryActions",
         "eventActions",

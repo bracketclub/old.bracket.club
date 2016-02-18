@@ -27,7 +27,7 @@ export default class MasterNav extends Component {
   };
 
   render() {
-    const {navigation, progress, locked, locks, event} = this.props;
+    const {navigation, progress, locked, locks, event, mocked} = this.props;
 
     return (
       <div>
@@ -38,7 +38,7 @@ export default class MasterNav extends Component {
           />
           <BracketProgress message='games played' progress={progress} />
         </BracketHeader>
-        <LockMessage locked={locked} locks={locks} event={event} />
+        <LockMessage mocked={mocked} locked={locked} locks={locks} event={event} />
       </div>
     );
   }
