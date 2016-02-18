@@ -27,8 +27,8 @@ const renderHTML = (context) => html[isDev ? 'unindent' : 'minify']`
     <meta name="apple-mobile-web-app-title" content="TYB">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="icon" href="/favicon.png">
-    <link rel="icon" sizes="192x192" href="/favicon.png">
-    <link rel="apple-touch-icon-precomposed" href="/favicon.png">
+    <link rel="icon" sizes="192x192" href="/favicon-192x192.png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon-192x192.png">
     <link rel="stylesheet" href="/${context.css}">
   </head>
   <body>

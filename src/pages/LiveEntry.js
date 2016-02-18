@@ -37,17 +37,17 @@ export default class LiveEntryPage extends Component {
   static getEventPath = (e) => ({pathname: `/${e}`});
 
   componentDidMount() {
-    // Mounting with a url bracket means we need to
-    // add that bracket to the store
+    // Mounting with a url bracket means that
+    // bracket needs to be added to the store
     this.pushBracket();
-    // Or we might mount with a bracket in the store
-    // but no param so the path should update
+    // Or the bracket in the store might need
+    // to be synced to the url on mount
     this.updatePath();
   }
 
   componentDidUpdate(prevProps) {
-    // Changing events means that we need to sync the
-    // url if there is an entry in the store
+    // Changing events means that the url needs to be
+    // synced with the store if there is an entry need to sync the
     if (prevProps.event.id !== this.props.event.id) {
       this.updatePath();
     }

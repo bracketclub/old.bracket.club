@@ -31,14 +31,14 @@ export default class MockMessage extends Component {
     }
 
     return (
-      <Alert className='margin-collapse mt1 text-center' onDismiss={this.hideAlert}>
+      <Alert className='margin-collapse mt1 text-center' bsStyle='info' onDismiss={this.hideAlert}>
         <strong>Entries aren't open yet!</strong>
         {' '}
-        But you're welcome to play around with the latest projected bracket if you are as excited as we are for March Madness.
+        But you're welcome to play around with the latest projected bracket if you are as excited as I am for March Madness.
         <br className='visible-lg-block' />
         {' '}
         <strong>
-          <Link to='/subscribe'>Subscribe</Link> to our email updates or follow us on Twitter <a href='https://twitter.com/tweetthebracket'>@tweetthebracket</a> to be the first to know when entries are open.
+          <Link to='/subscribe'>Subscribe</Link> to email updates or follow <a href='https://twitter.com/tweetthebracket'>@tweetthebracket</a> on Twitter to be the first to know when entries are open.
         </strong>
       </Alert>
     );
