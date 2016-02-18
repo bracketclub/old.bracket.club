@@ -1,5 +1,3 @@
-/* global __MOCK__ */
-
 import React, {PropTypes, Component} from 'react';
 import qs from 'query-string';
 import {Button, Popover, Alert, OverlayTrigger} from 'react-bootstrap';
@@ -7,7 +5,6 @@ import TimeAgo from 'react-timeago';
 import dateFormat from 'dateformat';
 import CSSModules from 'react-css-modules';
 
-const isOpen = (id) => __MOCK__.indexOf(id) === -1;
 const formatter = (value, unit) => `${value} ${unit}${value !== 1 ? 's' : ''}`;
 
 @CSSModules(require('./styles/EnterButton.less'))
@@ -37,20 +34,19 @@ export default class BracketEnterButton extends Component {
   }
 
   getOverlay() {
-    const {onEnter, bracket, locks, event} = this.props;
-    const open = isOpen(event.id);
+    const {onEnter, bracket, locks, mocked} = this.props;
 
     const popover = (
       <Popover id='enter-popover'>
         <p>You'll be taken to <strong>twitter.com</strong> to tweet your bracket!</p>
-        {open &&
+        {!mocked &&
           <Alert bsStyle='info'>
             Don't alter the <strong>url</strong> or <strong>#tybrkt hashtag</strong> of the tweet.
             {' '}
             We use those to verify your entry.
           </Alert>
         }
-        {!open &&
+        {mocked &&
           <Alert bsStyle='info'>
             <strong>Hey!</strong>
             {' '}

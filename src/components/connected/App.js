@@ -1,3 +1,5 @@
+/* global __MOCK__ */
+
 import React, {Component, PropTypes} from 'react';
 import Clone from 'react-clone';
 import {connect} from 'react-redux';
@@ -21,6 +23,7 @@ const mapStateToProps = (state, props) => {
     locks,
     event,
     me: state.me,
+    mocked: __MOCK__.indexOf(event.id) > -1,
     locked: typeof locked !== 'undefined' ? locked : new Date().toJSON() >= locks
   };
 };
@@ -37,6 +40,7 @@ export default class App extends Component {
     me: PropTypes.object.isRequired,
     locks: PropTypes.string.isRequired,
     locked: PropTypes.bool.isRequired,
+    mocked: PropTypes.bool.isRequired,
     children: PropTypes.node,
     lockedComponent: PropTypes.node,
     unlockedComponent: PropTypes.node
@@ -73,7 +77,7 @@ export default class App extends Component {
   }
 
   render() {
-    const {me, event, meActions, locked, locks} = this.props;
+    const {me, event, meActions, locked, locks, mocked} = this.props;
     const {routes, params, location} = this.props;
     const {children, lockedComponent, unlockedComponent} = this.props;
 
@@ -99,7 +103,7 @@ export default class App extends Component {
         />
         <Clone
           element={renderedChild}
-          {...{locked, event, locks}}
+          {...{locked, event, locks, mocked}}
         />
         <Footer />
       </div>

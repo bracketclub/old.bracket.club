@@ -9,17 +9,19 @@ export default class LockMessage extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
     locks: PropTypes.string.isRequired,
-    locked: PropTypes.bool.isRequired
+    locked: PropTypes.bool.isRequired,
+    mocked: PropTypes.bool.isRequired
   };
 
   render() {
     const {
       event,
       locks,
-      locked
+      locked,
+      mocked
     } = this.props;
 
-    if (locked) {
+    if (locked || mocked) {
       return null;
     }
 
