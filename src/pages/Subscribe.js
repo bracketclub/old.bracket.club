@@ -15,7 +15,7 @@ export default class SubscribePage extends Component {
               <h3>Sign up to be notified on all the latest Tweet Your Bracket news.</h3>
               <p>No spam. Promise.</p>
             </Col>
-            <Col xs={12} md={4} lg={3}>
+            <Col xs={12} md={4}>
               <Input
                 type='email'
                 autoCapitalize='off'
@@ -25,14 +25,14 @@ export default class SubscribePage extends Component {
                 label='Email Address'
               />
             </Col>
-            <Col xs={12} sm={6} md={4} lg={3}>
+            <Col xs={12} sm={6} md={4}>
               <Input type='text' name='MERGE1' id='MERGE1' label='First name' />
             </Col>
-            <Col xs={12} sm={6} md={4} lg={3}>
+            <Col xs={12} sm={6} md={4}>
               <Input type='text' name='MERGE2' id='MERGE2' label='Last name' />
             </Col>
             <div className='clearfix' />
-            <Col xs={12} md={2} lg={2}>
+            <Col xs={12} md={2} lg={3}>
               <Button type='submit' block bsStyle='primary'>Submit</Button>
             </Col>
           </Row>
