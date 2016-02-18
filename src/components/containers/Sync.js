@@ -20,7 +20,7 @@ export default class SyncContainer extends Component {
       return <Error error={sync.lastError} />;
     }
 
-    // Ensure we always render 1 child
+    // Ensure 1 child is always rendered
     return <div>{children}</div>;
   }
 }

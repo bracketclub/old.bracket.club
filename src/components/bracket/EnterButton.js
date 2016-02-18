@@ -43,7 +43,7 @@ export default class BracketEnterButton extends Component {
           <Alert bsStyle='info'>
             Don't alter the <strong>url</strong> or <strong>#tybrkt hashtag</strong> of the tweet.
             {' '}
-            We use those to verify your entry.
+            Those are used to verify your entry.
           </Alert>
         }
         {mocked &&

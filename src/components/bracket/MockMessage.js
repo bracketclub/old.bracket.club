@@ -34,7 +34,7 @@ export default class MockMessage extends Component {
       <Alert className='margin-collapse mt1 text-center' bsStyle='info' onDismiss={this.hideAlert}>
         <strong>Entries aren't open yet!</strong>
         {' '}
-        But you're welcome to play around with the latest projected bracket if you are as excited as we are for March Madness.
+        But you're welcome to play around with the latest projected bracket if you are as excited as I am for March Madness.
         <br className='visible-lg-block' />
         {' '}
         <strong>
