@@ -117,7 +117,7 @@
     "codeship-deploy-beta": "surge --project build/ --domain beta.tweetyourbracket.com",
     "codeship-setup": "npm run npm-version && npm install && npm run build",
     "codeship-test": "npm test && npm run lint",
-    "gh:merge": "open https://github.com/tweetyourbracket/tweetyourbracket.com/compare/master...development?expand=1",
+    "gh:merge": "open https://github.com/tweetyourbracket/tweetyourbracket.com/compare/master...development?expand=1&title=merge%20to%20master",
     "lint": "eslint . && eslint -c node_modules/@lukekarrys/eslint-config/no-babel.js --no-ignore webpack.config.js",
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
     "postinstall": "rm .validate.json .jshint{rc,ignore} &>/dev/null; exit 0",
