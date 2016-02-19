@@ -31,7 +31,7 @@ class Team extends Component {
 
   render() {
     const teamClasses = classNames('team', {
-      pickable: this.props.onUpdate,
+      pickable: this.props.onUpdate && this.props.name,
       eliminated: this.props.eliminated,
       correct: this.props.correct === true,
       incorrect: this.props.correct === false
