@@ -8,9 +8,7 @@ const makeErrorObject = (error) => {
   const DEFAULT_SERVER_ERROR = 500;
   const status = error.status || DEFAULT_SERVER_ERROR;
   const errorText = (error.data && error.data.error) || error.statusText || 'Internal Server Error';
-  const message = status === 404
-    ? 'That entry does not exist' // TODO: better generic 404 message
-    : ((error.data && error.data.message) || 'An internal server error occurred');
+  const message = status === (error.data && error.data.message) || 'An internal server error occurred';
 
   return {status, error: errorText, message};
 };
