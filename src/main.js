@@ -8,7 +8,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
-import {syncHistory} from 'react-router-redux';
+import {syncHistoryWithStore} from 'react-router-redux';
 
 import {pageview} from 'lib/analytics';
 import firebase from 'lib/firebase';
@@ -16,11 +16,11 @@ import configureStore from './store/configureStore';
 import routes from './routes';
 import * as meActions from './actions/me';
 
-const reduxRouterMiddleware = syncHistory(browserHistory);
-const store = configureStore({middleware: [reduxRouterMiddleware]});
+const store = configureStore();
+const history = syncHistoryWithStore(browserHistory, store);
 
 // Google analytics for each history change
-browserHistory.listen(pageview);
+history.listen(pageview);
 
 // Firebase will trigger the action if the user is logged in from a previous
 // session when first loading the page
@@ -28,7 +28,7 @@ firebase.onAuth((auth) => store.dispatch(meActions.syncLogin(auth)));
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={browserHistory} routes={routes} />
+    <Router history={history} routes={routes} />
   </Provider>,
   document.getElementById('root')
 );
