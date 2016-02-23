@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import {routeReducer} from 'react-router-redux';
+import {routerReducer} from 'react-router-redux';
 
 import schema from '../schema';
 import me from './me';
@@ -14,5 +14,5 @@ export default combineReducers({
   masters: endpointCreator(schema.masters),
   entries: endpointCreator(schema.entries),
   users: endpointCreator(schema.users),
-  routing: routeReducer
+  routing: routerReducer
 });

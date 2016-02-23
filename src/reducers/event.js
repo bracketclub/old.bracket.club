@@ -1,6 +1,6 @@
 /* global __SPORT__, __YEAR__ */
 
-import {UPDATE_LOCATION} from 'react-router-redux';
+import {LOCATION_CHANGE} from 'react-router-redux';
 
 import * as types from '../constants/event';
 
@@ -12,7 +12,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
 
-  case UPDATE_LOCATION:
+  case LOCATION_CHANGE:
     // Looks for a pathname that looks like
     // /ncaam-2016 -> {sport: ncaam, year: 2016}
     // The sport is optionally only because previous year urls did not include it

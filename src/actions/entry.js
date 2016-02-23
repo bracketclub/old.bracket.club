@@ -1,4 +1,4 @@
-import {routeActions} from 'react-router-redux';
+import {replace} from 'react-router-redux';
 
 import analytics from 'lib/analytics';
 import * as bracketSelectors from '../selectors/bracket';
@@ -21,7 +21,7 @@ const eventAction = (action) => (bracket, state) => state
   : (dispatch, getState) => dispatch(action(bracket, getState()));
 
 // Replace bracket in current url
-export const updatePath = eventAction((bracket, state) => routeActions.replace({
+export const updatePath = eventAction((bracket, state) => replace({
   pathname: `/${eventId(state)}${bracket ? `/${bracket}` : ''}`
 }));
 
