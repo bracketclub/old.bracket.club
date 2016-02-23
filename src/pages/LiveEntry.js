@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {routeActions} from 'react-router-redux';
 
 import analytics from 'lib/analytics';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
@@ -24,7 +23,7 @@ const mapStateToProps = (state, props) => ({
   progress: entrySelectors.progress(state, props)
 });
 
-@connect(mapStateToProps, mapDispatchToProps({entryActions: entryActionCreators, routeActions}))
+@connect(mapStateToProps, mapDispatchToProps({entryActions: entryActionCreators}))
 export default class LiveEntryPage extends Component {
   static propTypes = {
     validate: PropTypes.func,
