@@ -1,7 +1,6 @@
 import {createSelector} from 'reselect';
 
 import bh from 'lib/bracket';
-import picker from 'lib/picker';
 import eventInfo from './event';
 
 export const helpers = createSelector(
@@ -11,45 +10,45 @@ export const helpers = createSelector(
 
 export const locks = createSelector(
   helpers,
-  picker('locks'),
+  (o) => o.locks
 );
 
 export const diff = createSelector(
   helpers,
-  picker('diff')
+  (o) => o.diff
 );
 
 export const validate = createSelector(
   helpers,
-  picker('validate')
+  (o) => o.validate
 );
 
 export const score = createSelector(
   helpers,
-  picker('score')
+  (o) => o.score
 );
 
 export const update = createSelector(
   helpers,
-  picker('update')
+  (o) => o.update
 );
 
 export const generate = createSelector(
   helpers,
-  picker('generate')
+  (o) => o.generate
 );
 
 export const empty = createSelector(
   helpers,
-  picker('emptyBracket')
+  (o) => o.emptyBracket
 );
 
 export const total = createSelector(
   helpers,
-  picker('totalGames')
+  (o) => o.totalGames
 );
 
 export const unpicked = createSelector(
   helpers,
-  picker('unpickedChar')
+  (o) => o.unpickedChar
 );
