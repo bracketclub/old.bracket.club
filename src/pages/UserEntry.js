@@ -3,11 +3,11 @@ import {connect} from 'react-redux';
 
 import fetch from 'lib/fetchDecorator';
 import mergeSyncState from 'lib/mergeSyncState';
-import * as usersActions from '../actions/users';
 import * as mastersActions from '../actions/masters';
 import * as bracketSelectors from '../selectors/bracket';
 import * as usersSelectors from '../selectors/users';
 import * as mastersSelectors from '../selectors/masters';
+import * as entriesActions from '../actions/entries';
 
 import Page from '../components/layout/Page';
 import MasterNav from '../components/connected/MasterNav';
@@ -18,12 +18,12 @@ import ScoreCard from '../components/user/ScoreCard';
 const mapStateToProps = (state, props) => ({
   diff: bracketSelectors.diff(state, props),
   master: mastersSelectors.bracketString(state, props),
-  user: usersSelectors.currentWithEntry(state, props),
+  user: usersSelectors.currentWithRankedEntry(state, props),
   sync: mergeSyncState(state.users, state.masters)
 });
 
 const mapPropsToActions = (props) => ({
-  users: [usersActions.fetchOne, `${props.params.userId}/${props.event.id}`, usersActions.sse],
+  entries: [entriesActions.fetchAll, props.event.id, entriesActions.sse],
   masters: [mastersActions.fetchOne, props.event.id, mastersActions.sse]
 });
 
