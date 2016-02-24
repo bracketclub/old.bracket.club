@@ -35,7 +35,7 @@ export const pushBracket = eventAction((bracket, state) => ({
 // Add new brackets to entry and change the url
 const routeToBracket = (getBracket) => (dispatch, getState) => {
   const state = getState();
-  const {location} = state.routing;
+  const location = state.routing.location || state.routing.locationBeforeTransitions;
   const bracket = getBracket(state, {location});
 
   dispatch(pushBracket(bracket, state));
@@ -61,7 +61,7 @@ export const update = (game) => routeToBracket((...args) => {
 // Navigate between entry brackets
 const routeToIndex = (getIndex, label) => () => (dispatch, getState) => {
   const state = getState();
-  const {location} = state.routing;
+  const location = state.routing.location || state.routing.locationBeforeTransitions;
   const {brackets, index: current} = entrySelectors.byEvent(state, {location});
   const total = brackets.length - 1;
   const index = getIndex({current, total});
