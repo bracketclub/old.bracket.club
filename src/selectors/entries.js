@@ -17,8 +17,9 @@ const urlSort = (state, props) => props.location.query.sort;
 
 const findUser = ($users) => ($user) => findById($users, $user);
 const transformUser = ($users) => ($entry) => transformKey($entry, 'user', findUser($users));
-const addSortedIndex = ($order) => ($entry) => {
+const addSortedIndex = ($order) => ($entry, $index, $list) => {
   $entry.score.index = sortedIndexBy($order, $entry, DEFAULT_SORT) + 1;
+  $entry.score.total = $list.length;
   return $entry;
 };
 
