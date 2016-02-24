@@ -12,7 +12,7 @@ const reverse = (dir) => dir === 'asc' ? 'desc' : 'asc';
 
 const sortAction = (sortBy) => (dispatch, getState) => {
   const state = getState();
-  const {location} = state.routing;
+  const location = state.routing.location || state.routing.locationBeforeTransitions;
   const current = entriesSelectors.sortParams(state, {location});
 
   // If the sort key is the same as the current sort key then reverse the direction
