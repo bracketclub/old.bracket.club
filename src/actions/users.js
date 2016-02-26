@@ -1,5 +1,5 @@
 import config from 'config';
-import restActions from 'lib/restActions';
+import restActions from 'lib/reduxApiRestActions';
 import es from 'lib/eventSource';
 import {users as schema} from '../schema';
 
@@ -19,7 +19,7 @@ export default {
       url: `${config.apiUrl}/entries/events`
     }, (updatedUser) => {
       if (updatedUser.id === userId) {
-        dispatch(usersRestActions.fetchOne(`${userId}${eventId ? `/${eventId}` : ''}`, {refresh: true}));
+        dispatch(usersRestActions.fetch(`${userId}${eventId ? `/${eventId}` : ''}`, {refresh: true}));
       }
     });
   }
