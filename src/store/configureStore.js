@@ -3,10 +3,17 @@ import rootReducer from '../reducers';
 import thunk from 'redux-thunk';
 import {routerMiddleware} from 'react-router-redux';
 import {browserHistory} from 'react-router';
+import {apiMiddleware} from 'redux-api-middleware';
+import apiRelationsMiddleware from 'lib/reduxApiRelations';
 
 export default (initialState = {}) => {
   const storeEnhancers = [];
-  const middleware = [thunk, routerMiddleware(browserHistory)];
+  const middleware = [
+    thunk,
+    routerMiddleware(browserHistory),
+    apiMiddleware,
+    apiRelationsMiddleware
+  ];
 
   if (process.env.NODE_ENV !== 'production') {
     middleware.push(require('redux-logger')());

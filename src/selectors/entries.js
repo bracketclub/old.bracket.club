@@ -1,7 +1,6 @@
 import {createSelector} from 'reselect';
-import {filter, pick, sortedIndexBy, orderBy, sortBy} from 'lodash';
+import {sortedIndexBy, orderBy, sortBy} from 'lodash';
 
-import findById from 'lib/findById';
 import transformKey from 'lib/transformKey';
 import eventInfo from './event';
 import * as bracketSelectors from './bracket';
@@ -11,12 +10,11 @@ const SORT_KEY = 'standard';
 const SORT_DIR = 'desc';
 const DEFAULT_SORT = (entry) => entry.score[SORT_KEY] * -1;
 
-const users = (state) => state.users.records;
-const entries = (state) => state.entries.records;
+const users = (state) => state.users.entities;
+const entries = (state, props) => state.entries;
 const urlSort = (state, props) => props.location.query.sort;
 
-const findUser = ($users) => ($user) => findById($users, $user);
-const transformUser = ($users) => ($entry) => transformKey($entry, 'user', findUser($users));
+const transformUser = ($users) => ($entry) => transformKey($entry, 'user', ($user) => $users[$user]);
 const addSortedIndex = ($order) => ($entry, $index, $list) => {
   $entry.score.index = sortedIndexBy($order, $entry, DEFAULT_SORT) + 1;
   $entry.score.total = $list.length;
@@ -27,10 +25,12 @@ const byEvent = createSelector(
   entries,
   users,
   eventInfo,
-  ($entries, $users, $event) => filter(
-    $entries,
-    pick($event, 'sport', 'year')
-  ).map(transformUser($users))
+  ($entries, $users, $event) => (
+      $entries.records[$event.id] || {results: []}
+    )
+    .results
+    .map((id) => $entries.entities[id])
+    .map(transformUser($users))
 );
 
 // Exports

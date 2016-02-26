@@ -16,8 +16,8 @@ export default class SyncContainer extends Component {
       return <Loading />;
     }
 
-    if (sync && sync.lastError) {
-      return <Error error={sync.lastError} />;
+    if (sync && sync.fetchError) {
+      return <Error error={sync.fetchError} />;
     }
 
     // Ensure 1 child is always rendered

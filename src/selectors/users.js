@@ -1,5 +1,4 @@
 import {createSelector} from 'reselect';
-import {find, pick} from 'lodash';
 
 import findById from 'lib/findById';
 import transformKey from 'lib/transformKey';
@@ -8,13 +7,9 @@ import * as bracketSelectors from './bracket';
 import * as mastersSelectors from './masters';
 import * as entriesSelectors from './entries';
 
-const entries = (state) => state.entries.records;
+const entries = (state, props) => state.entries;
 const users = (state) => state.users.records;
 const userId = (state, props) => props.params.userId;
-
-const findEntry = ($entries) => (param) => typeof param === 'string'
-    ? findById($entries, param)
-    : find($entries, pick(param, 'sport', 'year'));
 
 const current = createSelector(
   userId,
@@ -27,10 +22,10 @@ export const currentWithEntry = createSelector(
   eventInfo,
   entries,
   ($user, $event, $entries) => {
-    const entry = findEntry($entries)(pick($event, 'sport', 'year'));
+    const entry = entries.records[$event.id] || null;
     return {
       ...$user,
-      entry: entry || null
+      entry
     };
   }
 );
@@ -63,6 +58,6 @@ export const currentWithEntries = createSelector(
   ($entries, $user) => transformKey(
     $user,
     'entries',
-    ($userEntries) => $userEntries.map(findEntry($entries))
+    ($userEntries) => $userEntries.map((id) => $entries.entities[id])
   )
 );

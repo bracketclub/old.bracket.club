@@ -15,12 +15,12 @@ import MasterNav from '../components/connected/MasterNav';
 const mapStateToProps = (state, props) => ({
   entries: entriesSelectors.scoredByEvent(state, props),
   sortParams: entriesSelectors.sortParams(state, props),
-  sync: mergeSyncState(state.entries, state.masters)
+  sync: mergeSyncState(state.entries.records[props.event.id], state.masters.records[props.event.id])
 });
 
 const mapPropsToActions = (props) => ({
-  masters: [mastersActions.fetchOne, props.event.id, mastersActions.sse],
-  entries: [entriesActions.fetchAll, props.event.id, entriesActions.sse]
+  masters: [mastersActions.fetch, props.event.id, mastersActions.sse],
+  entries: [entriesActions.fetch, props.event.id, entriesActions.sse]
 });
 
 @connect(mapStateToProps, mapDispatchToProps({entriesActions}))

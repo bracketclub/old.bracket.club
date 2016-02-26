@@ -1,3 +1,6 @@
+// Makes promise debugging betterer
+window.onunhandledrejection = (e) => {throw e.reason;};
+
 import '../styles/index.js2less';
 
 import '!!file?name=favicon.ico!../public/favicon.ico';

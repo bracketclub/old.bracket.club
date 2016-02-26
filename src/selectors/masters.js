@@ -1,16 +1,20 @@
 import {createSelector} from 'reselect';
 
-import findById from 'lib/findById';
 import eventInfo from './event';
 import * as bracketSelectors from './bracket';
 
-const masters = (state) => state.masters.records;
+const masters = (state) => state.masters;
 const urlIndex = (state, props) => props.location.query.game;
 
 export const brackets = createSelector(
   eventInfo,
   masters,
-  ($event, $masters) => (findById($masters, $event.id) || {}).brackets || []
+  ($event, $masters) => ((
+    $masters.records[$event.id] || {results: []}
+  )
+  .results
+  .map((id) => $masters.entities[id])[0] || {})
+  .brackets || []
 );
 
 export const index = createSelector(

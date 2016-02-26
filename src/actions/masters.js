@@ -1,5 +1,5 @@
 import config from 'config';
-import restActions from 'lib/restActions';
+import restActions from 'lib/reduxApiRestActions';
 import analytics from 'lib/analytics';
 import es from 'lib/eventSource';
 import {replaceQuery} from './routing';
@@ -41,7 +41,7 @@ export default {
       event: `${ENDPOINT}-${event}`,
       url: `${config.apiUrl}/${ENDPOINT}/events`
     }, () => {
-      dispatch(mastersRestActions.fetchOne(event, {refresh: true}));
+      dispatch(mastersRestActions.fetch(event, {refresh: true}));
     });
   }
 };
