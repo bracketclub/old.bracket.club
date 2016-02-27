@@ -1,53 +1,64 @@
-import {snakeCase} from 'lodash';
+import {combineReducers} from 'redux';
+import actionNames from 'action-names';
+import {mergeWith} from 'lodash';
 
-const makeErrorObject = (error) => {
-  if (error.status === 0) {
-    return {status: 0, error: 'Could not connect to API server', message: ''};
-  }
-
-  const DEFAULT_SERVER_ERROR = 500;
-  const status = error.status || DEFAULT_SERVER_ERROR;
-  const errorText = (error.data && error.data.error) || error.statusText || 'Internal Server Error';
-  const message = status === (error.data && error.data.message) || 'An internal server error occurred';
-
-  return {status, error: errorText, message};
-};
-
-export default (entity) => {
-  const defaultState = {
-    sync: {
-      syncing: false,
-      refreshing: false,
-      lastError: null
-    },
-    records: []
+const recordsReducerFor = (resourceType) => {
+  const defaultRecordState = {
+    result: null,
+    syncing: false,
+    refreshing: false,
+    fetchError: null
   };
 
-  const resourceType = snakeCase(entity.getKey()).toUpperCase();
+  const types = actionNames(resourceType);
 
-  return (state = defaultState, action) => {
+  return (state = {}, action) => {
+    const updateState = (newState) => {
+      const {id, cid} = action.meta || {};
+      const updatedState = {...state};
+
+      if (id) updatedState[id] = {...defaultRecordState, ...state[id], ...newState};
+      if (cid) updatedState[cid] = {...defaultRecordState, ...state[cid], ...newState};
+
+      return updatedState;
+    };
+
     switch (action.type) {
-    case `${resourceType}_FETCH_START`:
-      return {
-        ...state,
-        sync: {syncing: !action.refresh, refreshing: !!action.refresh, lastError: null}
-      };
 
-    case `${resourceType}_FETCH_SUCCESS`:
-      return {
-        ...state,
-        records: action.data,
-        sync: {syncing: false, refreshing: false, lastError: null}
-      };
+    case types.fetchStart:
+      return updateState({syncing: !action.meta.refresh, refreshing: !!action.meta.refresh});
 
-    case `${resourceType}_FETCH_ERROR`:
-      return {
-        ...state,
-        sync: {syncing: false, refreshing: false, lastError: makeErrorObject(action.error)}
-      };
+    case types.fetchSuccess:
+      return updateState({syncing: false, refreshing: false, fetchError: null, result: action.payload.result});
+
+    case types.fetchError:
+      return updateState({syncing: false, refreshing: false, fetchError: action.payload});
 
     default:
       return state;
     }
   };
 };
+
+const entitiesReducerFor = (resourceType, mergeEntities) => {
+  const defaultState = {};
+
+  const types = actionNames(resourceType);
+
+  return (state = defaultState, action) => {
+    switch (action.type) {
+
+    case types.fetchSuccess:
+      const entities = action.payload.entities[resourceType];
+      return mergeEntities ? mergeWith(state, entities, mergeEntities) : {...state, ...entities};
+
+    default:
+      return state;
+    }
+  };
+};
+
+export default (schema, mergeEntities) => combineReducers({
+  records: recordsReducerFor(schema.getKey()),
+  entities: entitiesReducerFor(schema.getKey(), mergeEntities)
+});

@@ -1,7 +1,8 @@
 import config from 'config';
-import restActions from 'lib/restActions';
+import restActions from 'lib/reduxApiRestActions';
 import analytics from 'lib/analytics';
 import es from 'lib/eventSource';
+import cache from 'lib/cacheOldYears';
 import {replaceQuery} from './routing';
 import {masters as schema} from '../schema';
 import * as mastersSelectors from '../selectors/masters';
@@ -29,7 +30,8 @@ const navigationActions = {
 
 const mastersRestActions = restActions({
   schema,
-  url: `${config.apiUrl}/${ENDPOINT}`
+  url: `${config.apiUrl}/${ENDPOINT}`,
+  cache: cache('masters')
 });
 
 export default {
@@ -41,7 +43,7 @@ export default {
       event: `${ENDPOINT}-${event}`,
       url: `${config.apiUrl}/${ENDPOINT}/events`
     }, () => {
-      dispatch(mastersRestActions.fetchOne(event, {refresh: true}));
+      dispatch(mastersRestActions.fetch(event, {refresh: true}));
     });
   }
 };

@@ -4,7 +4,10 @@ import {connect} from 'react-redux';
 import fetch from 'lib/fetchDecorator';
 import mergeSyncState from 'lib/mergeSyncState';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
+import mapSelectorsToProps from 'lib/mapSelectorsToProps';
+
 import * as entriesSelectors from '../selectors/entries';
+import * as mastersSelectors from '../selectors/masters';
 import * as entriesActions from '../actions/entries';
 import * as mastersActions from '../actions/masters';
 
@@ -12,15 +15,15 @@ import Page from '../components/layout/Page';
 import ResultsTable from '../components/results/Table';
 import MasterNav from '../components/connected/MasterNav';
 
-const mapStateToProps = (state, props) => ({
-  entries: entriesSelectors.scoredByEvent(state, props),
-  sortParams: entriesSelectors.sortParams(state, props),
-  sync: mergeSyncState(state.entries, state.masters)
+const mapStateToProps = mapSelectorsToProps({
+  entries: entriesSelectors.scoredByEvent,
+  sortParams: entriesSelectors.sortParams,
+  sync: mergeSyncState(entriesSelectors, mastersSelectors)
 });
 
 const mapPropsToActions = (props) => ({
-  masters: [mastersActions.fetchOne, props.event.id, mastersActions.sse],
-  entries: [entriesActions.fetchAll, props.event.id, entriesActions.sse]
+  masters: [mastersActions.fetch, props.event.id, mastersActions.sse],
+  entries: [entriesActions.fetch, props.event.id, entriesActions.sse]
 });
 
 @connect(mapStateToProps, mapDispatchToProps({entriesActions}))

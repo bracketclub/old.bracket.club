@@ -1,39 +1,29 @@
 import {createSelector} from 'reselect';
-import {filter, pick, sortedIndexBy, orderBy, sortBy} from 'lodash';
+import {sortedIndexBy, orderBy, sortBy, property} from 'lodash';
 
-import findById from 'lib/findById';
-import transformKey from 'lib/transformKey';
-import eventInfo from './event';
+import {eventId} from './event';
 import * as bracketSelectors from './bracket';
 import * as mastersSelectors from './masters';
+import * as visibleSelectors from './visible';
 
+const STATE_KEY = property('entries');
 const SORT_KEY = 'standard';
 const SORT_DIR = 'desc';
 const DEFAULT_SORT = (entry) => entry.score[SORT_KEY] * -1;
 
-const users = (state) => state.users.records;
-const entries = (state) => state.entries.records;
+const users = (state) => state.users.entities;
 const urlSort = (state, props) => props.location.query.sort;
+const entries = visibleSelectors.list(STATE_KEY, eventId);
 
-const findUser = ($users) => ($user) => findById($users, $user);
-const transformUser = ($users) => ($entry) => transformKey($entry, 'user', findUser($users));
-const addSortedIndex = ($order) => ($entry, $index, $list) => {
-  $entry.score.index = sortedIndexBy($order, $entry, DEFAULT_SORT) + 1;
-  $entry.score.total = $list.length;
-  return $entry;
-};
-
-const byEvent = createSelector(
+const entriesWithUsers = createSelector(
   entries,
   users,
-  eventInfo,
-  ($entries, $users, $event) => filter(
-    $entries,
-    pick($event, 'sport', 'year')
-  ).map(transformUser($users))
+  ($entries, $users) => $entries.map(($entry) => ({
+    ...$entry,
+    user: $users[$entry.user] || {id: $entry.user}
+  }))
 );
 
-// Exports
 export const sortParams = createSelector(
   urlSort,
   ($urlSort) => typeof $urlSort === 'undefined'
@@ -41,8 +31,14 @@ export const sortParams = createSelector(
     : {key: $urlSort.split('|')[0], dir: $urlSort.split('|')[1]}
 );
 
+const addSortedIndex = ($order) => ($entry, $index, $list) => {
+  $entry.score.index = sortedIndexBy($order, $entry, DEFAULT_SORT) + 1;
+  $entry.score.total = $list.length;
+  return $entry;
+};
+
 export const scoredByEvent = createSelector(
-  byEvent,
+  entriesWithUsers,
   bracketSelectors.score,
   mastersSelectors.bracketString,
   sortParams,
@@ -50,11 +46,13 @@ export const scoredByEvent = createSelector(
     if (!$master || !$entries.length) return $entries;
     // This adds a score object to each entry
     const scoredEntries = $score({master: $master, entry: $entries});
-    const standardOrder = sortBy(scoredEntries, DEFAULT_SORT);
+    const addStandardIndex = addSortedIndex(sortBy(scoredEntries, DEFAULT_SORT));
     return orderBy(
-      scoredEntries.map(addSortedIndex(standardOrder)),
+      scoredEntries.map(addStandardIndex),
       // Break ties by falling back to descending by standard score
       [`score.${$sort.key}`, 'score.standard'], [$sort.dir, 'desc']
     );
   }
 );
+
+export const sync = visibleSelectors.sync(STATE_KEY, eventId);

@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production' && hostname === 'tweetyourbracket.com'
 export default {
   pageview: ({pathname, search}) => analytics.pageview(pathname + search),
   event: ({state, event, category, action, labels = [], label = ''}) => {
-    const id = (event ? event.id : event) || eventId(Array.isArray(state) ? state[0] : state);
+    const id = (event && event.id) || eventId(Array.isArray(state) ? state[0] : state);
     const displayLabel = label || (Array.isArray(labels) ? labels.join('|') : labels);
     analytics.event({
       category,
