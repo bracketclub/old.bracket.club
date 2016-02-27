@@ -1,5 +1,5 @@
 import actionNames from 'action-names';
-import {without, pick} from 'lodash';
+import {without} from 'lodash';
 
 export default ({dispatch}) => (next) => (action) => {
   // The next action is run first because any related resources should
@@ -15,7 +15,11 @@ export default ({dispatch}) => (next) => (action) => {
     without(Object.keys(entities), resource).forEach((resourceType) => {
       dispatch({
         type: actionNames(resourceType).fetchSuccess,
-        payload: {entities: pick(entities, resourceType)}
+        payload: {
+          entities: {
+            [resourceType]: entities[resourceType]
+          }
+        }
       });
     });
   }

@@ -16,10 +16,15 @@ export default (initialState = {}) => {
   ];
 
   if (process.env.NODE_ENV !== 'production') {
-    middleware.push(require('redux-logger')({
-      collapsed: true,
-      predicate: (getState, action) => action.type.indexOf('@@router') === -1
-    }));
+    middleware.push(
+      require('redux-logger')({
+        collapsed: true,
+        predicate: (getState, action) => action.type.indexOf('@@router') === -1
+      })
+    );
+    storeEnhancers.push(
+      window.devToolsExtension ? window.devToolsExtension() : (f) => f
+    );
   }
 
   const store = createStore(
