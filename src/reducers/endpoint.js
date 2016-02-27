@@ -1,9 +1,10 @@
 import {combineReducers} from 'redux';
 import actionNames from 'action-names';
+import {mergeWith} from 'lodash';
 
 const recordsReducerFor = (resourceType) => {
   const defaultRecordState = {
-    results: [],
+    result: null,
     syncing: false,
     refreshing: false,
     fetchError: null
@@ -22,18 +23,13 @@ const recordsReducerFor = (resourceType) => {
       return updatedState;
     };
 
-    const results = () => {
-      const {result} = action.payload;
-      return {results: (Array.isArray(result) ? result : [result]).filter(Boolean)};
-    };
-
     switch (action.type) {
 
     case types.fetchStart:
       return updateState({syncing: !action.meta.refresh, refreshing: !!action.meta.refresh});
 
     case types.fetchSuccess:
-      return updateState({syncing: false, refreshing: false, fetchError: null, ...results()});
+      return updateState({syncing: false, refreshing: false, fetchError: null, result: action.payload.result});
 
     case types.fetchError:
       return updateState({syncing: false, refreshing: false, fetchError: action.payload});
@@ -44,7 +40,7 @@ const recordsReducerFor = (resourceType) => {
   };
 };
 
-const entitiesReducerFor = (resourceType) => {
+const entitiesReducerFor = (resourceType, mergeEntities) => {
   const defaultState = {};
 
   const types = actionNames(resourceType);
@@ -53,7 +49,8 @@ const entitiesReducerFor = (resourceType) => {
     switch (action.type) {
 
     case types.fetchSuccess:
-      return {...state, ...action.payload.entities[resourceType]};
+      const entities = action.payload.entities[resourceType];
+      return mergeEntities ? mergeWith(state, entities, mergeEntities) : {...state, ...entities};
 
     default:
       return state;
@@ -61,7 +58,7 @@ const entitiesReducerFor = (resourceType) => {
   };
 };
 
-export default (schema) => combineReducers({
+export default (schema, mergeEntities) => combineReducers({
   records: recordsReducerFor(schema.getKey()),
-  entities: entitiesReducerFor(schema.getKey())
+  entities: entitiesReducerFor(schema.getKey(), mergeEntities)
 });

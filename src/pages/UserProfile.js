@@ -1,7 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
+import mapSelectorsToProps from 'lib/mapSelectorsToProps';
 import fetch from 'lib/fetchDecorator';
+
 import * as usersActions from '../actions/users';
 import * as usersSelectors from '../selectors/users';
 
@@ -9,9 +11,9 @@ import Page from '../components/layout/Page';
 import UserEntries from '../components/user/Entries';
 import UserInfo from '../components/user/Info';
 
-const mapStateToProps = (state, props) => ({
-  user: usersSelectors.currentWithEntries(state, props),
-  sync: state.users.sync
+const mapStateToProps = mapSelectorsToProps({
+  user: usersSelectors.userWithEntries,
+  sync: usersSelectors.sync
 });
 
 const mapPropsToActions = (props) => ({

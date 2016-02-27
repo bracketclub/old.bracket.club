@@ -11,6 +11,7 @@
     "url": "http://github.com/tweetyourbracket/tweetyourbracket.com/issues"
   },
   "dependencies": {
+    "@lukekarrys/normalizr": "^2.1.0",
     "action-names": "^0.3.2",
     "bootstrap": "^3.3.6",
     "bootswatch": "^3.3.6",
@@ -25,7 +26,6 @@
     "firebase": "^2.4.1",
     "lesshat": "^3.0.2",
     "lodash": "^4.5.1",
-    "normalizr": "^2.0.0",
     "query-string": "^3.0.0",
     "raf": "^3.2.0",
     "react": "^0.14.7",

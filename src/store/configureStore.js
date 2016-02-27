@@ -16,7 +16,10 @@ export default (initialState = {}) => {
   ];
 
   if (process.env.NODE_ENV !== 'production') {
-    middleware.push(require('redux-logger')());
+    middleware.push(require('redux-logger')({
+      collapsed: true,
+      predicate: (getState, action) => action.type.indexOf('@@router') === -1
+    }));
   }
 
   const store = createStore(
