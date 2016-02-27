@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect';
-import {find, pick, property} from 'lodash';
+import {find, pick, property, compact} from 'lodash';
 
 import eventInfo, {eventId} from './event';
 import * as bracketSelectors from './bracket';
@@ -10,24 +10,26 @@ import * as visibleSelectors from './visible';
 const STATE_KEY = property('users');
 const entries = (state, props) => state.entries.entities;
 const userId = (state, props) => props.params.userId;
-const userKey = createSelector(userId, eventId, (...args) => args.join('/'));
-const user = visibleSelectors.byId(STATE_KEY, userKey);
+const userEventId = createSelector(userId, eventId, (...args) => args.join('/'));
+
+const mapUserToEntries = ($user, $entries) => compact(($user.entries || []).map((id) => $entries[id]));
 
 export const userWithEntries = createSelector(
-  user,
+  visibleSelectors.byId(STATE_KEY, userId),
   entries,
   ($user, $entries) => ({
     ...$user,
-    entries: $user.entries ? $user.entries.map((id) => $entries[id]) : []
+    entries: mapUserToEntries($user, $entries)
   })
 );
 
 export const userWithEntry = createSelector(
-  userWithEntries,
+  visibleSelectors.byId(STATE_KEY, userEventId),
   eventInfo,
-  ($user, $event) => ({
+  entries,
+  ($user, $event, $entries) => ({
     ...$user,
-    entry: find($user.entries, pick($event, 'sport', 'year'))
+    entry: find(mapUserToEntries($user, $entries), pick($event, 'sport', 'year'))
   })
 );
 
