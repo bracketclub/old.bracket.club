@@ -1,6 +1,7 @@
 import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
+import mapSelectorsToProps from 'lib/mapSelectorsToProps';
 
 import * as mastersSelectors from '../../selectors/masters';
 import * as mastersActions from '../../actions/masters';
@@ -10,9 +11,9 @@ import BracketProgress from '../bracket/Progress';
 import BracketHeader from '../bracket/Header';
 import LockMessage from '../bracket/LockMessage';
 
-const mapStateToProps = (state, props) => ({
-  navigation: mastersSelectors.navigation(state, props),
-  progress: mastersSelectors.progress(state, props)
+const mapStateToProps = mapSelectorsToProps({
+  navigation: mastersSelectors.navigation,
+  progress: mastersSelectors.progress
 });
 
 @connect(mapStateToProps, mapDispatchToProps({mastersActions}))

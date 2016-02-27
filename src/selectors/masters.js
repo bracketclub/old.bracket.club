@@ -1,23 +1,23 @@
 import {createSelector} from 'reselect';
+import {property} from 'lodash';
 
-import findById from 'lib/findById';
-import eventInfo from './event';
+import {eventId} from './event';
 import * as bracketSelectors from './bracket';
+import * as visibleSelectors from './visible';
 
-const masters = (state) => state.masters.records;
+const STATE_KEY = property('masters');
 const urlIndex = (state, props) => props.location.query.game;
+const master = visibleSelectors.byId(STATE_KEY, eventId);
 
 export const brackets = createSelector(
-  eventInfo,
-  masters,
-  ($event, $masters) => (findById($masters, $event.id) || {}).brackets || []
+  master,
+  ($master) => $master.brackets || []
 );
 
 export const index = createSelector(
   urlIndex,
   brackets,
-  ($index, $brackets) =>
-    parseInt(typeof $index === 'undefined' ? $brackets.length - 1 : $index, 10)
+  ($index, $brackets) => parseInt(typeof $index === 'undefined' ? $brackets.length - 1 : $index, 10)
 );
 
 export const navigation = createSelector(
@@ -50,3 +50,5 @@ export const progress = createSelector(
     current: $total - ($bracket.split($unpicked).length - 1)
   })
 );
+
+export const sync = visibleSelectors.sync(STATE_KEY, eventId);

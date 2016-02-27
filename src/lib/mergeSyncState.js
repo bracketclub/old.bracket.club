@@ -1,8 +1,6 @@
-const getSyncFromState = (state) =>
-  typeof state.sync !== 'undefined' ? state.sync : state;
-
-export default (...syncStates) => syncStates.reduce((result, state) => {
-  result.syncing = result.syncing || getSyncFromState(state).syncing;
-  result.lastError = result.lastError || getSyncFromState(state).lastError;
-  return result;
-}, {syncing: false, lastError: null});
+export default (...selectors) => (...args) => selectors.reduce((res, selector) => {
+  const state = selector.sync(...args);
+  res.syncing = res.syncing || state.syncing;
+  res.fetchError = res.fetchError || state.fetchError;
+  return res;
+}, {syncing: false, fetchError: null});
