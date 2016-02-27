@@ -1,42 +1,41 @@
 import {CALL_API, getJSON} from 'redux-api-middleware';
-import {normalize, arrayOf} from 'normalizr';
+import {normalize, arrayOf} from '@lukekarrys/normalizr';
 import actionNames from 'action-names';
-import mapQueryToKey from 'lib/mapQueryToKey';
 
 const manipulateJSON = (manipulate) => (action, state, res) => getJSON(res).then(manipulate);
 
-const normalizePayload = (payloadSchema, id) => manipulateJSON((json) => {
+const normalizePayload = (payloadSchema) => manipulateJSON((json) => {
   const schema = Array.isArray(json) ? arrayOf(payloadSchema) : payloadSchema;
   return normalize(json, schema);
 });
 
-export default ({schema, url} = {}) => {
+export default ({schema, url, cache} = {}) => {
   const resource = schema.getKey();
   const types = actionNames(resource);
 
   return {
     fetch(params, {refresh = false} = {}) {
-      const {endpoint, key} = mapQueryToKey(params);
-
+      const id = params;
       return (dispatch) => dispatch({
         [CALL_API]: {
           method: 'GET',
-          endpoint: `${url}${endpoint}`,
+          endpoint: `${url}/${params}`,
           types: [
             {
               type: types.fetchStart,
-              meta: () => ({id: key, resource, refresh})
+              meta: () => ({id, resource, refresh})
             },
             {
               type: types.fetchSuccess,
-              payload: normalizePayload(schema, key),
-              meta: () => ({id: key, resource})
+              payload: normalizePayload(schema),
+              meta: () => ({id, resource, refresh})
             },
             {
               type: types.fetchError,
-              meta: () => ({id: key, resource})
+              meta: () => ({id, resource, refresh})
             }
-          ]
+          ],
+          bailout: (state) => typeof cache === 'function' ? cache(state, id) : cache
         }
       });
     }

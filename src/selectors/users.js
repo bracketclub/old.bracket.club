@@ -1,63 +1,53 @@
 import {createSelector} from 'reselect';
+import {find, pick, property} from 'lodash';
 
-import findById from 'lib/findById';
-import transformKey from 'lib/transformKey';
-import eventInfo from './event';
+import eventInfo, {eventId} from './event';
 import * as bracketSelectors from './bracket';
 import * as mastersSelectors from './masters';
 import * as entriesSelectors from './entries';
+import * as visibleSelectors from './visible';
 
-const entries = (state, props) => state.entries;
-const users = (state) => state.users.records;
+const STATE_KEY = property('users');
+const entries = (state, props) => state.entries.entities;
 const userId = (state, props) => props.params.userId;
+const userKey = createSelector(userId, eventId, (...args) => args.join('/'));
+const user = visibleSelectors.byId(STATE_KEY, userKey);
 
-const current = createSelector(
-  userId,
-  users,
-  ($userId, $users) => findById($users, $userId) || {}
-);
-
-export const currentWithEntry = createSelector(
-  current,
-  eventInfo,
+export const userWithEntries = createSelector(
+  user,
   entries,
-  ($user, $event, $entries) => {
-    const entry = entries.records[$event.id] || null;
-    return {
-      ...$user,
-      entry
-    };
-  }
+  ($user, $entries) => ({
+    ...$user,
+    entries: $user.entries ? $user.entries.map((id) => $entries[id]) : []
+  })
 );
 
-export const currentWithScoredEntry = createSelector(
-  currentWithEntry,
+export const userWithEntry = createSelector(
+  userWithEntries,
+  eventInfo,
+  ($user, $event) => ({
+    ...$user,
+    entry: find($user.entries, pick($event, 'sport', 'year'))
+  })
+);
+
+export const userWithScoredEntry = createSelector(
+  userWithEntry,
   bracketSelectors.score,
   mastersSelectors.bracketString,
-  ($entry, $score, $master) => ({
-    ...$entry,
-    score: $entry && $master
-      ? $score({master: $master, entry: $entry.bracket})
-      : null
+  ($user, $score, $master) => ({
+    ...$user,
+    score: $user && $master && $score({master: $master, entry: $user.entry.bracket})
   })
 );
 
-export const currentWithRankedEntry = createSelector(
-  currentWithEntry,
-  userId,
+export const userWithRankedEntry = createSelector(
+  userWithEntry,
   entriesSelectors.scoredByEvent,
-  ($entry, $userId, $entries) => ({
-    ...$entry,
-    ...$entries.find((entry) => entry.user.id === $userId)
+  ($user, $entries) => ({
+    ...$user,
+    ...pick($entries.find((entry) => entry.user.id === $user.id), 'score')
   })
 );
 
-export const currentWithEntries = createSelector(
-  entries,
-  current,
-  ($entries, $user) => transformKey(
-    $user,
-    'entries',
-    ($userEntries) => $userEntries.map((id) => $entries.entities[id])
-  )
-);
+export const sync = visibleSelectors.sync(STATE_KEY, eventId);

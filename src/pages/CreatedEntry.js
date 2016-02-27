@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 
 import fetch from 'lib/fetchDecorator';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
+import mapSelectorsToProps from 'lib/mapSelectorsToProps';
+
 import * as bracketSelectors from '../selectors/bracket';
 import * as mastersSelectors from '../selectors/masters';
 import * as mastersActions from '../actions/masters';
@@ -11,10 +13,10 @@ import Page from '../components/layout/Page';
 import DiffBracket from '../components/bracket/DiffBracket';
 import MasterNav from '../components/connected/MasterNav';
 
-const mapStateToProps = (state, props) => ({
-  diff: bracketSelectors.diff(state, props),
-  master: mastersSelectors.bracketString(state, props),
-  sync: state.masters.sync
+const mapStateToProps = mapSelectorsToProps({
+  diff: bracketSelectors.diff,
+  master: mastersSelectors.bracketString,
+  sync: mastersSelectors.sync
 });
 
 const mapPropsToActions = (props) => ({
