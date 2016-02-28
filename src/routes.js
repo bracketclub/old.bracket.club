@@ -1,6 +1,7 @@
 import App from './components/connected/App';
 import Subscribe from './pages/Subscribe';
 import Results from './pages/Results';
+import ResultsFriends from './pages/ResultsFriends';
 import UserEntry from './pages/UserEntry';
 import UserProfile from './pages/UserProfile';
 import CreatedEntry from './pages/CreatedEntry';
@@ -22,6 +23,7 @@ const eventRoutes = {
   indexRoute,
   childRoutes: [
     {path: 'entries', component: Results},
+    {path: 'entries/friends', component: ResultsFriends},
     {path: 'entries/:userId', component: UserEntry},
     // These are the links the get posted to twitter
     {path: 'entry/:bracket', component: CreatedEntry},
