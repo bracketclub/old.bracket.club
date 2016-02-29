@@ -1,6 +1,7 @@
 import React, {PropTypes, Component} from 'react';
-import {PageHeader, Table} from 'react-bootstrap';
+import {PageHeader, Table, Glyphicon, ButtonGroup, Button} from 'react-bootstrap';
 import {Link} from 'react-router';
+import {LinkContainer} from 'react-router-bootstrap';
 
 import SortableTh from './SortableTh';
 
@@ -8,11 +9,12 @@ export default class ResultsTable extends Component {
   static propTypes = {
     entries: PropTypes.array.isRequired,
     onSort: PropTypes.func.isRequired,
-    sortParams: PropTypes.object.isRequired
+    sortParams: PropTypes.object.isRequired,
+    friends: PropTypes.bool
   };
 
   render() {
-    const {entries, sortParams} = this.props;
+    const {entries, sortParams, friends, event} = this.props;
     const hasResults = entries.length;
 
     const headerProps = hasResults ? {
@@ -22,7 +24,18 @@ export default class ResultsTable extends Component {
 
     return (
       <div>
-        <PageHeader>Results</PageHeader>
+        <PageHeader>
+          Results
+          {' '}
+          <ButtonGroup>
+            <LinkContainer to={`/${event.id}/entries`}>
+              <Button bsStyle='primary' bsSize='sm'><Glyphicon glyph='globe' /></Button>
+            </LinkContainer>
+            <LinkContainer to={`/${event.id}/entries/friends`}>
+              <Button bsStyle='primary' bsSize='sm'><Glyphicon glyph='user' /></Button>
+            </LinkContainer>
+          </ButtonGroup>
+        </PageHeader>
         <Table condensed striped className='results-table'>
           <thead>
             <tr>
@@ -42,7 +55,7 @@ export default class ResultsTable extends Component {
           </thead>
           <tbody>
             {!hasResults &&
-              <tr><td colSpan='12'>There are no results yet for this event.</td></tr>
+              <tr><td colSpan='12'>{`There are no results yet ${friends ? 'from your friends ' : ''}for this event.`}</td></tr>
             }
             {entries.map((entry) =>
               <tr key={entry.id}>

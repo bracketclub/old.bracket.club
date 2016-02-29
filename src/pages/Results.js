@@ -4,22 +4,30 @@ import {connect} from 'react-redux';
 import fetch from 'lib/fetchDecorator';
 import mergeSyncState from 'lib/mergeSyncState';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
-import mapSelectorsToProps from 'lib/mapSelectorsToProps';
 
 import * as entriesSelectors from '../selectors/entries';
 import * as mastersSelectors from '../selectors/masters';
+import * as meSelectors from '../selectors/me';
 import * as entriesActions from '../actions/entries';
 import * as mastersActions from '../actions/masters';
+import * as meActions from '../actions/me';
 
 import Page from '../components/layout/Page';
 import ResultsTable from '../components/results/Table';
 import MasterNav from '../components/connected/MasterNav';
 
-const mapStateToProps = mapSelectorsToProps({
-  entries: entriesSelectors.scoredByEvent,
-  sortParams: entriesSelectors.sortParams,
-  sync: mergeSyncState(entriesSelectors, mastersSelectors)
-});
+const isFriends = (pathname) => pathname.indexOf('/friends') > -1;
+
+const mapStateToProps = (state, props) => {
+  const entriesSelector = isFriends(props.location.pathname)
+    ? entriesSelectors.friendsScoredByEvent
+    : entriesSelectors.scoredByEvent;
+  return {
+    entries: entriesSelector(state, props),
+    sortParams: entriesSelectors.sortParams(state, props),
+    sync: mergeSyncState(entriesSelectors, mastersSelectors, meSelectors)(state, props)
+  };
+};
 
 const mapPropsToActions = (props) => ({
   masters: [mastersActions.fetch, props.event.id, mastersActions.sse],
@@ -35,14 +43,40 @@ export default class ResultsPage extends Component {
     sync: PropTypes.object
   };
 
-  static getEventPath = (e, params, query) => ({pathname: `/${e}/entries`, query});
+  static getEventPath = (e, {query, pathname}) => ({
+    pathname: `/${e}/entries${isFriends(pathname) ? '/friends' : ''}`,
+    query
+  });
+
+  componentDidMount() {
+    this.fetchFriends();
+  }
+
+  componentDidUpdate(prevProps) {
+    const {pathname} = this.props.location;
+    const {pathname: previous} = prevProps.location;
+
+    if (pathname !== previous) {
+      this.fetchFriends();
+    }
+  }
+
+  fetchFriends() {
+    if (this.isFriends()) {
+      this.props.dispatch(meActions.getFriends());
+    }
+  }
+
+  isFriends() {
+    return isFriends(this.props.location.pathname);
+  }
 
   handleSort = (key) => {
     this.props.entriesActions.sort(key);
   };
 
   render() {
-    const {sync, entries, sortParams} = this.props;
+    const {sync, entries, sortParams, event} = this.props;
 
     return (
       <Page sync={sync}>
@@ -51,6 +85,8 @@ export default class ResultsPage extends Component {
           sortParams={sortParams}
           onSort={this.handleSort}
           entries={entries}
+          event={event}
+          friends={this.isFriends()}
         />
       </Page>
     );

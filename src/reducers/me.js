@@ -5,6 +5,7 @@ const initialState = {
   auth: {},
   id: null,
   username: null,
+  authenticating: false,
   syncing: {
     syncing: false,
     fetchError: null
@@ -14,12 +15,25 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
 
+  case types.LOGIN_START:
+    return {
+      ...state,
+      authenticating: true
+    };
+
   case types.LOGIN:
     return {
       ...state,
+      authenticating: false,
       auth: action.auth,
       id: action.auth.twitter.id,
       username: action.auth.twitter.username
+    };
+
+  case types.LOGOUT:
+    return {
+      ...initialState,
+      syncing: {...initialState.syncing}
     };
 
   case types.FRIENDS_FETCH_START:
@@ -32,7 +46,7 @@ export default (state = initialState, action) => {
   case types.FRIENDS_FETCH_SUCCESS:
     return {
       ...state,
-      syncing: {syncing: false, fetchError: null},
+      syncing: {...initialState.syncing},
       friends: action.payload.ids
     };
 
@@ -41,11 +55,6 @@ export default (state = initialState, action) => {
       ...state,
       syncing: {syncing: false, fetchError: action.payload},
       friends: null
-    };
-
-  case types.LOGOUT:
-    return {
-      ...initialState
     };
 
   default:
