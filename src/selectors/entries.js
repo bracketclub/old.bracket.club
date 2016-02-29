@@ -29,7 +29,7 @@ const friendsEntries = createSelector(
   entriesWithUsers,
   me,
   ($entries, $me) => {
-    const {friends = [], id} = $me;
+    const {friends, id} = $me;
     return $entries.filter(($entry) => friends.indexOf($entry.user.id) > -1 || $entry.user.id === id);
   }
 );
