@@ -1,7 +1,8 @@
 import App from './components/connected/App';
+import Auth from './components/connected/Auth';
 import Subscribe from './pages/Subscribe';
+import Login from './pages/Login';
 import Results from './pages/Results';
-import ResultsFriends from './pages/ResultsFriends';
 import UserEntry from './pages/UserEntry';
 import UserProfile from './pages/UserProfile';
 import CreatedEntry from './pages/CreatedEntry';
@@ -23,7 +24,7 @@ const eventRoutes = {
   indexRoute,
   childRoutes: [
     {path: 'entries', component: Results},
-    {path: 'entries/friends', component: ResultsFriends},
+    {path: 'entries/friends', component: Auth(Results)},
     {path: 'entries/:userId', component: UserEntry},
     // These are the links the get posted to twitter
     {path: 'entry/:bracket', component: CreatedEntry},
@@ -48,7 +49,7 @@ export default {
   childRoutes: [
     // Static pages
     {path: 'subscribe', component: Subscribe},
-    {path: 'faq', component: null},
+    {path: 'login', component: Login},
     // A user profile page doesnt need to live at an event url
     {path: 'users/:userId', component: UserProfile},
     eventRoutes,

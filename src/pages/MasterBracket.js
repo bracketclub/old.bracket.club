@@ -29,7 +29,7 @@ export default class MasterBracketPage extends Component {
     sync: PropTypes.object
   };
 
-  static getEventPath = (e, params, query) => ({pathname: `/${e}`, query});
+  static getEventPath = (e, {params, query}) => ({pathname: `/${e}`, query});
 
   render() {
     const {
