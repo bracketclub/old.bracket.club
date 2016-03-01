@@ -75,7 +75,7 @@
     "file-loader": "^0.8.5",
     "getconfig": "^2.2.0",
     "git-validate": "^2.1.4",
-    "hjs-webpack": "^7.3.1",
+    "hjs-webpack": "^7.3.2",
     "html-tagged-literals": "^1.0.1",
     "json-loader": "^0.5.4",
     "less": "^2.6.0",
