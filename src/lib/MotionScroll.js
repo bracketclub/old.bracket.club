@@ -69,7 +69,7 @@ export default class MotionScroll extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
     scroll: PropTypes.number.isRequired,
-    onScrollReset: PropTypes.func
+    onScrollReset: PropTypes.func.isRequired
   };
 
   constructor(props) {

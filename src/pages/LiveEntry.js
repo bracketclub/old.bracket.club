@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {routeActions} from 'react-router-redux';
 
 import analytics from 'lib/analytics';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
+import mapSelectorsToProps from 'lib/mapSelectorsToProps';
+
 import * as entrySelectors from '../selectors/entry';
 import * as bracketSelectors from '../selectors/bracket';
 import * as entryActionCreators from '../actions/entry';
@@ -16,15 +17,15 @@ import BracketHeader from '../components/bracket/Header';
 import BracketEnterButton from '../components/bracket/EnterButton';
 import MockMessage from '../components/bracket/MockMessage';
 
-const mapStateToProps = (state, props) => ({
-  validate: bracketSelectors.validate(state, props),
-  bracket: entrySelectors.bracketString(state, props),
-  empty: bracketSelectors.empty(state, props),
-  navigation: entrySelectors.navigation(state, props),
-  progress: entrySelectors.progress(state, props)
+const mapStateToProps = mapSelectorsToProps({
+  validate: bracketSelectors.validate,
+  bracket: entrySelectors.bracketString,
+  empty: bracketSelectors.empty,
+  navigation: entrySelectors.navigation,
+  progress: entrySelectors.progress
 });
 
-@connect(mapStateToProps, mapDispatchToProps({entryActions: entryActionCreators, routeActions}))
+@connect(mapStateToProps, mapDispatchToProps({entryActions: entryActionCreators}))
 export default class LiveEntryPage extends Component {
   static propTypes = {
     validate: PropTypes.func,

@@ -1,20 +1,36 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import rootReducer from '../reducers';
 import thunk from 'redux-thunk';
+import {routerMiddleware} from 'react-router-redux';
+import {browserHistory} from 'react-router';
+import {apiMiddleware} from 'redux-api-middleware';
+import apiRelationsMiddleware from 'lib/reduxApiRelations';
 
-export default ({middleware = []} = {}) => {
+export default (initialState = {}) => {
   const storeEnhancers = [];
+  const middleware = [
+    thunk,
+    routerMiddleware(browserHistory),
+    apiMiddleware,
+    apiRelationsMiddleware
+  ];
 
   if (process.env.NODE_ENV !== 'production') {
-    middleware.push(require('redux-logger')());
+    middleware.push(
+      require('redux-logger')({
+        collapsed: true,
+        predicate: (getState, action) => action.type.indexOf('@@router') === -1
+      })
+    );
+    storeEnhancers.push(
+      window.devToolsExtension ? window.devToolsExtension() : (f) => f
+    );
   }
 
   const store = createStore(
     rootReducer,
-    compose(
-      applyMiddleware(thunk, ...middleware),
-      ...storeEnhancers
-    )
+    initialState,
+    compose(applyMiddleware(...middleware), ...storeEnhancers)
   );
 
   if (module.hot) {
