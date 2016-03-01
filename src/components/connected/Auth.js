@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {push} from 'react-router-redux';
+import {replace} from 'react-router-redux';
 import hoistStatics from 'hoist-non-react-statics';
 
 export default (Component) => {
@@ -20,7 +20,7 @@ export default (Component) => {
     checkAuth(props) {
       const {auth, location} = props;
       if (!auth) {
-        this.props.dispatch(push({
+        this.props.dispatch(replace({
           pathname: '/login',
           query: {redirect: location.pathname}
         }));
