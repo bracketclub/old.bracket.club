@@ -30,7 +30,9 @@ const idResolver = (o) => `${o.sport}-${o.year}`;
 
 // Make it easy to test when the app locks in 5 seconds
 const globalLocks = {} || {
+  // eslint-disable-next-line no-magic-numbers
   'ncaam-2016': new Date(new Date().valueOf() + 5000).toJSON(),
+  // eslint-disable-next-line no-magic-numbers
   'ncaaw-2016': new Date(new Date().valueOf() + 20000).toJSON()
 };
 

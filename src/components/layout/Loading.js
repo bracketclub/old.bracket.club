@@ -1,5 +1,5 @@
-
 import React, {Component, PropTypes} from 'react';
+import charCodes from 'lib/charCodes';
 
 export default class Loading extends Component {
   static propTypes = {
@@ -42,7 +42,7 @@ export default class Loading extends Component {
 
     return (
       <div className='page-loader'>
-        <h2>Searching for a perfect bracket{String.fromCharCode(8230)}</h2>
+        <h2>Searching for a perfect bracket{charCodes.ellipsis}</h2>
         <div className='ball-container'>
           <div className='ball' />
         </div>

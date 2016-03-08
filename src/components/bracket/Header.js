@@ -2,6 +2,9 @@ import React, {PropTypes, Component, Children} from 'react';
 import {Affix} from 'react-overlays';
 import classNames from 'classnames';
 
+const THREE_COLUMNS = 3;
+const TWO_COLUMNS = 2;
+
 export default class BracketHeader extends Component {
   static propTypes = {
     children: PropTypes.node
@@ -12,8 +15,8 @@ export default class BracketHeader extends Component {
     const childrenCount = Children.count(children);
 
     const headerClasses = classNames('bracket-header', {
-      'three-columns': childrenCount === 3,
-      'two-columns': childrenCount === 2
+      'three-columns': childrenCount === THREE_COLUMNS,
+      'two-columns': childrenCount === TWO_COLUMNS
     });
 
     return (
