@@ -97,7 +97,7 @@ export default class Header extends Component {
             <LinkContainer to='/subscribe'>
               <NavItem>Subscribe</NavItem>
             </LinkContainer>
-            <LinkContainer to={`/${event.id}/entries${me.id ? '/friends' : ''}`}>
+            <LinkContainer to={`/${event.id}/entries`}>
               <NavItem>Results</NavItem>
             </LinkContainer>
             {me.id
