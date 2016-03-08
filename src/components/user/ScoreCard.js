@@ -1,4 +1,5 @@
 import React, {PropTypes, Component} from 'react';
+import charCodes from 'lib/charCodes';
 
 export default class ScoreCard extends Component {
   static propTypes = {
@@ -19,9 +20,9 @@ export default class ScoreCard extends Component {
         <p>
           <strong>Rank: </strong>{score.index} / {score.total}
           <br />
-          <strong>Total: </strong>{score.standard} {String.fromCharCode(183)} <strong>PPR: </strong>{score.standardPPR}
+          <strong>Total: </strong>{score.standard} {charCodes.dot} <strong>PPR: </strong>{score.standardPPR}
           <br />
-          <strong>Gooley: </strong>{score.gooley} {String.fromCharCode(183)} <strong>PPR: </strong>{score.gooleyPPR}
+          <strong>Gooley: </strong>{score.gooley} {charCodes.dot} <strong>PPR: </strong>{score.gooleyPPR}
         </p>
       </div>
     );

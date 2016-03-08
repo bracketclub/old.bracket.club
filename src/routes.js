@@ -9,6 +9,7 @@ import CreatedEntry from './pages/CreatedEntry';
 import MasterBracket from './pages/MasterBracket';
 import LiveEntry from './pages/LiveEntry';
 import FourOhFour from './pages/FourOhFour';
+import FAQ from './pages/FAQ';
 
 const indexRoute = {
   components: {
@@ -50,6 +51,7 @@ export default {
     // Static pages
     {path: 'subscribe', component: Subscribe},
     {path: 'login', component: Login},
+    {path: 'faq', component: FAQ},
     // A user profile page doesnt need to live at an event url
     {path: 'users/:userId', component: UserProfile},
     eventRoutes,

@@ -27,6 +27,7 @@ export default class ResultsTable extends Component {
         <PageHeader>
           Results
           {' '}
+          {friends && <small>(friends only) </small>}
           <ButtonGroup>
             <LinkContainer to={`/${event.id}/entries`}>
               <Button bsStyle='primary' bsSize='sm'><Glyphicon glyph='globe' /></Button>
