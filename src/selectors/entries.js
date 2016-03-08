@@ -54,8 +54,8 @@ const orderEntries = ($entries, $score, $master, $sort) => {
   const addStandardIndex = addSortedIndex(sortBy(scoredEntries, DEFAULT_SORT));
   return orderBy(
     scoredEntries.map(addStandardIndex),
-    // Break ties by falling back to descending by standard score
-    [`score.${$sort.key}`, 'score.standard'], [$sort.dir, 'desc']
+    // Break ties by falling back to descending by standard score then gooley
+    [`score.${$sort.key}`, 'score.standard', 'score.gooley'], [$sort.dir, 'desc', 'desc']
   );
 };
 

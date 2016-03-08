@@ -91,6 +91,9 @@ export default class Header extends Component {
         </NavbarHeader>
         <NavbarCollapse>
           <Nav pullRight>
+            <LinkContainer to='/faq'>
+              <NavItem>FAQ</NavItem>
+            </LinkContainer>
             <LinkContainer to='/subscribe'>
               <NavItem>Subscribe</NavItem>
             </LinkContainer>
