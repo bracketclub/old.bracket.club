@@ -18,7 +18,7 @@ export default class FAQ extends Component {
         <hr />
 
         <h4>Why do I have to tweet my entry?</h4>
-        <p>It started as a bit of a gimmick because I wanted to test <a href='https://gist.github.com/lukekarrys/2028007#why'>if you could fit a serialized NCAA tournament bracket in a tweet</a>. It stuck around because I thinks it's fun to share your picks on Twitter.</p>
+        <p>It started as a bit of a gimmick because I wanted to test <a href='https://gist.github.com/lukekarrys/2028007#why'>if you could fit a serialized NCAA tournament bracket in a tweet</a>. It stuck around because I think it's fun to share your picks on Twitter.</p>
         <p>It also has the added bonus that in case someone submits a perfect bracket, I can point to the original tweet in case someone thinks some random little bracket challenge site forged a perfect bracket for the publicity.</p>
 
         <hr />
@@ -47,6 +47,11 @@ export default class FAQ extends Component {
 
         <h4>Who made this?</h4>
         <p>Hey, thanks for asking! I'm <a href='http://lukekarrys.com/'>Luke</a>. I've always been into code and brackets, so I was bound to make something like this eventually. A bunch of it is open source, so if you're into that sort of thing, you can <a href='https://github.com/tweetyourbracket'>check it out on GitHub</a>. You can get in touch <a href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Tweet Your Bracket FAQ'})}`}>via email</a> if there's something bracket related you want to chat about.</p>
+
+        <hr />
+
+        <h4>How does it work? Why did you make this?</h4>
+        <p>I talked about those things and a few others over on <a href='http://lukecod.es/categories/tweet-your-bracket/'>my code blog</a>, so you should check that out if you're really curious.</p>
 
         <hr />
 
