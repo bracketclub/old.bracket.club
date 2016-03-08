@@ -1,3 +1,6 @@
+/* eslint no-magic-numbers:0 */
+// can be removed in eslint >= 2.3.0
+
 import React, {PropTypes, Component, Children} from 'react';
 import {Affix} from 'react-overlays';
 import classNames from 'classnames';
