@@ -1,3 +1,6 @@
+/* eslint no-magic-numbers:0 */
+// can be removed in eslint >= 2.3.0
+
 import React, {PropTypes, Component} from 'react';
 import classNames from 'classnames';
 import {Row, Col, Alert} from 'react-bootstrap';
