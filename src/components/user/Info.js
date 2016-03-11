@@ -17,7 +17,7 @@ export default class UserInfo extends Component {
     return (
       <PageHeader>
         <Link to={`/users/${user.id}`}>{user.username}</Link>
-        <a className='twitter' href={`https://twitter.com/${user.username}`}>
+        <a target='_blank' className='twitter' href={`https://twitter.com/${user.username}`}>
           <img src='//g.twimg.com/Twitter_logo_blue.png' />
         </a>
       </PageHeader>

@@ -47,7 +47,7 @@ export const getFriends = () => (dispatch, getState) => {
   });
 };
 
-export const login = ({redirect}) => (dispatch, getState) => {
+export const login = ({redirect} = {}) => (dispatch, getState) => {
   dispatch({type: actions.LOGIN_START});
   firebase.authWithOAuthPopup('twitter', (err, auth) => {
     if (err) {
