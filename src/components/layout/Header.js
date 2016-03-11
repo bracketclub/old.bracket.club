@@ -37,11 +37,11 @@ export default class Header extends Component {
   };
 
   getMeDropdown() {
-    const {me} = this.props;
+    const {me, eventPath, event} = this.props;
 
     return (
       <NavDropdown title={me.username} id='me-nav'>
-        <LinkContainer to={`/users/${me.id}`}>
+        <LinkContainer to={eventPath ? `/${event.id}/entries/${me.id}` : `/users/${me.id}`}>
           <MenuItem>Bracket</MenuItem>
         </LinkContainer>
         <MenuItem divider />
