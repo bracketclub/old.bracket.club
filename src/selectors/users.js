@@ -57,4 +57,4 @@ export const userWithRankedEntry = createSelector(
   })
 );
 
-export const sync = visibleSelectors.sync(STATE_KEY, eventId);
+export const sync = visibleSelectors.sync(STATE_KEY, userId);
