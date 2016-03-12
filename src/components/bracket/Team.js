@@ -37,7 +37,7 @@ export default class Team extends Component {
     const {seed, name} = this.props;
     return (
       <li>
-        <a onClick={this.handleClick} className={teamClasses}>
+        <a onClick={this.handleClick} className={teamClasses} title={`(${seed}) ${name}`}>
           <span className='seed'>{seed}</span>
           <span className='team-name'>{name}</span>
           <span className={shouldBeClasses}>
