@@ -58,3 +58,4 @@ export const userWithRankedEntry = createSelector(
 );
 
 export const sync = visibleSelectors.sync(STATE_KEY, userId);
+export const eventSync = visibleSelectors.sync(STATE_KEY, userEventId);
