@@ -1,3 +1,5 @@
+import {pick} from 'lodash';
+
 const getSlice = (slice, key) => (...args) => {
   const {records = {}, entities = {}} = slice(...args) || {};
   return {
@@ -20,9 +22,5 @@ export const list = visible([]);
 
 export const sync = (slice, key) => (...args) => {
   const {visibleSlice} = getSlice(slice, key)(...args);
-
-  if (!visibleSlice) return {};
-
-  const {syncing, refreshing, fetchError} = visibleSlice;
-  return {syncing, refreshing, fetchError};
+  return pick(visibleSlice || {}, 'syncing', 'refreshing', 'fetchError');
 };
