@@ -2,7 +2,7 @@
 // can be removed in eslint >= 2.3.0
 
 import React, {Component} from 'react';
-import {Row, Col, Input, Button} from 'react-bootstrap';
+import {Row, Col, Input, Button, PageHeader} from 'react-bootstrap';
 
 import Page from '../components/layout/Page';
 
@@ -10,32 +10,31 @@ export default class SubscribePage extends Component {
   render() {
     return (
       <Page>
+        <PageHeader>Subscribe</PageHeader>
         <form target='_blank' action='http://tweetyourbracket.us5.list-manage.com/subscribe/post' method='POST'>
           <input type='hidden' name='u' value='3357cbc15c95f163a6fff3a84' />
           <input type='hidden' name='id' value='2259ac644a' />
           <Row>
             <Col xs={12}>
-              <h3>Sign up to be notified on all the latest Tweet Your Bracket news.</h3>
-              <p>No spam. Promise.</p>
+              <h3 className='text-center'>
+                Sign up to receive some pretty cool emails.
+              </h3>
+              <p className='text-center'>
+                There'll be gifs, emoji, announcements of cool new features, and you'll be the first to know every time entries go live. <em>(But no spam, I promise)</em>
+              </p>
+              <br />
             </Col>
-            <Col xs={12} md={4}>
+            <Col xs={12} md={6} mdOffset={3}>
               <Input
                 type='email'
                 autoCapitalize='off'
                 autoCorrect='off'
                 name='MERGE0'
                 id='MERGE0'
-                label='Email Address'
+                placeholder='enter@your.email'
               />
             </Col>
-            <Col xs={12} sm={6} md={4}>
-              <Input type='text' name='MERGE1' id='MERGE1' label='First name' />
-            </Col>
-            <Col xs={12} sm={6} md={4}>
-              <Input type='text' name='MERGE2' id='MERGE2' label='Last name' />
-            </Col>
-            <div className='clearfix' />
-            <Col xs={12} md={2} lg={3}>
+            <Col xs={12} md={6} mdOffset={3}>
               <Button type='submit' block bsStyle='primary'>Submit</Button>
             </Col>
           </Row>
