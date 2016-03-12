@@ -1,5 +1,5 @@
 export default (...selectors) => (...args) => selectors.reduce((res, selector) => {
-  const state = selector.sync(...args);
+  const state = (typeof selector.sync === 'function' ? selector.sync : selector)(...args);
   res.syncing = res.syncing || state.syncing;
   res.fetchError = res.fetchError || state.fetchError;
   return res;

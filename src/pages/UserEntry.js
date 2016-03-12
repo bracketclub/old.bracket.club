@@ -23,7 +23,7 @@ const mapStateToProps = mapSelectorsToProps({
   diff: bracketSelectors.diff,
   master: mastersSelectors.bracketString,
   user: usersSelectors.userWithRankedEntry,
-  sync: mergeSyncState(usersSelectors, entriesSelectors, mastersSelectors)
+  sync: mergeSyncState(usersSelectors.eventSync, entriesSelectors, mastersSelectors)
 });
 
 const mapPropsToActions = (props) => ({
