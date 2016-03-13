@@ -21,7 +21,7 @@ export default class BracketEnterButton extends Component {
     const {event, bracket} = this.props;
 
     const tweetQs = qs.stringify({
-      text: 'Already planning my #bracket!',
+      text: 'I tweeted my #marchmadness bracket!',
       url: `http://tweetyourbracket.com/${event.id}/entry/${bracket}`,
       hashtags: 'tybrkt',
       lang: 'en',
