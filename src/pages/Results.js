@@ -76,7 +76,7 @@ export default class ResultsPage extends Component {
   };
 
   render() {
-    const {sync, entries, sortParams, event} = this.props;
+    const {sync, entries, sortParams, event, locked, locks} = this.props;
 
     return (
       <Page sync={sync}>
@@ -86,6 +86,8 @@ export default class ResultsPage extends Component {
           onSort={this.handleSort}
           entries={entries}
           event={event}
+          locked={locked}
+          locks={locks}
           friends={this.isFriends()}
         />
       </Page>
