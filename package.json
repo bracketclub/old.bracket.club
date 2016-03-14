@@ -45,7 +45,8 @@
     "redux-api-middleware": "^1.0.1",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.0.1",
-    "reselect": "^2.1.0"
+    "reselect": "^2.1.0",
+    "zero-fill": "^2.2.3"
   },
   "devDependencies": {
     "@lukekarrys/eslint-config": "^2.0.16",
