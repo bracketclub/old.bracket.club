@@ -20,6 +20,9 @@ export default ({schema, url, cache} = {}) => {
         [CALL_API]: {
           method: 'GET',
           endpoint: `${url}/${params}`,
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
           types: [
             {
               type: types.fetchStart,
