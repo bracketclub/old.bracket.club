@@ -7,6 +7,8 @@ import '!!file?name=favicon.ico!../public/favicon.ico';
 import '!!file?name=favicon.png!../public/favicon.png';
 import '!!file?name=favicon-192x192.png!../public/favicon-192x192.png';
 
+import 'babel-polyfill';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, browserHistory} from 'react-router';
