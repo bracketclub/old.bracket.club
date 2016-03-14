@@ -20,7 +20,13 @@ export default class SubscribePage extends Component {
                 Sign up to receive some pretty cool emails.
               </h3>
               <p className='text-center'>
-                There'll be gifs, emoji, announcements of cool new features, and you'll be the first to know every time entries go live. <em>(But no spam, I promise)</em>
+                There'll be gifs, emoji, announcements of cool new features, and you'll be the first to know every time entries go live.
+                <br className='visible-md-block visible-lg-block' />
+                {' '}
+                Check out <a href='http://us5.campaign-archive2.com/home/?u=3357cbc15c95f163a6fff3a84&id=2259ac644a' target='_blank'>the past newsletters</a> to see what you're in for.
+                <br className='visible-md-block visible-lg-block' />
+                {' '}
+                <em>(But no spam, I promise)</em>
               </p>
               <br />
             </Col>
