@@ -36,6 +36,9 @@ export const getFriends = () => (dispatch, getState) => {
     [CALL_API]: {
       endpoint: `${config.apiUrl}/twitter/friends?${qs.stringify({id, token, secret})}`,
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
       // Cache friends forever
       bailout: (state) => !!state.me.friends,
       types: [
