@@ -9,6 +9,7 @@ import CreatedEntry from './pages/CreatedEntry';
 import MasterBracket from './pages/MasterBracket';
 import LiveEntry from './pages/LiveEntry';
 import FourOhFour from './pages/FourOhFour';
+import Countdown from './pages/Countdown';
 import FAQ from './pages/FAQ';
 
 const indexRoute = {
@@ -24,6 +25,7 @@ const eventRoutes = {
   path: ':eventId',
   indexRoute,
   childRoutes: [
+    {path: 'countdown', component: Countdown},
     {path: 'entries', component: Results},
     {path: 'entries/friends', component: Auth(Results)},
     {path: 'entries/:userId', component: UserEntry},
