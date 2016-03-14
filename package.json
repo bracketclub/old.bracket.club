@@ -117,7 +117,7 @@
   },
   "scripts": {
     "build": "NODE_ENV=production webpack --progress --bail",
-    "codeship-deploy": "firebase deploy && surge --project build/ --domain tweetyourbracket.com",
+    "codeship-deploy": "firebase deploy",
     "codeship-deploy-beta": "surge --project build/ --domain beta.tweetyourbracket.com",
     "codeship-setup": "npm run npm-version && npm install && npm run build",
     "codeship-test": "npm test && npm run lint",
