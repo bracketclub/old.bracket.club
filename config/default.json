@@ -2,9 +2,7 @@
   "sport": "ncaam",
   "year": "2016",
   "ga": "UA-8402584-9",
-  "mock": [
-    "ncaaw-2016"
-  ],
+  "mock": [],
   "events": [
     "ncaam-2016",
     "ncaaw-2016",
