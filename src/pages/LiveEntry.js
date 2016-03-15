@@ -88,6 +88,7 @@ export default class LiveEntryPage extends Component {
       progress,
       locks,
       mocked,
+      locked,
       bracket,
       validate,
       entryActions
@@ -108,6 +109,7 @@ export default class LiveEntryPage extends Component {
             bracket={bracket}
             onEnter={this.handleEnter}
             locks={locks}
+            locked={locked}
             mocked={mocked}
             progress={progress}
           />
