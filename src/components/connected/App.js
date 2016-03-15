@@ -103,7 +103,7 @@ export default class App extends Component {
         />
         <Clone
           element={renderedChild}
-          {...{locked, event, locks, mocked}}
+          {...{locked, event, locks, mocked, me}}
         />
         <Footer />
       </div>
