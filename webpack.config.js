@@ -47,7 +47,7 @@ const webpack = webpackConfig({
   out: 'build',
   clearBeforeBuild: true,
   output: {hash: true},
-  hostname: 'lukekarrys.local',
+  hostname: 'localhost',
   devServer: {contentBase: 'public'},
   replace: {
     config: `src/config/${isDev ? 'development' : 'production'}.js`
