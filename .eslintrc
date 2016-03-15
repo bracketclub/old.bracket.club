@@ -4,6 +4,7 @@
     "no-case-declarations": 0,
     "react/prop-types": [2, {
       "ignore": [
+        "me",
         "dispatch",
         "params",
         "routes",
