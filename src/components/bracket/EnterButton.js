@@ -1,10 +1,10 @@
 import React, {PropTypes, Component} from 'react';
-import qs from 'query-string';
 import {Button, Popover, Alert, OverlayTrigger, Glyphicon} from 'react-bootstrap';
 import TimeAgo from 'react-timeago';
 import dateFormat from 'dateformat';
 import CSSModules from 'react-css-modules';
 
+import tweetHref from 'lib/tweetHref';
 import Countdown from '../event/Countdown';
 
 const formatter = (value, unit) => `${value} ${unit}${value !== 1 ? 's' : ''}`;
@@ -20,24 +20,8 @@ export default class BracketEnterButton extends Component {
     progress: PropTypes.object.isRequired
   };
 
-  getHref() {
-    const {event, bracket} = this.props;
-
-    const tweetQs = qs.stringify({
-      text: 'I tweeted my #marchmadness bracket!',
-      url: `http://tweetyourbracket.com/${event.id}/entry/${bracket}`,
-      hashtags: 'tybrkt',
-      lang: 'en',
-      related: 'tweetthebracket',
-      via: 'tweetthebracket',
-      count: 'none'
-    });
-
-    return `https://twitter.com/share?${tweetQs}`;
-  }
-
   getOverlay() {
-    const {onEnter, bracket, locks, mocked} = this.props;
+    const {onEnter, event, bracket, locks, mocked} = this.props;
 
     const popover = (
       <Popover id='enter-popover'>
@@ -70,7 +54,7 @@ export default class BracketEnterButton extends Component {
           styleName='enter-button-active'
           bsStyle='primary'
           block
-          href={this.getHref()}
+          href={tweetHref({event, bracket})}
           onClick={() => onEnter(bracket)}
           target='_blank'
         >
