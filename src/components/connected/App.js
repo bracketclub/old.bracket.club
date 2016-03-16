@@ -105,7 +105,7 @@ export default class App extends Component {
           element={renderedChild}
           {...{locked, event, locks, mocked, me}}
         />
-        <Footer />
+        <Footer event={event} locked={locked} />
       </div>
     );
   }

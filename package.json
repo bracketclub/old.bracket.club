@@ -29,6 +29,7 @@
     "query-string": "^3.0.1",
     "raf": "^3.2.0",
     "react": "^0.14.7",
+    "react-body-classname": "^1.0.1",
     "react-bootstrap": "^0.28.3",
     "react-clone": "^1.0.0",
     "react-css-modules": "^3.7.5",

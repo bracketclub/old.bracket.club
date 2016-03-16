@@ -11,6 +11,7 @@ import LiveEntry from './pages/LiveEntry';
 import FourOhFour from './pages/FourOhFour';
 import Countdown from './pages/Countdown';
 import FAQ from './pages/FAQ';
+import Zentry from './pages/Zentry';
 
 const indexRoute = {
   components: {
@@ -25,6 +26,7 @@ const eventRoutes = {
   path: ':eventId',
   indexRoute,
   childRoutes: [
+    {path: 'zen', component: Zentry},
     {path: 'countdown', component: Countdown},
     {path: 'entries', component: Results},
     {path: 'entries/friends', component: Auth(Results)},

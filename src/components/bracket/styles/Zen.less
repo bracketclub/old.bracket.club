@@ -1,0 +1,63 @@
+@import '~lesshat/build/lesshat-prefixed';
+
+.root {
+  margin-top: 15px;
+  .lh-calc(height, ~"100vh - 30px");
+}
+
+.text {
+  transition: opacity 100ms linear;
+  opacity: 1;
+}
+
+.text-disabled {
+  transition: opacity 100ms linear;
+  opacity: 0;
+}
+
+.big-button {
+  height: 100%;
+  .lh-calc(width, ~"50% - 7.5px");
+  margin: 0 !important;
+  font-size: 2em;
+  transition: opacity 100ms linear;
+  &:focus, &:hover, &:active:focus, &:active:hover {
+    outline: none;
+    background-color: #DD4814;
+    border-color: #DD4814;
+    box-shadow: none;
+  }
+}
+
+.left {
+  float: left;
+  composes: big-button;
+}
+
+.right {
+  float: right;
+  composes: big-button;
+}
+
+.full {
+  height: 100%;
+  margin: 0 !important;
+  font-size: 32px;
+}
+
+:global body.hide-all {
+  overflow: hidden !important;
+  position: static;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  .container-fluid {
+    padding-bottom: 0 !important;
+  }
+
+  .navbar, footer {
+    display: none !important;
+  }
+}
