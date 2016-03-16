@@ -96,7 +96,7 @@ export default class ZenBracket extends Component {
             styleName='full'
             href={tweetHref({event, bracket})}
           >
-            <span styleName='success-text'>
+            <span>
               Tweet it!
             </span>
           </Button>

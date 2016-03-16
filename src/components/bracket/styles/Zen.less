@@ -21,7 +21,18 @@
   margin: 0 !important;
   font-size: 2em;
   transition: opacity 100ms linear;
-  &:focus, &:hover, &:active:focus, &:active:hover {
+  white-space: normal;
+}
+
+.big-button-primary {
+  &[disabled] {
+    cursor: default;
+  }
+
+  &:focus,
+  &:hover,
+  &:active:focus,
+  &:active:hover {
     outline: none;
     background-color: #DD4814;
     border-color: #DD4814;
@@ -30,25 +41,26 @@
 }
 
 .left {
-  float: left;
   composes: big-button;
+  composes: big-button-primary;
+  float: left;
 }
 
 .right {
-  float: right;
   composes: big-button;
+  composes: big-button-primary;
+  float: right;
 }
 
 .full {
-  height: 100%;
-  margin: 0 !important;
-  font-size: 2em;
+  composes: big-button;
+  width: 100%;
   display: table;
-}
-
-.success-text {
-  display: table-cell;
-  vertical-align: middle;
+  & > span {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+  }
 }
 
 :global body.hide-all {
@@ -58,6 +70,8 @@
   right: 0;
   top: 0;
   bottom: 0;
+  margin: 0;
+  padding: 0;
 
   .container-fluid {
     padding-bottom: 0 !important;
