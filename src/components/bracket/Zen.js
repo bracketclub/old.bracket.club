@@ -69,7 +69,6 @@ export default class ZenBracket extends Component {
   }
 
   handleUpdate(e, team) {
-    e.preventDefault();
     this.setState({disabled: true});
     this.props.onUpdate({
       fromRegion: team.fromRegion,
@@ -90,14 +89,18 @@ export default class ZenBracket extends Component {
 
     if (!nextGame) {
       buttons = (
-        <Button
-          block
-          bsStyle='success'
-          styleName='full'
-          href={tweetHref({event, bracket})}
-        >
-          All done! Tweet it!
-        </Button>
+        <span>
+          <Button
+            block
+            bsStyle='success'
+            styleName='full'
+            href={tweetHref({event, bracket})}
+          >
+            <span styleName='success-text'>
+              Tweet it!
+            </span>
+          </Button>
+        </span>
       );
     }
     else {
