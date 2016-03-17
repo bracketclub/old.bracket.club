@@ -2,10 +2,11 @@ import config from 'config';
 import restActions from 'lib/reduxApiRestActions';
 import analytics from 'lib/analytics';
 import es from 'lib/eventSource';
-import cache from 'lib/cacheOldYears';
+import cache from 'lib/cacheEvent';
 import {replaceQuery} from './routing';
 import {entries as schema} from '../schema';
 import * as entriesSelectors from '../selectors/entries';
+import * as bracketSelectors from '../selectors/bracket';
 import {eventId} from '../selectors/event';
 
 const ENDPOINT = 'entries';
@@ -27,7 +28,7 @@ const sortAction = (sortBy) => (dispatch, getState) => {
 const entriesRestActions = restActions({
   schema,
   url: `${config.apiUrl}/${ENDPOINT}`,
-  cache: cache('entries')
+  cache: cache(ENDPOINT, bracketSelectors.locks)
 });
 
 export default {

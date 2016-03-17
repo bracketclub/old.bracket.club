@@ -1,22 +1,16 @@
 import config from 'config';
 import restActions from 'lib/reduxApiRestActions';
 import es from 'lib/eventSource';
+import cache from 'lib/cacheEvent';
 import {users as schema} from '../schema';
+import * as bracketSelectors from '../selectors/bracket';
 
 const ENDPOINT = 'users';
 
 const usersRestActions = restActions({
   schema,
   url: `${config.apiUrl}/${ENDPOINT}`,
-  cache: (state, id) => {
-    const {result} = state.users.records[id] || {};
-    const [, eventId = ''] = id.split('/');
-
-    if (!eventId) return !!result;
-
-    const year = parseInt(eventId.replace(/\D/g, ''), 10);
-    return !!(result && year && year < new Date().getFullYear());
-  }
+  cache: cache('users', bracketSelectors.locks, (id) => id.split('/')[1])
 });
 
 export default {
