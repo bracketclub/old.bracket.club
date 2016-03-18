@@ -1,3 +1,3 @@
 export default {
-  apiUrl: 'https://api.tweetyourbracket.com'
+  apiUrl: 'http://localhost:3001'
 };
