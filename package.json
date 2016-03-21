@@ -76,7 +76,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "firebase-tools": "^2.2.1",
-    "getconfig": "^2.2.0",
+    "getconfig": "^3.0.0",
     "git-validate": "^2.1.4",
     "hjs-webpack": "^7.3.2",
     "html-tagged-literals": "^1.0.1",
