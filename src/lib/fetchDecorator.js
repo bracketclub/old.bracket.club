@@ -41,6 +41,9 @@ export default (mapPropsToActions) => (WrappedComponent) => {
     }
 
     eventSource({key, prevParam, param, sse}) {
+      return;
+
+      /* eslint-disable */
       const SSEKey = `_sse_${param}_${key}`;
       const prevSSEKey = `_sse_${prevParam}_${key}`;
 
@@ -55,6 +58,7 @@ export default (mapPropsToActions) => (WrappedComponent) => {
       if (sse) {
         this[SSEKey] = this.props.dispatch(sse(param));
       }
+      /* eslint-enable */
     }
 
     forEachAction(iterator) {
