@@ -78,7 +78,7 @@
     "firebase-tools": "^2.2.1",
     "getconfig": "^3.0.0",
     "git-validate": "^2.1.4",
-    "hjs-webpack": "^7.3.2",
+    "hjs-webpack": "^8.0.0",
     "html-tagged-literals": "^1.0.1",
     "json-loader": "^0.5.4",
     "less": "^2.6.1",
