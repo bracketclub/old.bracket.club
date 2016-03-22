@@ -14,10 +14,15 @@ export const brackets = createSelector(
   ($master) => $master.brackets || []
 );
 
+export const lastIndex = createSelector(
+  brackets,
+  ($brackets) => $brackets.length - 1
+);
+
 export const index = createSelector(
   urlIndex,
-  brackets,
-  ($index, $brackets) => parseInt(typeof $index === 'undefined' ? $brackets.length - 1 : $index, 10)
+  lastIndex,
+  ($index, $lastIndex) => parseInt(typeof $index === 'undefined' ? $lastIndex : $index, 10)
 );
 
 export const navigation = createSelector(

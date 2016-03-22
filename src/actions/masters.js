@@ -15,8 +15,8 @@ const routeToIndex = (getIndex, label) => () => (dispatch, getState) => {
   const state = getState();
   const location = state.routing.location || state.routing.locationBeforeTransitions;
   const current = mastersSelectors.index(state, {location});
-  const {total} = mastersSelectors.progress(state, {location});
-  const game = getIndex({current, total});
+  const lastIndex = mastersSelectors.lastIndex(state, {location});
+  const game = getIndex({current, total: lastIndex});
 
   analytics.event({state, label, category: 'Masters', action: 'navigate'});
   dispatch(replaceQuery({location, query: {game}}));
