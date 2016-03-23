@@ -29,11 +29,11 @@ const getRegionsFor = (finalId, firstId, bracket) => {
 const idResolver = (o) => `${o.sport}-${o.year}`;
 
 // Make it easy to test when the app locks in 5 seconds
-const globalLocks = {} || {
+const globalLocks = {
   // eslint-disable-next-line no-magic-numbers
-  'ncaam-2016': new Date(new Date().valueOf() + 5000).toJSON(),
+  'ncaam-2016': new Date(new Date().valueOf() + require('ms')('1d')).toJSON(),
   // eslint-disable-next-line no-magic-numbers
-  'ncaaw-2016': new Date(new Date().valueOf() + 20000).toJSON()
+  'ncaaw-2016': new Date(new Date().valueOf() + require('ms')('1d')).toJSON()
 };
 
 // Each sport, year combo is memoized since they never change
@@ -56,6 +56,7 @@ module.exports = memoize((options) => {
 
   const boundValidator = validator.validate.bind(validator);
   const boundUpdater = updater.update.bind(updater);
+  const boundNext = updater.next.bind(updater);
   const boundGenerator = generator.generate.bind(generator);
   const boundScorer = scorer.score.bind(scorer, SCORE_TYPES);
   const boundDiff = scorer.diff.bind(scorer);
@@ -81,6 +82,7 @@ module.exports = memoize((options) => {
     // TODO: use individual params since right now different ordered keys
     // will not hit the cache
     update: memoize(boundUpdater, (o) => id + JSON.stringify(o)),
+    next: memoize(boundNext, (o) => id + JSON.stringify(o)),
 
     // Memoized by types (array), master (string), and entry (array)
     // Important: this only allows it to be used by passing the entry

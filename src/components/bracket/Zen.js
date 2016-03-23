@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import {each, shuffle, omit, sample} from 'lodash';
 import {Button} from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
 import BodyClass from 'react-body-classname';
@@ -7,65 +6,16 @@ import BodyClass from 'react-body-classname';
 import styles from './styles/Zen.less';
 import tweetHref from 'lib/tweetHref';
 
-const allIndices = (arr, val) => {
-  const indices = [];
-  let i = -1;
-  while ((i = arr.indexOf(val, i + 1)) !== -1) {
-    indices.push(i);
-  }
-  return indices;
-};
-
 @CSSModules(styles)
 export default class ZenBracket extends Component {
   static propTypes = {
     onUpdate: PropTypes.func,
     bracket: PropTypes.string,
-    validate: PropTypes.func
+    next: PropTypes.func
   };
 
   state = {
     disabled: false
-  }
-
-  getNextGame() {
-    const {bracket, validate} = this.props;
-    const bracketObj = validate(bracket);
-    let nextGame;
-
-    const regionKeys = shuffle(Object.keys(omit(bracketObj, 'regionFinal'))).concat('regionFinal');
-
-    each(regionKeys, (regionKey) => {
-      const region = bracketObj[regionKey];
-      const {rounds} = region;
-
-      each(rounds, (round, roundIndex) => {
-        const indices = allIndices(round, null);
-        const game = indices.length ? sample(indices) : null;
-        if (game !== null) {
-          nextGame = {
-            region: regionKey,
-            regionId: region.id,
-            round: roundIndex,
-            game
-          };
-          return false;
-        }
-        return true;
-      });
-
-      return !nextGame;
-    });
-
-    if (nextGame) {
-      const prevRound = bracketObj[nextGame.region].rounds[nextGame.round - 1];
-      return shuffle([
-        {...prevRound[nextGame.game * 2], fromRegion: nextGame.regionId},
-        {...prevRound[nextGame.game * 2 + 1], fromRegion: nextGame.regionId}
-      ]);
-    }
-
-    return null;
   }
 
   handleUpdate(e, team) {
@@ -81,75 +31,62 @@ export default class ZenBracket extends Component {
     setTimeout(() => this.setState({disabled: false}), WAIT);
   }
 
-  renderButtons() {
-    const {event, bracket} = this.props;
+  renderButton(team, style) {
     const {disabled} = this.state;
-    const nextGame = this.getNextGame();
-    let buttons = null;
+
+    return (
+      <Button
+        block
+        disabled={disabled}
+        bsStyle='primary'
+        styleName={style}
+        onClick={(e) => !disabled && this.handleUpdate(e, team)}
+        onTouchStart={(e) => !disabled && this.handleUpdate(e, team)}
+      >
+        <span styleName={disabled ? 'text-disabled' : 'text'}>
+          {disabled && ''}
+          {!disabled &&
+            <span>
+              ({team.seed})
+              <br />
+              {team.name}
+            </span>
+          }
+        </span>
+      </Button>
+    );
+  }
+
+  renderButtons() {
+    const {event, bracket, next: getNext} = this.props;
+    const {disabled} = this.state;
+    const nextGame = getNext({currentMaster: bracket});
 
     if (!nextGame) {
-      buttons = (
+      return (
         <span>
           <Button
             block
+            disabled={disabled}
             bsStyle='success'
             styleName='full'
-            href={tweetHref({event, bracket})}
-          >
-            <span>
-              Tweet it!
-            </span>
-          </Button>
-        </span>
-      );
-    }
-    else {
-      const [team1, team2] = nextGame;
-      buttons = (
-        <span>
-          <Button
-            block
-            disabled={disabled}
-            bsStyle='primary'
-            styleName='left'
-            onClick={(e) => !disabled && this.handleUpdate(e, team1)}
-            onTouchStart={(e) => !disabled && this.handleUpdate(e, team1)}
+            href={disabled ? null : tweetHref({event, bracket})}
           >
             <span styleName={disabled ? 'text-disabled' : 'text'}>
-              {disabled && ''}
-              {!disabled &&
-                <span>
-                  ({team1.seed})
-                  <br />
-                  {team1.name}
-                </span>
-              }
-            </span>
-          </Button>
-          <Button
-            block
-            disabled={disabled}
-            bsStyle='primary'
-            styleName='right'
-            onClick={(e) => !disabled && this.handleUpdate(e, team2)}
-            onTouchStart={(e) => !disabled && this.handleUpdate(e, team2)}
-          >
-            <span styleName={disabled ? 'text-disabled' : 'text'}>
-              {disabled && ''}
-              {!disabled &&
-                <span>
-                  ({team2.seed})
-                  <br />
-                  {team2.name}
-                </span>
-              }
+              {disabled ? '' : 'Tweet it!'}
             </span>
           </Button>
         </span>
       );
     }
 
-    return buttons;
+    const [team1, team2] = nextGame;
+    return (
+      <span>
+        {this.renderButton(team1, 'left')}
+        {this.renderButton(team2, 'right')}
+      </span>
+    );
   }
 
   renderLocked() {
@@ -168,12 +105,12 @@ export default class ZenBracket extends Component {
   render() {
     const {
       bracket,
-      validate,
+      next,
       onUpdate,
       locked
     } = this.props;
 
-    if (!bracket || !validate || !onUpdate) return null;
+    if (!bracket || !next || !onUpdate) return null;
 
     return (
       <BodyClass className='hide-all'>
