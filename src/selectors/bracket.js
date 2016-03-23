@@ -41,6 +41,11 @@ export const update = createSelector(
   (o) => o.update
 );
 
+export const next = createSelector(
+  helpers,
+  (o) => o.next
+);
+
 export const generate = createSelector(
   helpers,
   (o) => o.generate
