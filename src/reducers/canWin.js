@@ -6,16 +6,12 @@ export default (state = initialState, action) => {
   const {payload, meta, type} = action;
 
   const updateId = (data) => {
-    const event = state[meta.event] || {};
-    const eventIndex = event[meta.index] || {};
+    const key = `${meta.event}-${meta.index}-${meta.list}`;
     return {
       ...state,
-      [meta.event]: {
-        ...event,
-        [meta.index]: {
-          ...eventIndex,
-          [meta.id]: data
-        }
+      [key]: {
+        ...state[key],
+        [meta.id]: data
       }
     };
   };
