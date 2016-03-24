@@ -8,8 +8,8 @@ export default ({dispatch}) => (next) => (action) => {
   next(action);
 
   const {meta = {}, payload = {}} = action;
-  const {entities} = payload;
-  const {resource} = meta;
+  const {entities} = payload || {};
+  const {resource} = meta || {};
 
   if (entities && resource) {
     without(Object.keys(entities), resource).forEach((resourceType) => {

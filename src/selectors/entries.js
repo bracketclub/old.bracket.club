@@ -2,6 +2,7 @@ import {createSelector} from 'reselect';
 import {sortedIndexBy, orderBy, sortBy, property} from 'lodash';
 
 import {eventId} from './event';
+import {canWin} from './canWin';
 import * as bracketSelectors from './bracket';
 import * as mastersSelectors from './masters';
 import * as visibleSelectors from './visible';
@@ -19,9 +20,11 @@ const entries = visibleSelectors.list(STATE_KEY, eventId);
 const entriesWithUsers = createSelector(
   entries,
   users,
-  ($entries, $users) => $entries.map(($entry) => ({
+  canWin,
+  ($entries, $users, $canWin) => $entries.map(($entry) => ({
     ...$entry,
-    user: $users[$entry.user] || {id: $entry.user}
+    user: $users[$entry.user] || {id: $entry.user},
+    canWin: $canWin[$entry.id]
   }))
 );
 
