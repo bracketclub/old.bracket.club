@@ -20,8 +20,8 @@ export default class ResultsTable extends Component {
   handleCanWinCheck = (e, id) => {
     e.preventDefault();
 
-    const {onCanWinCheck, entries} = this.props;
-    onCanWinCheck({entries, id});
+    const {onCanWinCheck, entries, friends} = this.props;
+    onCanWinCheck({entries, id, list: friends ? 'friends' : 'global'});
   }
 
   render() {

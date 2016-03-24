@@ -4,14 +4,14 @@ import {eventId} from '../selectors/event';
 
 const CanWinWorker = require('worker?inline!lib/canWinWorker');
 
-export const canWin = ({entries, id}) => (dispatch, getState) => {
+export const canWin = ({entries, id, list}) => (dispatch, getState) => {
   const state = getState();
   const location = state.routing.location || state.routing.locationBeforeTransitions;
   const index = mastersSelectors.index(state, {location});
   const master = mastersSelectors.bracketString(state, {location});
   const [sport, year] = eventId(state).split('-');
 
-  const meta = {id, event: `${sport}-${year}`, index};
+  const meta = {id, event: `${sport}-${year}`, index, list};
 
   dispatch({type: types.CAN_WIN_START, meta});
 
