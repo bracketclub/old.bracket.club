@@ -5,22 +5,32 @@ import {LinkContainer} from 'react-router-bootstrap';
 import dateFormat from 'dateformat';
 
 import SortableTh from './SortableTh';
+import EntryCanWin, {Legend as CanWinLegend} from './CanWin';
 
 export default class ResultsTable extends Component {
   static propTypes = {
     entries: PropTypes.array.isRequired,
     onSort: PropTypes.func.isRequired,
+    onCanWinCheck: PropTypes.func.isRequired,
     sortParams: PropTypes.object.isRequired,
-    friends: PropTypes.bool
+    friends: PropTypes.bool,
+    progress: PropTypes.object
   };
 
+  handleCanWinCheck = (e, id) => {
+    e.preventDefault();
+
+    const {onCanWinCheck, entries} = this.props;
+    onCanWinCheck({entries, id});
+  }
+
   render() {
-    const {entries, sortParams, friends, event, locked, locks} = this.props;
+    const {entries, sortParams, friends, event, locked, locks, onSort, progress} = this.props;
     const hasResults = entries.length;
 
     const headerProps = hasResults ? {
       sortParams,
-      onClick: this.props.onSort
+      onClick: onSort
     } : {};
 
     return (
@@ -38,6 +48,7 @@ export default class ResultsTable extends Component {
             </LinkContainer>
           </ButtonGroup>
         </PageHeader>
+        <CanWinLegend progress={progress} />
         {!locked &&
           <p>Check back once the first round starts <strong>({dateFormat(new Date(locks), 'mmmm dS h:MMTT')})</strong> to see all the entries and the live results.</p>
         }
@@ -74,7 +85,11 @@ export default class ResultsTable extends Component {
                   {entry.score.rounds.map((round, roundIndex) =>
                     <td key={roundIndex} className='hidden-xs'>{round}</td>
                   )}
-                  <td>{entry.score.standard}</td>
+                  <td>
+                    {entry.score.standard}
+                    {' '}
+                    <EntryCanWin {...{event, progress, entry}} onCanWinCheck={this.handleCanWinCheck} />
+                  </td>
                   <td>{entry.score.standardPPR}</td>
                   <td className='hidden-xs hidden-sm'>{entry.score.gooley}</td>
                   <td className='hidden-xs hidden-sm'>{entry.score.gooleyPPR}</td>

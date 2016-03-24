@@ -29,7 +29,7 @@ const getRegionsFor = (finalId, firstId, bracket) => {
 const idResolver = (o) => `${o.sport}-${o.year}`;
 
 // Make it easy to test when the app locks in 5 seconds
-const globalLocks = {
+const globalLocks = {} || {
   // eslint-disable-next-line no-magic-numbers
   'ncaam-2016': new Date(new Date().valueOf() + require('ms')('1d')).toJSON(),
   // eslint-disable-next-line no-magic-numbers

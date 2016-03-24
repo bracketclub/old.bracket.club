@@ -10,6 +10,7 @@ import * as mastersSelectors from '../selectors/masters';
 import * as meSelectors from '../selectors/me';
 import * as entriesActions from '../actions/entries';
 import * as mastersActions from '../actions/masters';
+import * as canWinActions from '../actions/canWin';
 import * as meActions from '../actions/me';
 
 import Page from '../components/layout/Page';
@@ -23,6 +24,7 @@ const mapStateToProps = (state, props) => {
     ? entriesSelectors.friendsScoredByEvent
     : entriesSelectors.scoredByEvent;
   return {
+    progress: mastersSelectors.progress(state, props),
     entries: entriesSelector(state, props),
     sortParams: entriesSelectors.sortParams(state, props),
     sync: mergeSyncState(entriesSelectors, mastersSelectors, meSelectors)(state, props)
@@ -34,13 +36,14 @@ const mapPropsToActions = (props) => ({
   entries: [entriesActions.fetch, props.event.id, entriesActions.sse]
 });
 
-@connect(mapStateToProps, mapDispatchToProps({entriesActions}))
+@connect(mapStateToProps, mapDispatchToProps({entriesActions, canWinActions}))
 @fetch(mapPropsToActions)
 export default class ResultsPage extends Component {
   static propTypes = {
     entries: PropTypes.array,
     sortParams: PropTypes.object,
-    sync: PropTypes.object
+    sync: PropTypes.object,
+    progress: PropTypes.object
   };
 
   static getEventPath = (e, {query, pathname}) => ({
@@ -75,8 +78,12 @@ export default class ResultsPage extends Component {
     this.props.entriesActions.sort(key);
   };
 
+  handleCanWinCheck = (options) => {
+    this.props.canWinActions.canWin(options);
+  };
+
   render() {
-    const {sync, entries, sortParams, event, locked, locks} = this.props;
+    const {sync, entries, sortParams, event, locked, locks, progress} = this.props;
 
     return (
       <Page sync={sync}>
@@ -84,10 +91,12 @@ export default class ResultsPage extends Component {
         <ResultsTable
           sortParams={sortParams}
           onSort={this.handleSort}
+          onCanWinCheck={this.handleCanWinCheck}
           entries={entries}
           event={event}
           locked={locked}
           locks={locks}
+          progress={progress}
           friends={this.isFriends()}
         />
       </Page>
