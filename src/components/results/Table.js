@@ -75,7 +75,7 @@ export default class ResultsTable extends Component {
                 <tr><td colSpan='12'>{`There are no results yet ${friends ? 'from your friends ' : ''}for this event.`}</td></tr>
               }
               {entries.map((entry) =>
-                <tr key={entry.id}>
+                <tr key={entry.id} className={entry.isMe ? 'info' : ''}>
                   <td>{entry.score.index}</td>
                   <td>
                     <Link to={`/${entry.sport}-${entry.year}/entries/${entry.user.id}`}>
