@@ -18,8 +18,9 @@
     "bows": "^1.4.8",
     "bracket-data": "^4.0.20",
     "bracket-generator": "^3.0.0",
+    "bracket-possibilities": "^1.0.1",
     "bracket-scorer": "^3.0.0",
-    "bracket-updater": "^3.1.0",
+    "bracket-updater": "^3.2.0",
     "bracket-validator": "^3.0.1",
     "classnames": "^2.2.3",
     "dateformat": "^1.0.12",
@@ -92,7 +93,8 @@
     "tape": "^4.5.1",
     "url-loader": "^0.5.7",
     "val-loader": "^0.5.0",
-    "webpack": "^1.12.14"
+    "webpack": "^1.12.14",
+    "worker-loader": "^0.7.0"
   },
   "engines": {
     "node": "5.6.0",

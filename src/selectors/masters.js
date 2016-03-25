@@ -50,10 +50,14 @@ export const progress = createSelector(
   bracketSelectors.total,
   bracketSelectors.unpicked,
   bracketString,
-  ($total, $unpicked, $bracket = '') => ({
-    total: $total,
-    current: $total - ($bracket.split($unpicked).length - 1)
-  })
+  ($total, $unpicked, $bracket = '') => {
+    const remaining = ($bracket.split($unpicked).length - 1);
+    return {
+      total: $total,
+      current: $total - remaining,
+      remaining
+    };
+  }
 );
 
 export const sync = visibleSelectors.sync(STATE_KEY, eventId);

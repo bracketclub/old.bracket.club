@@ -19,7 +19,8 @@
         "mastersActions",
         "meActions",
         "usersActions",
-        "routeActions"
+        "routeActions",
+        "canWinActions"
       ]
     }]
   }

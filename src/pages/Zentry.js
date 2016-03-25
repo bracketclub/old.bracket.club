@@ -12,7 +12,7 @@ import ZenBracket from '../components/bracket/Zen';
 import Page from '../components/layout/Page';
 
 const mapStateToProps = mapSelectorsToProps({
-  validate: bracketSelectors.validate,
+  next: bracketSelectors.next,
   bracket: entrySelectors.bracketString,
   empty: bracketSelectors.empty,
   navigation: entrySelectors.navigation,
@@ -22,7 +22,7 @@ const mapStateToProps = mapSelectorsToProps({
 @connect(mapStateToProps, mapDispatchToProps({entryActions: entryActionCreators}))
 export default class ZentryPage extends Component {
   static propTypes = {
-    validate: PropTypes.func,
+    next: PropTypes.func,
     bracket: PropTypes.string
   };
 
@@ -31,7 +31,7 @@ export default class ZentryPage extends Component {
   render() {
     const {
       bracket,
-      validate,
+      next,
       entryActions,
       event,
       locked
@@ -41,7 +41,7 @@ export default class ZentryPage extends Component {
       <Page width='full'>
         <ZenBracket
           event={event}
-          validate={validate}
+          next={next}
           bracket={bracket}
           locked={locked}
           onUpdate={(game) => entryActions.update(game, false)}
