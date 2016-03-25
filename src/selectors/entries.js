@@ -19,12 +19,14 @@ const entries = visibleSelectors.list(STATE_KEY, eventId);
 
 const entriesWithUsers = createSelector(
   entries,
+  me,
   users,
   canWinGlobal,
-  ($entries, $users, $canWin) => $entries.map(($entry) => ({
+  ($entries, $me, $users, $canWin) => $entries.map(($entry) => ({
     ...$entry,
     user: $users[$entry.user] || {id: $entry.user},
-    canWin: $canWin[$entry.id]
+    canWin: $canWin[$entry.id],
+    isMe: $entry.user === $me.id
   }))
 );
 
