@@ -6,7 +6,7 @@ import * as bracketSelectors from './bracket';
 import * as visibleSelectors from './visible';
 
 const STATE_KEY = property('masters');
-const urlIndex = (state, props) => props.location.query.game;
+const urlIndex = (state, props) => parseInt(props.location.query.game, 10);
 const master = visibleSelectors.byId(STATE_KEY, eventId);
 
 export const brackets = createSelector(
@@ -22,7 +22,7 @@ export const lastIndex = createSelector(
 export const index = createSelector(
   urlIndex,
   lastIndex,
-  ($index, $lastIndex) => parseInt(typeof $index === 'undefined' ? $lastIndex : $index, 10)
+  ($index, $lastIndex) => isNaN($index) ? $lastIndex : Math.min($index, $lastIndex)
 );
 
 export const navigation = createSelector(
