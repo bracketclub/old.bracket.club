@@ -3,7 +3,7 @@ import {Glyphicon} from 'react-bootstrap';
 
 // Only allow can win checks if it past the second round
 const CAN_WIN_MAX_REMAINING = 15;
-const CHECK_GLYPH = <Glyphicon className='text-primary' glyph='question-sign' />;
+const CHECK_GLYPH = <Glyphicon className='text-muted' glyph='question-sign' />;
 const ELIMINATED_GLYPH = <Glyphicon className='text-danger' glyph='remove-sign' />;
 const ALIVE_GLYPH = <Glyphicon className='text-success' glyph='ok-sign' />;
 
