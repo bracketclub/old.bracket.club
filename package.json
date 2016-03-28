@@ -8,7 +8,7 @@
     "url": "http://lukekarrys.com"
   },
   "bugs": {
-    "url": "http://github.com/tweetyourbracket/tweetyourbracket.com/issues"
+    "url": "https://bitbucket.org/lukekarrys/tweetyourbracket.com/issues"
   },
   "dependencies": {
     "@lukekarrys/normalizr": "^2.1.0",
@@ -116,7 +116,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "http://github.com/tweetyourbracket/tweetyourbracket.com.git"
+    "url": "git://bitbucket.org/lukekarrys/tweetyourbracket.com.git"
   },
   "scripts": {
     "build": "NODE_ENV=production webpack --progress --bail",
@@ -124,7 +124,7 @@
     "codeship-deploy-beta": "surge --project build/ --domain beta.tweetyourbracket.com",
     "codeship-setup": "npm run npm-version && npm install && npm run build",
     "codeship-test": "npm test && npm run lint",
-    "gh:pr": "open 'https://github.com/tweetyourbracket/tweetyourbracket.com/compare/master...development?expand=1&title=merge%20to%20master'",
+    "gh:pr": "open 'https://bitbucket.org/lukekarrys/tweetyourbracket.com/pull-requests/new'",
     "lint": "eslint . && eslint -c node_modules/@lukekarrys/eslint-config/no-babel.js --no-ignore webpack.config.js",
     "npm-version": "npm install -g npm@`cat package.json | jq -r '.engines.npm'`",
     "prebuild": "rm -rf build && mkdir build",
