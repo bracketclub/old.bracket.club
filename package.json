@@ -106,7 +106,7 @@
     "ncaa",
     "tweetyourbracket"
   ],
-  "license": "MIT",
+  "license": "UNLICENSED",
   "main": "server.js",
   "pre-commit": [
     "lint",
