@@ -27,7 +27,7 @@
     "firebase": "^2.4.1",
     "lesshat": "^3.0.2",
     "lodash": "^4.6.1",
-    "query-string": "^3.0.3",
+    "query-string": "^4.0.0",
     "raf": "^3.2.0",
     "react": "^0.14.7",
     "react-body-classname": "^1.0.1",
