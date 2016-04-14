@@ -11,13 +11,14 @@ export default class Bracket extends Component {
   };
 
   static propTypes = {
+    finalId: PropTypes.string,
     bracket: PropTypes.object,
     onUpdate: PropTypes.func
   };
 
   render() {
-    const {bracket, onUpdate} = this.props;
-    const common = {onUpdate};
+    const {bracket, onUpdate, finalId} = this.props;
+    const common = {onUpdate, finalId};
     const borders = (<div className='final-round-borders' />);
     const bracketClasses = classNames('bracket', `has-scroll-${getScrollbarWidth()}`);
 
@@ -37,17 +38,17 @@ export default class Bracket extends Component {
     return (
       <Row className={bracketClasses}>
         <Col md={6} className='region-side left-side'>
-          <Region {...bracket.region1} {...common} />
-          {borders}
-          <Region {...bracket.region2} {...common} />
-          {borders}
+          {bracket.regions.left.map((region) => [
+            <Region key={region.id} {...region} {...common} />,
+            borders
+          ])}
         </Col>
 
         <Col md={6} className='region-side right-side'>
-          <Region {...bracket.region3} {...common} />
-          {borders}
-          <Region {...bracket.region4} {...common} />
-          {borders}
+          {bracket.regions.right.map((region) => [
+            <Region key={region.id} {...region} {...common} />,
+            borders
+          ])}
         </Col>
 
         <Col md={12} className='final-region-container'>

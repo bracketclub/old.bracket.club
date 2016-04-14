@@ -23,7 +23,7 @@ test('Initial teams are correct', (t) => {
   ).map('0').value();
 
   const validated = _.chain(brackets).map((b) => {
-    const firstTeam = b.validate(b.emptyBracket).region1.rounds[0][0];
+    const firstTeam = b.validate(b.emptyBracket).regions.left[0].rounds[0][0];
     return firstTeam.fromRegion + firstTeam.seed + firstTeam.name;
   }).value();
 

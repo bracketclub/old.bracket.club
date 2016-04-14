@@ -56,6 +56,11 @@ export const empty = createSelector(
   (o) => o.emptyBracket
 );
 
+export const finalId = createSelector(
+  helpers,
+  (o) => o.finalId
+);
+
 export const total = createSelector(
   helpers,
   (o) => o.totalGames
