@@ -13,6 +13,7 @@ export default class Rounds extends Component {
 
   static propTypes = {
     'final': PropTypes.bool,
+    finalId: PropTypes.string,
     name: PropTypes.string.isRequired,
     rounds: PropTypes.array.isRequired,
     id: PropTypes.string.isRequired,
@@ -73,7 +74,7 @@ export default class Rounds extends Component {
   };
 
   render() {
-    const {id, onUpdate, rounds} = this.props;
+    const {id, onUpdate, rounds, finalId} = this.props;
     const {scroll} = this.state;
 
     return (
@@ -86,6 +87,7 @@ export default class Rounds extends Component {
                   <Matchup
                     key={matchupIndex}
                     fromRegion={id}
+                    finalId={finalId}
                     matchup={matchup}
                     onUpdate={onUpdate}
                   />

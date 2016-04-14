@@ -21,6 +21,7 @@ const mapStateToProps = mapSelectorsToProps({
   validate: bracketSelectors.validate,
   bracket: entrySelectors.bracketString,
   empty: bracketSelectors.empty,
+  finalId: bracketSelectors.finalId,
   navigation: entrySelectors.navigation,
   progress: entrySelectors.progress
 });
@@ -31,6 +32,7 @@ export default class LiveEntryPage extends Component {
     validate: PropTypes.func,
     bracket: PropTypes.string,
     empty: PropTypes.string,
+    finalId: PropTypes.string,
     navigation: PropTypes.object,
     progress: PropTypes.object
   };
@@ -91,7 +93,8 @@ export default class LiveEntryPage extends Component {
       locked,
       bracket,
       validate,
-      entryActions
+      entryActions,
+      finalId
     } = this.props;
 
     return (
@@ -122,6 +125,7 @@ export default class LiveEntryPage extends Component {
         <LiveBracket
           validate={validate}
           bracket={bracket}
+          finalId={finalId}
           onUpdate={entryActions.update}
         />
       </Page>

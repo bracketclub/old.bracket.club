@@ -15,11 +15,12 @@ export default class Region extends Component {
     name: PropTypes.string.isRequired,
     rounds: PropTypes.array.isRequired,
     id: PropTypes.string.isRequired,
-    onUpdate: PropTypes.func
+    onUpdate: PropTypes.func,
+    finalId: PropTypes.string
   };
 
   render() {
-    const {final, name, id, onUpdate, rounds} = this.props;
+    const {final, name, id, onUpdate, rounds, finalId} = this.props;
 
     const regionClasses = classNames('region', {
       'final-region': final,
@@ -38,7 +39,7 @@ export default class Region extends Component {
     return (
       <section className={regionClasses}>
         <h2 className='region-name'>{name + unpicked}</h2>
-        <Rounds {...{rounds, onUpdate, id}} />
+        <Rounds {...{rounds, onUpdate, id, finalId}} />
       </section>
     );
   }

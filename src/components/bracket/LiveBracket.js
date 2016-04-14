@@ -6,6 +6,7 @@ export default class LiveBracket extends Component {
   static propTypes = {
     onUpdate: PropTypes.func,
     bracket: PropTypes.string,
+    finalId: PropTypes.string,
     validate: PropTypes.func
   };
 
@@ -13,7 +14,8 @@ export default class LiveBracket extends Component {
     const {
       bracket,
       validate,
-      onUpdate
+      onUpdate,
+      finalId
     } = this.props;
 
     if (!bracket || !validate || !onUpdate) {
@@ -21,7 +23,7 @@ export default class LiveBracket extends Component {
     }
 
     return (
-      <Bracket bracket={validate(bracket)} onUpdate={onUpdate} />
+      <Bracket bracket={validate(bracket)} finalId={finalId} onUpdate={onUpdate} />
     );
   }
 }

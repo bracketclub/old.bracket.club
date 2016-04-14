@@ -1,4 +1,4 @@
-import {memoize, find, partial, map} from 'lodash';
+import {memoize, find, partial, without} from 'lodash';
 import bracketData from 'bracket-data';
 import BracketUpdater from 'bracket-updater';
 import BracketGenerator from 'bracket-generator';
@@ -10,7 +10,7 @@ const SCORE_TYPES = ['standard', 'standardPPR', 'rounds', 'gooley', 'gooleyPPR']
 // These help format validated brackets and scored brackets into a normalized
 // object for use by our views
 const findNextRegion = (bracket, regions) =>
-  find(bracket, (region) => map(regions, 'id').indexOf(region.id) === -1);
+  find(bracket, (region) => regions.indexOf(region.id) === -1);
 
 const getRegionsFor = (finalId, firstId, bracket) => {
   if (bracket instanceof Error) {
@@ -18,12 +18,26 @@ const getRegionsFor = (finalId, firstId, bracket) => {
   }
 
   const regionFinal = bracket[finalId];
-  const region1 = bracket[firstId];
-  const region2 = bracket[region1.sameSideAs];
-  const region3 = findNextRegion(bracket, [region1, region2, regionFinal]);
-  const region4 = bracket[region3.sameSideAs];
+  const output = {regions: {left: [], right: []}, regionFinal};
+  const getRegion = {
+    1: () => bracket[firstId],
+    2: () => bracket[getRegion['1']().sameSideAs],
+    3: () => findNextRegion(bracket, [getRegion['1']().id, getRegion['2']().id, finalId]),
+    4: () => bracket[getRegion['3']().sameSideAs]
+  };
 
-  return {region1, region2, region3, region4, regionFinal};
+  const regionIds = without(Object.keys(bracket), finalId);
+
+  if (regionIds.length === 2) {
+    output.regions.left.push(getRegion['1']());
+    output.regions.right.push(getRegion['2']());
+  }
+  else {
+    output.regions.left.push(getRegion['1'](), getRegion['2']());
+    output.regions.right.push(getRegion['3'](), getRegion['4']());
+  }
+
+  return output;
 };
 
 const idResolver = (o) => `${o.sport}-${o.year}`;
@@ -31,9 +45,9 @@ const idResolver = (o) => `${o.sport}-${o.year}`;
 // Make it easy to test when the app locks in 5 seconds
 const globalLocks = {} || {
   // eslint-disable-next-line no-magic-numbers
-  'ncaam-2016': new Date(new Date().valueOf() + require('ms')('1d')).toJSON(),
+  'nhl-2016': new Date(new Date().valueOf() + require('ms')('1d')).toJSON(),
   // eslint-disable-next-line no-magic-numbers
-  'ncaaw-2016': new Date(new Date().valueOf() + require('ms')('1d')).toJSON()
+  'nba-2016': new Date(new Date().valueOf() + require('ms')('1d')).toJSON()
 };
 
 // Each sport, year combo is memoized since they never change
@@ -68,6 +82,7 @@ module.exports = memoize((options) => {
     emptyBracket: constants.EMPTY,
     totalGames: (constants.TEAMS_PER_REGION * constants.REGION_COUNT) - 1,
     unpickedChar: constants.UNPICKED_MATCH,
+    finalId: constants.FINAL_ID,
 
     // Dont memoize since it can be used to return a random bracket
     generate: boundGenerator,
