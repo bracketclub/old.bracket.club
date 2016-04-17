@@ -51,7 +51,7 @@
     "zero-fill": "^2.2.3"
   },
   "devDependencies": {
-    "@lukekarrys/eslint-config": "^2.0.19",
+    "@lukekarrys/eslint-config": "^2.0.20",
     "autoprefixer": "^6.3.6",
     "babel": "^6.5.2",
     "babel-cli": "^6.7.5",
@@ -73,7 +73,7 @@
     "cssnano": "^3.5.2",
     "eslint": "^2.7.0",
     "eslint-plugin-classes": "^0.1.1",
-    "eslint-plugin-react": "^4.3.0",
+    "eslint-plugin-react": "^5.0.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "firebase-tools": "^2.2.1",
