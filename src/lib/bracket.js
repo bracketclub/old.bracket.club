@@ -5,7 +5,47 @@ import BracketGenerator from 'bracket-generator';
 import BracketValidator from 'bracket-validator';
 import BracketScorer from 'bracket-scorer';
 
-const SCORE_TYPES = ['standard', 'standardPPR', 'rounds', 'gooley', 'gooleyPPR'];
+// Columns and scoring keys for each sport
+const STANDARD = 'standard';
+const STANDARD_PPR = `${STANDARD}PPR`;
+const GOOLEY = 'gooley';
+const GOOLEY_PPR = `${GOOLEY}PPR`;
+const ROUNDS = 'rounds';
+
+const NCAA_BB = {
+  types: [STANDARD, STANDARD_PPR, ROUNDS, GOOLEY, GOOLEY_PPR],
+  columns: [
+    {key: 'rounds.0', display: 'Rd 1', hideXs: true},
+    {key: 'rounds.1', display: 'Rd 2', hideXs: true},
+    {key: 'rounds.2', display: 'S16', hideXs: true},
+    {key: 'rounds.3', display: 'E8', hideXs: true},
+    {key: 'rounds.4', display: 'FF', hideXs: true},
+    {key: 'rounds.5', display: 'NC', hideXs: true},
+    {key: STANDARD, display: 'Score'},
+    {key: STANDARD_PPR, display: 'PPR'},
+    {key: GOOLEY, display: 'Gooley', hideXs: true, hideSm: true},
+    {key: GOOLEY_PPR, display: 'Gooley PPR', hideXs: true, hideSm: true}
+  ]
+};
+
+const SIXTEEN_TEAMS_CONFERENCE = {
+  types: [STANDARD, STANDARD_PPR, ROUNDS],
+  columns: [
+    {key: 'rounds.0', display: 'CQF', hideXs: true},
+    {key: 'rounds.1', display: 'CSF', hideXs: true},
+    {key: 'rounds.2', display: 'CF', hideXs: true},
+    {key: 'rounds.3', display: 'F', hideXs: true},
+    {key: STANDARD, display: 'Score'},
+    {key: STANDARD_PPR, display: 'PPR'}
+  ]
+};
+
+const SCORES = {
+  ncaam: NCAA_BB,
+  ncaaw: NCAA_BB,
+  nhl: SIXTEEN_TEAMS_CONFERENCE,
+  nba: SIXTEEN_TEAMS_CONFERENCE
+};
 
 // These help format validated brackets and scored brackets into a normalized
 // object for use by our views
@@ -72,11 +112,12 @@ module.exports = memoize((options) => {
   const boundUpdater = updater.update.bind(updater);
   const boundNext = updater.next.bind(updater);
   const boundGenerator = generator.generate.bind(generator);
-  const boundScorer = scorer.score.bind(scorer, SCORE_TYPES);
+  const boundScorer = scorer.score.bind(scorer, SCORES[sportYear.sport].types);
   const boundDiff = scorer.diff.bind(scorer);
 
   return {
     regex,
+    columns: SCORES[sportYear.sport].columns,
     locks: globalLocks[id] || locks,
     bracket: bracketObj,
     emptyBracket: constants.EMPTY,

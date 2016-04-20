@@ -9,6 +9,7 @@ const _ = require('lodash');
 const config = require('getconfig');
 
 const isDev = config.getconfig.isDev;
+const configEnv = process.env.CONFIG_ENV;
 const define = _(config)
   .pick('year', 'sport', 'events', 'mock', 'ga')
   .transform((res, val, key) => {
@@ -47,10 +48,10 @@ const webpack = webpackConfig({
   out: 'build',
   clearBeforeBuild: true,
   output: {hash: true},
-  hostname: 'lukekarrys.local',
+  hostname: 'localhost',
   devServer: {contentBase: 'public'},
   replace: {
-    config: `src/config/${isDev ? 'development' : 'production'}.js`
+    config: `src/config/${(!isDev || configEnv === 'production') ? 'production' : 'development'}.js`
   },
   html: (context) => ({
     [isDev ? 'index.html' : '200.html']: renderHTML(context)

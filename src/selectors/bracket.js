@@ -70,3 +70,8 @@ export const unpicked = createSelector(
   helpers,
   (o) => o.unpickedChar
 );
+
+export const columns = createSelector(
+  helpers,
+  (o) => o.columns
+);
