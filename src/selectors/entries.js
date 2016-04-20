@@ -83,20 +83,14 @@ const orderEntries = ($entries, $score, $master, $sort) => {
   );
 };
 
-export const scoredByEvent = createSelector(
-  entriesWithUsers,
+const entriesScoredByEvent = (entriesSelector) => createSelector(entriesSelector, ...[
   bracketSelectors.score,
   mastersSelectors.bracketString,
   sortParams,
   orderEntries
-);
+]);
 
-export const friendsScoredByEvent = createSelector(
-  friendsEntries,
-  bracketSelectors.score,
-  mastersSelectors.bracketString,
-  sortParams,
-  orderEntries
-);
+export const scoredByEvent = entriesScoredByEvent(entriesWithUsers);
+export const friendsScoredByEvent = entriesScoredByEvent(friendsEntries);
 
 export const sync = visibleSelectors.sync(STATE_KEY, eventId);

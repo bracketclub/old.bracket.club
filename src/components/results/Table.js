@@ -14,7 +14,8 @@ export default class ResultsTable extends Component {
     onCanWinCheck: PropTypes.func.isRequired,
     sortParams: PropTypes.object.isRequired,
     friends: PropTypes.bool,
-    progress: PropTypes.object
+    progress: PropTypes.object,
+    columns: PropTypes.array
   };
 
   handleCanWinCheck = (e, id) => {
@@ -25,7 +26,7 @@ export default class ResultsTable extends Component {
   }
 
   render() {
-    const {entries, sortParams, friends, event, locked, locks, onSort, progress} = this.props;
+    const {entries, sortParams, friends, event, locked, locks, onSort, progress, columns} = this.props;
     const hasResults = entries.length;
 
     const headerProps = hasResults ? {
@@ -58,16 +59,17 @@ export default class ResultsTable extends Component {
               <tr>
                 <th>Rank</th>
                 <th>Username</th>
-                <SortableTh {...headerProps} hideXs sortKey='rounds.0'>Rd 1</SortableTh>
-                <SortableTh {...headerProps} hideXs sortKey='rounds.1'>Rd 2</SortableTh>
-                <SortableTh {...headerProps} hideXs sortKey='rounds.2'>S16</SortableTh>
-                <SortableTh {...headerProps} hideXs sortKey='rounds.3'>E8</SortableTh>
-                <SortableTh {...headerProps} hideXs sortKey='rounds.4'>FF</SortableTh>
-                <SortableTh {...headerProps} hideXs sortKey='rounds.5'>NC</SortableTh>
-                <SortableTh {...headerProps} sortKey='standard'>Score</SortableTh>
-                <SortableTh {...headerProps} sortKey='standardPPR'>PPR</SortableTh>
-                <SortableTh {...headerProps} hideXs hideSm sortKey='gooley'>Gooley</SortableTh>
-                <SortableTh {...headerProps} hideXs hideSm sortKey='gooleyPPR'>Gooley PPR</SortableTh>
+                {columns.map((column) =>
+                  <SortableTh
+                    {...headerProps}
+                    hideXs={column.hideXs}
+                    hideSm={column.hideSm}
+                    key={column.key}
+                    sortKey={column.key}
+                  >
+                    {column.display}
+                  </SortableTh>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -91,8 +93,8 @@ export default class ResultsTable extends Component {
                     <EntryCanWin {...{event, progress, entry}} onCanWinCheck={this.handleCanWinCheck} />
                   </td>
                   <td>{entry.score.standardPPR}</td>
-                  <td className='hidden-xs hidden-sm'>{entry.score.gooley}</td>
-                  <td className='hidden-xs hidden-sm'>{entry.score.gooleyPPR}</td>
+                  {entry.score.gooley && <td className='hidden-xs hidden-sm'>{entry.score.gooley}</td>}
+                  {entry.score.gooleyPPR && <td className='hidden-xs hidden-sm'>{entry.score.gooleyPPR}</td>}
                 </tr>
               )}
             </tbody>

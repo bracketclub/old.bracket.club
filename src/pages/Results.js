@@ -7,6 +7,7 @@ import mapDispatchToProps from 'lib/mapDispatchToProps';
 
 import * as entriesSelectors from '../selectors/entries';
 import * as mastersSelectors from '../selectors/masters';
+import * as bracketSelectors from '../selectors/bracket';
 import * as meSelectors from '../selectors/me';
 import * as entriesActions from '../actions/entries';
 import * as mastersActions from '../actions/masters';
@@ -26,6 +27,7 @@ const mapStateToProps = (state, props) => {
   return {
     progress: mastersSelectors.progress(state, props),
     entries: entriesSelector(state, props),
+    columns: bracketSelectors.columns(state, props),
     sortParams: entriesSelectors.sortParams(state, props),
     sync: mergeSyncState(entriesSelectors, mastersSelectors, meSelectors)(state, props)
   };
@@ -43,7 +45,8 @@ export default class ResultsPage extends Component {
     entries: PropTypes.array,
     sortParams: PropTypes.object,
     sync: PropTypes.object,
-    progress: PropTypes.object
+    progress: PropTypes.object,
+    columns: PropTypes.array
   };
 
   static getEventPath = (e, {query, pathname}) => ({
@@ -83,7 +86,7 @@ export default class ResultsPage extends Component {
   };
 
   render() {
-    const {sync, entries, sortParams, event, locked, locks, progress} = this.props;
+    const {sync, entries, sortParams, event, locked, locks, progress, columns} = this.props;
 
     return (
       <Page sync={sync}>
@@ -97,6 +100,7 @@ export default class ResultsPage extends Component {
           locked={locked}
           locks={locks}
           progress={progress}
+          columns={columns}
           friends={this.isFriends()}
         />
       </Page>

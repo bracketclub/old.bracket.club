@@ -16,7 +16,7 @@
     "bootstrap": "^3.3.6",
     "bootswatch": "^3.3.6",
     "bows": "^1.5.0",
-    "bracket-data": "^4.2.0",
+    "bracket-data": "^4.2.1",
     "bracket-generator": "^3.0.0",
     "bracket-possibilities": "^1.1.0",
     "bracket-scorer": "^3.0.0",
