@@ -40,8 +40,8 @@ export default class ZenBracket extends Component {
         disabled={disabled}
         bsStyle='primary'
         styleName={style}
-        onClick={(e) => !disabled && this.handleUpdate(e, team)}
-        onTouchStart={(e) => !disabled && this.handleUpdate(e, team)}
+        onClick={(e) => this.handleUpdate(e, team)}
+        onTouchStart={(e) => this.handleUpdate(e, team)}
       >
         <span styleName={disabled ? 'text-disabled' : 'text'}>
           {disabled && ''}

@@ -17,7 +17,7 @@ export default class BracketProgress extends Component {
           now={progress.current}
           min={0}
           max={progress.total}
-          label={`%(now)s of %(max)s ${message}`}
+          label={`${progress.current} of ${progress.total} ${message}`}
         />
       </div>
     );

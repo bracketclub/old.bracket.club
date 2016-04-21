@@ -18,7 +18,7 @@ export default class BracketNav extends Component {
       <Button
         bsStyle={!canManipulate && canGoForward ? 'primary' : 'default'}
         disabled={!canGoForward}
-        onClick={() => canGoForward && onNavigate('goToLast')}
+        onClick={() => onNavigate('goToLast')}
       >
         <Glyphicon glyph='fast-forward' />
       </Button>
@@ -50,20 +50,20 @@ export default class BracketNav extends Component {
     return (
       <ButtonToolbar className='bracket-nav'>
         <ButtonGroup>
-          <Button bsStyle='default' disabled={!canGoBack} onClick={() => canGoBack && onNavigate('goToFirst')}>
+          <Button bsStyle='default' disabled={!canGoBack} onClick={() => onNavigate('goToFirst')}>
             <Glyphicon glyph='fast-backward' />
           </Button>
-          <Button bsStyle='default' disabled={!canGoBack} onClick={() => canGoBack && onNavigate('goToPrevious')}>
+          <Button bsStyle='default' disabled={!canGoBack} onClick={() => onNavigate('goToPrevious')}>
             <Glyphicon glyph='step-backward' />
           </Button>
-          <Button bsStyle='default' disabled={!canGoForward} onClick={() => canGoForward && onNavigate('goToNext')}>
+          <Button bsStyle='default' disabled={!canGoForward} onClick={() => onNavigate('goToNext')}>
             <Glyphicon glyph='step-forward' />
           </Button>
           {this.getForwardButton()}
         </ButtonGroup>
         {canManipulate &&
           <ButtonGroup>
-            <Button bsStyle='default' disabled={!canReset} onClick={() => canReset && onReset('reset')}>
+            <Button bsStyle='default' disabled={!canReset} onClick={() => onReset('reset')}>
               <Glyphicon glyph='ban-circle' />
             </Button>
             <Button bsStyle='default' onClick={() => onGenerate('lower')}>1</Button>
