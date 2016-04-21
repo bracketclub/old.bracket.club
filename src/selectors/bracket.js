@@ -1,5 +1,4 @@
 import {createSelector} from 'reselect';
-import ms from 'ms';
 
 import bh from 'lib/bracket';
 import eventInfo from './event';
@@ -15,10 +14,8 @@ export const locks = createSelector(
 );
 
 export const completeDate = createSelector(
-  locks,
-  // An ncaa tournament bracket is over 19 days later
-  // TODO: store in bracket-data
-  (lockDate) => new Date(new Date(lockDate).getTime() + ms('19d'))
+  helpers,
+  (o) => o.complete
 );
 
 export const diff = createSelector(
