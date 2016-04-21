@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Row, Col, Input, Button, PageHeader} from 'react-bootstrap';
+import {Col, Form, FormGroup, FormControl, Button, PageHeader} from 'react-bootstrap';
 
 import Page from '../components/layout/Page';
 
@@ -8,15 +8,15 @@ export default class SubscribePage extends Component {
     return (
       <Page>
         <PageHeader>Subscribe</PageHeader>
-        <form target='_blank' action='http://tweetyourbracket.us5.list-manage.com/subscribe/post' method='POST'>
+        <Form horizontal target='_blank' action='http://tweetyourbracket.us5.list-manage.com/subscribe/post' method='POST'>
           <input type='hidden' name='u' value='3357cbc15c95f163a6fff3a84' />
           <input type='hidden' name='id' value='2259ac644a' />
-          <Row>
+          <FormGroup>
             <Col xs={12}>
               <h3 className='text-center'>
                 Sign up to receive some pretty cool emails.
               </h3>
-              <p className='text-center'>
+              <p className='text-center margin-collapse'>
                 There'll be gifs, emoji, announcements of cool new features, and you'll be the first to know every time entries go live.
                 <br className='visible-md-block visible-lg-block' />
                 {' '}
@@ -25,10 +25,11 @@ export default class SubscribePage extends Component {
                 {' '}
                 <em>(But no spam, I promise)</em>
               </p>
-              <br />
             </Col>
+          </FormGroup>
+          <FormGroup>
             <Col xs={12} md={6} mdOffset={3}>
-              <Input
+              <FormControl
                 type='email'
                 autoCapitalize='off'
                 autoCorrect='off'
@@ -37,11 +38,13 @@ export default class SubscribePage extends Component {
                 placeholder='enter@your.email'
               />
             </Col>
+          </FormGroup>
+          <FormGroup>
             <Col xs={12} md={6} mdOffset={3}>
               <Button type='submit' block bsStyle='primary'>Submit</Button>
             </Col>
-          </Row>
-        </form>
+          </FormGroup>
+        </Form>
       </Page>
     );
   }
