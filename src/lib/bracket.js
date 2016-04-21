@@ -100,7 +100,7 @@ module.exports = memoize((options) => {
   };
   const id = idResolver(sportYear);
 
-  const {constants, regex, locks, bracket: bracketObj} = bracketData(sportYear);
+  const {constants, regex, locks, complete, bracket: bracketObj} = bracketData(sportYear);
 
   const validator = new BracketValidator(sportYear);
   const updater = new BracketUpdater(sportYear);
@@ -117,6 +117,7 @@ module.exports = memoize((options) => {
 
   return {
     regex,
+    complete,
     columns: SCORES[sportYear.sport].columns,
     locks: globalLocks[id] || locks,
     bracket: bracketObj,
