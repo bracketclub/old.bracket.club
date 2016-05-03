@@ -74,7 +74,7 @@ export default class ResultsTable extends Component {
             </thead>
             <tbody>
               {!hasResults &&
-                <tr><td colSpan='12'>{`There are no results yet ${friends ? 'from your friends ' : ''}for this event.`}</td></tr>
+                <tr><td colSpan='99'>{`There are no results yet ${friends ? 'from your friends ' : ''}for this event.`}</td></tr>
               }
               {entries.map((entry) =>
                 <tr key={entry.id} className={entry.isMe ? 'info' : ''}>
@@ -93,8 +93,8 @@ export default class ResultsTable extends Component {
                     <EntryCanWin {...{event, progress, entry}} onCanWinCheck={this.handleCanWinCheck} />
                   </td>
                   <td>{entry.score.standardPPR}</td>
-                  {entry.score.gooley && <td className='hidden-xs hidden-sm'>{entry.score.gooley}</td>}
-                  {entry.score.gooleyPPR && <td className='hidden-xs hidden-sm'>{entry.score.gooleyPPR}</td>}
+                  {typeof entry.score.gooley !== undefined && <td className='hidden-xs hidden-sm'>{entry.score.gooley}</td>}
+                  {typeof entry.score.gooleyPPR !== undefined && <td className='hidden-xs hidden-sm'>{entry.score.gooleyPPR}</td>}
                 </tr>
               )}
             </tbody>
