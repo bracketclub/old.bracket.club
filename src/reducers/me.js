@@ -1,7 +1,7 @@
 import * as types from '../constants/me';
 
 const initialState = {
-  friends: [],
+  friends: null,
   auth: {},
   id: null,
   username: null,
@@ -40,7 +40,7 @@ export default (state = initialState, action) => {
     return {
       ...state,
       syncing: {syncing: true, fetchError: null},
-      friends: []
+      friends: null
     };
 
   case types.FRIENDS_FETCH_SUCCESS:
@@ -54,7 +54,7 @@ export default (state = initialState, action) => {
     return {
       ...state,
       syncing: {syncing: false, fetchError: action.payload},
-      friends: []
+      friends: null
     };
 
   default:
