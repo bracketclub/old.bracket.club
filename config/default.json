@@ -1,11 +1,9 @@
 {
-  "sport": "nba",
+  "sport": "ncaam",
   "year": "2016",
   "ga": "UA-8402584-9",
   "mock": [],
   "events": [
-    "nba-2016",
-    "nhl-2016",
     "ncaam-2016",
     "ncaaw-2016",
     "ncaam-2015",

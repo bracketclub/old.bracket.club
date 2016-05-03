@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import hoistStatics from 'hoist-non-react-statics';
+import config from 'config';
 
 const getDisplayName = (WrappedComponent) =>
   WrappedComponent.displayName || WrappedComponent.name || 'Component';
@@ -41,24 +42,22 @@ export default (mapPropsToActions) => (WrappedComponent) => {
     }
 
     eventSource({key, prevParam, param, sse}) {
-      return;
+      if (config.sse) {
+        const SSEKey = `_sse_${param}_${key}`;
+        const prevSSEKey = `_sse_${prevParam}_${key}`;
 
-      /* eslint-disable */
-      const SSEKey = `_sse_${param}_${key}`;
-      const prevSSEKey = `_sse_${prevParam}_${key}`;
+        if (typeof this[SSEKey] === 'function') {
+          this[SSEKey]();
+        }
 
-      if (typeof this[SSEKey] === 'function') {
-        this[SSEKey]();
+        if (typeof this[prevSSEKey] === 'function') {
+          this[prevSSEKey]();
+        }
+
+        if (sse) {
+          this[SSEKey] = this.props.dispatch(sse(param));
+        }
       }
-
-      if (typeof this[prevSSEKey] === 'function') {
-        this[prevSSEKey]();
-      }
-
-      if (sse) {
-        this[SSEKey] = this.props.dispatch(sse(param));
-      }
-      /* eslint-enable */
     }
 
     forEachAction(iterator) {
