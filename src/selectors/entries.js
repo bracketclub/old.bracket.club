@@ -37,7 +37,7 @@ const friendsEntries = createSelector(
   ($entries, $me, $canWin) => {
     const {friends, id} = $me;
     return $entries
-      .filter(($entry) => friends.indexOf($entry.user.id) > -1 || $entry.user.id === id)
+      .filter(($entry) => (friends || []).indexOf($entry.user.id) > -1 || $entry.user.id === id)
       .map(($entry) => ({
         ...$entry,
         canWin: $canWin[$entry.id]
