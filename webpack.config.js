@@ -3,13 +3,15 @@
 const path = require('path');
 const cssnano = require('cssnano');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OnBuildPlugin = require('on-build-webpack');
 const webpackConfig = require('hjs-webpack');
 const html = require('html-tagged-literals');
 const _ = require('lodash');
 const config = require('getconfig');
+const cpr = require('cpr');
 
 const isDev = config.getconfig.isDev;
-const configEnv = process.env.CONFIG_ENV;
+const configEnv = process.env.CONFIG_ENV || 'development';
 const define = _(config)
   .pick('year', 'sport', 'events', 'mock', 'ga')
   .transform((res, val, key) => {
@@ -51,7 +53,7 @@ const webpack = webpackConfig({
   hostname: 'localhost',
   devServer: {contentBase: 'public'},
   replace: {
-    config: `src/config/${(!isDev || configEnv === 'production') ? 'production' : 'development'}.js`
+    config: `src/config/${configEnv}.js`
   },
   html: (context) => ({
     [isDev ? 'index.html' : '200.html']: renderHTML(context)
@@ -92,5 +94,17 @@ webpack.postcss.push(cssnano({
 webpack.resolve.alias = {
   lib: path.resolve(__dirname, 'src', 'lib')
 };
+
+if (configEnv === 'static') {
+  webpack.plugins.push(new OnBuildPlugin(_.once(() => cpr(
+    path.resolve(__dirname, 'public', 'json'),
+    path.resolve(__dirname, 'build', 'json'),
+    {
+      deleteFirst: false,
+      overwrite: false
+    },
+    _.noop
+  ))));
+}
 
 module.exports = webpack;
