@@ -1,7 +1,6 @@
 import {CALL_API} from 'redux-api-middleware';
 import qs from 'query-string';
 import firebase from 'lib/firebase';
-import config from 'config';
 import {replace} from 'react-router-redux';
 import * as actions from '../constants/me';
 
@@ -22,9 +21,9 @@ export const syncLogout = () => ({
 export const getFriends = () => (dispatch, getState) => {
   const {me} = getState();
   const {id, auth} = me;
-  const {accessToken: token, accessTokenSecret: secret} = auth.twitter || {};
+  const {accessToken: token, accessTokenSecret: tokenSecret} = auth.twitter || {};
 
-  if (!token || !secret || !id) {
+  if (!token || !tokenSecret || !id) {
     return dispatch({
       type: actions.FRIENDS_FETCH_ERROR,
       error: true,
@@ -34,7 +33,7 @@ export const getFriends = () => (dispatch, getState) => {
 
   return dispatch({
     [CALL_API]: {
-      endpoint: `${config.apiUrl}/twitter/friends?${qs.stringify({id, token, secret})}`,
+      endpoint: `https://webtask.it.auth0.com/api/run/wt-lukekarrys-gmail_com-0/twitter-friends?${qs.stringify({id, token, tokenSecret})}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=UTF-8'
