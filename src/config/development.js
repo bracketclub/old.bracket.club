@@ -1,3 +1,4 @@
 export default {
-  apiUrl: 'http://localhost:3001'
+  apiUrl: 'http://localhost:3001',
+  sse: true
 };

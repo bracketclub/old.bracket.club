@@ -1,4 +1,5 @@
 import React, {PropTypes, Component} from 'react';
+import charCodes from 'lib/charCodes';
 
 export default class ScoreCard extends Component {
   static propTypes = {
@@ -14,12 +15,31 @@ export default class ScoreCard extends Component {
       return null;
     }
 
+    let gooley = null;
+    if (score.gooley && score.gooleyPPR) {
+      gooley = (
+        <span>
+          <strong>Gooley:</strong>
+          {' '}
+          {score.gooley}
+          {' '}
+          {charCodes.dot}
+          {' '}
+          <strong>PPR:</strong>
+          {' '}
+          {score.gooleyPPR}
+        </span>
+      );
+    }
+
     return (
       <div className='score-card'>
         <p>
-          <strong>Total: </strong>{score.standard} {String.fromCharCode(183)} <strong>PPR: </strong>{score.standardPPR}
+          <strong>Rank: </strong>{score.index} / {score.total}
           <br />
-          <strong>Gooley: </strong>{score.gooley} {String.fromCharCode(183)} <strong>PPR: </strong>{score.gooleyPPR}
+          <strong>Total: </strong>{score.standard} {charCodes.dot} <strong>PPR: </strong>{score.standardPPR}
+          <br />
+          {gooley}
         </p>
       </div>
     );

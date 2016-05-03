@@ -1,10 +1,12 @@
 import config from 'config';
-import restActions from 'lib/restActions';
+import restActions from 'lib/reduxApiRestActions';
 import analytics from 'lib/analytics';
 import es from 'lib/eventSource';
+import cache from 'lib/cacheEvent';
 import {replaceQuery} from './routing';
 import {entries as schema} from '../schema';
 import * as entriesSelectors from '../selectors/entries';
+import * as bracketSelectors from '../selectors/bracket';
 import {eventId} from '../selectors/event';
 
 const ENDPOINT = 'entries';
@@ -12,7 +14,7 @@ const reverse = (dir) => dir === 'asc' ? 'desc' : 'asc';
 
 const sortAction = (sortBy) => (dispatch, getState) => {
   const state = getState();
-  const {location} = state.routing;
+  const location = state.routing.location || state.routing.locationBeforeTransitions;
   const current = entriesSelectors.sortParams(state, {location});
 
   // If the sort key is the same as the current sort key then reverse the direction
@@ -25,7 +27,8 @@ const sortAction = (sortBy) => (dispatch, getState) => {
 
 const entriesRestActions = restActions({
   schema,
-  url: `${config.apiUrl}/${ENDPOINT}`
+  url: `${config.apiUrl}/${ENDPOINT}`,
+  cache: cache(ENDPOINT, bracketSelectors.locks)
 });
 
 export default {
@@ -37,7 +40,7 @@ export default {
       event: `${ENDPOINT}-${event}`,
       url: `${config.apiUrl}/${ENDPOINT}/events`
     }, () => {
-      dispatch(entriesRestActions.fetchAll(event, {refresh: true}));
+      dispatch(entriesRestActions.fetch(event, {refresh: true}));
     });
   }
 };

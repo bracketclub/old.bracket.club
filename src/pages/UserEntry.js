@@ -3,11 +3,15 @@ import {connect} from 'react-redux';
 
 import fetch from 'lib/fetchDecorator';
 import mergeSyncState from 'lib/mergeSyncState';
-import * as usersActions from '../actions/users';
+import mapSelectorsToProps from 'lib/mapSelectorsToProps';
+
 import * as mastersActions from '../actions/masters';
 import * as bracketSelectors from '../selectors/bracket';
 import * as usersSelectors from '../selectors/users';
 import * as mastersSelectors from '../selectors/masters';
+import * as entriesSelectors from '../selectors/entries';
+import * as entriesActions from '../actions/entries';
+import * as usersActions from '../actions/users';
 
 import Page from '../components/layout/Page';
 import MasterNav from '../components/connected/MasterNav';
@@ -15,16 +19,17 @@ import UserInfo from '../components/user/Info';
 import UserEntry from '../components/user/Entry';
 import ScoreCard from '../components/user/ScoreCard';
 
-const mapStateToProps = (state, props) => ({
-  diff: bracketSelectors.diff(state, props),
-  master: mastersSelectors.bracketString(state, props),
-  user: usersSelectors.currentWithEntry(state, props),
-  sync: mergeSyncState(state.users, state.masters)
+const mapStateToProps = mapSelectorsToProps({
+  diff: bracketSelectors.diff,
+  master: mastersSelectors.bracketString,
+  user: usersSelectors.userWithRankedEntry,
+  sync: mergeSyncState(usersSelectors.eventSync, entriesSelectors, mastersSelectors)
 });
 
 const mapPropsToActions = (props) => ({
-  users: [usersActions.fetchOne, `${props.params.userId}/${props.event.id}`, usersActions.sse],
-  masters: [mastersActions.fetchOne, props.event.id, mastersActions.sse]
+  user: [usersActions.fetch, `${props.params.userId}/${props.event.id}`, usersActions.sse],
+  entries: [entriesActions.fetch, props.event.id, entriesActions.sse],
+  masters: [mastersActions.fetch, props.event.id, mastersActions.sse]
 });
 
 @connect(mapStateToProps)
@@ -37,7 +42,7 @@ export default class UserEntryPage extends Component {
     sync: PropTypes.object
   };
 
-  static getEventPath = (e, params, query) => ({pathname: `/${e}/entries/${params.userId}`, query});
+  static getEventPath = (e, {params, query}) => ({pathname: `/${e}/entries/${params.userId}`, query});
 
   render() {
     const {

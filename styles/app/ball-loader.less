@@ -38,7 +38,7 @@
     .lh-translate3d(0, 0, 0);
     .lh-scale3d(1, 1, 1);
     .lh-transform-origin(0 100%);
-    .lh-animation(ball 1500ms infinite linear);
+    .lh-animation(ball 1500ms infinite ease-in);
 
     &::after {
       content: '';
@@ -51,7 +51,7 @@
       border-radius: 100%;
       .lh-skew(-20, 0);
       .lh-translate3d(0, 2.5px, 1px);
-      .lh-animation(ball-highlight 1500ms infinite linear);
+      .lh-animation(ball-highlight 1500ms infinite ease-in);
     }
 
     &::before {
@@ -65,7 +65,7 @@
       border-radius: 100%;
       .lh-translate3d(66.66667px, 66.66667px, -1px);
       .lh-scale3d(1.25, 1.25, 1);
-      .lh-animation(ball-shadow 1500ms infinite linear);
+      .lh-animation(ball-shadow 1500ms infinite ease-in);
       .lh-blur(1px);
     }
   }

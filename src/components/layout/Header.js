@@ -37,13 +37,18 @@ export default class Header extends Component {
   };
 
   getMeDropdown() {
-    const {me} = this.props;
+    const {me, eventPath, event} = this.props;
 
     return (
       <NavDropdown title={me.username} id='me-nav'>
         <LinkContainer to={`/users/${me.id}`}>
-          <MenuItem>Bracket</MenuItem>
+          <MenuItem>Profile</MenuItem>
         </LinkContainer>
+        {eventPath &&
+          <LinkContainer to={`/${event.id}/entries/${me.id}`}>
+            <MenuItem>Bracket</MenuItem>
+          </LinkContainer>
+        }
         <MenuItem divider />
         <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
       </NavDropdown>
@@ -91,6 +96,9 @@ export default class Header extends Component {
         </NavbarHeader>
         <NavbarCollapse>
           <Nav pullRight>
+            <LinkContainer to='/faq'>
+              <NavItem>FAQ</NavItem>
+            </LinkContainer>
             <LinkContainer to='/subscribe'>
               <NavItem>Subscribe</NavItem>
             </LinkContainer>

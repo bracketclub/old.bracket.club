@@ -95,7 +95,7 @@ export default class App extends Component {
     return (
       <div className='main-container'>
         <Header
-          eventPath={getEventPath ? (e) => getEventPath(e, params, location.query) : null}
+          eventPath={getEventPath ? (e) => getEventPath(e, {params, query: location.query, pathname: location.pathname}) : null}
           me={me}
           event={event}
           onLogin={meActions.login}
@@ -103,9 +103,9 @@ export default class App extends Component {
         />
         <Clone
           element={renderedChild}
-          {...{locked, event, locks, mocked}}
+          {...{locked, event, locks, mocked, me}}
         />
-        <Footer />
+        <Footer event={event} locked={locked} />
       </div>
     );
   }

@@ -1,23 +1,28 @@
 import {createSelector} from 'reselect';
+import {property} from 'lodash';
 
-import findById from 'lib/findById';
-import eventInfo from './event';
+import {eventId} from './event';
 import * as bracketSelectors from './bracket';
+import * as visibleSelectors from './visible';
 
-const masters = (state) => state.masters.records;
-const urlIndex = (state, props) => props.location.query.game;
+const STATE_KEY = property('masters');
+const urlIndex = (state, props) => parseInt(props.location.query.game, 10);
+const master = visibleSelectors.byId(STATE_KEY, eventId);
 
 export const brackets = createSelector(
-  eventInfo,
-  masters,
-  ($event, $masters) => (findById($masters, $event.id) || {}).brackets || []
+  master,
+  ($master) => $master.brackets || []
+);
+
+export const lastIndex = createSelector(
+  brackets,
+  ($brackets) => $brackets.length - 1
 );
 
 export const index = createSelector(
   urlIndex,
-  brackets,
-  ($index, $brackets) =>
-    parseInt(typeof $index === 'undefined' ? $brackets.length - 1 : $index, 10)
+  lastIndex,
+  ($index, $lastIndex) => isNaN($index) ? $lastIndex : Math.min($index, $lastIndex)
 );
 
 export const navigation = createSelector(
@@ -45,8 +50,14 @@ export const progress = createSelector(
   bracketSelectors.total,
   bracketSelectors.unpicked,
   bracketString,
-  ($total, $unpicked, $bracket = '') => ({
-    total: $total,
-    current: $total - ($bracket.split($unpicked).length - 1)
-  })
+  ($total, $unpicked, $bracket = '') => {
+    const remaining = ($bracket.split($unpicked).length - 1);
+    return {
+      total: $total,
+      current: $total - remaining,
+      remaining
+    };
+  }
 );
+
+export const sync = visibleSelectors.sync(STATE_KEY, eventId);

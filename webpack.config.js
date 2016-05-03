@@ -3,12 +3,15 @@
 const path = require('path');
 const cssnano = require('cssnano');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OnBuildPlugin = require('on-build-webpack');
 const webpackConfig = require('hjs-webpack');
 const html = require('html-tagged-literals');
 const _ = require('lodash');
 const config = require('getconfig');
+const cpr = require('cpr');
 
 const isDev = config.getconfig.isDev;
+const configEnv = process.env.CONFIG_ENV || 'development';
 const define = _(config)
   .pick('year', 'sport', 'events', 'mock', 'ga')
   .transform((res, val, key) => {
@@ -21,6 +24,7 @@ const renderHTML = (context) => html[isDev ? 'unindent' : 'minify']`
   <html>
   <head>
     <title>Tweet Your Bracket</title>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -49,7 +53,7 @@ const webpack = webpackConfig({
   hostname: 'localhost',
   devServer: {contentBase: 'public'},
   replace: {
-    config: `src/config/${isDev ? 'development' : 'production'}.js`
+    config: `src/config/${configEnv}.js`
   },
   html: (context) => ({
     [isDev ? 'index.html' : '200.html']: renderHTML(context)
@@ -90,5 +94,17 @@ webpack.postcss.push(cssnano({
 webpack.resolve.alias = {
   lib: path.resolve(__dirname, 'src', 'lib')
 };
+
+if (configEnv === 'static') {
+  webpack.plugins.push(new OnBuildPlugin(_.once(() => cpr(
+    path.resolve(__dirname, 'public', 'json'),
+    path.resolve(__dirname, 'build', 'json'),
+    {
+      deleteFirst: false,
+      overwrite: false
+    },
+    _.noop
+  ))));
+}
 
 module.exports = webpack;
