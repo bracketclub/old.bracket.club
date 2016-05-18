@@ -2,7 +2,7 @@ import * as types from '../constants/me';
 
 const initialState = {
   friends: null,
-  auth: {},
+  twitterAuth: {},
   id: null,
   username: null,
   authenticating: false,
@@ -17,17 +17,19 @@ export default (state = initialState, action) => {
 
   case types.LOGIN_START:
     return {
+      ...initialState,
       ...state,
       authenticating: true
     };
 
   case types.LOGIN:
     return {
+      ...initialState,
       ...state,
       authenticating: false,
-      auth: action.auth,
-      id: action.auth.twitter.id,
-      username: action.auth.twitter.username
+      twitterAuth: action.auth.credential || state.twitterAuth || {},
+      id: action.auth.user.providerData[0].uid,
+      username: action.auth.user.providerData[0].displayName
     };
 
   case types.LOGOUT:
@@ -38,6 +40,7 @@ export default (state = initialState, action) => {
 
   case types.FRIENDS_FETCH_START:
     return {
+      ...initialState,
       ...state,
       syncing: {syncing: true, fetchError: null},
       friends: null
@@ -45,6 +48,7 @@ export default (state = initialState, action) => {
 
   case types.FRIENDS_FETCH_SUCCESS:
     return {
+      ...initialState,
       ...state,
       syncing: {...initialState.syncing},
       friends: action.payload.ids
@@ -52,6 +56,7 @@ export default (state = initialState, action) => {
 
   case types.FRIENDS_FETCH_ERROR:
     return {
+      ...initialState,
       ...state,
       syncing: {syncing: false, fetchError: action.payload},
       friends: null
