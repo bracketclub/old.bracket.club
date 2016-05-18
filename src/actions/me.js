@@ -1,6 +1,6 @@
 import {CALL_API} from 'redux-api-middleware';
 import qs from 'query-string';
-import firebase from 'lib/firebase';
+import {auth as fbAuth, twitter as fbTwitter} from 'lib/firebase';
 import {replace} from 'react-router-redux';
 import * as actions from '../constants/me';
 
@@ -14,14 +14,15 @@ export const syncLogin = (auth) => {
   };
 };
 
-export const syncLogout = () => ({
-  type: actions.LOGOUT
+export const syncLogout = (error) => ({
+  type: actions.LOGOUT,
+  error
 });
 
 export const getFriends = () => (dispatch, getState) => {
   const {me} = getState();
-  const {id, auth} = me;
-  const {accessToken: token, accessTokenSecret: tokenSecret} = auth.twitter || {};
+  const {id, twitterAuth} = me;
+  const {accessToken: token, secret: tokenSecret} = twitterAuth;
 
   if (!token || !tokenSecret || !id) {
     return dispatch({
@@ -49,21 +50,36 @@ export const getFriends = () => (dispatch, getState) => {
   });
 };
 
+export const loginUser = (user) => (dispatch, getState) => {
+  if (!user) {
+    return syncLogout();
+  }
+
+  const {id} = getState().me;
+
+  if (id) {
+    return null;
+  }
+
+  return dispatch({
+    type: actions.LOGIN,
+    auth: {user}
+  });
+};
+
 export const login = ({redirect} = {}) => (dispatch, getState) => {
   dispatch({type: actions.LOGIN_START});
-  firebase.authWithOAuthPopup('twitter', (err, auth) => {
-    if (err) {
-      dispatch(syncLogout());
-      return;
-    }
-    dispatch(syncLogin(auth));
+  fbAuth.signInWithPopup(fbTwitter).then((result) => {
+    dispatch(syncLogin(result));
     if (redirect) {
       dispatch(replace(redirect));
     }
+  }).catch((err) => {
+    dispatch(syncLogout(err));
   });
 };
 
 export const logout = () => (dispatch) => {
-  firebase.unauth();
+  fbAuth.signOut();
   dispatch(syncLogout());
 };

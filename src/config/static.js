@@ -1,5 +1,6 @@
 export default {
   apiUrl: '/json',
   sse: false,
-  'static': true
+  'static': true,
+  localStorage: 'tyb'
 };
