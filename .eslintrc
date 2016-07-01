@@ -20,7 +20,8 @@
         "meActions",
         "usersActions",
         "routeActions",
-        "canWinActions"
+        "canWinActions",
+        "routerActions"
       ]
     }]
   }
