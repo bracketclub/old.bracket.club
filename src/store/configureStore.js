@@ -6,13 +6,9 @@ import {routerMiddleware} from 'react-router-redux';
 import {browserHistory} from 'react-router';
 import {apiMiddleware} from 'redux-api-middleware';
 import persistState from 'redux-localstorage';
-import mergePersistedState from 'redux-localstorage/lib/mergePersistedState';
 import adapter from 'redux-localstorage/lib/adapters/localStorage';
 import filter from 'redux-localstorage-filter';
 import apiRelationsMiddleware from 'lib/reduxApiRelations';
-
-const merge = (obj1, obj2) => ({...obj1, ...obj2});
-const decorateReducer = (reducer) => compose(mergePersistedState(merge))(reducer);
 
 export default (initialState = {}) => {
   const storeEnhancers = [
@@ -42,14 +38,14 @@ export default (initialState = {}) => {
   }
 
   const store = createStore(
-    decorateReducer(rootReducer),
+    rootReducer,
     initialState || {},
     compose(applyMiddleware(...middleware), ...storeEnhancers)
   );
 
   if (module.hot) {
     module.hot.accept('../reducers', () => {
-      store.replaceReducer(decorateReducer(require('../reducers')));
+      store.replaceReducer(require('../reducers'));
     });
   }
 
