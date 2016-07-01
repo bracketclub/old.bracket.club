@@ -1,5 +1,6 @@
+import {UserAuthWrapper} from 'redux-auth-wrapper';
+import {routerActions} from 'react-router-redux';
 import App from './components/connected/App';
-import Auth from './components/connected/Auth';
 import Subscribe from './pages/Subscribe';
 import Login from './pages/Login';
 import Results from './pages/Results';
@@ -12,6 +13,14 @@ import FourOhFour from './pages/FourOhFour';
 import Countdown from './pages/Countdown';
 import FAQ from './pages/FAQ';
 import Zentry from './pages/Zentry';
+
+const Auth = UserAuthWrapper({
+  authSelector: (state) => state.me,
+  predicate: (auth) => auth.id,
+  authenticatingSelector: (state) => state.me.authenticating,
+  redirectAction: routerActions.replace,
+  wrapperDisplayName: 'Auth'
+});
 
 const indexRoute = {
   components: {
