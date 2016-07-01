@@ -28,7 +28,7 @@ export default class Rounds extends Component {
   componentWillReceiveProps(nextProps) {
     const {rounds: prevRounds} = this.props;
     const {rounds} = nextProps;
-    const roundString = (round) => JSON.stringify(round, (k, v) => v && v.seed || v);
+    const roundString = (round) => JSON.stringify(round, (k, v) => (v && v.seed) || v);
 
     let roundChange, roundFull;
     for (let i = 1, m = rounds.length; i < m; i++) {
@@ -60,11 +60,11 @@ export default class Rounds extends Component {
 
       if (roundChange && roundChange > visible) {
         // Scroll to the round with the change if its not visible
-        this.setScrollState(roundChange * step - width);
+        this.setScrollState((roundChange * step) - width);
       }
       else if (roundFull && roundFull === visible) {
         // Scroll to the next round if this round has just been filled
-        this.setScrollState((roundFull + 1) * step - width);
+        this.setScrollState(((roundFull + 1) * step) - width);
       }
     }
   }
