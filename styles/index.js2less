@@ -12,7 +12,7 @@ module.exports = new LessImportInserter({
     ]
   },
   append: [
-    '../node_modules/lesshat/build/lesshat-prefixed',
+    '../node_modules/lesshat/lesshat-prefixed',
     '../node_modules/bootswatch/united/bootswatch',
     'app/main.less',
     'app/main-nav.less',
