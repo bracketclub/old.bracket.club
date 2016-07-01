@@ -6,17 +6,20 @@ import {routerMiddleware} from 'react-router-redux';
 import {browserHistory} from 'react-router';
 import {apiMiddleware} from 'redux-api-middleware';
 import persistState from 'redux-localstorage';
+import mergePersistedState from 'redux-localstorage/lib/mergePersistedState';
+import adapter from 'redux-localstorage/lib/adapters/localStorage';
+import filter from 'redux-localstorage-filter';
 import apiRelationsMiddleware from 'lib/reduxApiRelations';
+
+const merge = (obj1, obj2) => ({...obj1, ...obj2});
+const decorateReducer = (reducer) => compose(mergePersistedState(merge))(reducer);
 
 export default (initialState = {}) => {
   const storeEnhancers = [
-    persistState('me', {
-      key: config.localStorage,
-      // Persist only the token to local storage
-      slicer: () => (state) => ({
-        me: {twitterAuth: state.me.twitterAuth}
-      })
-    })
+    persistState(
+      compose(filter('me.twitterAuth'))(adapter(window.localStorage)),
+      config.localStorage
+    )
   ];
 
   const middleware = [
@@ -39,14 +42,14 @@ export default (initialState = {}) => {
   }
 
   const store = createStore(
-    rootReducer,
+    decorateReducer(rootReducer),
     initialState || {},
     compose(applyMiddleware(...middleware), ...storeEnhancers)
   );
 
   if (module.hot) {
     module.hot.accept('../reducers', () => {
-      store.replaceReducer(require('../reducers'));
+      store.replaceReducer(decorateReducer(require('../reducers')));
     });
   }
 
