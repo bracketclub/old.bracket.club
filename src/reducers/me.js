@@ -1,4 +1,5 @@
 import * as types from '../constants/me';
+import * as localStorageTypes from 'redux-localstorage';
 
 const initialState = {
   friends: null,
@@ -60,6 +61,12 @@ export default (state = initialState, action) => {
       ...state,
       syncing: {syncing: false, fetchError: action.payload},
       friends: null
+    };
+
+  case localStorageTypes.INIT:
+    return {
+      ...state,
+      ...action.payload.reducer
     };
 
   default:
