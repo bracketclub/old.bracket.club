@@ -1,5 +1,5 @@
-import * as types from '../constants/me';
 import * as localStorageTypes from 'redux-localstorage';
+import * as types from '../constants/me';
 
 const initialState = {
   friends: null,

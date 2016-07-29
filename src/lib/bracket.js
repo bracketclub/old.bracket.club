@@ -93,7 +93,7 @@ const globalLocks = {} || {
 // Each sport, year combo is memoized since they never change
 // Also the individual methods are also memoized based on their parameters
 // The `scorer.score` is the slowest, but might as well do 'em all
-module.exports = memoize((options) => {
+export default memoize((options) => {
   const sportYear = {
     sport: options.sport,
     year: options.year
