@@ -1,6 +1,5 @@
 import config from 'config';
 import {createStore, applyMiddleware, compose} from 'redux';
-import rootReducer from '../reducers';
 import thunk from 'redux-thunk';
 import {routerMiddleware} from 'react-router-redux';
 import {browserHistory} from 'react-router';
@@ -9,6 +8,7 @@ import persistState from 'redux-localstorage';
 import adapter from 'redux-localstorage/lib/adapters/localStorage';
 import filter from 'redux-localstorage-filter';
 import apiRelationsMiddleware from 'lib/reduxApiRelations';
+import rootReducer from '../reducers';
 
 export default (initialState = {}) => {
   const storeEnhancers = [
@@ -32,6 +32,7 @@ export default (initialState = {}) => {
         predicate: (getState, action) => action.type.indexOf('@@router') === -1
       })
     );
+
     storeEnhancers.push(
       window.devToolsExtension ? window.devToolsExtension() : (f) => f
     );
