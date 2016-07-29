@@ -1,6 +1,6 @@
 import config from 'config';
 import restActions from 'lib/reduxApiRestActions';
-import analytics from 'lib/analytics';
+import {event as aEvent} from 'lib/analytics';
 import es from 'lib/eventSource';
 import cache from 'lib/cacheEvent';
 import {replaceQuery} from './routing';
@@ -18,7 +18,7 @@ const routeToIndex = (getIndex, label) => () => (dispatch, getState) => {
   const lastIndex = mastersSelectors.lastIndex(state, {location});
   const game = getIndex({current, total: lastIndex});
 
-  analytics.event({state, label, category: 'Masters', action: 'navigate'});
+  aEvent({state, label, category: 'Masters', action: 'navigate'});
   dispatch(replaceQuery({location, query: {game}}));
 };
 
@@ -29,22 +29,20 @@ const navigationActions = {
   goToLast: routeToIndex(({total}) => total, 'goToLast')
 };
 
-const mastersRestActions = restActions({
+export const fetch = restActions({
   schema,
   url: `${config.apiUrl}/${ENDPOINT}`,
   cache: cache(ENDPOINT, bracketSelectors.completeDate)
 });
 
-export default {
-  ...mastersRestActions,
-  navigate: (method) => navigationActions[method](),
-  sse: () => (dispatch, getState) => {
-    const event = eventId(getState());
-    return es({
-      event: `${ENDPOINT}-${event}`,
-      url: `${config.apiUrl}/${ENDPOINT}/events`
-    }, () => {
-      dispatch(mastersRestActions.fetch(event, {refresh: true}));
-    });
-  }
+export const navigate = (method) => navigationActions[method]();
+
+export const sse = () => (dispatch, getState) => {
+  const event = eventId(getState());
+  return es({
+    event: `${ENDPOINT}-${event}`,
+    url: `${config.apiUrl}/${ENDPOINT}/events`
+  }, () => {
+    dispatch(fetch(event, {refresh: true}));
+  });
 };

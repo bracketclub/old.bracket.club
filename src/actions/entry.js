@@ -1,12 +1,12 @@
 import {replace} from 'react-router-redux';
 
-import analytics from 'lib/analytics';
+import {event as aEvent} from 'lib/analytics';
 import * as bracketSelectors from '../selectors/bracket';
 import * as entrySelectors from '../selectors/entry';
 import {eventId} from '../selectors/event';
 import * as actions from '../constants/entry';
 
-const analyticsEvent = (state, action, ...labels) => analytics.event({
+const analyticsEvent = (state, action, ...labels) => aEvent({
   category: 'Entry',
   state,
   action,

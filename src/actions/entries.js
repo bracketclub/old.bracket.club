@@ -1,6 +1,6 @@
 import config from 'config';
 import restActions from 'lib/reduxApiRestActions';
-import analytics from 'lib/analytics';
+import {event as aEvent} from 'lib/analytics';
 import es from 'lib/eventSource';
 import cache from 'lib/cacheEvent';
 import {replaceQuery} from './routing';
@@ -21,26 +21,24 @@ const sortAction = (sortBy) => (dispatch, getState) => {
   // otherwise use the existing sort direction
   const sort = `${sortBy}|${current.key === sortBy ? reverse(current.dir) : current.dir}`;
 
-  analytics.event({state, category: 'Entries', action: 'sort', label: sort});
+  aEvent({state, category: 'Entries', action: 'sort', label: sort});
   dispatch(replaceQuery({location, query: {sort}}));
 };
 
-const entriesRestActions = restActions({
+export const fetch = restActions({
   schema,
   url: `${config.apiUrl}/${ENDPOINT}`,
   cache: cache(ENDPOINT, bracketSelectors.locks)
 });
 
-export default {
-  ...entriesRestActions,
-  sort: sortAction,
-  sse: () => (dispatch, getState) => {
-    const event = eventId(getState());
-    return es({
-      event: `${ENDPOINT}-${event}`,
-      url: `${config.apiUrl}/${ENDPOINT}/events`
-    }, () => {
-      dispatch(entriesRestActions.fetch(event, {refresh: true}));
-    });
-  }
+export {sortAction as sort};
+
+export const sse = () => (dispatch, getState) => {
+  const event = eventId(getState());
+  return es({
+    event: `${ENDPOINT}-${event}`,
+    url: `${config.apiUrl}/${ENDPOINT}/events`
+  }, () => {
+    dispatch(fetch(event, {refresh: true}));
+  });
 };
