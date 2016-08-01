@@ -4,6 +4,7 @@ import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 import {LinkContainer} from 'react-router-bootstrap';
 import {Navbar, Nav, MenuItem, NavItem, NavDropdown} from 'react-bootstrap';
+import eventDisplayName from 'lib/eventDisplayName';
 
 const {
   Header: NavbarHeader,
@@ -11,8 +12,6 @@ const {
   Toggle: NavbarToggle,
   Collapse: NavbarCollapse
 } = Navbar;
-
-import eventDisplayName from 'lib/eventDisplayName';
 
 const events = __EVENTS__;
 

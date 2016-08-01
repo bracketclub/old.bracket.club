@@ -12,8 +12,6 @@ users.define({
   entries: arrayOf(entries).mappedBy('user')
 });
 
-export default {
-  users,
-  entries,
-  masters
-};
+export {users as users};
+export {entries as entries};
+export {masters as masters};

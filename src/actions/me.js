@@ -1,7 +1,7 @@
 import {CALL_API} from 'redux-api-middleware';
 import qs from 'query-string';
-import {auth as fbAuth, twitter as fbTwitter} from 'lib/firebase';
 import {replace} from 'react-router-redux';
+import {auth as fbAuth, twitter as fbTwitter} from 'lib/firebase';
 import * as actions from '../constants/me';
 
 export const syncLogin = (auth) => {

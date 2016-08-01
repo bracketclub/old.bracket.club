@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
-import analytics from 'lib/analytics';
+import {event as aEvent} from 'lib/analytics';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
 import mapSelectorsToProps from 'lib/mapSelectorsToProps';
 
@@ -75,7 +75,7 @@ export default class LiveEntryPage extends Component {
   }
 
   handleEnter = (bracket) => {
-    analytics.event({
+    aEvent({
       event: this.props.event,
       category: 'Entry',
       action: 'tweet',
