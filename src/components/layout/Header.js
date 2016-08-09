@@ -6,13 +6,10 @@ import {LinkContainer} from 'react-router-bootstrap';
 import {Navbar, Nav, MenuItem, NavItem, NavDropdown} from 'react-bootstrap';
 import eventDisplayName from 'lib/eventDisplayName';
 
-const {
-  Header: NavbarHeader,
-  Brand: NavbarBrand,
-  Toggle: NavbarToggle,
-  Collapse: NavbarCollapse
-} = Navbar;
-
+const NavbarHeader = Navbar.Header;
+const NavbarBrand = Navbar.Brand;
+const NavbarToggle = Navbar.Toggle;
+const NavbarCollapse = Navbar.Collapse;
 const events = __EVENTS__;
 
 export default class Header extends Component {
