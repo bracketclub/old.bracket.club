@@ -56,7 +56,7 @@
     "zero-fill": "^2.2.3"
   },
   "devDependencies": {
-    "@lukekarrys/eslint-config": "^2.1.2",
+    "@lukekarrys/eslint-config": "^2.1.6",
     "autoprefixer": "^6.4.0",
     "babel-core": "^6.13.2",
     "babel-eslint": "^6.1.2",
