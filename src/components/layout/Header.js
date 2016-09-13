@@ -18,7 +18,6 @@ export default class Header extends Component {
     onLogout: PropTypes.func.isRequired,
     me: PropTypes.object,
     event: PropTypes.object,
-    component: PropTypes.func,
     eventPath: PropTypes.func
   };
 

@@ -121,7 +121,7 @@ export default class LiveEntryPage extends Component {
             progress={progress}
           />
         </BracketHeader>
-        <MockMessage mocked={mocked} locks={locks} />
+        <MockMessage mocked={mocked} />
         <LiveBracket
           validate={validate}
           bracket={bracket}

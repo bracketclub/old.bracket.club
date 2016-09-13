@@ -4,8 +4,7 @@ import {Link} from 'react-router';
 
 export default class MockMessage extends Component {
   static propTypes = {
-    mocked: PropTypes.bool.isRequired,
-    locks: PropTypes.string.isRequired
+    mocked: PropTypes.bool.isRequired
   };
 
   constructor(props) {

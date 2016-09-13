@@ -28,7 +28,6 @@ const mapPropsToActions = (props) => ({
 export default class CreatedEntryPage extends Component {
   static propTypes = {
     master: PropTypes.string,
-    entry: PropTypes.string,
     diff: PropTypes.func,
     sync: PropTypes.object
   };
