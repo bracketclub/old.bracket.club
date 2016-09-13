@@ -12,9 +12,7 @@ export default class Rounds extends Component {
   };
 
   static propTypes = {
-    'final': PropTypes.bool,
     finalId: PropTypes.string,
-    name: PropTypes.string.isRequired,
     rounds: PropTypes.array.isRequired,
     id: PropTypes.string.isRequired,
     onUpdate: PropTypes.func
