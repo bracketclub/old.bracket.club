@@ -6,10 +6,11 @@ import CSSModules from 'react-css-modules';
 
 import tweetHref from 'lib/tweetHref';
 import Countdown from '../event/Countdown';
+import styles from './styles/EnterButton.less';
 
 const formatter = (value, unit) => `${value} ${unit}${value !== 1 ? 's' : ''}`;
 
-@CSSModules(require('./styles/EnterButton.less'))
+@CSSModules(styles)
 export default class BracketEnterButton extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
