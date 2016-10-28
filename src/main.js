@@ -28,7 +28,8 @@ const store = configureStore(isError(initialState) ? {} : initialState);
 const history = syncHistoryWithStore(browserHistory, store);
 
 // Google analytics for each history change
-history.listen(pageview);
+// Use getCurrentLocation since first call has no location https://github.com/reactjs/react-router-redux/issues/475
+history.listen((location) => pageview(location || history.getCurrentLocation()));
 
 // Firebase will trigger the action if the user is logged in from a previous
 // session when first loading the page. Note that this action is slightly different
