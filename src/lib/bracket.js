@@ -11,6 +11,7 @@ const STANDARD_PPR = `${STANDARD}PPR`;
 const GOOLEY = 'gooley';
 const GOOLEY_PPR = `${GOOLEY}PPR`;
 const ROUNDS = 'rounds';
+const BONUS = 'bonus';
 
 const NCAA_BB = {
   types: [STANDARD, STANDARD_PPR, ROUNDS, GOOLEY, GOOLEY_PPR],
@@ -29,7 +30,7 @@ const NCAA_BB = {
 };
 
 const SIXTEEN_TEAMS_CONFERENCE = {
-  types: [STANDARD, STANDARD_PPR, ROUNDS],
+  types: [STANDARD, STANDARD_PPR, ROUNDS, BONUS],
   columns: [
     {key: 'rounds.0', display: 'CQF', hideXs: true},
     {key: 'rounds.1', display: 'CSF', hideXs: true},

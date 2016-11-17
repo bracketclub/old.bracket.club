@@ -85,7 +85,7 @@ export default class ResultsTable extends Component {
                     </Link>
                   </td>
                   {entry.score.rounds.map((round, roundIndex) =>
-                    <td key={roundIndex} className='hidden-xs'>{round}</td>
+                    <td key={roundIndex} className='hidden-xs'>{round}{entry.score.bonus ? ` (${entry.score.bonus[roundIndex]})` : ''}</td>
                   )}
                   <td>
                     {entry.score.standard}

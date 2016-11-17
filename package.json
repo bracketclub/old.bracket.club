@@ -17,7 +17,7 @@
     "bootswatch": "^3.3.7",
     "bows": "^1.6.0",
     "bracket-data": "^4.4.0",
-    "bracket-generator": "^3.0.1",
+    "bracket-generator": "^3.1.0",
     "bracket-possibilities": "^1.2.0",
     "bracket-scorer": "^3.2.2",
     "bracket-updater": "^3.4.0",
@@ -135,7 +135,7 @@
     "lint": "eslint --ignore-path .gitignore .",
     "pr": "open 'https://bitbucket.org/lukekarrys/tweetyourbracket.com/pull-requests/new'",
     "prebuild": "rm -rf build && mkdir build",
-    "start": "CONFIG_ENV=static hjs-dev-server",
+    "start": "CONFIG_ENV=development hjs-dev-server",
     "static-data": "rimraf public/json && cp -r ../api/.export public/ && mv public/.export public/json",
     "test": "babel-tape-runner test/*.js | tap-spec && npm run build",
     "validate": "npm ls >/dev/null"
