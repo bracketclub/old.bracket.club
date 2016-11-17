@@ -88,6 +88,7 @@ export default class Rounds extends Component {
                     finalId={finalId}
                     matchup={matchup}
                     onUpdate={onUpdate}
+                    winner={roundIndex < (rounds.length - 1) ? rounds[roundIndex + 1][matchupIndex] : null}
                   />
                 )}
               </div>

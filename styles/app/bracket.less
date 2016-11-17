@@ -109,7 +109,29 @@
       }
     }
   }
+  // ------------------------
+  // WINS IN
+  // ------------------------
+  .wins-in {
+    &.incorrect {
+      .wins-in-games {
+        text-decoration: line-through;
+        color: #df382c;
+      }
+    }
 
+    &.unused {
+      .wins-in-games {
+        color: gray;
+      }
+    }
+
+    &.correct {
+      .wins-in-games {
+        color: #38b44a;;
+      }
+    }
+  }
 
 
   // ------------------------
