@@ -3,7 +3,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 import {LinkContainer} from 'react-router-bootstrap';
-import {Navbar, Nav, MenuItem, NavItem, NavDropdown} from 'react-bootstrap';
+import {Navbar, Nav, NavItem, NavDropdown} from 'react-bootstrap';
 import eventDisplayName from 'lib/eventDisplayName';
 
 const NavbarHeader = Navbar.Header;
@@ -37,15 +37,15 @@ export default class Header extends Component {
     return (
       <NavDropdown title={me.username} id='me-nav'>
         <LinkContainer to={`/users/${me.id}`}>
-          <MenuItem>Profile</MenuItem>
+          <NavItem>Profile</NavItem>
         </LinkContainer>
         {eventPath &&
           <LinkContainer to={`/${event.id}/entries/${me.id}`}>
-            <MenuItem>Bracket</MenuItem>
+            <NavItem>Bracket</NavItem>
           </LinkContainer>
         }
-        <MenuItem divider />
-        <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
+        <NavItem divider />
+        <NavItem onClick={this.handleLogout}>Logout</NavItem>
       </NavDropdown>
     );
   }
@@ -82,7 +82,7 @@ export default class Header extends Component {
             <NavDropdown title={this.getEventTitle()} id='event-nav'>
               {events.map((e) =>
                 <LinkContainer onlyActiveOnIndex key={e} to={this.getEventPath(e)}>
-                  <MenuItem>{eventDisplayName(e)}</MenuItem>
+                  <NavItem>{eventDisplayName(e)}</NavItem>
                 </LinkContainer>
               )}
             </NavDropdown>
@@ -102,7 +102,7 @@ export default class Header extends Component {
             </LinkContainer>
             {me.id
               ? this.getMeDropdown()
-              : <MenuItem onClick={this.handleLogin}>Login</MenuItem>
+              : <NavItem onClick={this.handleLogin}>Login</NavItem>
             }
           </Nav>
         </NavbarCollapse>

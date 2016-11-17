@@ -26,24 +26,26 @@ export default class Team extends Component {
   };
 
   render() {
+    const {seed, name, onUpdate, eliminated, correct, shouldBe} = this.props;
+
     const teamClasses = classNames('team', {
-      pickable: this.props.onUpdate && this.props.name,
-      eliminated: this.props.eliminated,
-      correct: this.props.correct === true,
-      incorrect: this.props.correct === false
+      pickable: onUpdate && name,
+      eliminated,
+      correct: correct === true,
+      incorrect: correct === false
     });
-    const shouldBe = this.props.shouldBe;
-    const shouldBeClasses = classNames('should-be', {hide: !shouldBe});
-    const {seed, name} = this.props;
+
     return (
       <li>
         <a onClick={this.handleClick} className={teamClasses} title={`(${seed}) ${name}`}>
           <span className='seed'>{seed}</span>
           <span className='team-name'>{name}</span>
-          <span className={shouldBeClasses}>
-            <span className='seed'>{shouldBe ? shouldBe.seed : ''}</span>
-            <span className='team-name'>{shouldBe ? shouldBe.name : ''}</span>
-          </span>
+          {correct === false && shouldBe &&
+            <span className='should-be'>
+              <span className='seed'>{shouldBe.seed}</span>
+              <span className='team-name'>{shouldBe.name}</span>
+            </span>
+          }
         </a>
       </li>
     );
