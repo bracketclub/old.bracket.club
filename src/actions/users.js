@@ -16,10 +16,10 @@ export const fetch = restActions({
 export const sse = (params) => (dispatch) => {
   const [userId, eventId] = params.split('/');
   return es({
-    event: `${ENDPOINT}`,
-    url: `${config.apiUrl}/entries/events`
-  }, (updatedUser) => {
-    if (updatedUser.id === userId) {
+    event: ENDPOINT,
+    url: `${config.apiUrl}/${ENDPOINT}/events`
+  }, (data) => {
+    if (data.id === userId) {
       dispatch(fetch(`${userId}${eventId ? `/${eventId}` : ''}`, {refresh: true}));
     }
   });

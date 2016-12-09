@@ -1,5 +1,5 @@
 export default {
-  apiUrl: 'https://api.tweetyourbracket.com',
+  apiUrl: 'https://tyb-api.now.sh',
   sse: true,
   localStorage: 'tyb'
 };

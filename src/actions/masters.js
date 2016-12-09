@@ -40,9 +40,11 @@ export const navigate = (method) => navigationActions[method]();
 export const sse = () => (dispatch, getState) => {
   const event = eventId(getState());
   return es({
-    event: `${ENDPOINT}-${event}`,
+    event: ENDPOINT,
     url: `${config.apiUrl}/${ENDPOINT}/events`
-  }, () => {
-    dispatch(fetch(event, {refresh: true}));
+  }, (data) => {
+    if (data.id === event) {
+      dispatch(fetch(event, {refresh: true}));
+    }
   });
 };
