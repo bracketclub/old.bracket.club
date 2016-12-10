@@ -38,6 +38,11 @@ export default class FAQ extends Component {
 
         <hr />
 
+        <h4>Can I delete my entry?</h4>
+        <p>That's not yet possible from the site, but if you <a target='_blank' href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Tweet Your Bracket'})}`}>drop me a line</a> I'll be more than happy to remove it from the database.</p>
+
+        <hr />
+
         <h4>How are entries scored?</h4>
         <p>Each round is worth a maximum of 320 points, so each game is worth (320 / number of games in that round). This has the effect of making games in later rounds worth more than earlier rounds.</p>
 

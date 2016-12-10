@@ -83,13 +83,16 @@ const getRegionsFor = (finalId, firstId, bracket) => {
 
 const idResolver = (o) => `${o.sport}-${o.year}`;
 
-// Make it easy to test when the app locks in 5 seconds
-const globalLocks = {} || {
-  // eslint-disable-next-line no-magic-numbers
-  'nhl-2016': new Date(new Date().valueOf() + require('ms')('1d')).toJSON(),
-  // eslint-disable-next-line no-magic-numbers
-  'nba-2016': new Date(new Date().valueOf() + require('ms')('1d')).toJSON()
-};
+// Make it easy to test when the app locks soon
+const globalLocks = {};
+if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line no-unused-vars
+  const nowPlus = (str) => new Date(new Date().valueOf() + require('ms')(str)).toJSON();
+  // globalLocks['ncaam-2016'] = nowPlus('1d');
+  // globalLocks['ncaaw-2016'] = nowPlus('1d');
+  // globalLocks['nba-2016'] = nowPlus('1d');
+  // globalLocks['nhl-2016'] = nowPlus('1d');
+}
 
 // Each sport, year combo is memoized since they never change
 // Also the individual methods are also memoized based on their parameters
