@@ -20,7 +20,7 @@
     "bracket-generator": "^3.1.0",
     "bracket-possibilities": "^1.2.0",
     "bracket-scorer": "^3.4.0",
-    "bracket-updater": "^3.4.0",
+    "bracket-updater": "^3.4.1",
     "bracket-validator": "^3.1.0",
     "classnames": "^2.2.5",
     "dateformat": "^1.0.12",
