@@ -1,11 +1,8 @@
-// Makes promise debugging betterer
-window.onunhandledrejection = (e) => {throw e.reason;};
-
-import '../styles/index.js2less';
-
 import '!!file?name=favicon.ico!../public/favicon.ico';
 import '!!file?name=favicon.png!../public/favicon.png';
 import '!!file?name=favicon-192x192.png!../public/favicon-192x192.png';
+
+import '../styles/app/index.less';
 
 import 'babel-polyfill';
 
