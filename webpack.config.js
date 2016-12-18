@@ -10,6 +10,8 @@ const _ = require('lodash');
 const config = require('getconfig');
 const cpr = require('cpr');
 
+const SRC = path.resolve(__dirname, 'src');
+
 const isDev = config.getconfig.isDev;
 const configEnv = process.env.CONFIG_ENV || 'development';
 const define = _(config)
@@ -46,7 +48,7 @@ const renderHTML = (context) => html[isDev ? 'unindent' : 'minify']`
 const webpack = webpackConfig({
   isDev,
   define,
-  'in': 'src/main.js',
+  'in': `${SRC}/main.js`,
   out: 'build',
   clearBeforeBuild: true,
   output: {hash: true},
@@ -60,25 +62,21 @@ const webpack = webpackConfig({
   })
 });
 
-const replaceLoader = (loader, replacer) => (l) => {
-  const match = new RegExp(`(^|!)(${loader}-loader)($|!)`);
-  if (l && l.loader && l.loader.match(match)) {
-    l.loader = l.loader.replace(match, replacer);
+// Exclude style files from the src directory since only css module-ized files will be in there
+webpack.module.loaders.forEach((loader) => {
+  if (loader && loader.loader && loader.loader.match(/!css/)) {
+    loader.exclude = [SRC];
   }
-};
+});
 
-// debuggable selectors in dev, super compact selectors in prod
-const cssDevIdent = isDev ? '[path][name]___[local]___' : '';
-const cssModulesLoader = `?modules&localIdentName=${cssDevIdent}[hash:base64:5]`;
-webpack.module.loaders.forEach(replaceLoader('css', `$1$2${cssModulesLoader}$3`));
-
-// Custom extension for the js file that builds bootstrap+theme which requires
-// the loaders to start with val-loader, but doesn't mess with other css/less loaders
-webpack.module.loaders.unshift({
-  test: /\.js2less$/,
+// Opt in to css modules with for .less files in the src dir
+const cssModulesLoader = `?modules&localIdentName=${isDev ? '[path][name]___[local]___' : ''}[hash:base64:5]`;
+webpack.module.loaders.push({
+  test: /\.less$/,
+  include: [SRC],
   loader: isDev
-    ? 'style-loader!css-loader!postcss-loader!less-loader!val-loader'
-    : ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!less-loader!val-loader')
+    ? `style-loader!css-loader${cssModulesLoader}!postcss-loader!less-loader`
+    : ExtractTextPlugin.extract('style-loader', `css-loader${cssModulesLoader}!postcss-loader!less-loader`)
 });
 
 webpack.postcss.push(cssnano({
