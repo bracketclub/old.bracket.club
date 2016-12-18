@@ -89,7 +89,6 @@
     "html-tagged-literals": "^1.0.2",
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
-    "less-import-inserter": "^1.0.1",
     "less-loader": "^2.2.3",
     "on-build-webpack": "^0.1.0",
     "postcss-loader": "^1.2.1",
