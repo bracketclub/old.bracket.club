@@ -26,7 +26,6 @@
     "dateformat": "^2.0.0",
     "firebase": "^3.6.4",
     "hoist-non-react-statics": "^1.2.0",
-    "lesshat": "^4.1.0",
     "lodash": "^4.17.2",
     "ms": "^0.7.2",
     "query-string": "^4.2.3",

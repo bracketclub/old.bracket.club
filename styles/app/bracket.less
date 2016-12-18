@@ -316,7 +316,7 @@
     .final-region-container {
       position: absolute;
       top: 50%;
-      .lh-calc(top, ~"50% - 21px");
+      top: calc(~"50% - 21px");
       left: 50%;
       width: 430px;
       margin-left: -215px;
@@ -440,15 +440,15 @@
       @finalRounds: @roundWidth * 3;
       @finalRoundGutter: @gutter * 3;
       .rounds-scroll {
-        .lh-calc(width, ~"@{rounds} - @{roundGutter}");
+        width: calc(~"@{rounds} - @{roundGutter}");
       }
 
       .round {
-        .lh-calc(width, ~"@{roundWidth} - @{gutter}");
+        width: calc(~"@{roundWidth} - @{gutter}");
       }
 
       .final-region .rounds-scroll {
-        .lh-calc(width, ~"@{finalRounds} - @{finalRoundGutter}");
+        width: calc(~"@{finalRounds} - @{finalRoundGutter}");
       }
     }
 
