@@ -1,6 +1,9 @@
 import React, {PropTypes, Component} from 'react';
+import CSSModules from 'react-css-modules';
 import charCodes from 'lib/charCodes';
+import styles from './index.less';
 
+@CSSModules(styles)
 export default class ScoreCard extends Component {
   static propTypes = {
     score: PropTypes.object
@@ -33,7 +36,7 @@ export default class ScoreCard extends Component {
     }
 
     return (
-      <div className='score-card'>
+      <div styleName='score-card'>
         <p>
           <strong>Rank: </strong>{score.index} / {score.total}
           <br />

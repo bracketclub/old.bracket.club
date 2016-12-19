@@ -1,6 +1,9 @@
 import React, {Component, PropTypes} from 'react';
+import CSSModules from 'react-css-modules';
 import charCodes from 'lib/charCodes';
+import styles from './index.less';
 
+@CSSModules(styles)
 export default class Loading extends Component {
   static propTypes = {
     delayLoading: PropTypes.number
@@ -41,10 +44,10 @@ export default class Loading extends Component {
     }
 
     return (
-      <div className='page-loader'>
+      <div styleName='page-loader'>
         <h2>Searching for a perfect bracket{charCodes.ellipsis}</h2>
-        <div className='ball-container'>
-          <div className='ball' />
+        <div styleName='ball-container'>
+          <div styleName='ball' />
         </div>
       </div>
     );
