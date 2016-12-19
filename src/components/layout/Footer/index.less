@@ -1,0 +1,38 @@
+@import '~bootswatch/united/variables.less';
+
+@footer-height: 100px;
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: @footer-height;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  right: 15px;
+  height: @footer-height;
+  text-align: center;
+}
+
+.muted, .muted a {
+  color: @text-muted;
+}
+
+.twitter {
+  margin-bottom: 5px;
+}
+
+.footer-links {
+  padding: 0;
+
+  li {
+    display: inline;
+    padding: 0 2px;
+  }
+}

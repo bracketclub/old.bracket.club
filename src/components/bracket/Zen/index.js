@@ -3,7 +3,7 @@ import {Button} from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
 import BodyClass from 'react-body-classname';
 import tweetHref from 'lib/tweetHref';
-import styles from './styles/Zen.less';
+import styles from './index.less';
 
 @CSSModules(styles)
 export default class ZenBracket extends Component {
