@@ -5,8 +5,8 @@ import dateFormat from 'dateformat';
 import CSSModules from 'react-css-modules';
 
 import tweetHref from 'lib/tweetHref';
-import Countdown from '../event/Countdown';
-import styles from './styles/EnterButton.less';
+import Countdown from '../../event/Countdown';
+import styles from './index.less';
 
 const formatter = (value, unit) => `${value} ${unit}${value !== 1 ? 's' : ''}`;
 

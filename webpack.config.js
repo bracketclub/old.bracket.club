@@ -53,7 +53,7 @@ const webpack = webpackConfig({
   clearBeforeBuild: true,
   output: {hash: true},
   hostname: 'localhost',
-  devServer: {contentBase: 'public'},
+  devServer: {contentBase: 'public', noInfo: true},
   replace: {
     config: `src/config/${configEnv}.js`
   },
