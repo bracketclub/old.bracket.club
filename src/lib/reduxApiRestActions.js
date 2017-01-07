@@ -1,17 +1,17 @@
 import config from 'config';
 import {CALL_API, getJSON} from 'redux-api-middleware';
-import {normalize, arrayOf} from '@lukekarrys/normalizr';
+import {normalize} from 'normalizr';
 import actionNames from 'action-names';
 
 const manipulateJSON = (manipulate) => (action, state, res) => getJSON(res).then(manipulate);
 
-const normalizePayload = (payloadSchema) => manipulateJSON((json) => {
-  const schema = Array.isArray(json) ? arrayOf(payloadSchema) : payloadSchema;
-  return normalize(json, schema);
-});
+const normalizePayload = (payloadSchema) => manipulateJSON((json) => normalize(
+  json,
+  Array.isArray(json) ? [payloadSchema] : payloadSchema)
+);
 
 export default ({schema, url, cache} = {}) => {
-  const resource = schema.getKey();
+  const resource = schema.key;
   const types = actionNames(resource);
 
   return (params, {refresh = false} = {}) => {
