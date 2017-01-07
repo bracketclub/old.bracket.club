@@ -125,10 +125,11 @@
   },
   "scripts": {
     "build": "NODE_ENV=production webpack --progress --bail",
+    "build-prod": "CONFIG_ENV=live npm run build",
     "build-static": "CONFIG_ENV=static npm run build",
     "codeship-deploy": "npm run firebase -- deploy --project project-5935142175033376097",
     "codeship-deploy-beta": "surge --project build/ --domain beta.tweetyourbracket.com",
-    "codeship-setup": "npm install && npm run build",
+    "codeship-setup": "npm install && npm run build-prod",
     "codeship-test": "npm test && npm run lint",
     "firebase": "firebase",
     "lint": "eslint --ignore-path .gitignore .",
