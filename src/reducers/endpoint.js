@@ -1,6 +1,5 @@
 import {combineReducers} from 'redux';
 import actionNames from 'action-names';
-import {mergeWith} from 'lodash';
 
 const recordsReducerFor = (resourceType) => {
   const defaultRecordState = {
@@ -40,7 +39,7 @@ const recordsReducerFor = (resourceType) => {
   };
 };
 
-const entitiesReducerFor = (resourceType, mergeEntities) => {
+const entitiesReducerFor = (resourceType) => {
   const defaultState = {};
 
   const types = actionNames(resourceType);
@@ -49,8 +48,7 @@ const entitiesReducerFor = (resourceType, mergeEntities) => {
     switch (action.type) {
 
     case types.fetchSuccess:
-      const entities = action.payload.entities[resourceType];
-      return mergeEntities ? mergeWith(state, entities, mergeEntities) : {...state, ...entities};
+      return {...state, ...action.payload.entities[resourceType]};
 
     default:
       return state;
@@ -58,7 +56,7 @@ const entitiesReducerFor = (resourceType, mergeEntities) => {
   };
 };
 
-export default (schema, mergeEntities) => combineReducers({
-  records: recordsReducerFor(schema.getKey()),
-  entities: entitiesReducerFor(schema.getKey(), mergeEntities)
+export default (schema) => combineReducers({
+  records: recordsReducerFor(schema.key),
+  entities: entitiesReducerFor(schema.key)
 });
