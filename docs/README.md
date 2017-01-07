@@ -6,9 +6,9 @@ This is mostly written for myself since I work on the project once a year for ab
 
 ### Fetching API Data
 
-During the "off-season" the site has no need for a real API since data won't change until the next year. After the end of each year, we switch the `codeship-setup` npm run-script to use `build-static` instead of `build`.
+During the "off-season" the site has no need for a real API since data won't change until the next year. After the end of each year, we switch the `built` npm run-script to add `CONFIG_ENV=static`. We can also go over the to [`api`](https://github.com/tweetyourbracket/api) and run `NODE_ENV=production npm run export` and it will export all the data to this repo.
 
-This will make the site load the data from `cdn.rawgit.com` instead of the api. When it comes time to launch the site again each March, we use `npm run build` again and go follow the instructions over at the `api` repo to deploy the whole thing on Digital Ocean (or something similar).
+This will make the site build with the static data and request it from the local domain instead of the api. When it comes time to launch the site again each March, we set `CONFIG_ENV=production` again and go follow the instructions over at the `api` repo to deploy the whole thing on Digital Ocean (or something similar).
 
 
 
@@ -20,11 +20,11 @@ TODO
 
 ### Styles
 
-The app uses Bootstrap and Bootswatch which are installed via npm. There is a build file at `styles/index.less` which creates a string of valid Less which is a list of all the less imports used by the site. It modifies the main bootstrap less file with the necessary imports from the bootswatch theme and also imports `styles/app/app.less`.
+The app uses Bootstrap and Bootswatch which are installed via npm. The main `less` file is included via `src/main.js` and imports all the styles for Bootstrap and the Bootswatch theme.
 
-The styles are built with the Webpack loaders `style!css!postcss!less!val`. The style loader injects the CSS into the document while in development. Some of those are configured by [`hjs-webpack`](https://github.com/henrikjoreteg/hjs-webpack) but we need to do it again here so that the extract text stuff is all in one place and we have to use `val-loader` which takes the built Less string and passes it to the next loader.
+The styles are built with the Webpack loaders `style!css!postcss!less`. The style loader injects the CSS into the document while in development. These loaders are configured by [`hjs-webpack`](https://github.com/henrikjoreteg/hjs-webpack). In production, we use the `extract-text-webpack-plugin` to take the all the css and split it into a single bundle which gets saved to the build directory.
 
-In production, we use the `extract-text-webpack-plugin` to take the all the css and split it into a single bundle which gets saved to the build directory.
+CSS modules are also setup in `webpack.config.js`, to look for any `.less` files located in the `src/` directory. Those are always imported directly to a component.
 
 
 
@@ -32,7 +32,7 @@ In production, we use the `extract-text-webpack-plugin` to take the all the css 
 
 `development` via `npm start`
 
-This uses `webpack-dev-server` to serve the content from the `webpack.config.es6` via [`hjs-webpack`](https://github.com/henrikjoreteg/hjs-webpack). It enables hot module reloading and a few other nice to haves.
+This uses `webpack-dev-server` to serve the content from the `webpack.config.js` via [`hjs-webpack`](https://github.com/henrikjoreteg/hjs-webpack). It enables hot module reloading and a few other nice to haves.
 
 `production` via `npm run build`
 
@@ -42,9 +42,11 @@ This builds the JS and CSS bundles and am html file via [`hjs-webpack`](https://
 
 ### Deployment
 
-Codeship + Surge.
+Codeship + Surge & Firebase.
 
-Codeship is hooked up to the repo to process all pushes. `npm run codeship-setup` and `npm run codeship-test` and run to get the set ready for deployment. Pushes on the master branch go to production. Currently pushes on the development branch don't trigger builds.
+Codeship is hooked up to the repo to process all pushes. `npm run codeship-setup` and `npm run codeship-test` and run to get the set ready for deployment.
+
+Pushes on the master branch go to production via `npm run codeship-deploy` which deploys to Firebase. Pushes to the `development` branch deploy via `npm run codeship-beta` and push to Surge which handles the beta url.
 
 All urls are set to be caught by the `200.html` file. And the bundled CSS and JS filenames are fingerprinted with the hash of the file contents from Webpack.
 
