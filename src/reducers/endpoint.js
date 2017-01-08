@@ -39,6 +39,7 @@ const recordsReducerFor = (resourceType) => {
   };
 };
 
+// TODO: check merge strategy against caching if you go from user -> user 2012 -> user -> user 2013 (should be cached)
 const entitiesReducerFor = (resourceType) => {
   const defaultState = {};
 

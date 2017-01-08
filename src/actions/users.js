@@ -2,7 +2,7 @@ import config from 'config';
 import restActions from 'lib/reduxApiRestActions';
 import es from 'lib/eventSource';
 import cache from 'lib/cacheEvent';
-import {users as schema} from '../schema';
+import {user as schema} from '../schema';
 import * as bracketSelectors from '../selectors/bracket';
 
 const ENDPOINT = 'users';

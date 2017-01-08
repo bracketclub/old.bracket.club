@@ -4,7 +4,7 @@ import {event as aEvent} from 'lib/analytics';
 import es from 'lib/eventSource';
 import cache from 'lib/cacheEvent';
 import {replaceQuery} from './routing';
-import {masters as schema} from '../schema';
+import {master as schema} from '../schema';
 import * as mastersSelectors from '../selectors/masters';
 import * as bracketSelectors from '../selectors/bracket';
 import {eventId} from '../selectors/event';
