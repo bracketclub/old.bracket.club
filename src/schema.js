@@ -1,14 +1,15 @@
 import {schema} from 'normalizr';
 
-const users = new schema.Entity('users', {}, {
-  mergeStrategy: (a, b) => ({
-    ...a,
-    ...b,
-    entries: [...a.entries, ...b.entries]
-  }),
+// They schema keys are used as keys in the redux store and to generate action
+// names, so thats why those are always the pluralized versions
+
+const master = new schema.Entity('masters');
+const entry = new schema.Entity('entries');
+
+const user = new schema.Entity('users', {entries: [entry]}, {
   processStrategy: (value, parent, key) => {
     switch (key) {
-    case 'entries':
+    case 'user':
       return {...value, entries: [parent.id]};
     default:
       return {...value};
@@ -16,10 +17,11 @@ const users = new schema.Entity('users', {}, {
   }
 });
 
-const entries = new schema.Entity('entries', {user: users});
+// Users and entries have a circular relationship, so we have to define one
+// of those after creating the schemas. A user has many entries and an entry
+// has one user
+entry.define({user});
 
-const masters = new schema.Entity('masters');
-
-export {users as users};
-export {entries as entries};
-export {masters as masters};
+export {user as user};
+export {entry as entry};
+export {master as master};

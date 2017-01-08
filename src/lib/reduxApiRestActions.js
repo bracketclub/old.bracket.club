@@ -3,16 +3,11 @@ import {CALL_API, getJSON} from 'redux-api-middleware';
 import {normalize} from 'normalizr';
 import actionNames from 'action-names';
 
-const manipulateJSON = (manipulate) => (action, state, res) => getJSON(res).then(manipulate);
-
-const normalizePayload = (payloadSchema) => manipulateJSON((json) => normalize(
-  json,
-  Array.isArray(json) ? [payloadSchema] : payloadSchema)
-);
-
 export default ({schema, url, cache} = {}) => {
   const resource = schema.key;
   const types = actionNames(resource);
+  // If the response is an array then normalize it using the array version of the schema
+  const payloadSchema = (data) => Array.isArray(data) ? [schema] : schema;
 
   return (params, {refresh = false} = {}) => {
     const id = params;
@@ -30,7 +25,7 @@ export default ({schema, url, cache} = {}) => {
           },
           {
             type: types.fetchSuccess,
-            payload: normalizePayload(schema),
+            payload: (acton, state, res) => getJSON(res).then((json) => normalize(json, payloadSchema(json))),
             meta: () => ({id, resource, refresh})
           },
           {
