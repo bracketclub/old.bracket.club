@@ -1,10 +1,14 @@
+import {RECORDS, RESULT} from './endpointReducer';
+
 export default (key, selector, parseId = null) => (state, id) => {
   const eventId = (id && parseId) ? parseId(id) : id;
-  const {result} = state[key].records[id] || {};
+  const {[RESULT]: result} = state[key][RECORDS][id] || {};
 
-  if (!result || !eventId) return false;
+  if (!result) return false;
 
   // Bailout on the request if the cache time is before right now
   const cache = selector(state, {params: {eventId}});
-  return new Date(cache).getTime() <= Date.now();
+  const times = (Array.isArray(cache) ? cache : [cache]).map((t) => new Date(t).getTime());
+
+  return Math.max(...times) <= Date.now();
 };

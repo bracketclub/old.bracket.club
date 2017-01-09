@@ -1,26 +1,30 @@
 import {pick} from 'lodash';
 
+import {SYNC_STATE, RECORDS, RESULT, ENTITIES} from 'lib/endpointReducer';
+
+const syncKeys = Object.keys(SYNC_STATE);
+
 const getSlice = (slice, key) => (...args) => {
-  const {records = {}, entities = {}} = slice(...args) || {};
+  const selected = slice(...args) || {};
   return {
-    visibleSlice: records[key(...args)],
-    entities
+    visible: (selected[RECORDS] || {})[key(...args)],
+    all: selected[ENTITIES] || {}
   };
 };
 
-const visible = (defaultValue) => (slice, key) => (...args) => {
-  const {visibleSlice, entities} = getSlice(slice, key)(...args);
+const getVisible = (defaultValue) => (slice, key) => (...args) => {
+  const {visible, all} = getSlice(slice, key)(...args);
+  const result = visible && visible[RESULT];
 
-  if (!visibleSlice || !visibleSlice.result) return defaultValue;
+  if (!result) return defaultValue;
 
-  const {result} = visibleSlice;
-  return Array.isArray(result) ? result.map((id) => entities[id]) : entities[result];
+  return Array.isArray(result) ? result.map((id) => all[id]) : all[result];
 };
 
-export const byId = visible({});
-export const list = visible([]);
+export const byId = getVisible({});
+export const list = getVisible([]);
 
 export const sync = (slice, key) => (...args) => {
-  const {visibleSlice} = getSlice(slice, key)(...args);
-  return pick(visibleSlice || {}, 'syncing', 'refreshing', 'fetchError');
+  const {visible} = getSlice(slice, key)(...args);
+  return pick(visible || {}, ...syncKeys);
 };
