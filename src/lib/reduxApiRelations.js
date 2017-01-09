@@ -1,6 +1,8 @@
 import actionNames from 'action-names';
 import {without} from 'lodash';
 
+import {ENTITIES} from './endpointReducer';
+
 export default ({dispatch}) => (next) => (action) => {
   // The next action is run first because any related resources should
   // be dispatched after the main resource
@@ -8,7 +10,7 @@ export default ({dispatch}) => (next) => (action) => {
   next(action);
 
   const {meta = {}, payload = {}} = action;
-  const {entities} = payload || {};
+  const {[ENTITIES]: entities} = payload || {};
   const {resource} = meta || {};
 
   if (entities && resource) {
@@ -16,7 +18,7 @@ export default ({dispatch}) => (next) => (action) => {
       dispatch({
         type: actionNames(resourceType).fetchSuccess,
         payload: {
-          entities: {
+          [ENTITIES]: {
             [resourceType]: entities[resourceType]
           }
         }
