@@ -1,6 +1,14 @@
+import {SYNC_STATE} from './endpointReducer';
+
+const syncKeys = Object.keys(SYNC_STATE);
+
 export default (...selectors) => (...args) => selectors.reduce((res, selector) => {
-  const state = (typeof selector.sync === 'function' ? selector.sync : selector)(...args);
-  res.syncing = res.syncing || (state ? state.syncing : false);
-  res.fetchError = res.fetchError || (state ? state.fetchError : false);
+  const syncSelector = typeof selector.sync === 'function' ? selector.sync : selector;
+  const state = syncSelector(...args);
+
+  syncKeys.forEach((key) => {
+    res[key] = res[key] || (state ? state[key] : SYNC_STATE[key]);
+  });
+
   return res;
-}, {syncing: false, fetchError: null});
+}, {...SYNC_STATE});

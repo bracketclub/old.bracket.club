@@ -10,8 +10,7 @@ const ENDPOINT = 'users';
 export const fetch = restActions({
   schema,
   url: `${config.apiUrl}/${ENDPOINT}`,
-  // TODO: users should cache if there are not current open contests
-  cache: cache('users', bracketSelectors.locks, (id) => id.split('/')[1])
+  cache: cache('users', bracketSelectors.allLocks, (id) => id.split('/')[1])
 });
 
 export const sse = (params) => (dispatch) => {

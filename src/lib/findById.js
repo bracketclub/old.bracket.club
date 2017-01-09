@@ -1,7 +1,7 @@
-export default (records, val, key = 'id') => {
-  if (!records || !val) return null;
+export default (arr, val, key = 'id') => {
+  if (!arr || !val) return null;
 
-  return Array.isArray(records)
-    ? records.find((r) => r[key].toString() === val.toString())
-    : (records[val] || null);
+  return Array.isArray(arr)
+    ? arr.find((r) => r[key].toString() === val.toString())
+    : (arr[val] || null);
 };
