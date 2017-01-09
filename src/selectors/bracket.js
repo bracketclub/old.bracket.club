@@ -1,3 +1,5 @@
+/* global __EVENTS__ */
+
 import {createSelector} from 'reselect';
 
 import bh from 'lib/bracket';
@@ -12,6 +14,12 @@ export const locks = createSelector(
   helpers,
   (o) => o.locks
 );
+
+export const allLocks = () => __EVENTS__
+  .map((e) => {
+    const [sport, year] = e.split('-');
+    return bh({sport, year}).locks;
+  });
 
 export const completeDate = createSelector(
   helpers,

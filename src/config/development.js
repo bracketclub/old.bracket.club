@@ -1,5 +1,5 @@
 export default {
   apiUrl: 'http://localhost:3001',
-  sse: true,
+  sse: false,
   localStorage: 'tyb'
 };
