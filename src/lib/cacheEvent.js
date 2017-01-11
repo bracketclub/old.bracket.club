@@ -9,6 +9,7 @@ export default (key, selector, parseId = null) => (state, id) => {
   // Bailout on the request if the cache time is before right now
   const cache = selector(state, {params: {eventId}});
   const times = (Array.isArray(cache) ? cache : [cache]).map((t) => new Date(t).getTime());
+  const now = Date.now();
 
-  return Math.max(...times) <= Date.now();
+  return Math.max(...times) <= now;
 };

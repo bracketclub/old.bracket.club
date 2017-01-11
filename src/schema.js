@@ -4,6 +4,7 @@ import {schema} from 'normalizr';
 // names, so thats why those are always the pluralized versions
 
 const master = new schema.Entity('masters');
+
 const entry = new schema.Entity('entries');
 
 const user = new schema.Entity('users', {entries: [entry]}, {

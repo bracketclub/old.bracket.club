@@ -15,11 +15,10 @@ const recordsReducerFor = (resourceType) => {
 
   return (state = {}, action) => {
     const updateState = (newState) => {
-      const {id, cid} = action.meta || {};
+      const {id} = action.meta || {};
       const updatedState = {...state};
 
       if (id) updatedState[id] = {...defaultRecordState, ...state[id], ...newState};
-      if (cid) updatedState[cid] = {...defaultRecordState, ...state[cid], ...newState};
 
       return updatedState;
     };
