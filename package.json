@@ -71,6 +71,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.16.0",
+    "bluebird": "^3.4.7",
     "cpr": "^2.0.2",
     "css-loader": "^0.26.1",
     "cssnano": "^3.10.0",
@@ -90,6 +91,7 @@
     "json-loader": "^0.5.4",
     "less": "^2.7.2",
     "less-loader": "^2.2.3",
+    "mockdate": "^2.0.1",
     "nock": "^9.0.2",
     "on-build-webpack": "^0.1.0",
     "postcss-loader": "^1.2.1",
@@ -136,7 +138,7 @@
     "pr": "open 'https://bitbucket.org/lukekarrys/tweetyourbracket.com/pull-requests/new'",
     "prebuild": "rm -rf build && mkdir build",
     "start": "hjs-dev-server",
-    "test": "jest --config jest/config.json __tests__/*",
+    "test": "jest --config jest/config.json --testPathPattern __tests__/*",
     "test:watch": "npm test -- --watch",
     "validate": "npm ls >/dev/null"
   }
