@@ -138,7 +138,7 @@
     "pr": "open 'https://bitbucket.org/lukekarrys/tweetyourbracket.com/pull-requests/new'",
     "prebuild": "rm -rf build && mkdir build",
     "start": "hjs-dev-server",
-    "test": "jest --config jest/config.json --testPathPattern __tests__/*",
+    "test": "jest --config jest/config.json --testPathPattern __tests__/[a-z].*",
     "test:watch": "npm test -- --watch",
     "validate": "npm ls >/dev/null"
   }
