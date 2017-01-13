@@ -18,7 +18,7 @@ export default ({schema, url, cache} = {}) => {
   const types = actionNames(resource);
 
   return (id, {refresh = false} = {}) => {
-    const meta = () => ({id, resource, refresh});
+    const meta = () => ({id, resource, refresh, schema});
 
     return (dispatch) => dispatch({
       [CALL_API]: {
