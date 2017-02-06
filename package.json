@@ -1,6 +1,6 @@
 {
-  "name": "tyb",
-  "description": "Tweet. Your. Bracket.",
+  "name": "bracket.club",
+  "description": "The website for bracket.club.",
   "version": "3.1.0",
   "author": {
     "name": "Luke Karrys",
@@ -8,7 +8,7 @@
     "url": "http://lukekarrys.com"
   },
   "bugs": {
-    "url": "https://bitbucket.org/lukekarrys/tweetyourbracket.com/issues"
+    "url": "https://bitbucket.org/lukekarrys/bracket.club/issues"
   },
   "dependencies": {
     "action-names": "^0.4.0",
@@ -107,11 +107,12 @@
     "node": "^6.0.0",
     "npm": "^3.8.7"
   },
-  "homepage": "http://tweetyourbracket.com",
+  "homepage": "https://bracket.club",
   "keywords": [
     "bracket",
     "ncaa",
-    "tweetyourbracket"
+    "tweetyourbracket",
+    "bracketclub"
   ],
   "license": "UNLICENSED",
   "main": "server.js",
@@ -123,19 +124,19 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git://bitbucket.org/lukekarrys/tweetyourbracket.com.git"
+    "url": "git://bitbucket.org/lukekarrys/bracket.club.git"
   },
   "scripts": {
     "build": "NODE_ENV=production webpack --progress --bail",
     "build-prod": "CONFIG_ENV=live npm run build",
     "build-static": "CONFIG_ENV=static npm run build",
     "codeship-deploy": "npm run firebase -- deploy --project project-5935142175033376097",
-    "codeship-deploy-beta": "surge --project build/ --domain beta.tweetyourbracket.com",
+    "codeship-deploy-beta": "surge --project build/ --domain beta.bracket.club",
     "codeship-setup": "npm install && npm run build-prod",
     "codeship-test": "npm test && npm run lint",
     "firebase": "firebase",
     "lint": "eslint --ignore-path .gitignore .",
-    "pr": "open 'https://bitbucket.org/lukekarrys/tweetyourbracket.com/pull-requests/new'",
+    "pr": "open 'https://bitbucket.org/lukekarrys/bracket.club/pull-requests/new'",
     "prebuild": "rm -rf build && mkdir build",
     "start": "hjs-dev-server",
     "test": "jest --config jest/config.json --testPathPattern __tests__/[a-z].*",

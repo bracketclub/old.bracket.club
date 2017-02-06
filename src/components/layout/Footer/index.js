@@ -13,7 +13,7 @@ export default class Footer extends Component {
         <ul styleName='footer-links'>
           <li><a target='_blank' href='https://twitter.com/tweetthebracket'>Twitter</a></li>
           <li styleName='muted'>{charCodes.dot}</li>
-          <li><a target='_blank' href='https://github.com/tweetyourbracket'>GitHub</a></li>
+          <li><a target='_blank' href='https://github.com/bracketclub'>GitHub</a></li>
           {!locked && <li styleName='muted'>{charCodes.dot}</li>}
           {!locked && <li><a target='_blank' href={`/${event.id}/zen`}>Zen/Baby Mode</a></li>}
         </ul>

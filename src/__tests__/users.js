@@ -3,7 +3,7 @@
 
 import nock from 'nock';
 import MockDate from 'mockdate';
-import {transform, uniq} from 'lodash';
+import {transform, without} from 'lodash';
 
 import {fetch as usersFetch} from '../actions/users';
 
@@ -39,7 +39,11 @@ describe('users have correct state after actions', () => {
     const assertState = (state) => {
       expect(state.users).toEqual({
         records: {
-          [user]: {...F.record, result: user}
+          [user]: {...F.record, result: user},
+          ...transform(resp.entries, (res, entry) => {
+            res[`${user}/${entry.sport}-${entry.year}`] = {...F.record, result: user};
+            return res;
+          }, {})
         },
         entities: {
           [user]: {...resp, entries: resp.entries.map(({id}) => id)}
@@ -79,16 +83,18 @@ describe('users have correct state after actions', () => {
     const user = '332423991';
     const event = 'ncaam-2013';
     const userResp = F.users[user].user;
-    const userEntryResp = F.users[user][event];
     const userEntry = `${user}/${event}`;
 
     const mockUserRequest = () => mockApi(`/users/${user}`, userResp);
-    const mockUserEntryRequest = () => mockApi(`/users/${userEntry}`, userEntryResp);
 
     const assertUserState = (state) => {
       expect(state.users).toEqual({
         records: {
-          [user]: {...F.record, result: user}
+          [user]: {...F.record, result: user},
+          ...transform(userResp.entries, (res, entry) => {
+            res[`${user}/${entry.sport}-${entry.year}`] = {...F.record, result: user};
+            return res;
+          }, {})
         },
         entities: {
           [user]: {...userResp, entries: userResp.entries.map(({id}) => id)}
@@ -103,29 +109,10 @@ describe('users have correct state after actions', () => {
       });
     };
 
-    const assertUserEntryState = (state) => {
-      expect(state.users).toEqual({
-        records: {
-          [user]: {...F.record, result: user},
-          [`${user}/${event}`]: {...F.record, result: user}
-        },
-        entities: {
-          [user]: {...userEntryResp, entries: userResp.entries.map(({id}) => id)}
-        }
-      });
-      expect(state.entries).toEqual({
-        records: {},
-        entities: transform(userResp.entries, (res, entry) => {
-          res[entry.id] = {...entry, user};
-          return res;
-        }, {})
-      });
-    };
-
     const dispatchUser = () => store.dispatch(usersFetch(user));
     const dispatchUserEntry = () => store.dispatch(usersFetch(userEntry));
 
-    // Eventually this test should be able to remove the second mock, because
+    // This test should be able to not mock the user entry request, because
     // going from the user profile page to a specifc user entry will already
     // have all the data it needs to display that entry
     const actions = [
@@ -133,14 +120,10 @@ describe('users have correct state after actions', () => {
         mockUserRequest();
         return dispatchUser();
       },
-      () => {
-        // TODO: write code so that this mock can be removed
-        mockUserEntryRequest();
-        return dispatchUserEntry();
-      }
+      () => dispatchUserEntry()
     ];
 
-    return invokeSeries(actions).then(assertEach(assertUserState, assertUserEntryState));
+    return invokeSeries(actions).then(assertEach(assertUserState));
   });
 
   it('user entry -> user profile', () => {
@@ -148,6 +131,7 @@ describe('users have correct state after actions', () => {
     const event = 'ncaam-2013';
     const userResp = F.users[user].user;
     const userEntryResp = F.users[user][event];
+    const userEntryId = userEntryResp.entries[0].id;
     const userEntry = `${user}/${event}`;
 
     const mockUserRequest = () => mockApi(`/users/${user}`, userResp);
@@ -159,7 +143,7 @@ describe('users have correct state after actions', () => {
           [`${user}/${event}`]: {...F.record, result: user}
         },
         entities: {
-          [user]: {...userEntryResp, entries: [userEntryResp.entries[0].id]}
+          [user]: {...userEntryResp, entries: [userEntryId]}
         }
       });
       expect(state.entries).toEqual({
@@ -175,10 +159,16 @@ describe('users have correct state after actions', () => {
       expect(state.users).toEqual({
         records: {
           [user]: {...F.record, result: user},
-          [`${user}/${event}`]: {...F.record, result: user}
+          ...transform(userResp.entries, (res, entry) => {
+            res[`${user}/${entry.sport}-${entry.year}`] = {...F.record, result: user};
+            return res;
+          }, {})
         },
         entities: {
-          [user]: {...userResp, entries: uniq([userEntryResp.entries[0].id, ...userResp.entries.map(({id}) => id)])}
+          [user]: {
+            ...userResp,
+            entries: [userEntryId, ...without(userResp.entries.map(({id}) => id), userEntryId)]
+          }
         }
       });
       expect(state.entries).toEqual({
