@@ -1,3 +1,4 @@
+import config from 'config';
 import React, {Component} from 'react';
 import {Col, Form, FormGroup, FormControl, Button, PageHeader} from 'react-bootstrap';
 
@@ -8,9 +9,9 @@ export default class SubscribePage extends Component {
     return (
       <Page>
         <PageHeader>Subscribe</PageHeader>
-        <Form horizontal target='_blank' action='http://tweetyourbracket.us5.list-manage.com/subscribe/post' method='POST'>
-          <input type='hidden' name='u' value='3357cbc15c95f163a6fff3a84' />
-          <input type='hidden' name='id' value='2259ac644a' />
+        <Form horizontal target='_blank' action={config.mailchimp.url} method='POST'>
+          <input type='hidden' name='u' value={config.mailchimp.u} />
+          <input type='hidden' name='id' value={config.mailchimp.id} />
           <FormGroup>
             <Col xs={12}>
               <h3 className='text-center'>
