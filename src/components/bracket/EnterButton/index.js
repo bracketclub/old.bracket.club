@@ -30,7 +30,7 @@ export default class BracketEnterButton extends Component {
         <p>You'll be taken to <strong>twitter.com</strong> to tweet your bracket!</p>
         {!mocked &&
           <Alert bsStyle='info'>
-            Don't alter the <strong>url</strong> or <strong>#{config.tweetTag} hashtag</strong> of the tweet.
+            Don't alter the <strong>url</strong> or <strong>#{config.twitter.hashtag} hashtag</strong> of the tweet.
             {' '}
             Those are used to verify your entry.
           </Alert>
