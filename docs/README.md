@@ -6,7 +6,7 @@ This is mostly written for myself since I work on the project once a year for ab
 
 ### Fetching API Data
 
-During the "off-season" the site has no need for a real API since data won't change until the next year. After the end of each year, we switch the `built` npm run-script to add `CONFIG_ENV=static`. We can also go over the to [`api`](https://github.com/tweetyourbracket/api) and run `NODE_ENV=production npm run export` and it will export all the data to this repo.
+During the "off-season" the site has no need for a real API since data won't change until the next year. After the end of each year, we switch the `built` npm run-script to add `CONFIG_ENV=static`. We can also go over the to [`api`](https://github.com/bracketclub/api) and run `NODE_ENV=production npm run export` and it will export all the data to this repo.
 
 This will make the site build with the static data and request it from the local domain instead of the api. When it comes time to launch the site again each March, we set `CONFIG_ENV=production` again and go follow the instructions over at the `api` repo to deploy the whole thing on Digital Ocean (or something similar).
 

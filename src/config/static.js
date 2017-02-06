@@ -1,6 +1,8 @@
+import base from './base';
+
 export default {
+  ...base,
   apiUrl: '/json',
   sse: false,
-  'static': true,
-  localStorage: 'tyb'
+  'static': true
 };

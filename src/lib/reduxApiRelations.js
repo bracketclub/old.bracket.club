@@ -3,22 +3,6 @@ import {without} from 'lodash';
 
 import {ENTITIES, RESULT} from './endpointReducer';
 
-const findRelationSchema = (schema, key) => {
-  const schemas = schema.schema;
-  const keys = Object.keys(schemas);
-
-  for (let i = 0, m = keys.length; i <= m; i++) {
-    const relSchema = schemas[keys[i]];
-    const relSchemaObject = Array.isArray(relSchema) ? relSchema[0] : relSchema;
-
-    if (relSchemaObject.key === key) {
-      return relSchema;
-    }
-  }
-
-  return null;
-};
-
 export default ({dispatch}) => (next) => (action) => {
   // The next action is run first because any related resources should
   // be dispatched after the main resource
@@ -35,34 +19,32 @@ export default ({dispatch}) => (next) => (action) => {
     relations.forEach((relation) => {
       const relatedEntities = entities[relation];
       const success = actionNames(relation).fetchSuccess;
-      const relationSchema = findRelationSchema(schema, relation);
 
       // Dispatch the related entities to the reducer
       dispatch({
         type: success,
         payload: {
-          [ENTITIES]: {[relation]: relatedEntities},
-          [RESULT]: {}
+          [ENTITIES]: {[relation]: relatedEntities}
         }
       });
 
-      // Of all the related entities, dispatch a result for each one so that
-      // the records reducer can be populated to know that this data is loaded
-      // for other possible pages. Currently this is done by determining if the
-      // relation schema is an object and not an array
-      if (relationSchema && !Array.isArray(relationSchema)) {
-        Object.keys(relatedEntities).forEach((id) => {
+      // The schema can define how to determine related records
+      // The entities are determined by normalizr (above), but there are cases where
+      // the records needs to be updated as well to show things like when a
+      // user is fetched, the store now has the records for each individual user/entry combo
+      // const relationSchema = findRelationSchema(schema, relation);
+      // const findRecords = schema.relatedRecords || (relationSchema && relationSchema.relatedRecords);
+      const records = schema.relatedRecords && schema.relatedRecords({
+        meta,
+        entities: relatedEntities
+      });
+
+      if (records) {
+        records.forEach((record) => {
           dispatch({
-            type: success,
-            meta: {
-              ...meta,
-              resource: relation,
-              id: `${id}/${meta.id}`
-            },
-            payload: {
-              [ENTITIES]: {},
-              [RESULT]: id
-            }
+            type: actionNames(record.resource).fetchSuccess,
+            payload: {[RESULT]: record.result},
+            meta: {id: record.id}
           });
         });
       }

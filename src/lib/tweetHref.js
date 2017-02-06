@@ -1,13 +1,14 @@
+import config from 'config';
 import qs from 'query-string';
 
 export default ({event, bracket}) => {
   const tweetQs = qs.stringify({
     text: 'I tweeted my #marchmadness bracket!',
-    url: `http://tweetyourbracket.com/${event.id}/entry/${bracket}`,
-    hashtags: 'tybrkt',
+    url: `https://${config.baseUrl}/${event.id}/entry/${bracket}`,
+    hashtags: config.tweetTag,
     lang: 'en',
-    related: 'tweetthebracket',
-    via: 'tweetthebracket',
+    related: config.twitterHandle,
+    via: config.twitterHandle,
     count: 'none'
   });
 
