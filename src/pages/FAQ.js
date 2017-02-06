@@ -12,7 +12,7 @@ export default class FAQ extends Component {
         <PageHeader>Frequently Asked Questions </PageHeader>
 
         <h4>What is this?</h4>
-        <p>Tweet Your Bracket allows you to enter your NCAA Tournament picks using only your Twitter account. Compete against all of Twitter with just a tweet.</p>
+        <p>Bracket Club allows you to enter your NCAA Tournament picks using only your Twitter account. Compete against all of Twitter with just a tweet.</p>
         <p><em>/end-elevatorpitch</em> For reals though, I love brackets so I built a bracket challenge site so I could add all the features I've ever wanted. If you also love (or even just like) brackets, you'll probably have a good time here.</p>
 
         <hr />
@@ -39,7 +39,7 @@ export default class FAQ extends Component {
         <hr />
 
         <h4>Can I delete my entry?</h4>
-        <p>That's not yet possible from the site, but if you <a target='_blank' href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Tweet Your Bracket'})}`}>drop me a line</a> I'll be more than happy to remove it from the database.</p>
+        <p>That's not yet possible from the site, but if you <a target='_blank' href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Bracket Club'})}`}>drop me a line</a> I'll be more than happy to remove it from the database.</p>
 
         <hr />
 
@@ -51,7 +51,7 @@ export default class FAQ extends Component {
         <hr />
 
         <h4>Who made this?</h4>
-        <p>Hey, thanks for asking! I'm <a target='_blank' href='http://lukekarrys.com/'>Luke</a>. I've always been into code and brackets, so I was bound to make something like this eventually. A bunch of it is open source, so if you're into that sort of thing, you can <a target='_blank' href='https://github.com/tweetyourbracket'>check it out on GitHub</a>. You can get in touch <a target='_blank' href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Tweet Your Bracket FAQ'})}`}>via email</a> if there's something bracket related you want to chat about.</p>
+        <p>Hey, thanks for asking! I'm <a target='_blank' href='http://lukekarrys.com/'>Luke</a>. I've always been into code and brackets, so I was bound to make something like this eventually. A bunch of it is open source, so if you're into that sort of thing, you can <a target='_blank' href='https://github.com/bracketclub'>check it out on GitHub</a>. You can get in touch <a target='_blank' href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Bracket Club FAQ'})}`}>via email</a> if there's something bracket related you want to chat about.</p>
 
         <hr />
 

@@ -74,8 +74,8 @@ export default class Header extends Component {
         <NavbarHeader>
           <NavbarBrand>
             <Link to={`/${event.id}`}>
-              <span className='hidden-xs'>tweetyourbracket</span>
-              <span className='visible-xs-block'>tyb</span>
+              <span className='hidden-xs'>bracketclub</span>
+              <span className='visible-xs-block'>BC</span>
             </Link>
           </NavbarBrand>
           <Nav className='year-nav'>
