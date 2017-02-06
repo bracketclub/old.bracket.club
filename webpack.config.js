@@ -25,12 +25,12 @@ const renderHTML = (context) => html[isDev ? 'unindent' : 'minify']`
   <!DOCTYPE html>
   <html>
   <head>
-    <title>Tweet Your Bracket</title>
+    <title>Bracket Club</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="TYB">
+    <meta name="apple-mobile-web-app-title" content="Brackt Club">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="icon" href="/favicon.png">
     <link rel="icon" sizes="192x192" href="/favicon-192x192.png">

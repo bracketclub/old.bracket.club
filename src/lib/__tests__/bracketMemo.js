@@ -1,6 +1,7 @@
+/* eslint-env jest */
+
 import _ from 'lodash';
-import test from 'tape';
-import bracket from '../src/lib/bracket';
+import bracket from '../bracket';
 
 const sport = 'ncaam';
 const years = ['2012', '2013', '2014', '2015'];
@@ -15,7 +16,7 @@ const bracketsByYear = (bracketYears) => bracketYears.map((year) => bracket({spo
 // Prime the memoization cache
 bracketsByYear(years);
 
-test('Initial teams are correct', (t) => {
+it('Initial teams are correct', () => {
   const brackets = bracketsByYear(years);
 
   const teams = _.chain(brackets).map('bracket').map((b) =>
@@ -27,13 +28,11 @@ test('Initial teams are correct', (t) => {
     return firstTeam.fromRegion + firstTeam.seed + firstTeam.name;
   }).value();
 
-  t.equal(validated.join(' '), 'S1Kentucky MW1Louisville S1Florida MW1Kentucky');
-  t.equal(teams.join(' '), 'Kentucky Louisville Florida Kentucky');
-
-  t.end();
+  expect(validated.join(' ')).toBe('S1Kentucky MW1Louisville S1Florida MW1Kentucky');
+  expect(teams.join(' ')).toBe('Kentucky Louisville Florida Kentucky');
 });
 
-test('Initial teams are correct', (t) => {
+it('Initial teams are correct', () => {
   const _winner = (f, b, index) => b.validate(f[index]).regionFinal.rounds[2][0];
   const winner = _.partial(_winner, finals);
   const winnerBackward = _.partial(_winner, finals.slice(0).reverse());
@@ -41,8 +40,6 @@ test('Initial teams are correct', (t) => {
   const teams = _.chain(bracketsByYear(['2012', '2013', '2014'])).map(winner).value();
   const teams2 = _.chain(bracketsByYear(['2014', '2013', '2012'])).map(winnerBackward).value();
 
-  t.equal(_.map(teams, 'name').join(' '), 'Kentucky Louisville UConn');
-  t.equal(_.map(teams2, 'name').join(' '), 'UConn Louisville Kentucky');
-
-  t.end();
+  expect(_.map(teams, 'name').join(' ')).toBe('Kentucky Louisville UConn');
+  expect(_.map(teams2, 'name').join(' ')).toBe('UConn Louisville Kentucky');
 });

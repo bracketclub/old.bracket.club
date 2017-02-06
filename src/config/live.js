@@ -1,5 +1,6 @@
+import base from './base';
+
 export default {
-  apiUrl: 'https://tyb-api.now.sh',
-  sse: true,
-  localStorage: 'tyb'
+  ...base,
+  apiUrl: 'https://bc-api.now.sh'
 };

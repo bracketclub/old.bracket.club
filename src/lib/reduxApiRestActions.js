@@ -7,7 +7,9 @@ import {ENTITIES, RESULT} from 'lib/endpointReducer';
 // Remap entities and result here since those keys are controlled by the constants
 // in the endpoint reducer
 const normalize = (schema) => (acton, state, res) => getJSON(res).then((json) => {
-  const {entities, result} = baseNormalize(json, schema(json));
+  // If the response is an array then normalize it using the array version of the schema
+  schema = Array.isArray(json) ? [schema] : schema;
+  const {entities, result} = baseNormalize(json, schema);
   return {[ENTITIES]: entities, [RESULT]: result};
 });
 
@@ -15,31 +17,29 @@ export default ({schema, url, cache} = {}) => {
   const resource = schema.key;
   const types = actionNames(resource);
 
-  // If the response is an array then normalize it using the array version of the schema
-  const payloadSchema = (data) => Array.isArray(data) ? [schema] : schema;
+  return (id, {refresh = false} = {}) => {
+    const meta = () => ({id, resource, refresh, schema});
 
-  return (params, {refresh = false} = {}) => {
-    const id = params;
     return (dispatch) => dispatch({
       [CALL_API]: {
         method: 'GET',
-        endpoint: `${url}/${params}${config.static ? '.json' : ''}`,
+        endpoint: `${url}/${id}${config.static ? '.json' : ''}`,
         headers: {
           'Content-Type': 'application/json; charset=UTF-8'
         },
         types: [
           {
-            type: types.fetchStart,
-            meta: () => ({id, resource, refresh})
+            meta,
+            type: types.fetchStart
           },
           {
+            meta,
             type: types.fetchSuccess,
-            payload: normalize(payloadSchema),
-            meta: () => ({id, resource, refresh})
+            payload: normalize(schema)
           },
           {
-            type: types.fetchError,
-            meta: () => ({id, resource, refresh})
+            meta,
+            type: types.fetchError
           }
         ],
         bailout: (state) => typeof cache === 'function' ? cache(state, id) : cache

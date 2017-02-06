@@ -1,6 +1,6 @@
 {
-  "name": "tyb",
-  "description": "Tweet. Your. Bracket.",
+  "name": "bracket.club",
+  "description": "The website for bracket.club.",
   "version": "3.1.0",
   "author": {
     "name": "Luke Karrys",
@@ -8,14 +8,14 @@
     "url": "http://lukekarrys.com"
   },
   "bugs": {
-    "url": "https://bitbucket.org/lukekarrys/tweetyourbracket.com/issues"
+    "url": "https://bitbucket.org/lukekarrys/bracket.club/issues"
   },
   "dependencies": {
     "action-names": "^0.4.0",
     "bootstrap": "^3.3.7",
     "bootswatch": "^3.3.7",
     "bows": "^1.6.0",
-    "bracket-data": "^4.4.0",
+    "bracket-data": "^4.4.1",
     "bracket-generator": "^3.1.0",
     "bracket-possibilities": "^1.3.0",
     "bracket-scorer": "^3.4.1",
@@ -59,6 +59,7 @@
     "autoprefixer": "^6.6.1",
     "babel-core": "^6.21.0",
     "babel-eslint": "^7.1.1",
+    "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.10",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-lodash": "^3.2.11",
@@ -70,7 +71,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.16.0",
-    "babel-tape-runner": "^2.0.1",
+    "bluebird": "^3.4.7",
     "cpr": "^2.0.2",
     "css-loader": "^0.26.1",
     "cssnano": "^3.10.0",
@@ -86,16 +87,17 @@
     "git-validate": "^2.2.2",
     "hjs-webpack": "^8.4.3",
     "html-tagged-literals": "^1.0.2",
+    "jest": "^18.1.0",
     "json-loader": "^0.5.4",
     "less": "^2.7.2",
     "less-loader": "^2.2.3",
+    "mockdate": "^2.0.1",
+    "nock": "^9.0.2",
     "on-build-webpack": "^0.1.0",
     "postcss-loader": "^1.2.1",
     "rimraf": "^2.5.4",
     "style-loader": "^0.13.1",
     "surge": "^0.18.0",
-    "tap-spec": "^4.1.1",
-    "tape": "^4.6.3",
     "url-loader": "^0.5.7",
     "val-loader": "^0.5.0",
     "webpack": "^1.14.0",
@@ -105,11 +107,12 @@
     "node": "^6.0.0",
     "npm": "^3.8.7"
   },
-  "homepage": "http://tweetyourbracket.com",
+  "homepage": "https://bracket.club",
   "keywords": [
     "bracket",
     "ncaa",
-    "tweetyourbracket"
+    "tweetyourbracket",
+    "bracketclub"
   ],
   "license": "UNLICENSED",
   "main": "server.js",
@@ -121,22 +124,23 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git://bitbucket.org/lukekarrys/tweetyourbracket.com.git"
+    "url": "git://bitbucket.org/lukekarrys/bracket.club.git"
   },
   "scripts": {
     "build": "NODE_ENV=production webpack --progress --bail",
     "build-prod": "CONFIG_ENV=live npm run build",
     "build-static": "CONFIG_ENV=static npm run build",
     "codeship-deploy": "npm run firebase -- deploy --project project-5935142175033376097",
-    "codeship-deploy-beta": "surge --project build/ --domain beta.tweetyourbracket.com",
+    "codeship-deploy-beta": "surge --project build/ --domain beta.bracket.club",
     "codeship-setup": "npm install && npm run build-prod",
     "codeship-test": "npm test && npm run lint",
     "firebase": "firebase",
     "lint": "eslint --ignore-path .gitignore .",
-    "pr": "open 'https://bitbucket.org/lukekarrys/tweetyourbracket.com/pull-requests/new'",
+    "pr": "open 'https://bitbucket.org/lukekarrys/bracket.club/pull-requests/new'",
     "prebuild": "rm -rf build && mkdir build",
     "start": "hjs-dev-server",
-    "test": "babel-tape-runner test/*.js | tap-spec",
+    "test": "jest --config jest/config.json --testPathPattern __tests__/[a-z].*",
+    "test:watch": "npm test -- --watch",
     "validate": "npm ls >/dev/null"
   }
 }
