@@ -5,10 +5,10 @@ export default ({event, bracket}) => {
   const tweetQs = qs.stringify({
     text: 'I tweeted my #marchmadness bracket!',
     url: `https://${config.baseUrl}/${event.id}/entry/${bracket}`,
-    hashtags: config.tweetTag,
+    hashtags: config.twitter.hashtag,
     lang: 'en',
-    related: config.twitterHandle,
-    via: config.twitterHandle,
+    related: config.twitter.handle,
+    via: config.handle,
     count: 'none'
   });
 
