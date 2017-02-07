@@ -8,7 +8,7 @@ export default ({event, bracket}) => {
     hashtags: config.twitter.hashtag,
     lang: 'en',
     related: config.twitter.handle,
-    via: config.handle,
+    via: config.twitter.handle,
     count: 'none'
   });
 
