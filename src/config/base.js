@@ -3,7 +3,6 @@ export default {
   'static': false,
   localStorage: 'bracketclub',
   baseUrl: 'bracket.club',
-  twitterHandle: 'tweetthebracket',
   twitter: {
     handle: 'tweetthebracket',
     hashtag: 'bracketclub'
