@@ -1,3 +1,4 @@
+import config from 'config';
 import React, {Component, PropTypes} from 'react';
 import {Alert} from 'react-bootstrap';
 import {Link} from 'react-router';
@@ -37,7 +38,7 @@ export default class MockMessage extends Component {
         <br className='visible-lg-block' />
         {' '}
         <strong>
-          <Link to='/subscribe'>Subscribe</Link> to email updates or follow <a target='_blank' href='https://twitter.com/tweetthebracket'>@tweetthebracket</a> on Twitter to be the first to know when entries are open.
+          <Link to='/subscribe'>Subscribe</Link> to email updates or follow <a target='_blank' href={`https://twitter.com/${config.twitter.handle}`}>@{config.twitter.handle}</a> on Twitter to be the first to know when entries are open.
         </strong>
       </Alert>
     );
