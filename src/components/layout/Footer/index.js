@@ -1,3 +1,4 @@
+import config from 'config';
 import React, {Component} from 'react';
 import CSSModules from 'react-css-modules';
 import charCodes from 'lib/charCodes';
@@ -11,7 +12,7 @@ export default class Footer extends Component {
     return (
       <footer styleName='footer'>
         <ul styleName='footer-links'>
-          <li><a target='_blank' href='https://twitter.com/tweetthebracket'>Twitter</a></li>
+          <li><a target='_blank' href={`https://twitter.com/${config.twitter.handle}`}>Twitter</a></li>
           <li styleName='muted'>{charCodes.dot}</li>
           <li><a target='_blank' href='https://github.com/bracketclub'>GitHub</a></li>
           {!locked && <li styleName='muted'>{charCodes.dot}</li>}
