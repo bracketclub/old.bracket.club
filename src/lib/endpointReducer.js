@@ -15,10 +15,19 @@ const recordsReducerFor = (resourceType) => {
 
   return (state = {}, action) => {
     const updateState = (newState) => {
-      const {id} = action.meta || {};
+      const {id, ids} = action.meta || {};
       const updatedState = {...state};
 
-      if (id) updatedState[id] = {...defaultRecordState, ...state[id], ...newState};
+      if (id) {
+        updatedState[id] = {...defaultRecordState, ...state[id], ...newState};
+      }
+
+      // If there is ids, its an array and all the records will be updated in one pass
+      if (ids) {
+        ids.forEach((eachId, index) => {
+          updatedState[eachId] = {...defaultRecordState, ...state[eachId], ...newState, [RESULT]: newState[RESULT][index]};
+        });
+      }
 
       return updatedState;
     };
