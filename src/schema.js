@@ -1,5 +1,5 @@
 import {schema} from 'normalizr';
-import {map} from 'lodash';
+import {size, reduce} from 'lodash';
 
 // They schema keys are used as keys in the redux store and to generate action
 // names, so thats why those are always the pluralized versions
@@ -19,17 +19,31 @@ const user = new schema.Entity('users', {entries: [entry]}, {
   }
 });
 
-entry.relatedRecords = ({meta, entities}) => map(entities, (u) => ({
-  id: `${u.id}/${meta.id}`,
-  result: u.id,
-  resource: 'users'
-}));
+entry.relatedRecords = ({meta, entities}) => {
+  if (!entities || !size(entities)) return null;
 
-user.relatedRecords = ({entities}) => map(entities, (e) => ({
-  id: `${e.user}/${e.sport}-${e.year}`,
-  result: e.user,
-  resource: 'users'
-}));
+  return {
+    resource: 'users',
+    ...reduce(entities, (acc, u) => {
+      acc.id.push(`${u.id}/${meta.id}`);
+      acc.result.push(u.id);
+      return acc;
+    }, {id: [], result: []})
+  };
+};
+
+user.relatedRecords = ({entities}) => {
+  if (!entities || !size(entities)) return null;
+
+  return {
+    resource: 'users',
+    ...reduce(entities, (acc, e) => {
+      acc.id.push(`${e.user}/${e.sport}-${e.year}`);
+      acc.result.push(e.user);
+      return acc;
+    }, {id: [], result: []})
+  };
+};
 
 // Users and entries have a circular relationship, so we have to define one
 // of those after creating the schemas. A user has many entries and an entry

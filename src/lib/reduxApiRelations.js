@@ -40,12 +40,10 @@ export default ({dispatch}) => (next) => (action) => {
       });
 
       if (records) {
-        records.forEach((record) => {
-          dispatch({
-            type: actionNames(record.resource).fetchSuccess,
-            payload: {[RESULT]: record.result},
-            meta: {id: record.id}
-          });
+        dispatch({
+          type: actionNames(records.resource).fetchSuccess,
+          payload: {[RESULT]: records.result},
+          meta: {ids: records.id}
         });
       }
     });
