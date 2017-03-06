@@ -63,6 +63,7 @@ export default (state = initialState, action) => {
       friends: null
     };
 
+  // TODO: is this even working???
   case localStorageTypes.INIT:
     return {
       ...state,

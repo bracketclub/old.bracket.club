@@ -4,7 +4,7 @@ export default {
   localStorage: 'bracketclub',
   baseUrl: 'bracket.club',
   twitter: {
-    handle: 'tweetthebracket',
+    handle: 'thebracketclub',
     hashtag: 'bracketclub'
   },
   mailchimp: {
