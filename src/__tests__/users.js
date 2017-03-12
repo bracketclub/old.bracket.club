@@ -63,6 +63,7 @@ describe('users have correct state after actions', () => {
     const actions = [
       // Mock the request before dispatching a request action
       () => {
+        MockDate.set('2017-01-01');
         mockRequest();
         return dispatch();
       },
