@@ -60,7 +60,7 @@ export default class BracketEnterButton extends Component {
           onClick={() => onEnter(bracket)}
           target='_blank'
         >
-          Tweet My Bracket!
+          Enter My Bracket!
         </Button>
       </OverlayTrigger>
     );

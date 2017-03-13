@@ -136,7 +136,7 @@
     "codeship-test": "npm test && npm run lint",
     "firebase": "firebase",
     "lint": "eslint --ignore-path .gitignore .",
-    "pr": "open 'https://bitbucket.org/lukekarrys/bracket.club/pull-requests/new'",
+    "pr": "open 'https://bitbucket.org/lukekarrys/bracket.club/pull-requests/new?source=master&t=1'",
     "prebuild": "rm -rf build && mkdir build",
     "start": "hjs-dev-server",
     "test": "jest --config jest/config.json --testPathPattern __tests__/[a-z].*",
