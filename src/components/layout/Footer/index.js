@@ -18,7 +18,7 @@ export default class Footer extends Component {
           <li styleName='muted'>{charCodes.dot}</li>
           <li><a target='_blank' href='https://github.com/bracketclub'>GitHub</a></li>
           {!locked && <li styleName='muted'>{charCodes.dot}</li>}
-          {!locked && <li><a target='_blank' href={`/${event.id}/zen`}>Zen/Baby Mode</a></li>}
+          {!locked && <li><a target='_blank' href={`/${event.id}/zen`}>Zen Mode</a></li>}
         </ul>
         <p styleName='twitter'>
           <a target='_blank' className='twitter-follow-button' href={`https://twitter.com/${twitter}`} data-show-count='false'>
