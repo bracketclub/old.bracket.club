@@ -20,6 +20,7 @@ describe('entries have correct state after actions', () => {
   let store;
 
   beforeEach(() => {
+    MockDate.reset();
     store = configureStore();
   });
 
@@ -70,9 +71,9 @@ describe('entries have correct state after actions', () => {
       },
       // Doesn't need to mock the request since it reads from the cache
       () => dispatch(),
-      // Forcing Date.now to return 0 will force this request to miss the cache
+      // Forcing Date.now to before the tourney will force this request to miss the cache
       () => {
-        MockDate.set(0);
+        MockDate.set('2013-03-19');
         mockRequest();
         return dispatch();
       }

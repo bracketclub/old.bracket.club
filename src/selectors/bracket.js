@@ -15,16 +15,17 @@ export const locks = createSelector(
   (o) => o.locks
 );
 
-export const allLocks = () => __EVENTS__
-  .map((e) => {
-    const [sport, year] = e.split('-');
-    return bh({sport, year}).locks;
-  });
-
 export const completeDate = createSelector(
   helpers,
   (o) => o.complete
 );
+
+export const allOpen = () => __EVENTS__
+  .map((e) => {
+    const [sport, year] = e.split('-');
+    const data = bh({sport, year});
+    return [data.locks, data.complete];
+  });
 
 export const diff = createSelector(
   helpers,
