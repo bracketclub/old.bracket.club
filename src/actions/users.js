@@ -10,7 +10,7 @@ const ENDPOINT = 'users';
 export const fetch = restActions({
   schema,
   url: `${config.apiUrl}/${ENDPOINT}`,
-  cache: cache('users', bracketSelectors.allLocks, (id) => id.split('/')[1])
+  cache: cache('users', bracketSelectors.allOpen, (id) => id.split('/')[1])
 });
 
 export const sse = (params) => (dispatch) => {
