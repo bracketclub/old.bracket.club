@@ -72,7 +72,7 @@ export default class ZenBracket extends Component {
             href={disabled ? null : tweetHref({event, bracket})}
           >
             <span styleName={disabled ? 'text-disabled' : 'text'}>
-              {disabled ? '' : 'Tweet it!'}
+              {disabled ? '' : 'Enter my Bracket!'}
             </span>
           </Button>
         </span>
