@@ -15,10 +15,11 @@ import {
   fixtures as F
 } from './_utils.js';
 
-describe.skip('users have correct state after actions', () => {
+describe('users have correct state after actions', () => {
   let store;
 
   beforeEach(() => {
+    MockDate.reset();
     store = configureStore();
   });
 
@@ -62,15 +63,17 @@ describe.skip('users have correct state after actions', () => {
 
     const actions = [
       // Mock the request before dispatching a request action
+      // Sets the date to after the june of 2017 when there should be no live tournaments
       () => {
+        MockDate.set('2017-06-30');
         mockRequest();
         return dispatch();
       },
       // Doesn't need to mock the request since it reads from the cache
       () => dispatch(),
-      // Forcing Date.now to return 0 will force this request to miss the cache
+      // Forcing Date.now to any time when a tourney is open will force this request to miss the cache
       () => {
-        MockDate.set(0);
+        MockDate.set('2017-03-21');
         mockRequest();
         return dispatch();
       }
