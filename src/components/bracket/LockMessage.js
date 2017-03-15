@@ -10,7 +10,8 @@ export default class LockMessage extends Component {
     event: PropTypes.object.isRequired,
     locks: PropTypes.string.isRequired,
     locked: PropTypes.bool.isRequired,
-    mocked: PropTypes.bool.isRequired
+    mocked: PropTypes.bool.isRequired,
+    user: PropTypes.object
   };
 
   constructor(props) {
@@ -22,10 +23,35 @@ export default class LockMessage extends Component {
     this.setState({visible: false});
   };
 
+  renderMessage() {
+    const {event, locks, user} = this.props;
+
+    if (user && user.isMe) {
+      return (
+        <span>
+          <strong>Want to edit your entry?</strong>
+          <br className='visible-lg-block' />
+          {' '}
+          Entries are still open for the <strong>{event.display} Bracket</strong> for <TimeAgo formatter={formatter} date={locks} />.
+          <br className='visible-lg-block' />
+          {' '}
+          Go to <Link to={`/${event.id}/${user.entry.bracket}`}>your entry page</Link> and enter your bracket again with any changes you want to make.
+        </span>
+      );
+    }
+
+    return (
+      <span>
+        Entries are still open for the <strong>{event.display} Bracket</strong> for <TimeAgo formatter={formatter} date={locks} />.
+        <br className='visible-lg-block' />
+        {' '}
+        Go to the <Link to={`/${event.id}`}>entry page</Link> to fill out your bracket before it's too late!
+      </span>
+    );
+  }
+
   render() {
     const {
-      event,
-      locks,
       locked,
       mocked
     } = this.props;
@@ -40,10 +66,7 @@ export default class LockMessage extends Component {
 
     return (
       <Alert className='margin-collapse mt1 text-center' bsStyle='info' onDismiss={this.hideAlert}>
-        Entries are still open for the <strong>{event.display} Bracket</strong> for <TimeAgo formatter={formatter} date={locks} />.
-        <br className='visible-lg-block' />
-        {' '}
-        Go to the <Link to={`/${event.id}`}>entry page</Link> to fill out your bracket before it's too late!
+        {this.renderMessage()}
       </Alert>
     );
   }

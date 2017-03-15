@@ -4,6 +4,7 @@ import {sortedIndexBy, orderBy, sortBy, property} from 'lodash';
 import {ENTITIES} from 'lib/endpointReducer';
 import {eventId} from './event';
 import {canWinGlobal, canWinFriends} from './canWin';
+import me from './me';
 import * as bracketSelectors from './bracket';
 import * as mastersSelectors from './masters';
 import * as visibleSelectors from './visible';
@@ -13,7 +14,6 @@ const SORT_KEY = 'standard';
 const SORT_DIR = 'desc';
 const DEFAULT_SORT = (entry) => entry.score[SORT_KEY] * -1;
 
-const me = (state) => state.me;
 const users = (state) => state.users[ENTITIES];
 const urlSort = (state, props) => props.location.query.sort;
 const entries = visibleSelectors.list(STATE_KEY, eventId);

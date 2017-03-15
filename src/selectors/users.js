@@ -3,6 +3,7 @@ import {find, pick, property, compact, orderBy, groupBy, map} from 'lodash';
 
 import {ENTITIES} from 'lib/endpointReducer';
 import eventInfo, {eventId} from './event';
+import {id as meId} from './me';
 import * as bracketSelectors from './bracket';
 import * as mastersSelectors from './masters';
 import * as entriesSelectors from './entries';
@@ -20,8 +21,17 @@ const mapUserToEntries = ($user, $entries) => {
   return map(grouped, (value) => value[0]);
 };
 
+const visibleUser = (userSelector) => createSelector(
+  meId,
+  visibleSelectors.byId(STATE_KEY, userSelector),
+  ($id, $user) => ({
+    ...$user,
+    isMe: $id && $user.id && $id === $user.id
+  })
+);
+
 export const userWithEntries = createSelector(
-  visibleSelectors.byId(STATE_KEY, userId),
+  visibleUser(userId),
   entries,
   ($user, $entries) => ({
     ...$user,
@@ -30,7 +40,7 @@ export const userWithEntries = createSelector(
 );
 
 export const userWithEntry = createSelector(
-  visibleSelectors.byId(STATE_KEY, userEventId),
+  visibleUser(userEventId),
   eventInfo,
   entries,
   ($user, $event, $entries) => ({

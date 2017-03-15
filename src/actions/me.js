@@ -3,6 +3,7 @@ import qs from 'query-string';
 import {replace} from 'react-router-redux';
 import {auth as fbAuth, twitter as fbTwitter} from 'lib/firebase';
 import * as actions from '../constants/me';
+import * as meSelectors from '../selectors/me';
 
 export const syncLogin = (auth) => {
   if (!auth) {
@@ -40,7 +41,7 @@ export const getFriends = () => (dispatch, getState) => {
         'Content-Type': 'application/json; charset=UTF-8'
       },
       // Cache friends forever
-      bailout: (state) => !!state.me.friends,
+      bailout: meSelectors.friends,
       types: [
         actions.FRIENDS_FETCH_START,
         actions.FRIENDS_FETCH_SUCCESS,
