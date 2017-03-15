@@ -20,7 +20,8 @@ const mapStateToProps = mapSelectorsToProps({
 export default class MasterNav extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-    progress: PropTypes.object
+    progress: PropTypes.object,
+    user: PropTypes.object
   };
 
   handleNavigate = (method) => {
@@ -28,7 +29,7 @@ export default class MasterNav extends Component {
   };
 
   render() {
-    const {navigation, progress, locked, locks, event, mocked} = this.props;
+    const {navigation, progress, locked, locks, event, mocked, user} = this.props;
 
     return (
       <div>
@@ -39,7 +40,13 @@ export default class MasterNav extends Component {
           />
           <BracketProgress message='games played' progress={progress} />
         </BracketHeader>
-        <LockMessage mocked={mocked} locked={locked} locks={locks} event={event} />
+        <LockMessage
+          mocked={mocked}
+          locked={locked}
+          locks={locks}
+          event={event}
+          user={user}
+        />
       </div>
     );
   }
