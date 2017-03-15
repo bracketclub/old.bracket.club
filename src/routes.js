@@ -1,5 +1,3 @@
-import {UserAuthWrapper} from 'redux-auth-wrapper';
-import {routerActions} from 'react-router-redux';
 import App from './components/connected/App';
 import Subscribe from './pages/Subscribe';
 import Login from './pages/Login';
@@ -13,14 +11,7 @@ import FourOhFour from './pages/FourOhFour';
 import Countdown from './pages/Countdown';
 import FAQ from './pages/FAQ';
 import Zentry from './pages/Zentry';
-
-const Auth = UserAuthWrapper({
-  authSelector: (state) => state.me,
-  predicate: (auth) => auth.id,
-  authenticatingSelector: (state) => state.me.authenticating,
-  redirectAction: routerActions.replace,
-  wrapperDisplayName: 'Auth'
-});
+import {Authed, NotAuthed} from './selectors/me';
 
 const indexRoute = {
   components: {
@@ -38,7 +29,7 @@ const eventRoutes = {
     {path: 'zen', component: Zentry},
     {path: 'countdown', component: Countdown},
     {path: 'entries', component: Results},
-    {path: 'entries/friends', component: Auth(Results)},
+    {path: 'entries/friends', component: Authed(Results)},
     {path: 'entries/:userId', component: UserEntry},
     // These are the links the get posted to twitter
     {path: 'entry/:bracket', component: CreatedEntry},
@@ -63,7 +54,7 @@ export default {
   childRoutes: [
     // Static pages
     {path: 'subscribe', component: Subscribe},
-    {path: 'login', component: Login},
+    {path: 'login', component: NotAuthed(Login)},
     {path: 'faq', component: FAQ},
     // A user profile page doesnt need to live at an event url
     {path: 'users/:userId', component: UserProfile},
