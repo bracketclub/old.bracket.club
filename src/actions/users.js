@@ -10,6 +10,8 @@ const ENDPOINT = 'users';
 export const fetch = restActions({
   schema,
   url: `${config.apiUrl}/${ENDPOINT}`,
+  // TODO: this only works for users pages but /users/:id/:event urls also should
+  // be cached by different rules. They should be cached based on the event
   cache: cache('users', bracketSelectors.allOpen, (id) => id.split('/')[1])
 });
 
