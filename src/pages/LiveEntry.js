@@ -23,7 +23,8 @@ const mapStateToProps = mapSelectorsToProps({
   empty: bracketSelectors.empty,
   finalId: bracketSelectors.finalId,
   navigation: entrySelectors.navigation,
-  progress: entrySelectors.progress
+  progress: entrySelectors.progress,
+  bestOf: bracketSelectors.bestOf
 });
 
 @connect(mapStateToProps, mapDispatchToProps({entryActions: entryActionCreators}))
@@ -34,7 +35,8 @@ export default class LiveEntryPage extends Component {
     empty: PropTypes.string,
     finalId: PropTypes.string,
     navigation: PropTypes.object,
-    progress: PropTypes.object
+    progress: PropTypes.object,
+    bestOf: PropTypes.object
   };
 
   static getEventPath = (e) => ({pathname: `/${e}`});
@@ -94,7 +96,8 @@ export default class LiveEntryPage extends Component {
       bracket,
       validate,
       entryActions,
-      finalId
+      finalId,
+      bestOf
     } = this.props;
 
     return (
@@ -126,6 +129,7 @@ export default class LiveEntryPage extends Component {
           validate={validate}
           bracket={bracket}
           finalId={finalId}
+          bestOf={bestOf}
           onUpdate={entryActions.update}
         />
       </Page>

@@ -1,0 +1,546 @@
+// =========================================
+// Variables
+// =========================================
+@import '../../../../styles/variables.less';
+@regionSpacing: 1em;
+@matchupSpacing: 0.5em;
+@firstMatchupSpacing: @matchupSpacing / 2;
+@roundSpacing: 0.5em;
+@teamHeight: 30px;
+@borderColor: @table-border-color;
+@fontSize: 1em;
+@smallFontSize: 0.8em;
+@seedSpacing: 0.3em;
+@shouldBeSpacing: -14px;
+
+
+// =========================================
+// Media Queries
+// =========================================
+// The default size is between the two extremes when regions are 100% visible
+// Horizontally but they are all laid out vertically moving left to right
+
+// Full screen means regions are split along the left and right sides
+// and meet in the center
+.fullScreenBracket(@rules) {
+  @media screen and (min-width: @large-bracket-min) {
+    @rules();
+  }
+}
+
+// Small screen is when the regions needs to be scrolled horizontally
+.smallScreenBracket(@rules) {
+  @media screen and (max-width: @small-bracket-max) {
+    @rules();
+  }
+}
+
+
+// =========================================
+// Bracket
+// =========================================
+.bracket {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: @regionSpacing;
+  .fullScreenBracket({
+    flex-wrap: none;
+  });
+}
+
+
+// =========================================
+// Regions
+// =========================================
+.regions {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .fullScreenBracket({
+    width: 45%;
+    // singleRegion means there is only one region per side so it should take up
+    // half the width. When there are two regions per side (aka Final Four) they
+    // need more spacing otherwise it looks like opposite teams are playing.
+    .singleRegion & { width: 50%; }
+  });
+}
+
+
+// =========================================
+// Region
+// =========================================
+.region {
+  position: relative;
+  margin-bottom: @regionSpacing;
+
+  .fullScreenBracket({
+    // regionTop and regionBottom are only present when there are two regions per side
+    &.regionTop { margin-bottom: @regionSpacing; }
+    &.regionBottom { margin-bottom: 0; margin-top: @regionSpacing; }
+
+    // The vertical lines connecting the top and bottom regions
+    .regionConnector(@container, @prop) {
+      @{container} &.regionTop:after {
+        content: ' ';
+        position: absolute;
+        width: 1px;
+        background: @borderColor;
+        height: calc(100% ~'+' (@regionSpacing * 2));
+        top: 50%;
+        @{prop}: 0px;
+      }
+    }
+    .regionConnector(~'.regionsLeft', right);
+    .regionConnector(~'.regionsRight', left);
+  });
+}
+
+
+// =========================================
+// Region Title
+// =========================================
+.title {
+  margin: 0;
+  font-size: @font-size-h4;
+
+  .fullScreenBracket({
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-right: @roundSpacing;
+  });
+}
+
+// Manually place the title one round away from the end since it is positioned
+// absolutely. Not sure of a better way to do this.
+.titlePlacement(@prop) {
+  .rounds2 .title { left: auto; right: auto; @{prop}: 50%; }
+  .rounds3 .title { left: auto; right: auto; @{prop}: 33.333333333333333%; }
+  .rounds4 .title { left: auto; right: auto; @{prop}: 25%; }
+  .rounds5 .title { left: auto; right: auto; @{prop}: 20%; }
+  .rounds6 .title { left: auto; right: auto; @{prop}: 16.666666666666666%; }
+}
+
+.fullScreenBracket({
+  .titlePlacement(right);
+});
+
+
+// =========================================
+// Round
+// =========================================
+.rounds {
+  display: flex;
+}
+
+.round {
+  width: 0;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+
+  // Normally when going left to right there is no padding on the outside
+  // of the first and last child
+  padding-left: @roundSpacing;
+  padding-right: @roundSpacing;
+  &:first-child { padding-left: 0; }
+  &:last-child { padding-right: 0; }
+
+  .fullScreenBracket({
+    // When going full screen the last children need their padding added back
+    .regionsLeft & {
+      &:last-child { padding-right: @roundSpacing; }
+    }
+
+    // On the right side, the last child needs its padding added back and the first
+    // child needs its padding reversed
+    .regionsRight & {
+      &:first-child { padding-right: 0; padding-left: @roundSpacing; }
+      &:last-child { padding-right: @roundSpacing; padding-left: @roundSpacing; }
+    }
+  });
+}
+
+
+// =========================================
+// Matchup
+// =========================================
+.matchup {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  justify-content: space-around;
+  position: relative;
+  padding-top: @matchupSpacing;
+  padding-bottom: @matchupSpacing;
+
+  // The matchup in the last round (which is just the lone surviving team),
+  // should be centered and have no offsetting padding or margin
+  .lastMatchup(@region, @prop) {
+    @{region} .round:last-child & {
+      justify-content: center;
+      padding-@{prop}: 0;
+      margin-@{prop}: 0;
+    }
+  }
+  .lastMatchup(~'.regionTop', bottom);
+  .lastMatchup(~'.regionBottom', top);
+
+  // These are the vertical lines connecting the two teams playing in a matchup
+  .connector(@container, @prop, @otherProp) {
+    @{container} .round:first-child &:before {
+      content: ' ';
+      position: absolute;
+      border-@{prop}: 1px solid @borderColor;
+      border-@{otherProp}: none;
+      top: calc(50% ~'-' (@firstMatchupSpacing / 2) ~'-' (@teamHeight / 2));
+      height: calc(@firstMatchupSpacing ~'+' @teamHeight);
+      @{prop}: @roundSpacing * -1;
+      @{otherProp}: 0;
+    }
+
+    @{container} .round:not(:first-child):not(:last-child) &:before {
+      content: ' ';
+      position: absolute;
+      border-@{prop}: 1px solid @borderColor;
+      border-@{otherProp}: none;
+      top: 25%;
+      height: 50%;
+      @{prop}: @roundSpacing * -1;
+      @{otherProp}: 0;
+    }
+  }
+
+  // Large screen have the right side reveresed
+  .connector(~'.regions', right, left);
+  .fullScreenBracket({ .connector(~'.regionsRight', left, right); });
+}
+
+
+// =========================================
+// Team Box
+// =========================================
+.teamBox {
+  position: relative;
+  height: @teamHeight;
+
+  // Give first round matchups a little bit of breathing room
+  // since it doesn't have the benefit of space-around like the later rounds
+  .round:first-child &:first-child {
+    margin-bottom: @firstMatchupSpacing;
+  }
+
+  // These offsets make the team spacing lineup with the previous round
+  // when using justify-content: space-around
+  .round:not(:first-child):not(:last-child) .matchup & {
+    &:first-child { margin-top: @matchupSpacing * -1; }
+    &:last-child { margin-bottom: @matchupSpacing * -1; }
+  }
+
+  // Only if there are two regions per side does the last round in those
+  // need to be offset
+  .regionTop .round:last-child .matchup & { margin-top: @matchupSpacing * -1; }
+  .regionBottom .round:last-child .matchup & { margin-bottom: @matchupSpacing * -1; }
+
+  // These are the two horizontal lines that come out of each side of the box
+  .connector() {
+    content: ' ';
+    position: absolute;
+    height: 1px;
+    width: @roundSpacing;
+    background: @borderColor;
+    top: 50%;
+  }
+
+  .rightConnector() {
+    .connector();
+    right: @roundSpacing * -1;
+    left: auto;
+  }
+
+  .leftConnector() {
+    .connector();
+    left: @roundSpacing * -1;
+    right: auto;
+  }
+
+  // Let's see if I can explain this...
+  // Normally when moving left to right all rounds have the connectors except
+  // the first and last children on their "outside" (right and left respectively)
+  .round:first-child &:after { .rightConnector(); }
+  .round:last-child &:before { .leftConnector(); }
+  .round:not(:first-child):not(:last-child) & {
+    &:before { .leftConnector(); }
+    &:after { .rightConnector(); }
+  }
+
+  .fullScreenBracket({
+    // When full screen the last child needs a right connector also. Note how this
+    // uses :after since the previous selector uses :before for last-child
+    .round:last-child &:after { .rightConnector(); }
+    // Then the right side regions need thier connectors reversed
+    .regionsRight .round:first-child &:after { .leftConnector(); }
+    .regionsRight .round:last-child &:before { .leftConnector(); }
+  })
+}
+
+
+// =========================================
+// Team
+// =========================================
+.seed {
+  font-size: @smallFontSize;
+  flex: 0 1 auto;
+}
+
+.name {
+  padding-left: @seedSpacing;
+  flex: 0 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.teamDropdown {
+  display: flex;
+  flex: 1;
+}
+
+.winsIn {
+  flex: 0 1 auto;
+  font-weight: bold;
+  padding-left: @seedSpacing;
+  margin-left: auto;
+}
+
+.team {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 (@roundSpacing / 2);
+  border: 1px solid @borderColor;
+  font-size: @fontSize;
+  line-height: @fontSize * 2;
+  background: @body-bg;
+
+  &.pickable {
+    cursor: pointer;
+    &:hover {
+      text-decoration: none;
+      background: @brand-primary;
+      color: @body-bg;
+      .seriesPickable {
+        display: block;
+      }
+    }
+  }
+
+  &.eliminated {
+    text-decoration: line-through;
+  }
+
+  &.incorrect {
+    background: @brand-danger;
+    text-decoration: line-through;
+  }
+
+  &.correct {
+    background: @brand-success;
+  }
+
+  &.shouldBe {
+    position: absolute;
+    top: @shouldBeSpacing;
+    left: 0;
+    border: none;
+    background: transparent;
+    width: 100%;
+    font-size: @smallFontSize !important;
+    line-height: @fontSize !important;
+  }
+}
+
+.seriesPickable {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+
+// =========================================
+// Side Right
+// =========================================
+// The right side of the bracket has everything swapped. I put it in one selector
+// since this is all conceptually simialr. Moving things from flowing left-to-right
+// to flowing right-to-left
+.fullScreenBracket({
+  .regionsRight {
+    text-align: right;
+
+    .titlePlacement(left);
+    .title {
+      right: auto;
+      padding-right: 0;
+      padding-left: @roundSpacing;
+    }
+
+    // I feel like this line of code is the reason flexbox was invented
+    .rounds, .team {
+      flex-direction: row-reverse;
+    }
+
+    .team.shouldBe {
+      left: auto;
+      right: 0;
+    }
+
+    .name {
+      padding-left: 0;
+      padding-right: @seedSpacing;
+    }
+
+    .winsIn {
+      padding-left: 0;
+      padding-right: @seedSpacing;
+      margin-right: auto;
+      margin-left: 0;
+    }
+  }
+});
+
+// =========================================
+// Small Screens
+// =========================================
+// Small screens with only make two rounds visible at a time and scroll
+// the rest horiztonally
+.smallScreenBracket({
+  @roundsVisible: 2;
+  .rounds {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-points-x: repeat(100% / @roundsVisible);
+    scroll-snap-type: mandatory;
+  }
+
+  .round {
+    flex: 1 0 (100% / @roundsVisible);
+  }
+});
+
+// =========================================
+// Final
+// =========================================
+// Final stuff is different enough that it makes more sense to put everything
+// in its own nested selector
+.fullScreenBracket({
+  .regionsFinal {
+    width: auto !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+
+    // Single region means that the final is just the champion so it needs to be
+    // moved down so it doesnt overlap with the final teams from the region
+    .singleRegion & {
+      transform: translateY(calc(-50% ~'+' (@fontSize * 4))) translateX(-50%);
+    }
+
+    .title {
+      display: none;
+    }
+
+    .rounds {
+      flex-wrap: wrap;
+    }
+
+    .round {
+      width: 100%;
+      flex-direction: row;
+      padding-left: 0;
+      padding-right: 0;
+      // The first round is the same as the combination of the final teams
+      // from each region so when its fullscreen, no need to display that
+      &:first-child { display: none; }
+    }
+
+    // Cleanup connector lines
+    .matchup:before, .matchup:after,
+    .teamBox:before, .teamBox:after {
+      display: none !important;
+    }
+
+    .matchup {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: unset;
+      justify-content: center;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .teamBox {
+      min-width: 5vw;
+      max-width: 10vw;
+      flex: 1 1 auto;
+      flex-basis: 0;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
+    .team {
+      justify-content: center;
+    }
+
+    .round:not(:last-child) {
+      margin-bottom: @regionSpacing;
+
+      // Separate the two teams in the final like a normal round
+      .teamBox:first-child { margin-right: @roundSpacing; }
+      .teamBox:last-child { margin-left: @roundSpacing; }
+
+      // Since names are centered, winsIn dont need margin
+      .teamBox {
+        .winsIn { margin-left: 0; margin-right: 0; }
+      }
+
+      // Reverse the second final team since its  on the right side of the bracket
+      .teamBox:last-child {
+        .team { flex-direction: row-reverse; }
+        .name, .winsIn { padding-left: 0; padding-right: @seedSpacing; }
+      }
+    }
+
+    // Champion
+    .round:last-child {
+      .matchup { justify-content: center; }
+
+      .teamBox {
+        height: auto;
+        min-width: calc(10vw ~'+' (@roundSpacing * 2));
+        max-width: calc(20vw ~'+' (@roundSpacing * 2));
+        .singleRegion & {
+          min-width: 20vw;
+          max-width: 23vw;
+        }
+      }
+
+      .team {
+        width: auto;
+        padding: 0 @roundSpacing;
+        font-size: @fontSize * 2;
+
+        &.shouldBe {
+          top: auto;
+          bottom: @shouldBeSpacing;
+          right: 0;
+          left: 0;
+        }
+      }
+    }
+  }
+});

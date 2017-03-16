@@ -119,6 +119,8 @@ export default memoize((options) => {
   const boundScorer = scorer.score.bind(scorer, SCORES[sportYear.sport].types);
   const boundDiff = scorer.diff.bind(scorer);
 
+  const hasBestOf = constants.BEST_OF > 1;
+
   return {
     regex,
     complete,
@@ -129,6 +131,9 @@ export default memoize((options) => {
     totalGames: (constants.TEAMS_PER_REGION * constants.REGION_COUNT) - 1,
     unpickedChar: constants.UNPICKED_MATCH,
     finalId: constants.FINAL_ID,
+    bestOf: hasBestOf && constants.BEST_OF,
+    bestOfRange: hasBestOf && constants.BEST_OF_RANGE,
+    bestOfWins: hasBestOf && constants.BEST_OF_RANGE[0],
 
     // Dont memoize since it can be used to return a random bracket
     generate: boundGenerator,
