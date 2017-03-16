@@ -8,14 +8,16 @@ export default class UserEntry extends Component {
   static propTypes = {
     user: PropTypes.object,
     diff: PropTypes.func,
-    master: PropTypes.string
+    master: PropTypes.string,
+    bestOf: PropTypes.object
   };
 
   render() {
     const {
       user,
       diff,
-      master
+      master,
+      bestOf
     } = this.props;
 
     if (!user) {
@@ -37,7 +39,7 @@ export default class UserEntry extends Component {
     }
 
     return (
-      <DiffBracket {...{diff, entry: user.entry.bracket, master}} />
+      <DiffBracket {...{diff, entry: user.entry.bracket, master, bestOf}} />
     );
   }
 }
