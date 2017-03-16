@@ -80,3 +80,11 @@ export const columns = createSelector(
   helpers,
   (o) => o.columns
 );
+
+export const bestOf = createSelector(
+  helpers,
+  (o) => ({
+    range: o.bestOfRange,
+    wins: o.bestOfWins
+  })
+);
