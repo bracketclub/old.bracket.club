@@ -3,7 +3,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 import {LinkContainer} from 'react-router-bootstrap';
-import {Navbar, Nav, NavItem, NavDropdown} from 'react-bootstrap';
+import {Navbar, Nav, NavItem, MenuItem, NavDropdown} from 'react-bootstrap';
 import eventDisplayName from 'lib/eventDisplayName';
 
 const NavbarHeader = Navbar.Header;
@@ -44,7 +44,7 @@ export default class Header extends Component {
             <NavItem>Bracket</NavItem>
           </LinkContainer>
         }
-        <NavItem divider />
+        <MenuItem divider />
         <NavItem onClick={this.handleLogout}>Logout</NavItem>
       </NavDropdown>
     );

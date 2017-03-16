@@ -8,6 +8,7 @@ import {last} from 'lodash';
 
 import countdown from 'lib/countdown';
 import eventInfo from '../../selectors/event';
+import meSelector from '../../selectors/me';
 import * as bracketSelectors from '../../selectors/bracket';
 import * as meActionCreators from '../../actions/me';
 import * as eventActionCreators from '../../actions/event';
@@ -22,7 +23,7 @@ const mapStateToProps = (state, props) => {
   return {
     locks,
     event,
-    me: state.me,
+    me: meSelector(state, props),
     mocked: __MOCK__.indexOf(event.id) > -1,
     locked: typeof locked !== 'undefined' ? locked : new Date().toJSON() >= locks
   };
