@@ -9,4 +9,3 @@ export default ({url, event}, onData) => {
 
   return () => source.close();
 };
-

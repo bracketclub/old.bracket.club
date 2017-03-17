@@ -6,13 +6,11 @@ import '../styles/app/index.less';
 
 import 'babel-polyfill';
 
-import config from 'config';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
 import {syncHistoryWithStore} from 'react-router-redux';
-import {attempt, isError} from 'lodash';
 
 import {pageview} from 'lib/analytics';
 import {auth} from 'lib/firebase';
@@ -20,12 +18,12 @@ import configureStore from './store/configureStore';
 import routes from './routes';
 import * as meActions from './actions/me';
 
-const initialState = attempt(() => JSON.parse(window.localStorage.getItem(config.localStorage)));
-const store = configureStore(isError(initialState) ? {} : initialState);
+const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
 // Google analytics for each history change
-// Use getCurrentLocation since first call has no location https://github.com/reactjs/react-router-redux/issues/475
+// Use getCurrentLocation since first call has no location
+// https://github.com/reactjs/react-router-redux/issues/475
 history.listen((location) => pageview(location || history.getCurrentLocation()));
 
 // Firebase will trigger the action if the user is logged in from a previous

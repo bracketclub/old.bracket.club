@@ -13,7 +13,9 @@ import rootReducer from '../reducers';
 export default (initialState = {}) => {
   const storeEnhancers = [
     persistState(
-      compose(filter('me.twitterAuth'))(adapter(window.localStorage)),
+      compose(
+        filter(['twitterAuth', 'username', 'id'].map((i) => `me.${i}`))
+      )(adapter(window.localStorage)),
       config.localStorage
     )
   ];
@@ -32,7 +34,6 @@ export default (initialState = {}) => {
         predicate: (getState, action) => action.type.indexOf('@@router') === -1
       })
     );
-
     storeEnhancers.push(
       window.devToolsExtension ? window.devToolsExtension() : (f) => f
     );
