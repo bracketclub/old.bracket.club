@@ -20,6 +20,12 @@ export const completeDate = createSelector(
   (o) => o.complete
 );
 
+export const open = createSelector(
+  locks,
+  completeDate,
+  ($lock, $complete) => [$lock, $complete]
+);
+
 export const allOpen = () => __EVENTS__
   .map((e) => {
     const [sport, year] = e.split('-');

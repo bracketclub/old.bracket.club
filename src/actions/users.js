@@ -1,20 +1,33 @@
 import config from 'config';
 import restActions from 'lib/reduxApiRestActions';
 import es from 'lib/eventSource';
-import cache from 'lib/cacheEvent';
+import bailoutEvent from 'lib/bailoutEvent';
 import {user as schema} from '../schema';
 import * as bracketSelectors from '../selectors/bracket';
 
 const ENDPOINT = 'users';
 
+// If there is an eventId then only check if that event is open
+// Otherwise check if any event if open, since that would mean to always check
+// a user's profile for new entries
+const bailout = bailoutEvent(ENDPOINT, (state, props) => {
+  const {eventId} = props.params;
+  const selector = eventId ? bracketSelectors.open : bracketSelectors.allOpen;
+  return selector(state, props);
+}, (id) => id.split('/')[1]);
+
 export const fetch = restActions({
   schema,
-  url: `${config.apiUrl}/${ENDPOINT}`,
-  cache: cache('users', bracketSelectors.allOpen, (id) => id.split('/')[1])
+  bailout,
+  url: `${config.apiUrl}/${ENDPOINT}`
 });
 
-export const sse = (params) => (dispatch) => {
+export const sse = (params) => (dispatch, getState) => {
+  const state = getState();
   const [userId, eventId] = params.split('/');
+
+  if (bailout(state, params, {checkResult: false})) return null;
+
   return es({
     event: ENDPOINT,
     url: `${config.apiUrl}/${ENDPOINT}/events`

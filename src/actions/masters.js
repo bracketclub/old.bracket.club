@@ -2,7 +2,7 @@ import config from 'config';
 import restActions from 'lib/reduxApiRestActions';
 import {event as aEvent} from 'lib/analytics';
 import es from 'lib/eventSource';
-import cache from 'lib/cacheEvent';
+import bailoutEvent from 'lib/bailoutEvent';
 import {replaceQuery} from './routing';
 import {master as schema} from '../schema';
 import * as mastersSelectors from '../selectors/masters';
@@ -29,16 +29,22 @@ const navigationActions = {
   goToLast: routeToIndex(({total}) => total, 'goToLast')
 };
 
+const bailout = bailoutEvent(ENDPOINT, bracketSelectors.open);
+
 export const fetch = restActions({
   schema,
-  url: `${config.apiUrl}/${ENDPOINT}`,
-  cache: cache(ENDPOINT, bracketSelectors.completeDate)
+  bailout,
+  url: `${config.apiUrl}/${ENDPOINT}`
 });
 
 export const navigate = (method) => navigationActions[method]();
 
-export const sse = () => (dispatch, getState) => {
-  const event = eventId(getState());
+export const sse = (params) => (dispatch, getState) => {
+  const state = getState();
+  const event = eventId(state);
+
+  if (bailout(state, params, {checkResult: false})) return null;
+
   return es({
     event,
     url: `${config.apiUrl}/${ENDPOINT}/events`

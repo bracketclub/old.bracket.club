@@ -2,7 +2,7 @@ import config from 'config';
 import restActions from 'lib/reduxApiRestActions';
 import {event as aEvent} from 'lib/analytics';
 import es from 'lib/eventSource';
-import cache from 'lib/cacheEvent';
+import bailoutEvent from 'lib/bailoutEvent';
 import {replaceQuery} from './routing';
 import {entry as schema} from '../schema';
 import * as entriesSelectors from '../selectors/entries';
@@ -25,16 +25,22 @@ const sortAction = (sortBy) => (dispatch, getState) => {
   dispatch(replaceQuery({location, query: {sort}}));
 };
 
+const bailout = bailoutEvent(ENDPOINT, bracketSelectors.locks);
+
 export const fetch = restActions({
   schema,
-  url: `${config.apiUrl}/${ENDPOINT}`,
-  cache: cache(ENDPOINT, bracketSelectors.locks)
+  bailout,
+  url: `${config.apiUrl}/${ENDPOINT}`
 });
 
 export {sortAction as sort};
 
-export const sse = () => (dispatch, getState) => {
-  const event = eventId(getState());
+export const sse = (params) => (dispatch, getState) => {
+  const state = getState();
+  const event = eventId(state);
+
+  if (bailout(state, params, {checkResult: false})) return null;
+
   return es({
     event,
     url: `${config.apiUrl}/${ENDPOINT}/events`

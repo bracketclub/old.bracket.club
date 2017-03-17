@@ -1,4 +1,5 @@
-import * as localStorageTypes from 'redux-localstorage';
+import {actionTypes as localStorageTypes} from 'redux-localstorage';
+import {get} from 'lodash';
 import * as types from '../constants/me';
 
 const initialState = {
@@ -63,11 +64,10 @@ export default (state = initialState, action) => {
       friends: null
     };
 
-  // TODO: is this even working???
   case localStorageTypes.INIT:
     return {
       ...state,
-      ...action.payload.reducer
+      ...get(action.payload, 'me', initialState)
     };
 
   default:
