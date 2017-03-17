@@ -13,7 +13,7 @@ const normalize = (schema) => (acton, state, res) => getJSON(res).then((json) =>
   return {[ENTITIES]: entities, [RESULT]: result};
 });
 
-export default ({schema, url, cache} = {}) => {
+export default ({schema, url, bailout} = {}) => {
   const resource = schema.key;
   const types = actionNames(resource);
 
@@ -42,7 +42,7 @@ export default ({schema, url, cache} = {}) => {
             type: types.fetchError
           }
         ],
-        bailout: (state) => typeof cache === 'function' ? cache(state, id) : cache
+        bailout: (state) => bailout && bailout(state, id)
       }
     });
   };
