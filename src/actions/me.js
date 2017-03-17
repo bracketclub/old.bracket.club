@@ -56,12 +56,6 @@ export const loginUser = (user) => (dispatch, getState) => {
     return syncLogout();
   }
 
-  const {id} = getState().me;
-
-  if (id) {
-    return null;
-  }
-
   return dispatch({
     type: actions.LOGIN,
     auth: {user}
