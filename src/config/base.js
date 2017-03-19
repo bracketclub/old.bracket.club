@@ -1,4 +1,18 @@
 export default {
+  sport: 'ncaam',
+  year: '2017',
+  ga: 'UA-8402584-9',
+  mocks: [],
+  events: [
+    'ncaam-2017',
+    'ncaaw-2017',
+    'ncaam-2016',
+    'ncaaw-2016',
+    'ncaam-2015',
+    'ncaam-2014',
+    'ncaam-2013',
+    'ncaam-2012'
+  ],
   sse: true,
   'static': false,
   localStorage: 'bracketclub',

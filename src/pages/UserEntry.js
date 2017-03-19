@@ -28,8 +28,8 @@ const mapStateToProps = mapSelectorsToProps({
 
 const mapPropsToActions = (props) => ({
   user: [usersActions.fetch, `${props.params.userId}/${props.event.id}`, usersActions.sse],
-  entries: [entriesActions.fetch, props.event.id, entriesActions.sse],
-  masters: [mastersActions.fetch, props.event.id, mastersActions.sse]
+  entries: [entriesActions.fetch, props.event.id],
+  masters: [mastersActions.fetch, props.event.id]
 });
 
 @connect(mapStateToProps)

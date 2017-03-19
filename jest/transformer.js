@@ -1,6 +1,5 @@
 const path = require('path');
 const babelJest = require('babel-jest');
-const config = require('getconfig');
 
 module.exports = {
   process: (src, filename, options, jestConfig) => {
@@ -13,8 +12,7 @@ module.exports = {
     // Reimplement webpack :(
     src = src
       .replace(/from 'config'/g, `from '${relative('config/test')}'`)
-      .replace(/from 'lib\/(.*)'/g, (__, arg) => `from '${relative(`lib/${arg}`)}'`)
-      .replace(/__([A-Z]+)__/g, (__, arg) => JSON.stringify(config[arg.toLowerCase()]));
+      .replace(/from 'lib\/(.*)'/g, (__, arg) => `from '${relative(`lib/${arg}`)}'`);
 
     return babelJest.process(src, filename, options, jestConfig);
   }

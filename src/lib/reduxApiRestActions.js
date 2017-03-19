@@ -1,7 +1,7 @@
 import config from 'config';
 import {CALL_API, getJSON} from 'redux-api-middleware';
 import {normalize as baseNormalize} from 'normalizr';
-import actionNames from 'action-names';
+import actionNames from 'lib/actionNames';
 import {ENTITIES, RESULT} from 'lib/endpointReducer';
 
 // Remap entities and result here since those keys are controlled by the constants

@@ -7,19 +7,13 @@ const OnBuildPlugin = require('on-build-webpack');
 const webpackConfig = require('hjs-webpack');
 const html = require('html-tagged-literals');
 const _ = require('lodash');
-const config = require('getconfig');
 const cpr = require('cpr');
 
 const SRC = path.resolve(__dirname, 'src');
 
-const isDev = config.getconfig.isDev;
+const nodeEnv = process.env.NODE_ENV || 'development';
 const configEnv = process.env.CONFIG_ENV || 'development';
-const define = _(config)
-  .pick('year', 'sport', 'events', 'mock', 'ga')
-  .transform((res, val, key) => {
-    res[`__${key.toUpperCase()}__`] = JSON.stringify(val);
-  })
-  .value();
+const isDev = nodeEnv === 'development';
 
 const renderHTML = (context) => html[isDev ? 'unindent' : 'minify']`
   <!DOCTYPE html>
@@ -47,7 +41,6 @@ const renderHTML = (context) => html[isDev ? 'unindent' : 'minify']`
 
 const webpack = webpackConfig({
   isDev,
-  define,
   'in': `${SRC}/main.js`,
   out: 'build',
   clearBeforeBuild: true,
