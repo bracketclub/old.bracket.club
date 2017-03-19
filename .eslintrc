@@ -2,7 +2,7 @@
   "extends": "@lukekarrys/eslint-config",
   "settings": {
     "import/external-module-folders": ["node_modules", "lib"],
-    "import/core-modules": ["config"],
+    "import/core-modules": ["config"]
   },
   "rules": {
     "no-case-declarations": 0,

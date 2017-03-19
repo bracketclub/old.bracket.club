@@ -6,6 +6,7 @@ import '../styles/app/index.less';
 
 import 'babel-polyfill';
 
+import config from 'config';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, browserHistory} from 'react-router';
@@ -17,6 +18,8 @@ import {auth} from 'lib/firebase';
 import configureStore from './store/configureStore';
 import routes from './routes';
 import * as meActions from './actions/me';
+import * as mastersActions from './actions/masters';
+import * as entriesActions from './actions/entries';
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
@@ -30,6 +33,17 @@ history.listen((location) => pageview(location || history.getCurrentLocation()))
 // session when first loading the page. Note that this action is slightly different
 // than the login action which contains the user and the twitter credentials
 auth.onAuthStateChanged((user) => store.dispatch(meActions.loginUser(user)));
+
+// Add debugging helperts to global
+if (process.env.NODE_ENV !== 'production') window.bc = require('lib/debug')(store);
+
+// Start SSE handlers for things that will be used across multiple pages
+// These can be called for all events because the SSE handlers will bailout
+// based on if the event is live or not
+config.events.forEach((event) => {
+  mastersActions.sse(event)(store.dispatch, store.getState);
+  entriesActions.sse(event)(store.dispatch, store.getState);
+});
 
 ReactDOM.render(
   <Provider store={store}>

@@ -20,7 +20,7 @@ const mapStateToProps = mapSelectorsToProps({
 });
 
 const mapPropsToActions = (props) => ({
-  masters: [mastersActions.fetch, props.event.id, mastersActions.sse]
+  masters: [mastersActions.fetch, props.event.id]
 });
 
 @connect(mapStateToProps, mapDispatchToProps({mastersActions}))

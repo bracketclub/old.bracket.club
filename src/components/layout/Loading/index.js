@@ -10,7 +10,7 @@ export default class Loading extends Component {
   };
 
   static defaultProps = {
-    delayLoading: 200
+    delayLoading: 500
   };
 
   constructor(props) {

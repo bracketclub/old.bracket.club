@@ -8,10 +8,19 @@ const isBetween = (now, times) => {
 };
 
 // Return true to bailout on the request
-export default (key, selector, parseId = identity) => (state, params, {checkResult = true} = {}) => {
-  const {[RESULT]: result} = state[key][RECORDS][params] || {};
+export default (key, selector, parseId = identity) => (state, params, {timeOnly = false} = {}) => {
+  const {[RESULT]: result, sse} = state[key][RECORDS][params] || {};
 
-  if (!result && checkResult) return false;
+  if (!timeOnly) {
+    // If there is no result, always fetch
+    if (!result) return false;
+    // If the result has successfully hooked up to the live event stream
+    // then always bailout since it has the latest
+    if (sse === true) return true;
+  }
+
+  // Otherwise use the time and the selector's time to determine if the request
+  // should be made
 
   const now = Date.now();
   const open = selector(state, {params: {eventId: parseId(params)}});
