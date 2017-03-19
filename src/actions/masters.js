@@ -9,7 +9,7 @@ import * as mastersSelectors from '../selectors/masters';
 import * as bracketSelectors from '../selectors/bracket';
 import {eventId} from '../selectors/event';
 
-const ENDPOINT = 'masters';
+const endpoint = 'masters';
 
 const routeToIndex = (getIndex, label) => () => (dispatch, getState) => {
   const state = getState();
@@ -29,12 +29,12 @@ const navigationActions = {
   goToLast: routeToIndex(({total}) => total, 'goToLast')
 };
 
-const bailout = bailoutEvent(ENDPOINT, bracketSelectors.open);
+const bailout = bailoutEvent(endpoint, bracketSelectors.open);
 
 export const fetch = restActions({
   schema,
   bailout,
-  url: `${config.apiUrl}/${ENDPOINT}`
+  url: `${config.apiUrl}/${endpoint}`
 });
 
 export const navigate = (method) => navigationActions[method]();
@@ -43,11 +43,12 @@ export const sse = (params) => (dispatch, getState) => {
   const state = getState();
   const event = eventId(state);
 
-  if (bailout(state, params, {checkResult: false})) return null;
+  if (bailout(state, params, {timeOnly: true})) return null;
 
   return es({
-    event,
-    url: `${config.apiUrl}/${ENDPOINT}/events`
+    id: event,
+    dispatch,
+    endpoint
   }, () => {
     dispatch(fetch(event, {refresh: true}));
   });

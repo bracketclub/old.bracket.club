@@ -1,4 +1,4 @@
-/* global __MOCK__ */
+import config from 'config';
 
 import React, {Component, PropTypes} from 'react';
 import Clone from 'react-clone';
@@ -24,7 +24,7 @@ const mapStateToProps = (state, props) => {
     locks,
     event,
     me: meSelector(state, props),
-    mocked: __MOCK__.indexOf(event.id) > -1,
+    mocked: config.mocks.indexOf(event.id) > -1,
     locked: typeof locked !== 'undefined' ? locked : new Date().toJSON() >= locks
   };
 };

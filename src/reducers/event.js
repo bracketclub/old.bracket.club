@@ -1,12 +1,12 @@
-/* global __SPORT__, __YEAR__ */
+import config from 'config';
 
 import {LOCATION_CHANGE} from 'react-router-redux';
 
 import * as types from '../constants/event';
 
 const initialState = {
-  sport: __SPORT__,
-  year: __YEAR__
+  sport: config.sport,
+  year: config.year
 };
 
 export default (state = initialState, action) => {

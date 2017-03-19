@@ -1,5 +1,4 @@
-/* global __EVENTS__ */
-
+import config from 'config';
 import {createSelector} from 'reselect';
 
 import bh from 'lib/bracket';
@@ -26,7 +25,7 @@ export const open = createSelector(
   ($lock, $complete) => [$lock, $complete]
 );
 
-export const allOpen = () => __EVENTS__
+export const allOpen = () => config.events
   .map((e) => {
     const [sport, year] = e.split('-');
     const data = bh({sport, year});

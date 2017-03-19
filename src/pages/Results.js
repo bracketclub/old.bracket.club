@@ -34,8 +34,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapPropsToActions = (props) => ({
-  masters: [mastersActions.fetch, props.event.id, mastersActions.sse],
-  entries: [entriesActions.fetch, props.event.id, entriesActions.sse]
+  masters: [mastersActions.fetch, props.event.id],
+  entries: [entriesActions.fetch, props.event.id]
 });
 
 @connect(mapStateToProps, mapDispatchToProps({entriesActions, canWinActions}))

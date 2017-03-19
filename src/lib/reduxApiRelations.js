@@ -1,6 +1,5 @@
-import actionNames from 'action-names';
 import {without} from 'lodash';
-
+import actionNames from 'lib/actionNames';
 import {ENTITIES, RESULT} from './endpointReducer';
 
 export default ({dispatch}) => (next) => (action) => {
