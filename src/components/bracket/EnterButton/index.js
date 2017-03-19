@@ -27,10 +27,10 @@ export default class BracketEnterButton extends Component {
 
     const popover = (
       <Popover id='enter-popover'>
-        <p>You'll be taken to <strong>twitter.com</strong> to tweet your bracket!</p>
+        <p>You’ll be taken to <strong>twitter.com</strong> to tweet your bracket!</p>
         {!mocked &&
           <Alert bsStyle='info'>
-            Don't alter the <strong>url</strong> or <strong>#{config.twitter.hashtag} hashtag</strong> of the tweet.
+            Don’t alter the <strong>url</strong> or <strong>#{config.twitter.hashtag} hashtag</strong> of the tweet.
             {' '}
             Those are used to verify your entry.
           </Alert>
@@ -39,8 +39,8 @@ export default class BracketEnterButton extends Component {
           <Alert bsStyle='info'>
             <strong>Hey!</strong>
             {' '}
-            Entries aren't open yet (this is just the the latest projected bracket).
-            You're welcome to tweet it, but make sure to come back before
+            Entries aren’t open yet (this is just the the latest projected bracket).
+            You’re welcome to tweet it, but make sure to come back before
             {' '}
             <strong>{dateFormat(new Date(locks), 'mmmm dS h:MMTT')}</strong>
             {' '}

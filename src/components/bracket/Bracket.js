@@ -29,7 +29,7 @@ export default class Bracket extends Component {
     if (bracket instanceof Error) {
       return (
         <Alert bsStyle='danger'>
-          <h4>Whoa, something about that bracket doesn't look right!</h4>
+          <h4>Whoa, something about that bracket doesn’t look right!</h4>
           <p>Could be that <strong>{bracket.message.toLowerCase().replace('.', '')}</strong>?</p>
         </Alert>
       );

@@ -13,18 +13,18 @@ export default class FAQ extends Component {
 
         <h4>What is this?</h4>
         <p>Bracket Club allows you to enter your NCAA Tournament picks using only your Twitter account. Compete against all of Twitter with just a tweet.</p>
-        <p><em>/end-elevatorpitch</em> For reals though, I love brackets so I built a bracket challenge site so I could add all the features I've ever wanted. If you also love (or even just like) brackets, you'll probably have a good time here.</p>
+        <p><em>/end-elevatorpitch</em> For reals though, I love brackets so I built a bracket challenge site so I could add all the features I’ve ever wanted. If you also love (or even just like) brackets, you’ll probably have a good time here.</p>
 
         <hr />
 
         <h4>Why do I have to tweet my entry?</h4>
-        <p>It started as a bit of a gimmick because I wanted to test <a target='_blank' href='https://gist.github.com/lukekarrys/2028007#why'>if you could fit a serialized NCAA tournament bracket in a tweet</a>. It stuck around because I think it's fun to share your picks on Twitter.</p>
+        <p>It started as a bit of a gimmick because I wanted to test <a target='_blank' href='https://gist.github.com/lukekarrys/2028007#why'>if you could fit a serialized NCAA tournament bracket in a tweet</a>. It stuck around because I think it’s fun to share your picks on Twitter.</p>
         <p>It also has the added bonus that in case someone submits a perfect bracket, I can point to the original tweet in case someone thinks some random little bracket challenge site forged a perfect bracket for the publicity.</p>
 
         <hr />
 
         <h4>Can I delete my tweet after I enter?</h4>
-        <p>Technically yes, but I'd prefer if you didn't 😄 (meaning that you will still be entered on the site even if your tweet no longer exists). But just think about how you'd want the tweet as proof if you ever filled out a perfect bracket!</p>
+        <p>Technically yes, but I’d prefer if you didn’t 😄 (meaning that you will still be entered on the site even if your tweet no longer exists). But just think about how you’d want the tweet as proof if you ever filled out a perfect bracket!</p>
 
         <hr />
 
@@ -39,7 +39,7 @@ export default class FAQ extends Component {
         <hr />
 
         <h4>Can I delete my entry?</h4>
-        <p>That's not yet possible from the site, but if you <a target='_blank' href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Bracket Club'})}`}>drop me a line</a> I'll be more than happy to remove it from the database.</p>
+        <p>That’s not yet possible from the site, but if you <a target='_blank' href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Bracket Club'})}`}>drop me a line</a> I’ll be more than happy to remove it from the database.</p>
 
         <hr />
 
@@ -51,17 +51,17 @@ export default class FAQ extends Component {
         <hr />
 
         <h4>Who made this?</h4>
-        <p>Hey, thanks for asking! I'm <a target='_blank' href='http://lukekarrys.com/'>Luke</a>. I've always been into code and brackets, so I was bound to make something like this eventually. A bunch of it is open source, so if you're into that sort of thing, you can <a target='_blank' href='https://github.com/bracketclub'>check it out on GitHub</a>. You can get in touch <a target='_blank' href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Bracket Club FAQ'})}`}>via email</a> if there's something bracket related you want to chat about.</p>
+        <p>Hey, thanks for asking! I’m <a target='_blank' href='http://lukekarrys.com/'>Luke</a>. I’ve always been into code and brackets, so I was bound to make something like this eventually. A bunch of it is open source, so if you’re into that sort of thing, you can <a target='_blank' href='https://github.com/bracketclub'>check it out on GitHub</a>. You can get in touch <a target='_blank' href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Bracket Club FAQ'})}`}>via email</a> if there’s something bracket related you want to chat about.</p>
 
         <hr />
 
         <h4>How does it work? Why did you make this?</h4>
-        <p>I talked about those things and a few others over on <a target='_blank' href='http://lukecod.es/categories/tweet-your-bracket/'>my code blog</a>, so you should check that out if you're really curious.</p>
+        <p>I talked about those things and a few others over on <a target='_blank' href='http://lukecod.es/categories/tweet-your-bracket/'>my code blog</a>, so you should check that out if you’re really curious.</p>
 
         <hr />
 
         <h4>Will you remind me when to enter?</h4>
-        <p>Of course! <Link to='subscribe'>Sign up for the newsletter</Link> and I'll let you know when brackets open and some other infrequent updates like when I add cool stuff to the site.</p>
+        <p>Of course! <Link to='subscribe'>Sign up for the newsletter</Link> and I’ll let you know when brackets open and some other infrequent updates like when I add cool stuff to the site.</p>
       </Page>
     );
   }
