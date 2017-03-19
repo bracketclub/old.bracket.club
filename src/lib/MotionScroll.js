@@ -78,9 +78,10 @@ export default class MotionScroll extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.scroll !== this.state.scroll) {
+    const {scroll} = nextProps;
+    if (scroll !== this.state.scroll) {
       // Respond to prop updates by setting the internal scroll state
-      this.setState({scroll: nextProps.scroll, animate: true});
+      this.setState({scroll, animate: true});
     }
   }
 
