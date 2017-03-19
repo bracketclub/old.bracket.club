@@ -67,8 +67,9 @@ export const login = ({redirect} = {}) => (dispatch, getState) => {
   fbAuth.signInWithPopup(fbTwitter).then((result) => {
     dispatch(syncLogin(result));
     if (redirect) {
-      dispatch(replace(redirect));
+      return dispatch(replace(redirect));
     }
+    return null;
   }).catch((err) => {
     dispatch(syncLogout(err));
   });

@@ -45,7 +45,7 @@ export default class LockMessage extends Component {
         Entries are still open for the <strong>{event.display} Bracket</strong> for <TimeAgo formatter={formatter} date={locks} />.
         <br className='visible-lg-block' />
         {' '}
-        Go to the <Link to={`/${event.id}`}>entry page</Link> to fill out your bracket before it's too late!
+        Go to the <Link to={`/${event.id}`}>entry page</Link> to fill out your bracket before it’s too late!
       </span>
     );
   }

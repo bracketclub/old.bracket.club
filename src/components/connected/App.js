@@ -18,7 +18,7 @@ import Footer from '../layout/Footer';
 
 const mapStateToProps = (state, props) => {
   const event = eventInfo(state, props);
-  const locked = (state.event[event.id] || {}).locked;
+  const {locked} = (state.event[event.id] || {});
   const locks = bracketSelectors.locks(state, props);
   return {
     locks,
@@ -82,16 +82,10 @@ export default class App extends Component {
     const {routes, params, location} = this.props;
     const {children, lockedComponent, unlockedComponent} = this.props;
 
-    let renderedChild, getEventPath;
-
-    if (lockedComponent && unlockedComponent) {
-      renderedChild = locked ? lockedComponent : unlockedComponent;
-      getEventPath = renderedChild.type.getEventPath;
-    }
-    else {
-      renderedChild = children;
-      getEventPath = last(routes).component.getEventPath;
-    }
+    const hasLockChild = lockedComponent && unlockedComponent;
+    const lockChild = locked ? lockedComponent : unlockedComponent;
+    const renderedChild = hasLockChild ? lockChild : children;
+    const getEventPath = hasLockChild ? renderedChild.type.getEventPath : last(routes).component.getEventPath;
 
     return (
       <div className='main-container'>

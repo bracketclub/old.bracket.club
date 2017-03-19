@@ -19,7 +19,13 @@ export default {
   baseUrl: 'bracket.club',
   twitter: {
     handle: 'thebracketclub',
-    hashtag: 'bracketclub'
+    hashtag: 'bracketclub',
+    text: {
+      ncaam: 'I tweeted my #marchmadness bracket!',
+      ncaaw: 'I tweeted my Women’s #marchmadness bracket!',
+      nba: 'I tweeted my #nbaplayoffs bracket',
+      nhl: 'I tweeted my #nhlplayoffs bracket'
+    }
   },
   mailchimp: {
     url: 'https://tweetyourbracket.us5.list-manage.com/subscribe/post',
