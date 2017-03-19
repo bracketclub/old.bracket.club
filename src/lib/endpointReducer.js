@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
-import actionNames from 'action-names';
 import {mergeWith, union, get} from 'lodash';
+import actionNames from 'lib/actionNames';
 
 // These constants are used through selectors and middleware to allow for these
 // keys to change more easily in the future
@@ -14,8 +14,9 @@ const recordsReducerFor = (resourceType) => {
   const types = actionNames(resourceType);
 
   return (state = {}, action) => {
+    const {id, ids, refresh} = action.meta || {};
+
     const updateState = (newState) => {
-      const {id, ids} = action.meta || {};
       const updatedState = {...state};
 
       if (id) {
@@ -35,13 +36,30 @@ const recordsReducerFor = (resourceType) => {
     switch (action.type) {
 
     case types.fetchStart:
-      return updateState({syncing: !action.meta.refresh, refreshing: !!action.meta.refresh});
+      return updateState({
+        syncing: !refresh,
+        refreshing: !!refresh
+      });
 
     case types.fetchSuccess:
-      return updateState({syncing: false, refreshing: false, fetchError: null, [RESULT]: get(action, `payload.${RESULT}`)});
+      return updateState({
+        syncing: false,
+        refreshing: false,
+        fetchError: null,
+        [RESULT]: get(action, `payload.${RESULT}`)
+      });
 
     case types.fetchError:
-      return updateState({syncing: false, refreshing: false, fetchError: action.payload});
+      return updateState({
+        syncing: false,
+        refreshing: false,
+        fetchError: action.payload
+      });
+
+    case types.sse:
+      return updateState({
+        sse: !!action.payload
+      });
 
     default:
       return state;

@@ -1,5 +1,3 @@
-/* global __GA__ */
-
 import config from 'config';
 import {eventId} from '../selectors/event';
 
@@ -10,7 +8,7 @@ let analytics = {pageview: noop, event: noop};
 if (process.env.NODE_ENV === 'production' && hostname === config.baseUrl) {
   const ga = require('react-ga');
 
-  ga.initialize(__GA__);
+  ga.initialize(config.ga);
   analytics = ga;
 }
 

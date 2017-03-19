@@ -9,7 +9,7 @@ import * as entriesSelectors from '../selectors/entries';
 import * as bracketSelectors from '../selectors/bracket';
 import {eventId} from '../selectors/event';
 
-const ENDPOINT = 'entries';
+const endpoint = 'entries';
 const reverse = (dir) => dir === 'asc' ? 'desc' : 'asc';
 
 const sortAction = (sortBy) => (dispatch, getState) => {
@@ -25,12 +25,12 @@ const sortAction = (sortBy) => (dispatch, getState) => {
   dispatch(replaceQuery({location, query: {sort}}));
 };
 
-const bailout = bailoutEvent(ENDPOINT, bracketSelectors.locks);
+const bailout = bailoutEvent(endpoint, bracketSelectors.locks);
 
 export const fetch = restActions({
   schema,
   bailout,
-  url: `${config.apiUrl}/${ENDPOINT}`
+  url: `${config.apiUrl}/${endpoint}`
 });
 
 export {sortAction as sort};
@@ -39,11 +39,12 @@ export const sse = (params) => (dispatch, getState) => {
   const state = getState();
   const event = eventId(state);
 
-  if (bailout(state, params, {checkResult: false})) return null;
+  if (bailout(state, params, {timeOnly: true})) return null;
 
   return es({
-    event,
-    url: `${config.apiUrl}/${ENDPOINT}/events`
+    id: event,
+    dispatch,
+    endpoint
   }, () => {
     dispatch(fetch(event, {refresh: true}));
   });
