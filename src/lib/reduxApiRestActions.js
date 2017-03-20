@@ -42,7 +42,7 @@ export default ({schema, url, bailout} = {}) => {
             type: types.fetchError
           }
         ],
-        bailout: (state) => bailout && bailout(state, id)
+        bailout: (state) => !refresh && bailout && bailout(state, id)
       }
     });
   };

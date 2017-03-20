@@ -9,7 +9,6 @@ const NavbarHeader = Navbar.Header;
 const NavbarBrand = Navbar.Brand;
 const NavbarToggle = Navbar.Toggle;
 const NavbarCollapse = Navbar.Collapse;
-const events = config.events;
 
 export default class Header extends Component {
   static propTypes = {
@@ -79,7 +78,7 @@ export default class Header extends Component {
           </NavbarBrand>
           <Nav className='year-nav'>
             <NavDropdown title={this.getEventTitle()} id='event-nav'>
-              {events.map((e) =>
+              {config.events.map((e) =>
                 <LinkContainer onlyActiveOnIndex key={e} to={this.getEventPath(e)}>
                   <NavItem>{eventDisplayName(e)}</NavItem>
                 </LinkContainer>
