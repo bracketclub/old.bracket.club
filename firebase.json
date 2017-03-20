@@ -32,6 +32,15 @@
             "value": "max-age=31536000"
           }
         ]
+      },
+      {
+        "source": "200.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store"
+          }
+        ]
       }
     ]
   }
