@@ -1,6 +1,7 @@
 import config from 'config';
 import {CALL_API, getJSON} from 'redux-api-middleware';
 import {normalize as baseNormalize} from 'normalizr';
+import {stubFalse} from 'lodash';
 import actionNames from 'lib/actionNames';
 import {ENTITIES, RESULT} from 'lib/endpointReducer';
 
@@ -13,7 +14,7 @@ const normalize = (schema) => (acton, state, res) => getJSON(res).then((json) =>
   return {[ENTITIES]: entities, [RESULT]: result};
 });
 
-export default ({schema, url, bailout} = {}) => {
+export default ({schema, url, bailout = stubFalse} = {}) => {
   const resource = schema.key;
   const types = actionNames(resource);
 
@@ -42,7 +43,7 @@ export default ({schema, url, bailout} = {}) => {
             type: types.fetchError
           }
         ],
-        bailout: (state) => !refresh && bailout && bailout(state, id)
+        bailout: (state) => refresh ? false : bailout(state, id)
       }
     });
   };
