@@ -34,11 +34,11 @@
         ]
       },
       {
-        "source": "200.html",
+        "source": "**/*.html",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "no-cache, no-store"
+            "value": "max-age=60"
           }
         ]
       }
