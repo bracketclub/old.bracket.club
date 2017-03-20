@@ -31,9 +31,12 @@ export const canWin = ({entries, id, list}) => (dispatch, getState) => {
     meta
   });
 
-  canWinWorker.onmessage = (e) => dispatch({
-    type: types.CAN_WIN_SUCCESS,
-    payload: e.data ? e.data.bracket : null,
-    meta
-  });
+  canWinWorker.onmessage = (e) => {
+    const {data} = e;
+    dispatch({
+      type: data ? types.CAN_WIN_SUCCESS : types.CAN_WIN_FAILURE,
+      payload: data,
+      meta
+    });
+  };
 };

@@ -9,8 +9,8 @@ export default ({dispatch}) => (next) => (action) => {
   next(action);
 
   const {meta = {}, payload = {}} = action;
-  const {[ENTITIES]: entities} = payload;
-  const {resource, schema} = meta;
+  const {[ENTITIES]: entities} = payload || {};
+  const {resource, schema} = meta || {};
 
   if (entities && resource && schema) {
     const relations = without(Object.keys(entities), resource);
