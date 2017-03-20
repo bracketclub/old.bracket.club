@@ -19,7 +19,10 @@ export default (state = initialState, action) => {
   switch (type) {
 
   case types.CAN_WIN_SUCCESS:
-    return updateId({bracket: payload, loading: false, error: null});
+    return updateId({bracket: payload.bracket, loading: false, error: null});
+
+  case types.CAN_WIN_FAILURE:
+    return updateId({bracket: null, loading: false, error: null});
 
   case types.CAN_WIN_START:
     return updateId({bracket: null, loading: true, error: null});
