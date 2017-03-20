@@ -129,7 +129,7 @@
     "build": "NODE_ENV=production webpack --progress --bail",
     "build-prod": "CONFIG_ENV=live npm run build",
     "build-static": "CONFIG_ENV=static npm run build",
-    "codeship-deploy": "npm run firebase -- deploy --project project-5935142175033376097",
+    "codeship-deploy": "npm run firebase -- deploy",
     "codeship-deploy-beta": "surge --project build/ --domain beta.bracket.club",
     "codeship-setup": "npm install && npm run build-prod",
     "codeship-test": "npm test && npm run lint",
