@@ -12,7 +12,7 @@ const endpoint = 'users';
 // a user's profile for new entries
 const bailout = bailoutEvent(endpoint, (state, props) => {
   const {eventId} = props.params;
-  const selector = eventId ? bracketSelectors.open : bracketSelectors.allOpen;
+  const selector = eventId ? bracketSelectors.locks : bracketSelectors.allOpen;
   return selector(state, props);
 }, (id) => id.split('/')[1]);
 
