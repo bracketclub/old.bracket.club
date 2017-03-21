@@ -2,7 +2,7 @@ import * as types from '../constants/canWin';
 import * as mastersSelectors from '../selectors/masters';
 import {eventId} from '../selectors/event';
 
-const CanWinWorker = require('worker?inline!lib/canWinWorker');
+const CanWinWorker = require('worker!lib/canWinWorker');
 
 export const canWin = ({entries, id, list}) => (dispatch, getState) => {
   const state = getState();
