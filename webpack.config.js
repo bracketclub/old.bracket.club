@@ -3,6 +3,7 @@
 const path = require('path');
 const cssnano = require('cssnano');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const OnBuildPlugin = require('on-build-webpack');
 const webpackConfig = require('hjs-webpack');
 const html = require('html-tagged-literals');
@@ -43,6 +44,7 @@ const webpack = webpackConfig({
   isDev,
   'in': `${SRC}/main.js`,
   out: 'build',
+  urlLoaderLimit: 1,
   clearBeforeBuild: true,
   output: {hash: true},
   hostname: 'localhost',
@@ -85,6 +87,10 @@ webpack.postcss.push(cssnano({
 webpack.resolve.alias = {
   lib: path.resolve(__dirname, 'src', 'lib')
 };
+
+if (process.env.WEBPACK_ANALYZE) {
+  webpack.plugins.push(new BundleAnalyzerPlugin());
+}
 
 if (configEnv === 'static') {
   webpack.plugins.push(new OnBuildPlugin(_.once(() => cpr(
