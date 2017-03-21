@@ -7,7 +7,6 @@ import {replaceQuery} from './routing';
 import {master as schema} from '../schema';
 import * as mastersSelectors from '../selectors/masters';
 import * as bracketSelectors from '../selectors/bracket';
-import {eventId} from '../selectors/event';
 
 const endpoint = 'masters';
 
@@ -39,11 +38,10 @@ export const fetch = restActions({
 
 export const navigate = (method) => navigationActions[method]();
 
-export const sse = (params) => (dispatch, getState) => {
+export const sse = (event) => (dispatch, getState) => {
   const state = getState();
-  const event = eventId(state);
 
-  if (bailout(state, params, {timeOnly: true})) return null;
+  if (bailout(state, event, {timeOnly: true})) return null;
 
   return es({
     id: event,
