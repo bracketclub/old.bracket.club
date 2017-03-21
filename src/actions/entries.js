@@ -7,7 +7,6 @@ import {replaceQuery} from './routing';
 import {entry as schema} from '../schema';
 import * as entriesSelectors from '../selectors/entries';
 import * as bracketSelectors from '../selectors/bracket';
-import {eventId} from '../selectors/event';
 
 const endpoint = 'entries';
 const reverse = (dir) => dir === 'asc' ? 'desc' : 'asc';
@@ -35,11 +34,10 @@ export const fetch = restActions({
 
 export {sortAction as sort};
 
-export const sse = (params) => (dispatch, getState) => {
+export const sse = (event) => (dispatch, getState) => {
   const state = getState();
-  const event = eventId(state);
 
-  if (bailout(state, params, {timeOnly: true})) return null;
+  if (bailout(state, event, {timeOnly: true})) return null;
 
   return es({
     id: event,
