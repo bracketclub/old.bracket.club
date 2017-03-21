@@ -1,7 +1,28 @@
 {
   "plugins": [
     "transform-decorators-legacy",
-    "add-module-exports"
+    "add-module-exports",
+    [
+      "transform-imports",
+      {
+        "react-bootstrap": {
+          "transform": "react-bootstrap/lib/${member}",
+          "preventFullImport": true
+        },
+        "react-overlays": {
+          "transform": "react-overlays/lib/${member}",
+          "preventFullImport": true
+        },
+        "react-router": {
+          "transform": "react-router/lib/${member}",
+          "preventFullImport": true
+        },
+        "react-router-bootstrap": {
+          "transform": "react-router-bootstrap/lib/${member}",
+          "preventFullImport": true
+        }
+      }
+    ]
   ],
   "presets": [
     "react",
