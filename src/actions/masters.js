@@ -28,7 +28,8 @@ const navigationActions = {
   goToLast: routeToIndex(({total}) => total, 'goToLast')
 };
 
-const bailout = bailoutEvent(endpoint, bracketSelectors.open);
+// Masters will never update after a tournament has completed
+const bailout = bailoutEvent(endpoint, bracketSelectors.completeDate);
 
 export const fetch = restActions({
   schema,
