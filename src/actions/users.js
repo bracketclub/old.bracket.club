@@ -12,7 +12,9 @@ const endpoint = 'users';
 // a user's profile for new entries
 const bailout = bailoutEvent(endpoint, (state, props) => {
   const {eventId} = props.params;
-  const selector = eventId ? bracketSelectors.locks : bracketSelectors.allOpen;
+  // A user entry for a specific event is not allowed after a tournament has locked
+  // But a user page could be updated with new entries if any tournament is open
+  const selector = eventId ? bracketSelectors.locks : bracketSelectors.allLocks;
   return selector(state, props);
 }, (id) => id.split('/')[1]);
 

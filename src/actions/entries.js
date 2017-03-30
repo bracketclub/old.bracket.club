@@ -24,6 +24,7 @@ const sortAction = (sortBy) => (dispatch, getState) => {
   dispatch(replaceQuery({location, query: {sort}}));
 };
 
+// No entries after a tournament is locked
 const bailout = bailoutEvent(endpoint, bracketSelectors.locks);
 
 export const fetch = restActions({

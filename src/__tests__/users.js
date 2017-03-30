@@ -63,7 +63,7 @@ describe('users have correct state after actions', () => {
 
     const actions = [
       // Mock the request before dispatching a request action
-      // Sets the date to when there were no live tournaments
+      // Sets the date to after the tournament
       () => {
         MockDate.set('2013-05-05');
         mockRequest();
@@ -71,9 +71,9 @@ describe('users have correct state after actions', () => {
       },
       // Doesn't need to mock the request since it reads from the cache
       () => dispatch(),
-      // Forcing Date.now to any time when a tourney is open will force this request to miss the cache
+      // Forcing Date.now to any time when entries are open
       () => {
-        MockDate.set('2013-04-01');
+        MockDate.set('2013-03-19');
         mockRequest();
         return dispatch();
       }

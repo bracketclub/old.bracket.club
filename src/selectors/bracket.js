@@ -4,6 +4,11 @@ import {createSelector} from 'reselect';
 import bh from 'lib/bracket';
 import eventInfo from './event';
 
+const allHelpers = () => config.events.map((e) => {
+  const [sport, year] = e.split('-');
+  return bh({sport, year});
+});
+
 export const helpers = createSelector(
   eventInfo,
   bh
@@ -14,23 +19,12 @@ export const locks = createSelector(
   (o) => o.locks
 );
 
+export const allLocks = () => allHelpers().map((d) => d.locks);
+
 export const completeDate = createSelector(
   helpers,
   (o) => o.complete
 );
-
-export const open = createSelector(
-  locks,
-  completeDate,
-  ($lock, $complete) => [$lock, $complete]
-);
-
-export const allOpen = () => config.events
-  .map((e) => {
-    const [sport, year] = e.split('-');
-    const data = bh({sport, year});
-    return [data.locks, data.complete];
-  });
 
 export const diff = createSelector(
   helpers,
