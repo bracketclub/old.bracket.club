@@ -19,18 +19,21 @@ export default class ScoreCard extends Component {
     }
 
     let gooley = null;
-    if (score.gooley && score.gooleyPPR) {
+    if (typeof score.gooley === 'number' && typeof score.gooleyPPR === 'number') {
       gooley = (
         <span>
-          <strong>Gooley:</strong>
-          {' '}
-          {score.gooley}
-          {' '}
-          {charCodes.dot}
-          {' '}
-          <strong>PPR:</strong>
-          {' '}
-          {score.gooleyPPR}
+          <br />
+          <span>
+            <strong>Gooley:</strong>
+            {' '}
+            {score.gooley}
+            {' '}
+            {charCodes.dot}
+            {' '}
+            <strong>PPR:</strong>
+            {' '}
+            {score.gooleyPPR}
+          </span>
         </span>
       );
     }
@@ -41,7 +44,6 @@ export default class ScoreCard extends Component {
           <strong>Rank: </strong>{score.index} / {score.total}
           <br />
           <strong>Total: </strong>{score.standard} {charCodes.dot} <strong>PPR: </strong>{score.standardPPR}
-          <br />
           {gooley}
         </p>
       </div>
