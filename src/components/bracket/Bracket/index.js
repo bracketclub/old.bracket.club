@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {Alert} from 'react-bootstrap';
 import {chunk, pick, flatten, compact, range} from 'lodash';
@@ -57,7 +58,7 @@ export default class Bracket extends Component {
     const lastRound = roundIndex === rounds.length - 1;
 
     return (
-      <div className={styles.matchup}>
+      <div key={matchupIndex} className={styles.matchup}>
         {matchup.map((team, teamIndex) => {
           const opponent = lastRound ? (!final && otherRegion.rounds[roundIndex][0]) : matchup[teamIndex === 0 ? 1 : 0];
           const winner = lastRound ? (!final && finalRegion.rounds[1][matchupIndex]) : rounds[roundIndex + 1][matchupIndex];

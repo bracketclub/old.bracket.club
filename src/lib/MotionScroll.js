@@ -1,4 +1,5 @@
-import React, {PropTypes, Component, cloneElement, Children} from 'react';
+import React, {Component, cloneElement, Children} from 'react';
+import PropTypes from 'prop-types';
 import {debounce} from 'lodash';
 import {Motion, spring} from 'react-motion';
 
