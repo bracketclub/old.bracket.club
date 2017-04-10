@@ -21,6 +21,7 @@ import ScoreCard from '../components/user/ScoreCard';
 
 const mapStateToProps = mapSelectorsToProps({
   diff: bracketSelectors.diff,
+  bestOf: bracketSelectors.bestOf,
   master: mastersSelectors.bracketString,
   user: usersSelectors.userWithRankedEntry,
   sync: mergeSyncState(usersSelectors.eventSync, entriesSelectors, mastersSelectors)
@@ -39,7 +40,8 @@ export default class UserEntryPage extends Component {
     diff: PropTypes.func,
     user: PropTypes.object,
     master: PropTypes.string,
-    sync: PropTypes.object
+    sync: PropTypes.object,
+    bestOf: PropTypes.object
   };
 
   static getEventPath = (e, {params, query}) => ({pathname: `/${e}/entries/${params.userId}`, query});
@@ -49,7 +51,8 @@ export default class UserEntryPage extends Component {
       sync,
       user,
       master,
-      diff
+      diff,
+      bestOf
     } = this.props;
 
     return (
@@ -57,7 +60,7 @@ export default class UserEntryPage extends Component {
         <MasterNav {...this.props} />
         <UserInfo user={user} />
         <ScoreCard score={user.score} />
-        <UserEntry user={user} diff={diff} master={master} />
+        <UserEntry user={user} diff={diff} master={master} bestOf={bestOf} />
       </Page>
     );
   }
