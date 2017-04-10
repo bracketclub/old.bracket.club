@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {Dropdown, MenuItem} from 'react-bootstrap';
 import {pick, omit} from 'lodash';
@@ -21,7 +22,7 @@ class CustomToggle extends React.Component {
   }
 
   render() {
-    const props = omit(this.props, 'bsRole');
+    const props = omit(this.props, 'bsRole', 'bsClass');
     return (
       <a onClick={this.handleClick} {...props} />
     );
@@ -37,19 +38,7 @@ export default class Pick extends Component {
     winner: PropTypes.object
   };
 
-  teamText(team) {
-    const {seed, name, series} = team || {};
-    if (!seed || !name) return '';
-    return `${seed} ${name}${typeof series === 'number' ? ` (${series})` : ''}`;
-  }
-
   render() {
-    // console.group()
-    // this.props.team && console.log(this.props.team.seed, this.props.team.name, this.props.team.fromRegion)
-    // this.props.opponent && console.log(this.props.opponent.seed, this.props.opponent.name, this.props.opponent.fromRegion)
-    // this.props.winner && console.log(this.props.winner.seed, this.props.winner.name, this.props.winner.fromRegion)
-    // console.groupEnd()
-
     const {onUpdate, bestOf, team, opponent, winner} = this.props;
 
     // This is a clickable team because there's an onUpdate function
@@ -74,7 +63,7 @@ export default class Pick extends Component {
     if (bestOf.range) {
       const isWinner = winner && (winner.seed === team.seed && winner.name === team.name);
       return (
-        <Dropdown className={styles.teamDropdown}>
+        <Dropdown className={styles.teamDropdown} id='wins-in-dropdown'>
           <CustomToggle bsRole='toggle' className={cx(styles.team, styles.pickable)} title={`${team.seed} ${team.name}`}>
             <span className={styles.seed}>{team.seed}</span>
             <span className={styles.name}>{team.name}</span>

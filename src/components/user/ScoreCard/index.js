@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import charCodes from 'lib/charCodes';
 import styles from './index.less';

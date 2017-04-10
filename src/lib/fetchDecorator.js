@@ -1,5 +1,6 @@
 import config from 'config';
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import hoistStatics from 'hoist-non-react-statics';
 
 const getDisplayName = (WrappedComponent) =>
