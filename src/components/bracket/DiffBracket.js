@@ -1,4 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+
+import PropTypes from 'prop-types';
 
 import Bracket from './Bracket';
 
@@ -6,14 +8,16 @@ export default class DiffBracket extends Component {
   static propTypes = {
     diff: PropTypes.func,
     entry: PropTypes.string,
-    master: PropTypes.string
+    master: PropTypes.string,
+    bestOf: PropTypes.object
   };
 
   render() {
     const {
       diff,
       entry,
-      master
+      master,
+      bestOf
     } = this.props;
 
     if (!diff || !entry || !master) {
@@ -21,7 +25,7 @@ export default class DiffBracket extends Component {
     }
 
     return (
-      <Bracket bracket={diff({entry, master})} />
+      <Bracket bracket={diff({entry, master})} bestOf={bestOf} />
     );
   }
 }

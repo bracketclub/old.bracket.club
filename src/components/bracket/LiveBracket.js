@@ -1,4 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+
+import PropTypes from 'prop-types';
 
 import Bracket from './Bracket';
 
@@ -7,7 +9,8 @@ export default class LiveBracket extends Component {
     onUpdate: PropTypes.func,
     bracket: PropTypes.string,
     finalId: PropTypes.string,
-    validate: PropTypes.func
+    validate: PropTypes.func,
+    bestOf: PropTypes.object
   };
 
   render() {
@@ -15,7 +18,8 @@ export default class LiveBracket extends Component {
       bracket,
       validate,
       onUpdate,
-      finalId
+      finalId,
+      bestOf
     } = this.props;
 
     if (!bracket || !validate || !onUpdate) {
@@ -23,7 +27,7 @@ export default class LiveBracket extends Component {
     }
 
     return (
-      <Bracket bracket={validate(bracket)} finalId={finalId} onUpdate={onUpdate} />
+      <Bracket bracket={validate(bracket)} finalId={finalId} onUpdate={onUpdate} bestOf={bestOf} />
     );
   }
 }

@@ -1,21 +1,17 @@
-import React, {PropTypes, Component} from 'react';
-import {chunk} from 'lodash';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
 
 import MotionScroll from 'lib/MotionScroll';
-import Matchup from './Matchup';
 
 export default class Rounds extends Component {
   static defaultProps = {
-    name: '',
     rounds: []
   };
 
   static propTypes = {
-    finalId: PropTypes.string,
-    rounds: PropTypes.array.isRequired,
-    id: PropTypes.string.isRequired,
-    onUpdate: PropTypes.func
+    children: PropTypes.node.isRequired,
+    rounds: PropTypes.array.isRequired
   };
 
   constructor(props) {
@@ -50,8 +46,7 @@ export default class Rounds extends Component {
     }
 
     if (roundChange || roundFull) {
-      // TODO: dont read from the dom. Instead set up handlers to width in state
-      const {offsetWidth: width} = findDOMNode(this.refs.scroller);
+      const {offsetWidth: width} = findDOMNode(this._scroller);
       const {scroll} = this.state;
       const step = width / 2; // 2 rounds fit at a time
       const visible = Math.round((scroll + width) / step);
@@ -71,30 +66,19 @@ export default class Rounds extends Component {
     this.setState({scroll});
   };
 
+  setScrollNode = (node) => {
+    const scroller = node.firstChild;
+    this._scroller = scroller;
+    return scroller;
+  }
+
   render() {
-    const {id, onUpdate, rounds, finalId} = this.props;
+    const {children} = this.props;
     const {scroll} = this.state;
 
     return (
-      <MotionScroll scroll={scroll} onScrollReset={this.setScrollState} ref='scroller'>
-        <div className='rounds'>
-          <div className='rounds-scroll'>
-            {rounds.map((round, roundIndex) =>
-              <div key={roundIndex} className='round'>
-                {chunk(round, 2).map((matchup, matchupIndex) =>
-                  <Matchup
-                    key={matchupIndex}
-                    fromRegion={id}
-                    finalId={finalId}
-                    matchup={matchup}
-                    onUpdate={onUpdate}
-                    winner={roundIndex < (rounds.length - 1) ? rounds[roundIndex + 1][matchupIndex] : null}
-                  />
-                )}
-              </div>
-            )}
-          </div>
-        </div>
+      <MotionScroll scroll={scroll} onScrollReset={this.setScrollState} scrollNode={this.setScrollNode}>
+        {children}
       </MotionScroll>
     );
   }

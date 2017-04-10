@@ -1,5 +1,6 @@
 import config from 'config';
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Button, Popover, Alert, OverlayTrigger, Glyphicon} from 'react-bootstrap';
 import TimeAgo from 'react-timeago';
 import dateFormat from 'dateformat';

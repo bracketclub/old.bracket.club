@@ -1,9 +1,10 @@
-import React, {PropTypes, Component, cloneElement, Children} from 'react';
+import React, {Component, cloneElement, Children} from 'react';
+import PropTypes from 'prop-types';
 import {debounce} from 'lodash';
 import {Motion, spring} from 'react-motion';
 
 const DEBOUNCE_MS = 50;
-const SCROLL_REF = 'scroller';
+const SCROLL_REF = '_scroller';
 const CONTROLLED_FLAG = '_componentIsScrolling';
 
 // The scroller does two things:
@@ -21,11 +22,12 @@ class Scroller extends Component {
     scroll: PropTypes.number.isRequired,
     animate: PropTypes.bool.isRequired,
     onScrollReset: PropTypes.func.isRequired,
-    children: PropTypes.element.isRequired
+    children: PropTypes.element.isRequired,
+    scrollNode: PropTypes.func.isRequired
   };
 
   componentDidMount() {
-    this.refs[SCROLL_REF].addEventListener('scroll', this.handleScroll, false);
+    this[SCROLL_REF].addEventListener('scroll', this.handleScroll, false);
   }
 
   componentDidUpdate(prevProps) {
@@ -36,12 +38,12 @@ class Scroller extends Component {
     }
 
     this.startScrolling();
-    this.refs[SCROLL_REF].scrollLeft = scroll;
+    this[SCROLL_REF].scrollLeft = scroll;
     this.endScrolling();
   }
 
   componentWillUnmount() {
-    this.refs[SCROLL_REF].removeEventListener('scroll', this.handleScroll, false);
+    this[SCROLL_REF].removeEventListener('scroll', this.handleScroll, false);
   }
 
   handleScroll = debounce((e) => {
@@ -60,8 +62,10 @@ class Scroller extends Component {
   }, DEBOUNCE_MS);
 
   render() {
-    const {children} = this.props;
-    return cloneElement(Children.only(children), {ref: SCROLL_REF});
+    const {children, scrollNode} = this.props;
+    return cloneElement(Children.only(children), {
+      ref: (c) => (this[SCROLL_REF] = c && scrollNode(c))
+    });
   }
 }
 
@@ -69,7 +73,8 @@ export default class MotionScroll extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
     scroll: PropTypes.number.isRequired,
-    onScrollReset: PropTypes.func.isRequired
+    onScrollReset: PropTypes.func.isRequired,
+    scrollNode: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -96,7 +101,7 @@ export default class MotionScroll extends Component {
   };
 
   render() {
-    const {children} = this.props;
+    const {children, scrollNode} = this.props;
     const {animate, scroll} = this.state;
 
     // During animations it uses react-motions spring, otherwise it is just
@@ -106,7 +111,7 @@ export default class MotionScroll extends Component {
     return (
       <Motion defaultStyle={{scroll: 0}} style={{scroll: scrollStyle}}>
         {(value) =>
-          <Scroller onScrollReset={this.handleScrollReset} scroll={value.scroll} animate={animate}>
+          <Scroller onScrollReset={this.handleScrollReset} scrollNode={scrollNode} scroll={value.scroll} animate={animate}>
             {children}
           </Scroller>
         }
