@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Glyphicon} from 'react-bootstrap';
 
 // Only allow can win checks if it past the second round

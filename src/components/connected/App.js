@@ -1,6 +1,7 @@
 import config from 'config';
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Clone from 'react-clone';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
