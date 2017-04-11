@@ -311,9 +311,12 @@
 
 .winsIn {
   flex: 0 1 auto;
-  font-weight: bold;
   padding-left: @seedSpacing;
   margin-left: auto;
+}
+
+.winsInIncorrect {
+  color: @brand-danger;
 }
 
 .team {
@@ -332,8 +335,8 @@
       text-decoration: none;
       background: @brand-primary;
       color: @body-bg;
-      .seriesPickable {
-        display: block;
+      .winsIn {
+        font-weight: bold;
       }
     }
   }
@@ -361,13 +364,6 @@
     font-size: @smallFontSize !important;
     line-height: @fontSize !important;
   }
-}
-
-.seriesPickable {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
 }
 
 
