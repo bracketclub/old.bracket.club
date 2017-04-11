@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
 import mapSelectorsToProps from 'lib/mapSelectorsToProps';
 
+import * as bracketSelectors from '../../selectors/bracket';
 import * as mastersSelectors from '../../selectors/masters';
 import * as mastersActions from '../../actions/masters';
 
@@ -14,7 +15,8 @@ import LockMessage from '../bracket/LockMessage';
 
 const mapStateToProps = mapSelectorsToProps({
   navigation: mastersSelectors.navigation,
-  progress: mastersSelectors.progress
+  progress: mastersSelectors.progress,
+  bestOf: bracketSelectors.bestOf
 });
 
 @connect(mapStateToProps, mapDispatchToProps({mastersActions}))
@@ -22,7 +24,8 @@ export default class MasterNav extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     progress: PropTypes.object,
-    user: PropTypes.object
+    user: PropTypes.object,
+    bestOf: PropTypes.object
   };
 
   handleNavigate = (method) => {
@@ -30,7 +33,7 @@ export default class MasterNav extends Component {
   };
 
   render() {
-    const {navigation, progress, locked, locks, event, mocked, user} = this.props;
+    const {navigation, progress, locked, locks, event, mocked, user, bestOf} = this.props;
 
     return (
       <div>
@@ -39,7 +42,7 @@ export default class MasterNav extends Component {
             navigation={navigation}
             onNavigate={this.handleNavigate}
           />
-          <BracketProgress message='games played' progress={progress} />
+          <BracketProgress message={bestOf ? 'series played' : 'games played'} progress={progress} />
         </BracketHeader>
         <LockMessage
           mocked={mocked}
