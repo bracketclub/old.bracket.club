@@ -16,14 +16,14 @@ export default class DiffPick extends Component {
   render() {
     const {className, seed, name, children, onClick} = this.props;
 
-    let renderedChildren = [
+    const renderedChildren = [
       seed && <span key='seed' className={styles.seed}>{seed}</span>,
       name && <span key='name' className={styles.name}>{name}</span>,
       children
     ].filter(Boolean);
 
     if (!renderedChildren.length) {
-      renderedChildren = (
+      return (
         <div className={styles.team} children={'\u00A0'} />
       );
     }
