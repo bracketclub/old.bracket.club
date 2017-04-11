@@ -2,13 +2,18 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {Alert} from 'react-bootstrap';
-import {chunk, pick, flatten, compact, range, get} from 'lodash';
+import {chunk, pick, isEqual, flatten, compact, range, get, first, last} from 'lodash';
 
 import RoundsScroller from './RoundsScroller';
 import Pick from './Pick';
 import DiffPick from './DiffPick';
 import Team from './Team';
 import styles from './index.less';
+
+const isTeamEqual = (team1, team2) => isEqual(
+  pick(team1, 'seed', 'name'),
+  pick(team2, 'seed', 'name')
+);
 
 const MAX_ROUNDS = 6;
 
@@ -25,14 +30,14 @@ export default class Bracket extends Component {
     diff: PropTypes.bool
   };
 
-  renderTeam(team, {opponent, winner} = {}) {
+  renderTeam(team, {opponent, winner, top} = {}) {
     const {onUpdate, bestOf, diff} = this.props;
-    const isWinner = get(winner, 'seed') === get(team, 'seed') && get(team, 'seed') === get(team, 'seed');
+    const isWinner = isTeamEqual(team, winner);
 
     // Bracket is live so this is a pick that can be made
     if (onUpdate) {
       return (
-        <Pick {...{onUpdate, bestOf, team, opponent, winner, isWinner}} />
+        <Pick {...{onUpdate, bestOf, team, opponent, winner, isWinner, top}} />
       );
     }
 
@@ -55,21 +60,24 @@ export default class Bracket extends Component {
     );
   }
 
-  renderMatchup(matchup, {matchupIndex, rounds, roundIndex, final, otherRegion, finalRegion}) {
+  renderMatchup(matchup, {matchupIndex, rounds, round, roundIndex, final, regionOpponent, regionWinner}) {
     const {finalId} = this.props;
     const lastRound = roundIndex === rounds.length - 1;
 
     return (
       <div key={matchupIndex} className={styles.matchup}>
         {matchup.map((team, teamIndex) => {
-          // eslint-disable-next-line no-nested-ternary
-          const opponent = lastRound ? (final ? null : otherRegion.rounds[roundIndex][0]) : matchup[teamIndex === 0 ? 1 : 0];
-          // eslint-disable-next-line no-nested-ternary
-          const winner = lastRound ? (final ? null : finalRegion.rounds[1][matchupIndex]) : rounds[roundIndex + 1][matchupIndex];
+          // Whether this team is on the top half of its region when it is cut
+          // in half horizontally
+          const verticalIndex = (matchupIndex * 2) + teamIndex;
+          const top = verticalIndex < (round.length / 2);
+
+          const opponent = lastRound ? regionOpponent : matchup[teamIndex === 0 ? 1 : 0];
+          const winner = lastRound ? regionWinner : rounds[roundIndex + 1][matchupIndex];
 
           // If its the final or the last round of a region that game is now being picked
           // as a finalRegion game, so reassign the regions. This only affects live brackets
-          if (final || lastRound) {
+          if (finalId && (final || lastRound)) {
             if (team) team.fromRegion = finalId;
             if (opponent) opponent.fromRegion = finalId;
           }
@@ -77,7 +85,7 @@ export default class Bracket extends Component {
           return (
             <div key={teamIndex} className={styles.teamBox}>
               {team
-                ? this.renderTeam(team, {opponent, winner})
+                ? this.renderTeam(team, {opponent, winner, top})
                 : <Team />
               }
             </div>
@@ -122,7 +130,7 @@ export default class Bracket extends Component {
                     round,
                     roundIndex,
                     matchupIndex,
-                    ...pick(options, 'final', 'otherRegion', 'finalRegion')
+                    ...pick(options, 'final', 'regionOpponent', 'regionWinner')
                   }))}
                 </div>
               )}
@@ -149,31 +157,49 @@ export default class Bracket extends Component {
       );
     }
 
-    const singleRegion = bracket.regions.left.length === 1;
-    const bracketClass = cx(styles.bracket, {
-      [styles.singleRegion]: singleRegion
-    });
+    const {regions: {left, right}, regionFinal} = bracket;
+    const singleRegion = left.length === 1;
+    const bracketClass = cx(styles.bracket, {[styles.singleRegion]: singleRegion});
+
+    const regionOpponent = (side, index) => {
+      const opposite = side === left ? right : left;
+      // Single regions play the first (and only) region on the opposite side
+      // Otherwise the winners play the other region on the same side
+      const opponentRegion = singleRegion ? first(opposite) : side[index === 0 ? 1 : 0];
+      // This is the first team of the last round
+      return first(last(opponentRegion.rounds));
+    };
+
+    const regionWinner = (side) => {
+      // Single regions only have two rounds in the final, so in that case the
+      // region winner is the champion so the index is always 0.
+      // Otherwise the left side is always the "top" of the final so that is
+      // always the 0th index and the other side is the 1st
+      // eslint-disable-next-line no-nested-ternary
+      const finalIndex = singleRegion ? 0 : (side === left ? 0 : 1);
+      return regionFinal.rounds[1][finalIndex];
+    };
 
     return (
       <div className={bracketClass}>
         <div className={cx(styles.regions, styles.regionsLeft)}>
-          {bracket.regions.left.map((r, index) => this.renderRegion(r, {
-            otherRegion: singleRegion ? bracket.regions.right[0] : bracket.regions.left[index === 0 ? 1 : 0],
+          {left.map((r, index, side) => this.renderRegion(r, {
+            regionOpponent: regionOpponent(side, index),
+            regionWinner: regionWinner(side),
             top: index === 0 && !singleRegion,
-            bottom: index === 1 && !singleRegion,
-            finalRegion: bracket.regionFinal
+            bottom: index === 1 && !singleRegion
           }))}
         </div>
         <div className={cx(styles.regions, styles.regionsRight)}>
-          {bracket.regions.right.map((r, index) => this.renderRegion(r, {
-            otherRegion: singleRegion ? bracket.regions.left[0] : bracket.regions.right[index === 0 ? 1 : 0],
+          {right.map((r, index, side) => this.renderRegion(r, {
+            regionOpponent: regionOpponent(side, index),
+            regionWinner: regionWinner(side),
             top: index === 0 && !singleRegion,
-            bottom: index === 1 && !singleRegion,
-            finalRegion: bracket.regionFinal
+            bottom: index === 1 && !singleRegion
           }))}
         </div>
         <div className={cx(styles.regions, styles.regionsFinal)}>
-          {this.renderRegion(bracket.regionFinal, {'final': true})}
+          {this.renderRegion(regionFinal, {'final': true})}
         </div>
       </div>
     );
