@@ -145,8 +145,6 @@ export default memoize((options) => {
     diff: memoize((o) => getRegions(boundDiff(o)), (o) => id + o.master + o.entry),
 
     // Memoized by stringifying the options
-    // TODO: use individual params since right now different ordered keys
-    // will not hit the cache
     update: memoize(boundUpdater, (o) => id + JSON.stringify(o)),
     next: memoize(boundNext, (o) => id + JSON.stringify(o)),
 
