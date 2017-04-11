@@ -25,7 +25,7 @@ export default class DiffBracket extends Component {
     }
 
     return (
-      <Bracket bracket={diff({entry, master})} bestOf={bestOf} />
+      <Bracket bracket={diff({entry, master})} bestOf={bestOf} diff />
     );
   }
 }

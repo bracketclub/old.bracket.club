@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {Alert} from 'react-bootstrap';
-import {chunk, pick, flatten, compact, range} from 'lodash';
+import {chunk, pick, flatten, compact, range, get} from 'lodash';
 
-import RoundsScroller from '../RoundsScroller';
+import RoundsScroller from './RoundsScroller';
 import Pick from './Pick';
+import DiffPick from './DiffPick';
+import Team from './Team';
 import styles from './index.less';
 
 const MAX_ROUNDS = 6;
@@ -19,38 +21,38 @@ export default class Bracket extends Component {
     bracket: PropTypes.object,
     finalId: PropTypes.string,
     onUpdate: PropTypes.func,
-    bestOf: PropTypes.object
+    bestOf: PropTypes.object,
+    diff: PropTypes.bool
   };
 
   renderTeam(team, {opponent, winner} = {}) {
-    const {onUpdate, bestOf} = this.props;
-    const {seed, name, eliminated, correct, shouldBe} = team;
+    const {onUpdate, bestOf, diff} = this.props;
+    const isWinner = get(winner, 'seed') === get(team, 'seed') && get(team, 'seed') === get(team, 'seed');
 
     // Bracket is live so this is a pick that can be made
     if (onUpdate) {
       return (
-        <Pick {...{onUpdate, bestOf, team, opponent, winner}} />
+        <Pick {...{onUpdate, bestOf, team, opponent, winner, isWinner}} />
       );
     }
 
-    const entryTeamClasses = cx({
-      [styles.eliminated]: eliminated,
-      [styles.correct]: correct === true,
-      [styles.incorrect]: correct === false
-    });
+    // Bracket is being scored
+    if (diff) {
+      return (
+        <DiffPick {...{team, bestOf, picked: winner, wasPicked: isWinner}} />
+      );
+    }
 
-    return [
-      <div key={'team'} className={cx(styles.team, entryTeamClasses)} title={`${seed} ${name}`}>
-        <span className={styles.seed}>{team.seed}</span>
-        <span className={styles.name}>{team.name}</span>
-      </div>,
-      correct === false && shouldBe && (
-        <div key={'should-be'} className={cx(styles.team, styles.shouldBe)} title={`${shouldBe.seed} ${shouldBe.text}`}>
-          <span className={styles.seed}>{shouldBe.seed}</span>
-          <span className={styles.name}>{shouldBe.name}</span>
-        </div>
-      )
-    ];
+    // This is a master bracket game. It makes the most sense I think to show
+    // the winsIn for both teams instead of the number of games the series went.
+    // e.g. 4-2 instead of 6
+    return (
+      <Team {...team}>
+        {bestOf && get(winner, 'winsIn') &&
+          <span className={styles.winsIn}>{isWinner ? bestOf.wins : winner.winsIn - bestOf.wins}</span>
+        }
+      </Team>
+    );
   }
 
   renderMatchup(matchup, {matchupIndex, rounds, roundIndex, final, otherRegion, finalRegion}) {
@@ -60,15 +62,24 @@ export default class Bracket extends Component {
     return (
       <div key={matchupIndex} className={styles.matchup}>
         {matchup.map((team, teamIndex) => {
-          const opponent = lastRound ? (!final && otherRegion.rounds[roundIndex][0]) : matchup[teamIndex === 0 ? 1 : 0];
-          const winner = lastRound ? (!final && finalRegion.rounds[1][matchupIndex]) : rounds[roundIndex + 1][matchupIndex];
+          // eslint-disable-next-line no-nested-ternary
+          const opponent = lastRound ? (final ? null : otherRegion.rounds[roundIndex][0]) : matchup[teamIndex === 0 ? 1 : 0];
+          // eslint-disable-next-line no-nested-ternary
+          const winner = lastRound ? (final ? null : finalRegion.rounds[1][matchupIndex]) : rounds[roundIndex + 1][matchupIndex];
+
+          // If its the final or the last round of a region that game is now being picked
+          // as a finalRegion game, so reassign the regions. This only affects live brackets
           if (final || lastRound) {
             if (team) team.fromRegion = finalId;
             if (opponent) opponent.fromRegion = finalId;
           }
+
           return (
             <div key={teamIndex} className={styles.teamBox}>
-              {team ? this.renderTeam(team, {opponent, winner}) : <div className={styles.team}>{'\u00A0'}</div>}
+              {team
+                ? this.renderTeam(team, {opponent, winner})
+                : <Team />
+              }
             </div>
           );
         })}

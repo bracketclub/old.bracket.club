@@ -83,8 +83,8 @@ export const columns = createSelector(
 
 export const bestOf = createSelector(
   helpers,
-  (o) => ({
+  (o) => o.bestOf ? {
     range: o.bestOfRange,
     wins: o.bestOfWins
-  })
+  } : null
 );
