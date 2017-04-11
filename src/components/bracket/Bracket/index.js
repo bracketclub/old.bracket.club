@@ -30,14 +30,14 @@ export default class Bracket extends Component {
     diff: PropTypes.bool
   };
 
-  renderTeam(team, {opponent, winner} = {}) {
+  renderTeam(team, {opponent, winner, top} = {}) {
     const {onUpdate, bestOf, diff} = this.props;
     const isWinner = isTeamEqual(team, winner);
 
     // Bracket is live so this is a pick that can be made
     if (onUpdate) {
       return (
-        <Pick {...{onUpdate, bestOf, team, opponent, winner, isWinner}} />
+        <Pick {...{onUpdate, bestOf, team, opponent, winner, isWinner, top}} />
       );
     }
 
@@ -60,13 +60,18 @@ export default class Bracket extends Component {
     );
   }
 
-  renderMatchup(matchup, {matchupIndex, rounds, roundIndex, final, regionOpponent, regionWinner}) {
+  renderMatchup(matchup, {matchupIndex, rounds, round, roundIndex, final, regionOpponent, regionWinner}) {
     const {finalId} = this.props;
     const lastRound = roundIndex === rounds.length - 1;
 
     return (
       <div key={matchupIndex} className={styles.matchup}>
         {matchup.map((team, teamIndex) => {
+          // Whether this team is on the top half of its region when it is cut
+          // in half horizontally
+          const verticalIndex = (matchupIndex * 2) + teamIndex;
+          const top = verticalIndex < (round.length / 2);
+
           const opponent = lastRound ? regionOpponent : matchup[teamIndex === 0 ? 1 : 0];
           const winner = lastRound ? regionWinner : rounds[roundIndex + 1][matchupIndex];
 
@@ -80,7 +85,7 @@ export default class Bracket extends Component {
           return (
             <div key={teamIndex} className={styles.teamBox}>
               {team
-                ? this.renderTeam(team, {opponent, winner})
+                ? this.renderTeam(team, {opponent, winner, top})
                 : <Team />
               }
             </div>
