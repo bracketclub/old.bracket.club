@@ -32,12 +32,13 @@ export default class DiffPick extends Component {
           {bestOf && wasPicked &&
             // The winsIn get displayed with the previous round
             // like on the live bracket
-            <span className={styles.winsIn}>
-              <span style={{textDecoration: picked.winsInCorrect === false ? 'line-through' : 'none'}}>{picked.winsIn}</span>
-              {picked.winsInCorrect === false && ' '}
-              {picked.winsInCorrect === false &&
-                <span>{picked.shouldBe.winsIn}</span>
-              }
+            <span
+              className={cx(styles.winsIn, {
+                [styles.winsInIncorrect]: picked.winsInCorrect === false,
+                [styles.winsInCorrect]: picked.winsInCorrect === true
+              })}
+            >
+              {picked.winsIn}
             </span>
           }
         </Team>
@@ -49,7 +50,6 @@ export default class DiffPick extends Component {
         {bestOf && (incorrect || winsInIncorrect) && shouldBe &&
           // When a bracket has a bestOf, then either the pick or winsIn being
           // incorrect will display this text
-          // TODO: better colors to show which parts are correct and incorrect
           <Team className={styles.shouldBe} {...shouldBe}>
             <span
               className={cx(styles.winsIn, {

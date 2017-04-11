@@ -319,6 +319,10 @@
   color: @brand-danger;
 }
 
+.winsInCorrect {
+  color: @brand-success;
+}
+
 .team {
   flex: 1;
   display: flex;
@@ -348,10 +352,16 @@
   &.incorrect {
     background: @brand-danger;
     text-decoration: line-through;
+    .winsIn {
+      color: @text-color;
+    }
   }
 
   &.correct {
     background: @brand-success;
+    .winsIn {
+      color: @text-color;
+    }
   }
 
   &.shouldBe {
