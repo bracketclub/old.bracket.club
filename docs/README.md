@@ -14,7 +14,7 @@ This will make the site build with the static data and request it from the local
 
 ### Redux
 
-TODO
+Here's a quick example of [the state tree](./redux.json).
 
 
 
