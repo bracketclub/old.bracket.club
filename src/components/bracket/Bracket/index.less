@@ -8,6 +8,7 @@
 @roundSpacing: 0.5em;
 @teamHeight: 30px;
 @borderColor: @table-border-color;
+@backgroundColor: @body-bg;
 @fontSize: 1em;
 @smallFontSize: 0.8em;
 @seedSpacing: 0.3em;
@@ -342,7 +343,7 @@
   width: 100% !important;
   color: @brand-primary !important;
   &:hover {
-    color: @body-bg !important;
+    color: @backgroundColor !important;
   }
 }
 
@@ -350,14 +351,6 @@
   flex: 0 1 auto;
   padding-left: @seedSpacing;
   margin-left: auto;
-}
-
-.winsInIncorrect {
-  color: @brand-danger;
-}
-
-.winsInCorrect {
-  color: @brand-success;
 }
 
 .team {
@@ -368,14 +361,14 @@
   border: 1px solid @borderColor;
   font-size: @fontSize;
   line-height: @fontSize * 2;
-  background: @body-bg;
+  background: @backgroundColor;
 
   &.pickable {
     cursor: pointer;
     &:hover {
       text-decoration: none;
       background: @brand-primary;
-      color: @body-bg;
+      color: @backgroundColor;
       .winsIn {
         font-weight: bold;
       }
@@ -411,6 +404,25 @@
     font-size: @smallFontSize !important;
     line-height: @fontSize !important;
   }
+}
+
+.winsInDiff {
+  display: flex;
+  & > * {
+    padding: 0 @seedSpacing;
+  }
+}
+
+.winsInCorrect {
+  background: @brand-success;
+}
+
+.winsInIncorrect {
+  background: @brand-danger;
+}
+
+.winsInActual {
+  background: @borderColor;
 }
 
 

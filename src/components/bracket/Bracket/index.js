@@ -44,7 +44,7 @@ export default class Bracket extends Component {
     // Bracket is being scored
     if (diff) {
       return (
-        <DiffPick {...{team, bestOf, picked: winner, wasPicked: isWinner}} />
+        <DiffPick {...{team, bestOf, picked: winner}} />
       );
     }
 

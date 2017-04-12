@@ -1,63 +1,74 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import {pick, isEqual} from 'lodash';
 
 import Team from './Team';
 import styles from './index.less';
+
+const isTeamEqual = (team1, team2) => isEqual(
+  pick(team1, 'seed', 'name'),
+  pick(team2, 'seed', 'name')
+);
 
 export default class DiffPick extends Component {
   static propTypes = {
     bestOf: PropTypes.object,
     team: PropTypes.object,
-    picked: PropTypes.object,
-    wasPicked: PropTypes.bool
+    picked: PropTypes.object
   };
 
   render() {
-    const {bestOf, team, picked, wasPicked} = this.props;
+    const {bestOf, team, picked} = this.props;
     const {eliminated, correct, shouldBe} = team;
-
-    const incorrect = correct === false;
-    const winsInIncorrect = team.winsInCorrect === false;
+    const teamWrong = correct === false;
+    const showShouldBe = teamWrong && shouldBe;
 
     const entryTeamClasses = cx({
       [styles.eliminated]: eliminated,
       [styles.correct]: correct,
-      [styles.incorrect]: incorrect
+      [styles.incorrect]: teamWrong
     });
+
+    if (!bestOf) {
+      return (
+        <span>
+          <Team className={entryTeamClasses} {...team} />
+          {showShouldBe && <Team className={styles.shouldBe} {...shouldBe} />}
+        </span>
+      );
+    }
+
+    const wasPicked = isTeamEqual(team, picked);
+    const wasWinner = isTeamEqual(team, picked && picked.shouldBe);
+    const showWinsIn = wasPicked || wasWinner;
 
     return (
       <span>
         <Team className={entryTeamClasses} {...team}>
-          {bestOf && wasPicked &&
-            // The winsIn get displayed with the previous round
-            // like on the live bracket
-            <span
-              className={cx(styles.winsIn, {
-                [styles.winsInIncorrect]: picked.winsInCorrect === false,
-                [styles.winsInCorrect]: picked.winsInCorrect === true
-              })}
-            >
-              {picked.winsIn}
+          {showWinsIn &&
+            <span className={cx(styles.winsIn, styles.winsInDiff)}>
+              {wasWinner && picked.winsInCorrect === false &&
+                <span className={styles.winsInActual}>
+                  {picked.shouldBe.winsIn}
+                </span>
+              }
+              {wasPicked &&
+                <span
+                  className={cx({
+                    [styles.winsInCorrect]: picked.winsInCorrect === true,
+                    [styles.winsInIncorrect]: picked.winsInCorrect === false
+                  })}
+                >
+                  {picked.winsIn}
+                </span>
+              }
             </span>
           }
         </Team>
-        {!bestOf && incorrect && shouldBe &&
-          // In a bracket without a bestOf then shouldBe only
-          // gets displayed when it is an incorrect pick
-          <Team className={styles.shouldBe} {...shouldBe} />
-        }
-        {bestOf && (incorrect || winsInIncorrect) && shouldBe &&
-          // When a bracket has a bestOf, then either the pick or winsIn being
-          // incorrect will display this text
+        {showShouldBe &&
           <Team className={styles.shouldBe} {...shouldBe}>
-            <span
-              className={cx(styles.winsIn, {
-                [styles.winsInIncorrect]: correct && winsInIncorrect
-              })}
-            >
-              {shouldBe.winsIn}
-            </span>
+            <span className={styles.winsIn}>{shouldBe.winsIn}</span>
           </Team>
         }
       </span>
