@@ -44,7 +44,7 @@ export default class Bracket extends Component {
     // Bracket is being scored
     if (diff) {
       return (
-        <DiffPick {...{team, bestOf, picked: winner, wasPicked: isWinner}} />
+        <DiffPick {...{team, bestOf, picked: winner}} />
       );
     }
 
@@ -116,7 +116,6 @@ export default class Bracket extends Component {
       title += ` (${compact(games).length}/${games.length})`;
     }
 
-    // TODO: final first round shouldBe are overlapping
     return (
       <div key={id} className={regionClass}>
         <h2 className={styles.title}>{title}</h2>
