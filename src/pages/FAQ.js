@@ -2,11 +2,18 @@ import React, {Component} from 'react';
 import {PageHeader} from 'react-bootstrap';
 import {Link} from 'react-router';
 import qs from 'query-string';
+import {last} from 'lodash';
+
+import bracket from 'lib/bracket';
+import {or as joiner} from 'lib/stringJoiner';
 
 import Page from '../components/layout/Page';
 
 export default class FAQ extends Component {
   render() {
+    const ncaaData = bracket({sport: 'ncaam', year: '2017'});
+    const nbaNhlData = bracket({sport: 'nba', year: '2017'});
+
     return (
       <Page>
         <PageHeader>Frequently Asked Questions </PageHeader>
@@ -44,9 +51,18 @@ export default class FAQ extends Component {
         <hr />
 
         <h4>How are entries scored?</h4>
-        <p>Each round is worth a maximum of 320 points, so each game is worth (320 / number of games in that round). This has the effect of making games in later rounds worth more than earlier rounds.</p>
+
+        <strong>NCAA</strong><br />
+        <p>Each round is worth a maximum of {last(ncaaData.scoring)} points, so each game is worth <code>{last(ncaaData.scoring)} / GAMES_PER_ROUND</code>, which works itself out to {joiner(ncaaData.scoring)} points per game per round. This has the effect of making games in later rounds worth more than earlier rounds.</p>
 
         <p>Entries are also scored using the <a target='_blank' href='http://www.wsj.com/articles/SB10001424052748704507404576178923020853478'>Gooley Scoring Method</a>. This is mostly for fun because it makes it easy to see <Link to='/ncaam-2014/entries?sort=gooley%7Cdesc'>who picked the best upsets</Link> or <Link to='/ncaam-2014/entries?game=0&sort=gooleyPPR%7Cdesc'>who had the most potential madness in their bracket at the start</Link>, but it is also used as the tiebreaker.</p>
+
+        <strong>NBA and NHL</strong><br />
+        <p>A correct pick in each round from the first round to the championship is worth {joiner(nbaNhlData.scoring.map(([round]) => round))} points respectively.</p>
+
+        <p>Each pick is also awarded a bonus of {joiner(nbaNhlData.scoring.map(([, bonus]) => bonus))} points (again going from the first round to the championship) if the correct number of games of that series is predicted as well. However, the bonus is only awarded if the winner is correctly predicted as well as both participants. In the first round you always have the participants correct, so you only need to predict the winner and the number of games.</p>
+
+        <p>But if for example, in the 2nd round of the NHL Playoffs you pick Chicago over Minnesota in 7 games, but Chicago ends up beating St. Louis in 7 games, then you would get 25 points for correctly picking Chicago, but you <em>would not</em> get the {nbaNhlData.scoring[1][1]} bonus points because both participants were not correct.</p>
 
         <hr />
 

@@ -104,7 +104,7 @@ export default memoize((options) => {
   };
   const id = idResolver(sportYear);
 
-  const {constants, regex, locks, complete, bracket: bracketObj} = bracketData(sportYear);
+  const {constants, scoring, regex, locks, complete, bracket: bracketObj} = bracketData(sportYear);
 
   const validator = new BracketValidator(sportYear);
   const updater = new BracketUpdater(sportYear);
@@ -134,6 +134,7 @@ export default memoize((options) => {
     bestOf: hasBestOf && constants.BEST_OF,
     bestOfRange: hasBestOf && constants.BEST_OF_RANGE,
     bestOfWins: hasBestOf && constants.BEST_OF_RANGE[0],
+    scoring: scoring[STANDARD],
 
     // Dont memoize since it can be used to return a random bracket
     generate: boundGenerator,
