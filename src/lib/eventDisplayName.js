@@ -2,8 +2,8 @@ import {startCase} from 'lodash';
 
 const uppercase = /\b(ncaa|nba|nhl)\b/gi;
 const fullnames = {
-  ncaam: 'mens',
-  ncaaw: 'womens'
+  ncaam: 'NCAAM',
+  ncaaw: 'NCAAW'
 };
 
 const parts = (o) => typeof o === 'string' ? {sport: o.split('-')[0], year: o.split('-')[1]} : o;
