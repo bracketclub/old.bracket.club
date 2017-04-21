@@ -22,5 +22,9 @@ export default (key, selector, parseId = identity) => (state, params, {timeOnly 
 
   // Normalize to an array so all checks are the same and
   // bailout if the current time is after all of the open times
-  return (Array.isArray(open) ? open : [open]).every((o) => now >= d(o));
+  return (Array.isArray(open) ? open : [open]).every((o) => {
+    // null means we dont know when the event is complete so dont bailout
+    if (o === null) return false;
+    return now >= d(o);
+  });
 };
