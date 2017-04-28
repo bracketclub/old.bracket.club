@@ -1,5 +1,5 @@
 export default {
-  sport: 'nba',
+  sport: 'nhl',
   year: '2017',
   ga: 'UA-8402584-9',
   mocks: [],
