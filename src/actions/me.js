@@ -23,9 +23,9 @@ export const syncLogout = (error) => ({
 export const getFriends = () => (dispatch, getState) => {
   const {me} = getState();
   const {id, twitterAuth} = me;
-  const {accessToken: token, secret: tokenSecret} = twitterAuth;
+  const {accessToken: token, secret} = twitterAuth;
 
-  if (!token || !tokenSecret || !id) {
+  if (!token || !secret || !id) {
     return dispatch({
       type: actions.FRIENDS_FETCH_ERROR,
       error: true,
@@ -35,7 +35,7 @@ export const getFriends = () => (dispatch, getState) => {
 
   return dispatch({
     [CALL_API]: {
-      endpoint: `https://webtask.it.auth0.com/api/run/wt-lukekarrys-gmail_com-0/twitter-friends?${qs.stringify({id, token, tokenSecret})}`,
+      endpoint: `https://wt-lukekarrys-gmail_com-0.run.webtask.io/twitter-friends-webtask?${qs.stringify({id, token, secret})}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=UTF-8'
