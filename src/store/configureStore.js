@@ -29,7 +29,7 @@ export default (initialState = {}) => {
 
   if (process.env.NODE_ENV !== 'production') {
     middleware.push(
-      require('redux-logger')({
+      require('redux-logger').createLogger({
         collapsed: true,
         predicate: (getState, action) => action.type.indexOf('@@router') === -1
       })

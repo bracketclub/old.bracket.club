@@ -14,18 +14,24 @@ export default class Footer extends Component {
     return (
       <footer styleName='footer'>
         <ul styleName='footer-links'>
-          <li><a target='_blank' href={`https://twitter.com/${twitter}`}>Twitter</a></li>
+          <li><a target='_blank' rel='noopener noreferrer' href={`https://twitter.com/${twitter}`}>Twitter</a></li>
           <li styleName='muted'>{charCodes.dot}</li>
-          <li><a target='_blank' href='https://github.com/bracketclub'>GitHub</a></li>
+          <li><a target='_blank' rel='noopener noreferrer' href='https://github.com/bracketclub'>GitHub</a></li>
           {!locked && <li styleName='muted'>{charCodes.dot}</li>}
-          {!locked && <li><a target='_blank' href={`/${event.id}/zen`}>Zen Mode</a></li>}
+          {!locked && <li><a target='_blank' rel='noopener noreferrer' href={`/${event.id}/zen`}>Zen Mode</a></li>}
         </ul>
         <p styleName='twitter'>
-          <a target='_blank' className='twitter-follow-button' href={`https://twitter.com/${twitter}`} data-show-count='false'>
+          <a
+            target='_blank'
+            rel='noopener noreferrer'
+            className='twitter-follow-button'
+            href={`https://twitter.com/${twitter}`}
+            data-show-count='false'
+          >
             Follow @{twitter}
           </a>
         </p>
-        <p styleName='muted'>Made with ♥️ by <a target='_blank' href='http://lukekarrys.com'>Luke</a> in AZ.</p>
+        <p styleName='muted'>Made with ♥️ by <a target='_blank' rel='noopener noreferrer' href='http://lukekarrys.com'>Luke</a> in AZ.</p>
       </footer>
     );
   }
