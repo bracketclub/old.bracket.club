@@ -25,7 +25,7 @@ export default class FAQ extends Component {
         <hr />
 
         <h4>Why do I have to tweet my entry?</h4>
-        <p>It started as a bit of a gimmick because I wanted to test <a target='_blank' href='https://gist.github.com/lukekarrys/2028007#why'>if you could fit a serialized NCAA tournament bracket in a tweet</a>. It stuck around because I think it’s fun to share your picks on Twitter.</p>
+        <p>It started as a bit of a gimmick because I wanted to test <a target='_blank' rel='noopener noreferrer' href='https://gist.github.com/lukekarrys/2028007#why'>if you could fit a serialized NCAA tournament bracket in a tweet</a>. It stuck around because I think it’s fun to share your picks on Twitter.</p>
         <p>It also has the added bonus that in case someone submits a perfect bracket, I can point to the original tweet in case someone thinks some random little bracket challenge site forged a perfect bracket for the publicity.</p>
 
         <hr />
@@ -46,7 +46,7 @@ export default class FAQ extends Component {
         <hr />
 
         <h4>Can I delete my entry?</h4>
-        <p>That’s not yet possible from the site, but if you <a target='_blank' href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Bracket Club'})}`}>drop me a line</a> I’ll be more than happy to remove it from the database.</p>
+        <p>That’s not yet possible from the site, but if you <a target='_blank' rel='noopener noreferrer' href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Bracket Club'})}`}>drop me a line</a> I’ll be more than happy to remove it from the database.</p>
 
         <hr />
 
@@ -55,7 +55,7 @@ export default class FAQ extends Component {
         <strong>NCAA</strong><br />
         <p>Each round is worth a maximum of {last(ncaaData.scoring)} points, so each game is worth <code>{last(ncaaData.scoring)} / GAMES_PER_ROUND</code>, which works itself out to {joiner(ncaaData.scoring)} points per game per round. This has the effect of making games in later rounds worth more than earlier rounds.</p>
 
-        <p>Entries are also scored using the <a target='_blank' href='http://www.wsj.com/articles/SB10001424052748704507404576178923020853478'>Gooley Scoring Method</a>. This is mostly for fun because it makes it easy to see <Link to='/ncaam-2014/entries?sort=gooley%7Cdesc'>who picked the best upsets</Link> or <Link to='/ncaam-2014/entries?game=0&sort=gooleyPPR%7Cdesc'>who had the most potential madness in their bracket at the start</Link>, but it is also used as the tiebreaker.</p>
+        <p>Entries are also scored using the <a target='_blank' rel='noopener noreferrer' href='http://www.wsj.com/articles/SB10001424052748704507404576178923020853478'>Gooley Scoring Method</a>. This is mostly for fun because it makes it easy to see <Link to='/ncaam-2014/entries?sort=gooley%7Cdesc'>who picked the best upsets</Link> or <Link to='/ncaam-2014/entries?game=0&sort=gooleyPPR%7Cdesc'>who had the most potential madness in their bracket at the start</Link>, but it is also used as the tiebreaker.</p>
 
         <strong>NBA and NHL</strong><br />
         <p>A correct pick in each round from the first round to the championship is worth {joiner(nbaNhlData.scoring.map(([round]) => round))} points respectively.</p>
@@ -67,12 +67,12 @@ export default class FAQ extends Component {
         <hr />
 
         <h4>Who made this?</h4>
-        <p>Hey, thanks for asking! I’m <a target='_blank' href='http://lukekarrys.com/'>Luke</a>. I’ve always been into code and brackets, so I was bound to make something like this eventually. A bunch of it is open source, so if you’re into that sort of thing, you can <a target='_blank' href='https://github.com/bracketclub'>check it out on GitHub</a>. You can get in touch <a target='_blank' href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Bracket Club FAQ'})}`}>via email</a> if there’s something bracket related you want to chat about.</p>
+        <p>Hey, thanks for asking! I’m <a target='_blank' rel='noopener noreferrer' href='http://lukekarrys.com/'>Luke</a>. I’ve always been into code and brackets, so I was bound to make something like this eventually. A bunch of it is open source, so if you’re into that sort of thing, you can <a target='_blank' rel='noopener noreferrer' href='https://github.com/bracketclub'>check it out on GitHub</a>. You can get in touch <a target='_blank' rel='noopener noreferrer' href={`mailto:luke@lukekarrys.com?${qs.stringify({subject: 'Bracket Club FAQ'})}`}>via email</a> if there’s something bracket related you want to chat about.</p>
 
         <hr />
 
         <h4>How does it work? Why did you make this?</h4>
-        <p>I talked about those things and a few others over on <a target='_blank' href='http://lukecod.es/categories/tweet-your-bracket/'>my code blog</a>, so you should check that out if you’re really curious.</p>
+        <p>I talked about those things and a few others over on <a target='_blank' rel='noopener noreferrer' href='http://lukecod.es/categories/tweet-your-bracket/'>my code blog</a>, so you should check that out if you’re really curious.</p>
 
         <hr />
 
