@@ -79,11 +79,11 @@ export default class Header extends Component {
           </NavbarBrand>
           <Nav className='year-nav'>
             <NavDropdown title={this.getEventTitle()} id='event-nav'>
-              {config.events.map((e) =>
+              {config.events.map((e) => (
                 <LinkContainer onlyActiveOnIndex key={e} to={this.getEventPath(e)}>
                   <NavItem>{eventDisplayName(e)}</NavItem>
                 </LinkContainer>
-              )}
+              ))}
             </NavDropdown>
           </Nav>
           <NavbarToggle />

@@ -60,7 +60,7 @@ export default class ResultsTable extends Component {
               <tr>
                 <th>Rank</th>
                 <th>Username</th>
-                {columns.map((column) =>
+                {columns.map((column) => (
                   <SortableTh
                     {...headerProps}
                     hideXs={column.hideXs}
@@ -70,14 +70,14 @@ export default class ResultsTable extends Component {
                   >
                     {column.display}
                   </SortableTh>
-                )}
+                ))}
               </tr>
             </thead>
             <tbody>
               {!hasResults &&
                 <tr><td colSpan='99'>{`There are no results yet ${friends ? 'from your friends ' : ''}for this event.`}</td></tr>
               }
-              {entries.map((entry) =>
+              {entries.map((entry) => (
                 <tr key={entry.id} className={entry.isMe ? 'info' : ''}>
                   <td>{entry.score.index}</td>
                   <td>
@@ -97,7 +97,7 @@ export default class ResultsTable extends Component {
                   {typeof entry.score.gooley !== undefined && <td className='hidden-xs hidden-sm'>{entry.score.gooley}</td>}
                   {typeof entry.score.gooleyPPR !== undefined && <td className='hidden-xs hidden-sm'>{entry.score.gooleyPPR}</td>}
                 </tr>
-              )}
+              ))}
             </tbody>
           </Table>
         }

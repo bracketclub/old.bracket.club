@@ -110,11 +110,11 @@ export default class MotionScroll extends Component {
 
     return (
       <Motion defaultStyle={{scroll: 0}} style={{scroll: scrollStyle}}>
-        {(value) =>
+        {(value) => (
           <Scroller onScrollReset={this.handleScrollReset} scrollNode={scrollNode} scroll={value.scroll} animate={animate}>
             {children}
           </Scroller>
-        }
+        )}
       </Motion>
     );
   }

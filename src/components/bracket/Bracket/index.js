@@ -122,7 +122,7 @@ export default class Bracket extends Component {
         <RoundsScroller rounds={rounds}>
           <div className={styles.roundsScroll}>
             <div className={styles.rounds}>
-              {rounds.map((round, roundIndex) =>
+              {rounds.map((round, roundIndex) => (
                 <div key={roundIndex} className={styles.round}>
                   {chunk(round, 2).map((matchup, matchupIndex) => this.renderMatchup(matchup, {
                     rounds,
@@ -132,7 +132,7 @@ export default class Bracket extends Component {
                     ...pick(options, 'final', 'regionOpponent', 'regionWinner')
                   }))}
                 </div>
-              )}
+              ))}
             </div>
           </div>
         </RoundsScroller>

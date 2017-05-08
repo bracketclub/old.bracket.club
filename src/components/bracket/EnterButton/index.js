@@ -60,6 +60,7 @@ export default class BracketEnterButton extends Component {
           href={tweetHref({event, bracket})}
           onClick={() => onEnter(bracket)}
           target='_blank'
+          rel='noopener noreferrer'
         >
           Enter My Bracket!
         </Button>

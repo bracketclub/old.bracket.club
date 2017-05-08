@@ -39,7 +39,7 @@ export default class MockMessage extends Component {
         <br className='visible-lg-block' />
         {' '}
         <strong>
-          <Link to='/subscribe'>Subscribe</Link> to email updates or follow <a target='_blank' href={`https://twitter.com/${config.twitter.handle}`}>@{config.twitter.handle}</a> on Twitter to be the first to know when entries are open.
+          <Link to='/subscribe'>Subscribe</Link> to email updates or follow <a target='_blank' rel='noopener noreferrer' href={`https://twitter.com/${config.twitter.handle}`}>@{config.twitter.handle}</a> on Twitter to be the first to know when entries are open.
         </strong>
       </Alert>
     );
