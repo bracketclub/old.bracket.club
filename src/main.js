@@ -1,6 +1,6 @@
-import '!!file?name=favicon.ico!../public/favicon.ico';
-import '!!file?name=favicon.png!../public/favicon.png';
-import '!!file?name=favicon-192x192.png!../public/favicon-192x192.png';
+import '!!file-loader?name=favicon.ico!../public/favicon.ico';
+import '!!file-loader?name=favicon.png!../public/favicon.png';
+import '!!file-loader?name=favicon-192x192.png!../public/favicon-192x192.png';
 
 import '../styles/index.less';
 
