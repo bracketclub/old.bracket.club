@@ -9,7 +9,13 @@ export default class SubscribePage extends Component {
     return (
       <Page>
         <PageHeader>Subscribe</PageHeader>
-        <Form horizontal target='_blank' action={config.mailchimp.url} method='POST'>
+        <Form
+          horizontal
+          target='_blank'
+          rel='noopener noreferrer'
+          action={config.mailchimp.url}
+          method='POST'
+        >
           <input type='hidden' name='u' value={config.mailchimp.u} />
           <input type='hidden' name='id' value={config.mailchimp.id} />
           <FormGroup>
@@ -21,7 +27,7 @@ export default class SubscribePage extends Component {
                 There’ll be gifs, emoji, announcements of cool new features, and you’ll be the first to know every time entries go live.
                 <br className='visible-md-block visible-lg-block' />
                 {' '}
-                Check out <a href='http://us5.campaign-archive2.com/home/?u=3357cbc15c95f163a6fff3a84&id=2259ac644a' target='_blank'>the past newsletters</a> to see what you’re in for.
+                Check out <a href='http://us5.campaign-archive2.com/home/?u=3357cbc15c95f163a6fff3a84&id=2259ac644a' target='_blank' rel='noopener noreferrer'>the past newsletters</a> to see what you’re in for.
                 <br className='visible-md-block visible-lg-block' />
                 {' '}
                 <em>(But no spam, I promise)</em>

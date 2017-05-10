@@ -25,7 +25,7 @@ export default class BracketNav extends Component {
       </Button>
     );
 
-    if (canManipulate) {
+    if (canManipulate || !canGoForward) {
       return button;
     }
 
@@ -34,7 +34,7 @@ export default class BracketNav extends Component {
         placement='bottom'
         overlay={
           <Tooltip id='has-more-games'>
-            Click here to jump to the last game from this event.
+            Jump to the last game from this event.
           </Tooltip>
         }
       >

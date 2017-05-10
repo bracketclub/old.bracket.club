@@ -1,46 +1,21 @@
 'use strict';
 
 const path = require('path');
-const cssnano = require('cssnano');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const OnBuildPlugin = require('on-build-webpack');
 const webpackConfig = require('hjs-webpack');
-const html = require('html-tagged-literals');
 const _ = require('lodash');
 const cpr = require('cpr');
 
-const SRC = path.resolve(__dirname, 'src');
+const renderHTML = require('./webpack/html');
+const addStyleLoaders = require('./webpack/styles');
 
+const SRC = path.resolve(__dirname, 'src');
 const nodeEnv = process.env.NODE_ENV || 'development';
 const configEnv = process.env.CONFIG_ENV || 'development';
 const isDev = nodeEnv === 'development';
 
-const renderHTML = (context) => html[isDev ? 'unindent' : 'minify']`
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <title>Bracket Club</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Brackt Club">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="icon" href="/favicon.png">
-    <link rel="icon" sizes="192x192" href="/favicon-192x192.png">
-    <link rel="apple-touch-icon-precomposed" href="/favicon-192x192.png">
-    <link rel="stylesheet" href="/${context.css}">
-  </head>
-  <body>
-    <div id='root'></div>
-    <script>window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));</script>
-    <script src="/${context.main}"></script>
-  </body>
-  </html>
-`;
-
-const webpack = webpackConfig({
+const config = webpackConfig({
   isDev,
   'in': `${SRC}/main.js`,
   out: 'build',
@@ -57,43 +32,20 @@ const webpack = webpackConfig({
   })
 });
 
-// Exclude style files from the src directory since only css module-ized files will be in there
-webpack.module.loaders.forEach((loader) => {
-  if (loader && loader.loader && loader.loader.match(/!css/)) {
-    loader.exclude = [SRC];
-  }
-});
-
-// Opt in to css modules with for .less files in the src dir
-const cssModulesLoader = `?modules&localIdentName=${isDev ? '[path][name]___[local]___' : ''}[hash:base64:5]`;
-webpack.module.loaders.push({
-  test: /\.less$/,
-  include: [SRC],
-  loader: isDev
-    ? `style-loader!css-loader${cssModulesLoader}!postcss-loader!less-loader`
-    : ExtractTextPlugin.extract('style-loader', `css-loader${cssModulesLoader}!postcss-loader!less-loader`)
-});
-
-webpack.postcss.push(cssnano({
-  // Required to work with relative Common JS style urls for css-modules
-  normalizeUrl: false,
-  // Core is on by default so disabling it for dev allows for more readable
-  // css since it retains whitespace and bracket newlines
-  core: !isDev,
-  discardComments: {removeAll: !isDev}
-}));
+// Go through the hjs config and add our apps style loaders how we need them
+addStyleLoaders(config, {src: SRC, isDev});
 
 // Allow for src/lib files to be required without relative paths
-webpack.resolve.alias = {
+config.resolve.alias = {
   lib: path.resolve(__dirname, 'src', 'lib')
 };
 
 if (process.env.WEBPACK_ANALYZE) {
-  webpack.plugins.push(new BundleAnalyzerPlugin());
+  config.plugins.push(new BundleAnalyzerPlugin());
 }
 
 if (configEnv === 'static') {
-  webpack.plugins.push(new OnBuildPlugin(_.once(() => cpr(
+  config.plugins.push(new OnBuildPlugin(_.once(() => cpr(
     path.resolve(__dirname, 'public', 'json'),
     path.resolve(__dirname, 'build', 'json'),
     {
@@ -104,4 +56,4 @@ if (configEnv === 'static') {
   ))));
 }
 
-module.exports = webpack;
+module.exports = config;
