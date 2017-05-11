@@ -3,7 +3,6 @@
 
 import nock from 'nock';
 import {transform} from 'lodash';
-
 import {fetch as usersFetch} from '../actions/users';
 
 import {

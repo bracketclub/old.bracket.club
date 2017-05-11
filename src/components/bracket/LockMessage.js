@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Alert} from 'react-bootstrap';
 import TimeAgo from 'react-timeago';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 const formatter = (value, unit) => `${value} ${unit}${value !== 1 ? 's' : ''}`;
 

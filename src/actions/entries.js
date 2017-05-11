@@ -3,7 +3,7 @@ import restActions from 'lib/reduxApiRestActions';
 import {event as aEvent} from 'lib/analytics';
 import es from 'lib/eventSource';
 import bailoutEvent from 'lib/bailoutEvent';
-import {replaceQuery} from './routing';
+import {replaceQuery, location} from './history';
 import {entry as schema} from '../schema';
 import * as entriesSelectors from '../selectors/entries';
 import * as bracketSelectors from '../selectors/bracket';
@@ -13,8 +13,7 @@ const reverse = (dir) => dir === 'asc' ? 'desc' : 'asc';
 
 const sortAction = (sortBy) => (dispatch, getState) => {
   const state = getState();
-  const location = state.routing.location || state.routing.locationBeforeTransitions;
-  const current = entriesSelectors.sortParams(state, {location});
+  const current = entriesSelectors.sortParams(state, {location: location()});
 
   // If the sort key is the same as the current sort key then reverse the direction
   // otherwise use the existing sort direction

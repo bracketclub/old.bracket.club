@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
 import mapSelectorsToProps from 'lib/mapSelectorsToProps';
 import fetch from 'lib/fetchDecorator';
-
 import * as usersActions from '../actions/users';
 import * as usersSelectors from '../selectors/users';
-
 import Page from '../components/layout/Page';
 import UserEntries from '../components/user/Entries';
 import UserInfo from '../components/user/Info';
@@ -18,7 +15,7 @@ const mapStateToProps = mapSelectorsToProps({
 });
 
 const mapPropsToActions = (props) => ({
-  users: [usersActions.fetch, props.params.userId, usersActions.sse]
+  users: [usersActions.fetch, props.match.params.userId, usersActions.sse]
 });
 
 @connect(mapStateToProps)

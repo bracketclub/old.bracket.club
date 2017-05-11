@@ -1,18 +1,20 @@
 import {createSelector} from 'reselect';
-import {eventId} from './event';
+import {id} from './event';
 import {index} from './masters';
 
+const canWin = (state) => state.canWin;
+
 export const canWinGlobal = createSelector(
-  (state) => state.canWin,
-  eventId,
+  canWin,
+  id,
   index,
-  ($canWin, $event, $index) => $canWin[`${$event}-${$index}-global`] || {}
+  ($canWin, $id, $index) => $canWin[`${$id}-${$index}-global`] || {}
 );
 
 export const canWinFriends = createSelector(
-  (state) => state.canWin,
-  eventId,
+  canWin,
+  id,
   index,
-  ($canWin, $event, $index) => $canWin[`${$event}-${$index}-friends`] || {}
+  ($canWin, $id, $index) => $canWin[`${$id}-${$index}-friends`] || {}
 );
 

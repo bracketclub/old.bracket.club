@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {Dropdown, MenuItem, SafeAnchor} from 'react-bootstrap';
 import {pick, get} from 'lodash';
-
 import Team from './Team';
 import styles from './index.less';
 
@@ -30,7 +29,7 @@ export default class Pick extends Component {
     this.setState({
       dropdownOpen: isOpen
     });
-  }
+  };
 
   render() {
     const {onUpdate, bestOf, team, opponent, winner, isWinner, top} = this.props;

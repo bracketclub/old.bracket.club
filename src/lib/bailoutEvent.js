@@ -18,7 +18,7 @@ export default (key, selector, parseId = identity) => (state, params, {timeOnly 
   // Otherwise use the time and the selector's time to determine if the request
   // should be made
   const now = Date.now();
-  const open = selector(state, {params: {eventId: parseId(params)}});
+  const open = selector(state, {match: {params: {eventId: parseId(params)}}});
 
   // Normalize to an array so all checks are the same and
   // bailout if the current time is after all of the open times

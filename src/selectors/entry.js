@@ -1,14 +1,13 @@
 import {createSelector} from 'reselect';
-
 import findById from 'lib/findById';
-import eventInfo from './event';
 import {MIN_INDEX} from '../constants/entry';
+import * as eventSelectors from './event';
 import * as bracketSelectors from './bracket';
 
 const entry = (state) => state.entry;
 
 export const byEvent = createSelector(
-  eventInfo,
+  eventSelectors.info,
   entry,
   ($event, $entry) => findById($entry, $event.id) || {
     index: MIN_INDEX,

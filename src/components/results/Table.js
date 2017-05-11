@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {PageHeader, Table, Glyphicon, ButtonGroup, Button} from 'react-bootstrap';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 import {LinkContainer} from 'react-router-bootstrap';
 import dateFormat from 'dateformat';
-
 import SortableTh from './SortableTh';
 import EntryCanWin, {Legend as CanWinLegend} from './CanWin';
 
 export default class ResultsTable extends Component {
   static propTypes = {
+    event: PropTypes.object.isRequired,
+    locked: PropTypes.bool.isRequired,
+    locks: PropTypes.string.isRequired,
     entries: PropTypes.array.isRequired,
     onSort: PropTypes.func.isRequired,
     onCanWinCheck: PropTypes.func.isRequired,
@@ -24,7 +26,7 @@ export default class ResultsTable extends Component {
 
     const {onCanWinCheck, entries, friends} = this.props;
     onCanWinCheck({entries, id, list: friends ? 'friends' : 'global'});
-  }
+  };
 
   render() {
     const {entries, sortParams, friends, event, locked, locks, onSort, progress, columns} = this.props;
