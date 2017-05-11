@@ -1,14 +1,12 @@
 import {createSelector} from 'reselect';
-import {routerActions} from 'react-router-redux';
 import {UserAuthWrapper} from 'redux-auth-wrapper';
 import qs from 'query-string';
+import {replace} from '../actions/history';
 
 const KEY = 'me';
-
-const me = (state) => state[KEY];
 const repredicate = (selector) => (val) => selector({[KEY]: val});
 
-export default me;
+export const me = (state) => state[KEY];
 
 export const sync = createSelector(
   me,
@@ -43,7 +41,7 @@ export const notAuthed = createSelector(
 export const Authed = UserAuthWrapper({
   authSelector: me,
   predicate: repredicate(isAuthed),
-  redirectAction: routerActions.replace,
+  redirectAction: replace,
   allowRedirectBack: true,
   wrapperDisplayName: 'Authed'
 });
@@ -52,7 +50,7 @@ export const NotAuthed = UserAuthWrapper({
   authSelector: me,
   predicate: repredicate(notAuthed),
   failureRedirectPath: (state, props) => qs.parse(props.location.search).redirect || '/',
-  redirectAction: routerActions.replace,
+  redirectAction: replace,
   allowRedirectBack: false,
   wrapperDisplayName: 'NotAuthed'
 });

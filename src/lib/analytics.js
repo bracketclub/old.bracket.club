@@ -1,5 +1,5 @@
 import config from 'config';
-import {eventId} from '../selectors/event';
+import * as eventSelectors from '../selectors/event';
 
 const {hostname} = window.location;
 const noop = () => void 0;
@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'production' && hostname === config.baseUrl) {
 
 export const pageview = ({pathname, search}) => analytics.pageview(pathname + search);
 export const event = ({state, event: e, category, action, labels = [], label = ''}) => {
-  const id = (e && e.id) || eventId(Array.isArray(state) ? state[0] : state);
+  const id = (e && e.id) || eventSelectors.id(Array.isArray(state) ? state[0] : state);
   const displayLabel = label || (Array.isArray(labels) ? labels.join('|') : labels);
   analytics.event({
     category,

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {pick, isEqual} from 'lodash';
-
 import Team from './Team';
 import styles from './index.less';
 

@@ -5,7 +5,6 @@ import {Button, Popover, Alert, OverlayTrigger, Glyphicon} from 'react-bootstrap
 import TimeAgo from 'react-timeago';
 import dateFormat from 'dateformat';
 import CSSModules from 'react-css-modules';
-
 import tweetHref from 'lib/tweetHref';
 import Countdown from '../../event/Countdown';
 import styles from './index.less';
@@ -20,7 +19,8 @@ export default class BracketEnterButton extends Component {
     onEnter: PropTypes.func.isRequired,
     locks: PropTypes.string.isRequired,
     locked: PropTypes.bool.isRequired,
-    progress: PropTypes.object.isRequired
+    progress: PropTypes.object.isRequired,
+    mocked: PropTypes.bool.isRequired
   };
 
   getOverlay() {

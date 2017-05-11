@@ -1,13 +1,14 @@
 import {createSelector} from 'reselect';
 import {property} from 'lodash';
-
-import {eventId} from './event';
+import qs from 'query-string';
+import * as eventSelectors from './event';
 import * as bracketSelectors from './bracket';
 import * as visibleSelectors from './visible';
 
 const STATE_KEY = property('masters');
-const urlIndex = (state, props) => parseInt(props.location.query.game, 10);
-const master = visibleSelectors.byId(STATE_KEY, eventId);
+// TODO
+const urlIndex = (state, props) => parseInt(qs.parse(props.location.search).game, 10);
+const master = visibleSelectors.byId(STATE_KEY, eventSelectors.id);
 
 export const brackets = createSelector(
   master,
@@ -60,4 +61,4 @@ export const progress = createSelector(
   }
 );
 
-export const sync = visibleSelectors.sync(STATE_KEY, eventId);
+export const sync = visibleSelectors.sync(STATE_KEY, eventSelectors.id);

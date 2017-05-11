@@ -1,9 +1,8 @@
 import {createSelector} from 'reselect';
 import {find, pick, property, compact, orderBy, groupBy, map} from 'lodash';
-
 import {ENTITIES} from 'lib/endpointReducer';
-import eventInfo, {eventId} from './event';
 import {id as meId} from './me';
+import * as eventSelectors from './event';
 import * as bracketSelectors from './bracket';
 import * as mastersSelectors from './masters';
 import * as entriesSelectors from './entries';
@@ -11,8 +10,8 @@ import * as visibleSelectors from './visible';
 
 const STATE_KEY = property('users');
 const entries = (state, props) => state.entries[ENTITIES];
-const userId = (state, props) => props.params.userId;
-const userEventId = createSelector(userId, eventId, (...args) => args.join('/'));
+const userId = (state, props) => props.match.params.userId;
+const userEventId = createSelector(userId, eventSelectors.id, (...args) => args.join('/'));
 
 const mapUserToEntries = ($user, $entries) => {
   const $userEntries = compact(($user.entries || []).map((id) => $entries[id]));
@@ -41,7 +40,7 @@ export const userWithEntries = createSelector(
 
 export const userWithEntry = createSelector(
   visibleUser(userEventId),
-  eventInfo,
+  eventSelectors.info,
   entries,
   ($user, $event, $entries) => ({
     ...$user,

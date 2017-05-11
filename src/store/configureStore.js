@@ -1,8 +1,6 @@
 import config from 'config';
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
-import {routerMiddleware} from 'react-router-redux';
-import {browserHistory} from 'react-router';
 import {apiMiddleware} from 'redux-api-middleware';
 import persistState from 'redux-localstorage';
 import adapter from 'redux-localstorage/lib/adapters/localStorage';
@@ -22,7 +20,6 @@ export default (initialState = {}) => {
 
   const middleware = [
     thunk,
-    routerMiddleware(browserHistory),
     apiMiddleware,
     apiRelationsMiddleware
   ];

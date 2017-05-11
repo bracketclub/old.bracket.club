@@ -1,7 +1,6 @@
 import config from 'config';
 import React, {Component} from 'react';
 import {Col, Form, FormGroup, FormControl, Button, PageHeader} from 'react-bootstrap';
-
 import Page from '../components/layout/Page';
 
 export default class SubscribePage extends Component {

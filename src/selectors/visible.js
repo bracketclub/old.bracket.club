@@ -1,5 +1,4 @@
 import {pick} from 'lodash';
-
 import {SYNC_STATE, RECORDS, RESULT, ENTITIES} from 'lib/endpointReducer';
 
 const syncKeys = Object.keys(SYNC_STATE);

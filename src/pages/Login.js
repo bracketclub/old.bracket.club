@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import {PageHeader, Button} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
+import qs from 'query-string';
 import Page from '../components/layout/Page';
 import * as meActionCreators from '../actions/me';
 import * as meSelectors from '../selectors/me';
 
 const mapStateToProps = (state, props) => ({
-  redirect: props.location.query.redirect || '/',
+  redirect: qs.parse(props.location.search).redirect || '/',
   authenticating: meSelectors.authenticating(state, props)
 });
 
