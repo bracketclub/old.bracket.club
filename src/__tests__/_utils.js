@@ -6,7 +6,6 @@ import thunk from 'redux-thunk';
 import {apiMiddleware} from 'redux-api-middleware';
 import nock from 'nock';
 import Promise from 'bluebird';
-
 import apiRelationsMiddleware from 'lib/reduxApiRelations';
 import rootReducer from '../reducers';
 

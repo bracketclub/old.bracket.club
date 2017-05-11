@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import {PageHeader} from 'react-bootstrap';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 import qs from 'query-string';
 import {last} from 'lodash';
-
 import bracket from 'lib/bracket';
 import {or as joiner} from 'lib/stringJoiner';
-
 import Page from '../components/layout/Page';
 
 export default class FAQ extends Component {

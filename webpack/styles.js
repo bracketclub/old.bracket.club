@@ -35,4 +35,7 @@ module.exports = (config, {src, isDev}) => {
   addLoader(lessRule, {exclude: [src]}, cssIndex, {
     minimize: isDev ? false : {discardComments: {removeAll: true}}
   });
+
+  // This is a modified object so be careful
+  return config;
 };

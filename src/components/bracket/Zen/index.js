@@ -9,6 +9,8 @@ import styles from './index.less';
 @CSSModules(styles)
 export default class ZenBracket extends Component {
   static propTypes = {
+    event: PropTypes.object.isRequired,
+    locked: PropTypes.bool.isRequired,
     onUpdate: PropTypes.func,
     bracket: PropTypes.string,
     next: PropTypes.func
@@ -16,7 +18,7 @@ export default class ZenBracket extends Component {
 
   state = {
     disabled: false
-  }
+  };
 
   handleUpdate(e, team) {
     this.setState({disabled: true});

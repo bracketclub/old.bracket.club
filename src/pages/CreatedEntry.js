@@ -1,18 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
 import fetch from 'lib/fetchDecorator';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
 import mapSelectorsToProps from 'lib/mapSelectorsToProps';
-
 import * as bracketSelectors from '../selectors/bracket';
 import * as mastersSelectors from '../selectors/masters';
 import * as mastersActions from '../actions/masters';
-
 import Page from '../components/layout/Page';
 import DiffBracket from '../components/bracket/DiffBracket';
-import MasterNav from '../components/connected/MasterNav';
+import MasterNav from '../components/bracket/MasterNav';
 
 const mapStateToProps = mapSelectorsToProps({
   diff: bracketSelectors.diff,
@@ -29,27 +26,27 @@ const mapPropsToActions = (props) => ({
 @fetch(mapPropsToActions)
 export default class CreatedEntryPage extends Component {
   static propTypes = {
+    location: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     master: PropTypes.string,
     diff: PropTypes.func,
     sync: PropTypes.object,
     bestOf: PropTypes.object
   };
 
-  static getEventPath = (e, {params, query}) => ({pathname: `/${e}`, query});
-
   render() {
     const {
       diff,
       master,
       sync,
-      bestOf
+      bestOf,
+      location,
+      match: {params: {bracket}}
     } = this.props;
-
-    const {bracket} = this.props.params;
 
     return (
       <Page width='full' sync={sync}>
-        <MasterNav {...this.props} />
+        <MasterNav location={location} />
         <DiffBracket {...{diff, entry: bracket, master, bestOf}} />
       </Page>
     );

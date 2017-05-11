@@ -1,5 +1,6 @@
 import config from 'config';
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import charCodes from 'lib/charCodes';
 import styles from './index.less';
@@ -8,6 +9,11 @@ const twitter = config.twitter.handle;
 
 @CSSModules(styles)
 export default class Footer extends Component {
+  static propTypes = {
+    event: PropTypes.object.isRequired,
+    locked: PropTypes.bool.isRequired
+  };
+
   render() {
     const {event, locked} = this.props;
 

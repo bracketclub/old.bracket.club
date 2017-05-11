@@ -6,7 +6,6 @@ const OnBuildPlugin = require('on-build-webpack');
 const webpackConfig = require('hjs-webpack');
 const _ = require('lodash');
 const cpr = require('cpr');
-
 const renderHTML = require('./webpack/html');
 const addStyleLoaders = require('./webpack/styles');
 
@@ -15,7 +14,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
 const configEnv = process.env.CONFIG_ENV || 'development';
 const isDev = nodeEnv === 'development';
 
-const config = webpackConfig({
+const config = addStyleLoaders(webpackConfig({
   isDev,
   'in': `${SRC}/main.js`,
   out: 'build',
@@ -30,10 +29,7 @@ const config = webpackConfig({
   html: (context) => ({
     [isDev ? 'index.html' : '200.html']: renderHTML(context)
   })
-});
-
-// Go through the hjs config and add our apps style loaders how we need them
-addStyleLoaders(config, {src: SRC, isDev});
+}), {src: SRC, isDev});
 
 // Allow for src/lib files to be required without relative paths
 config.resolve.alias = {

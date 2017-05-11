@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {Alert} from 'react-bootstrap';
 import {chunk, pick, isEqual, flatten, compact, range, get, first, last} from 'lodash';
-
 import RoundsScroller from './RoundsScroller';
 import Pick from './Pick';
 import DiffPick from './DiffPick';

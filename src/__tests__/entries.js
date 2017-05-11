@@ -5,7 +5,6 @@ import nock from 'nock';
 import MockDate from 'mockdate';
 import {transform} from 'lodash';
 import BD from 'bracket-data';
-
 import {fetch as entriesFetch} from '../actions/entries';
 
 import {

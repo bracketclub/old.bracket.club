@@ -1,13 +1,12 @@
 import {createSelector} from 'reselect';
-
 import eventDisplayName from 'lib/eventDisplayName';
 
 const rEvent = /^\/?(\w+)?-?(\d{4})/;
+export const event = (state) => state.event;
 
-const event = (state) => state.event;
-export const eventId = (state, props) => {
+export const id = (state, props) => {
   if (props) {
-    const {params, location} = props;
+    const {match: {params} = {}, location} = props;
     // From react router params
     if (params && params.eventId) return params.eventId;
     // From url
@@ -18,18 +17,19 @@ export const eventId = (state, props) => {
   }
 
   // Fallback to current state
-  return `${state.event.sport}-${state.event.year}`;
+  const {sport, year} = event(state);
+  return `${sport}-${year}`;
 };
 
-export default createSelector(
+export const info = createSelector(
   event,
-  eventId,
-  ($event, $eventId) => {
+  id,
+  ($event, $id) => {
     let sport, year;
 
-    if ($eventId) {
+    if ($id) {
       // The sport is optionally only because previous year urls did not include it
-      const matches = $eventId.match(rEvent);
+      const matches = $id.match(rEvent);
       sport = matches && matches[1] && matches[1];
       year = matches && matches[2] && matches[2];
     }

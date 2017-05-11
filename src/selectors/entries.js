@@ -1,10 +1,10 @@
 import {createSelector} from 'reselect';
 import {sortedIndexBy, orderBy, sortBy, property} from 'lodash';
-
+import qs from 'query-string';
 import {ENTITIES} from 'lib/endpointReducer';
-import {eventId} from './event';
 import {canWinGlobal, canWinFriends} from './canWin';
-import me from './me';
+import {me} from './me';
+import * as eventSelectors from './event';
 import * as bracketSelectors from './bracket';
 import * as mastersSelectors from './masters';
 import * as visibleSelectors from './visible';
@@ -15,8 +15,9 @@ const SORT_DIR = 'desc';
 const DEFAULT_SORT = (entry) => entry.score[SORT_KEY] * -1;
 
 const users = (state) => state.users[ENTITIES];
-const urlSort = (state, props) => props.location.query.sort;
-const entries = visibleSelectors.list(STATE_KEY, eventId);
+// TODO
+const urlSort = (state, props) => qs.parse(props.location.search).sort;
+const entries = visibleSelectors.list(STATE_KEY, eventSelectors.id);
 
 const entriesWithUsers = createSelector(
   entries,
@@ -66,7 +67,7 @@ const orderEntries = ($entries, $score, $master, $sort) => {
   const addStandardIndex = addSortedIndex(sortBy(scoredEntries, DEFAULT_SORT));
   return orderBy(
     scoredEntries.map(addStandardIndex),
-    // Break ties by falling back to descending by standard score (+ppr) then gooley  (+ppr)
+    // Break ties by falling back to descending by standard score (+ppr) then gooley (+ppr)
     [
       `score.${$sort.key}`,
       'score.standard',
@@ -94,4 +95,4 @@ const entriesScoredByEvent = (entriesSelector) => createSelector(entriesSelector
 export const scoredByEvent = entriesScoredByEvent(entriesWithUsers);
 export const friendsScoredByEvent = entriesScoredByEvent(friendsEntries);
 
-export const sync = visibleSelectors.sync(STATE_KEY, eventId);
+export const sync = visibleSelectors.sync(STATE_KEY, eventSelectors.id);

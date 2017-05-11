@@ -1,8 +1,8 @@
 import config from 'config';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router';
-import {LinkContainer} from 'react-router-bootstrap';
+import {Link} from 'react-router-dom';
+import {LinkContainer, IndexLinkContainer} from 'react-router-bootstrap';
 import {Navbar, Nav, NavItem, MenuItem, NavDropdown} from 'react-bootstrap';
 import eventDisplayName from 'lib/eventDisplayName';
 
@@ -49,20 +49,14 @@ export default class Header extends Component {
     );
   }
 
-  getEventPath(e) {
+  getEventPath(event) {
     const {eventPath} = this.props;
-
-    return eventPath
-      ? eventPath(e)
-      : `/${e}`;
+    return eventPath ? eventPath(event) : `/${event}`;
   }
 
   getEventTitle() {
     const {eventPath} = this.props;
-
-    return eventPath
-      ? this.props.event.display
-      : 'Event';
+    return eventPath ? this.props.event.display : 'Event';
   }
 
   render() {
@@ -79,10 +73,10 @@ export default class Header extends Component {
           </NavbarBrand>
           <Nav className='year-nav'>
             <NavDropdown title={this.getEventTitle()} id='event-nav'>
-              {config.events.map((e) => (
-                <LinkContainer onlyActiveOnIndex key={e} to={this.getEventPath(e)}>
-                  <NavItem>{eventDisplayName(e)}</NavItem>
-                </LinkContainer>
+              {config.events.map((eventNav) => (
+                <IndexLinkContainer key={eventNav} to={this.getEventPath(eventNav)}>
+                  <NavItem>{eventDisplayName(eventNav)}</NavItem>
+                </IndexLinkContainer>
               ))}
             </NavDropdown>
           </Nav>
