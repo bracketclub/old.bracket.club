@@ -7,6 +7,7 @@ import 'babel-polyfill';
 import config from 'config';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {once} from 'lodash';
 import {Provider} from 'react-redux';
 import {pageview} from 'lib/analytics';
 import {auth} from 'lib/firebase';
@@ -27,7 +28,9 @@ pageview(history.location);
 // Firebase will trigger the action if the user is logged in from a previous
 // session when first loading the page. Note that this action is slightly different
 // than the login action which contains the user and the twitter credentials
-auth.onAuthStateChanged((user) => store.dispatch(meActions.loginUser(user)));
+// This is also wrapped in once, so that it only happens for the intial load
+// and everything else is handled as part of the me actions
+auth.onAuthStateChanged(once((user) => store.dispatch(meActions.initialAuth(user))));
 
 // Add debugging helperts to global
 if (process.env.NODE_ENV !== 'production') window.bc = require('lib/debug')(store);

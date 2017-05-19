@@ -34,12 +34,12 @@ export default class Header extends Component {
 
   handleLogin = (e) => {
     e.preventDefault();
-    this.props.meActions.onLogin();
+    this.props.meActions.login();
   };
 
   handleLogout = (e) => {
     e.preventDefault();
-    this.props.meActions.onLogout();
+    this.props.meActions.logout();
   };
 
   getMeDropdown() {
