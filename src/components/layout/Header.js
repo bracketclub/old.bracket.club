@@ -1,37 +1,50 @@
 import config from 'config';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {Link, withRouter} from 'react-router-dom';
 import {LinkContainer, IndexLinkContainer} from 'react-router-bootstrap';
 import {Navbar, Nav, NavItem, MenuItem, NavDropdown} from 'react-bootstrap';
+import mapSelectorsToProps from 'lib/mapSelectorsToProps';
+import mapDispatchToProps from 'lib/mapDispatchToProps';
 import eventDisplayName from 'lib/eventDisplayName';
+import * as eventSelectors from '../../selectors/event';
+import * as meSelectors from '../../selectors/me';
+import * as meActions from '../../actions/me';
+import {getEventPath} from '../../routes';
 
 const NavbarHeader = Navbar.Header;
 const NavbarBrand = Navbar.Brand;
 const NavbarToggle = Navbar.Toggle;
 const NavbarCollapse = Navbar.Collapse;
 
+const mapStateToProps = mapSelectorsToProps({
+  event: eventSelectors.info,
+  me: meSelectors.me
+});
+
+@withRouter
+@connect(mapStateToProps, mapDispatchToProps({meActions}))
 export default class Header extends Component {
   static propTypes = {
-    onLogin: PropTypes.func.isRequired,
-    onLogout: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     me: PropTypes.object,
-    event: PropTypes.object,
-    eventPath: PropTypes.func
+    event: PropTypes.object
   };
 
   handleLogin = (e) => {
     e.preventDefault();
-    this.props.onLogin();
+    this.props.meActions.onLogin();
   };
 
   handleLogout = (e) => {
     e.preventDefault();
-    this.props.onLogout();
+    this.props.meActions.onLogout();
   };
 
   getMeDropdown() {
-    const {me, eventPath, event} = this.props;
+    const {me, event} = this.props;
+    const eventPath = this.getEventPath();
 
     return (
       <NavDropdown title={me.username} id='me-nav'>
@@ -50,13 +63,15 @@ export default class Header extends Component {
   }
 
   getEventPath(event) {
-    const {eventPath} = this.props;
-    return eventPath ? eventPath(event) : `/${event}`;
+    return getEventPath(this.props.location)(event);
+  }
+
+  getEventLink(event) {
+    return this.getEventPath(event) || `/${event}`;
   }
 
   getEventTitle() {
-    const {eventPath} = this.props;
-    return eventPath ? this.props.event.display : 'Event';
+    return this.getEventPath() ? this.props.event.display : 'Event';
   }
 
   render() {
@@ -74,7 +89,7 @@ export default class Header extends Component {
           <Nav className='year-nav'>
             <NavDropdown title={this.getEventTitle()} id='event-nav'>
               {config.events.map((eventNav) => (
-                <IndexLinkContainer key={eventNav} to={this.getEventPath(eventNav)}>
+                <IndexLinkContainer key={eventNav} to={this.getEventLink(eventNav)}>
                   <NavItem>{eventDisplayName(eventNav)}</NavItem>
                 </IndexLinkContainer>
               ))}

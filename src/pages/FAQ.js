@@ -7,7 +7,7 @@ import bracket from 'lib/bracket';
 import {or as joiner} from 'lib/stringJoiner';
 import Page from '../components/layout/Page';
 
-export default class FAQ extends Component {
+export default class FAQPage extends Component {
   render() {
     const ncaaData = bracket({sport: 'ncaam', year: '2017'});
     const nbaNhlData = bracket({sport: 'nba', year: '2017'});

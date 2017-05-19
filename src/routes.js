@@ -1,5 +1,5 @@
 import {matchPath} from 'react-router-dom';
-import {pick} from 'lodash';
+import {pick, noop} from 'lodash';
 import * as meSelectors from './selectors/me';
 import Subscribe from './pages/Subscribe';
 import Login from './pages/Login';
@@ -87,8 +87,14 @@ const routes = [
   },
   {
     exact: true,
-    path: '/:eventId/entry/:bracket',
+    path: '/:eventId/entries/:userId',
     component: UserEntry,
+    eventPath
+  },
+  {
+    exact: true,
+    path: '/:eventId/entry/:bracket',
+    component: CreatedEntry,
     eventPath
   },
   {
@@ -106,11 +112,11 @@ export const getEventPath = (location) => {
   for (let i = 0, m = routes.length; i < m; i++) {
     const route = routes[i];
     const match = matchPath(location.pathname, pick(route, 'path', 'exact', 'strict'));
-    if (match && route.eventPath) {
-      return route.eventPath({path: route.path, location, match});
+    if (match) {
+      return route.eventPath ? route.eventPath({path: route.path, location, match}) : noop;
     }
   }
-  return null;
+  return noop;
 };
 
 export default routes;

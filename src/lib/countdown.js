@@ -5,7 +5,7 @@ export default (time, cb) => {
   const date = new Date(time);
 
   const countdown = () => {
-    if (date - new Date() <= 0) {
+    if ((date - Date.now()) <= 0) {
       raf.cancel(rafId);
       cb();
       return;
