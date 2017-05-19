@@ -6,12 +6,14 @@ import mapDispatchToProps from 'lib/mapDispatchToProps';
 import mapSelectorsToProps from 'lib/mapSelectorsToProps';
 import * as bracketSelectors from '../selectors/bracket';
 import * as mastersSelectors from '../selectors/masters';
+import * as eventSelectors from '../selectors/event';
 import * as mastersActions from '../actions/masters';
 import Page from '../components/layout/Page';
 import DiffBracket from '../components/bracket/DiffBracket';
 import MasterNav from '../components/bracket/MasterNav';
 
 const mapStateToProps = mapSelectorsToProps({
+  event: eventSelectors.info,
   diff: bracketSelectors.diff,
   master: mastersSelectors.bracketString,
   sync: mastersSelectors.sync,
