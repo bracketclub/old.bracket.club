@@ -7,7 +7,6 @@ import 'babel-polyfill';
 import config from 'config';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {pageview} from 'lib/analytics';
 import {auth} from 'lib/firebase';
@@ -16,6 +15,7 @@ import configureStore from './store/configureStore';
 import * as meActions from './actions/me';
 import * as mastersActions from './actions/masters';
 import * as entriesActions from './actions/entries';
+import * as eventActions from './actions/event';
 import App from './App';
 
 const store = configureStore();
@@ -38,13 +38,12 @@ if (process.env.NODE_ENV !== 'production') window.bc = require('lib/debug')(stor
 config.events.forEach((event) => {
   mastersActions.sse(event)(store.dispatch, store.getState);
   entriesActions.sse(event)(store.dispatch, store.getState);
+  eventActions.countdown(event)(store.dispatch, store.getState);
 });
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <App history={history} />
-    </Router>
+    <App history={history} />
   </Provider>,
   document.getElementById('root')
 );

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Grid, Row, Col} from 'react-bootstrap';
 import SyncContainer from '../containers/Sync';
+import Header from './Header';
+import Footer from './Footer';
 
 export default class Page extends Component {
   static propTypes = {
@@ -38,13 +40,17 @@ export default class Page extends Component {
     } = this.props;
 
     return (
-      <Grid fluid={width === 'full'} style={{paddingBottom: '50px', minHeight: '300px'}}>
-        <Row>
-          <Col {...this.getColumnWidths()}>
-            <SyncContainer sync={sync}>{children}</SyncContainer>
-          </Col>
-        </Row>
-      </Grid>
+      <div>
+        <Header />
+        <Grid fluid={width === 'full'} style={{paddingBottom: '50px', minHeight: '300px'}}>
+          <Row>
+            <Col {...this.getColumnWidths()}>
+              <SyncContainer sync={sync}>{children}</SyncContainer>
+            </Col>
+          </Row>
+        </Grid>
+        <Footer />
+      </div>
     );
   }
 }

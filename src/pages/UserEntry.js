@@ -9,6 +9,7 @@ import * as bracketSelectors from '../selectors/bracket';
 import * as usersSelectors from '../selectors/users';
 import * as mastersSelectors from '../selectors/masters';
 import * as entriesSelectors from '../selectors/entries';
+import * as eventSelectors from '../selectors/event';
 import * as entriesActions from '../actions/entries';
 import * as usersActions from '../actions/users';
 import Page from '../components/layout/Page';
@@ -18,6 +19,7 @@ import UserEntry from '../components/user/Entry';
 import ScoreCard from '../components/user/ScoreCard';
 
 const mapStateToProps = mapSelectorsToProps({
+  event: eventSelectors.info,
   diff: bracketSelectors.diff,
   bestOf: bracketSelectors.bestOf,
   master: mastersSelectors.bracketString,

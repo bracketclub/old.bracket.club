@@ -25,6 +25,7 @@ const mapStateToProps = mapSelectorsToProps({
   progress: entrySelectors.progress,
   bestOf: bracketSelectors.bestOf,
   locked: bracketSelectors.locked,
+  mocked: bracketSelectors.mocked,
   locks: bracketSelectors.locks,
   event: eventSelectors.info
 });

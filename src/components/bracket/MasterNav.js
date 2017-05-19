@@ -29,11 +29,11 @@ export default class MasterNav extends Component {
     location: PropTypes.object.isRequired,
     navigation: PropTypes.object.isRequired,
     progress: PropTypes.object.isRequired,
-    bestOf: PropTypes.object.isRequired,
     event: PropTypes.object.isRequired,
     locks: PropTypes.string.isRequired,
     locked: PropTypes.bool.isRequired,
     mocked: PropTypes.bool.isRequired,
+    bestOf: PropTypes.object,
     user: PropTypes.object
   };
 
