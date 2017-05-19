@@ -4,7 +4,11 @@ import * as types from '../constants/event';
 
 const initialState = {
   sport: config.sport,
-  year: config.year
+  year: config.year,
+  ...config.events.reduce((acc, event) => {
+    acc[event] = {locked: true};
+    return acc;
+  }, {})
 };
 
 export default (state = initialState, action) => {
@@ -24,6 +28,15 @@ export default (state = initialState, action) => {
       year: year || state.year
     };
   }
+
+  case types.UNLOCK:
+    return {
+      ...state,
+      [action.payload.id]: {
+        ...(state[action.payload.id] || {}),
+        locked: false
+      }
+    };
 
   case types.LOCK:
     return {
