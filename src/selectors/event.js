@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect';
-import {get, assign, pick} from 'lodash';
+import {get} from 'lodash';
 import eventDisplayName from 'lib/eventDisplayName';
 
 const matchEvent = (val) => {
@@ -12,20 +12,22 @@ export const event = (state) => state.event;
 
 export const id = (state, props) => {
   // From react router params
-  const eventId = get(props, 'match.params.eventId');
-  if (eventId) return eventId;
+  const paramsEventId = get(props, 'match.params.eventId');
+  if (paramsEventId) return paramsEventId;
 
-  // Fallback to current state
+  // From location prop
+  const pathEventId = matchEvent(get(props, 'location.pathname', ''));
+  if (pathEventId.sport) return `${pathEventId.sport}-${pathEventId.year}`;
+
+  // Fallback to current state (which is set to a default event from config)
   const {sport, year} = event(state);
   return `${sport}-${year}`;
 };
 
 export const info = createSelector(
-  event,
   id,
-  ($event, $id) => {
-    const {sport, year} = assign(pick($event, 'sport', 'year'), matchEvent($id));
-
+  ($id) => {
+    const {sport, year} = matchEvent($id);
     return {
       sport,
       year,
