@@ -8,6 +8,7 @@ const initialState = {
   id: null,
   username: null,
   authenticating: false,
+  authError: null,
   syncing: {
     syncing: false,
     fetchError: null
@@ -21,17 +22,28 @@ export default (state = initialState, action) => {
     return {
       ...initialState,
       ...state,
-      authenticating: true
+      authenticating: true,
+      authError: null
     };
 
-  case types.LOGIN:
+  case types.LOGIN: {
+    const auth = action.payload;
     return {
       ...initialState,
       ...state,
       authenticating: false,
-      twitterAuth: action.auth.credential || state.twitterAuth || {},
-      id: action.auth.user.providerData[0].uid,
-      username: action.auth.user.providerData[0].displayName
+      authError: null,
+      twitterAuth: auth.credential || state.twitterAuth || {},
+      id: auth.user.providerData[0].uid,
+      username: auth.user.providerData[0].displayName
+    };
+  }
+
+  case types.AUTH_ERROR:
+    return {
+      ...initialState,
+      ...state,
+      authError: action.payload
     };
 
   case types.LOGOUT:
