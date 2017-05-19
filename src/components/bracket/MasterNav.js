@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
 import mapSelectorsToProps from 'lib/mapSelectorsToProps';
 import * as bracketSelectors from '../../selectors/bracket';
@@ -22,6 +23,7 @@ const mapStateToProps = mapSelectorsToProps({
   mocked: bracketSelectors.mocked
 });
 
+@withRouter
 @connect(mapStateToProps, mapDispatchToProps({mastersActions}))
 export default class MasterNav extends Component {
   static propTypes = {
