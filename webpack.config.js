@@ -42,7 +42,7 @@ if (process.env.WEBPACK_ANALYZE) {
 
 if (configEnv === 'static') {
   config.plugins.push(new OnBuildPlugin(_.once(() => cpr(
-    path.resolve(__dirname, 'public', 'json'),
+    path.resolve(__dirname, '..', 'api', '.export'),
     path.resolve(__dirname, 'build', 'json'),
     {
       deleteFirst: false,
