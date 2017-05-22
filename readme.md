@@ -2,8 +2,8 @@
 
 [bracket.club](https://bracket.club)
 
-[ ![Codeship Status for lukekarrys/bracket.club](https://codeship.com/projects/5fb60060-d755-0133-0bc1-52d6c6c7e513/status?branch=master)](https://codeship.com/projects/142910)
+[ ![Codeship Status for bracketclub/bracket.club](https://app.codeship.com/projects/6f6c0d20-2173-0135-7ec8-6e79166b93f4/status?branch=master)](https://app.codeship.com/projects/221362)
 
-[ ![Codeship Status for lukekarrys/bracket.club](https://codeship.com/projects/5fb60060-d755-0133-0bc1-52d6c6c7e513/status?branch=development)](https://codeship.com/projects/142910)
+[ ![Codeship Status for bracketclub/bracket.club](https://app.codeship.com/projects/6f6c0d20-2173-0135-7ec8-6e79166b93f4/status?branch=development)](https://app.codeship.com/projects/221362)
 
 ![gif](https://cldup.com/cn6bO2r3US.gif)
