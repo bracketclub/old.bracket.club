@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
-
 import MotionScroll from 'lib/MotionScroll';
 
 export default class Rounds extends Component {
@@ -70,7 +69,7 @@ export default class Rounds extends Component {
     const scroller = node.firstChild;
     this._scroller = scroller;
     return scroller;
-  }
+  };
 
   render() {
     const {children} = this.props;

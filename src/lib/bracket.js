@@ -87,11 +87,11 @@ const idResolver = (o) => `${o.sport}-${o.year}`;
 const globalLocks = {};
 if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line no-unused-vars
-  const nowPlus = (str) => new Date(new Date().valueOf() + require('ms')(str)).toJSON();
-  // globalLocks['ncaam-2016'] = nowPlus('1d');
-  // globalLocks['ncaaw-2016'] = nowPlus('1d');
-  // globalLocks['nba-2016'] = nowPlus('1d');
-  // globalLocks['nhl-2016'] = nowPlus('1d');
+  const nowPlus = (str) => new Date(Date.now() + require('ms')(str)).toJSON();
+  // globalLocks['ncaam-2017'] = nowPlus('1d');
+  // globalLocks['ncaaw-2017'] = nowPlus('1d');
+  // globalLocks['nba-2017'] = nowPlus('10s');
+  // globalLocks['nhl-2017'] = nowPlus('10s');
 }
 
 // Each sport, year combo is memoized since they never change

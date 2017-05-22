@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {ListGroup, ListGroupItem} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
-
 import eventDisplayName from 'lib/eventDisplayName';
 
 export default class UserEntries extends Component {

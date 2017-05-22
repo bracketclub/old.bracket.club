@@ -1,9 +1,8 @@
-import {replace} from 'react-router-redux';
-
 import {event as aEvent} from 'lib/analytics';
+import {replace, location} from './history';
 import * as bracketSelectors from '../selectors/bracket';
 import * as entrySelectors from '../selectors/entry';
-import {eventId} from '../selectors/event';
+import * as eventSelectors from '../selectors/event';
 import * as actions from '../constants/entry';
 
 const analyticsEvent = (state, action, ...labels) => aEvent({
@@ -22,21 +21,20 @@ const eventAction = (action) => (bracket, state) => state
 
 // Replace bracket in current url
 export const updatePath = eventAction((bracket, state) => replace({
-  pathname: `/${eventId(state)}${bracket ? `/${bracket}` : ''}`
+  pathname: `/${eventSelectors.id(state)}${bracket ? `/${bracket}` : ''}`
 }));
 
 // Push a bracket onto the stack of entries
 export const pushBracket = eventAction((bracket, state) => ({
   type: actions.PUSH_BRACKET,
-  event: eventId(state),
+  event: eventSelectors.id(state),
   bracket
 }));
 
 // Add new brackets to entry and change the url
 const routeToBracket = (getBracket, path = true) => (dispatch, getState) => {
   const state = getState();
-  const location = state.routing.location || state.routing.locationBeforeTransitions;
-  const bracket = getBracket(state, {location});
+  const bracket = getBracket(state, {location: location()});
 
   dispatch(pushBracket(bracket, state));
   if (path) dispatch(updatePath(bracket, state));
@@ -61,14 +59,13 @@ export const update = (game, path) => routeToBracket((...args) => {
 // Navigate between entry brackets
 const routeToIndex = (getIndex, label) => () => (dispatch, getState) => {
   const state = getState();
-  const location = state.routing.location || state.routing.locationBeforeTransitions;
-  const {brackets, index: current} = entrySelectors.byEvent(state, {location});
+  const {brackets, index: current} = entrySelectors.byEvent(state, {location: location()});
   const total = brackets.length - 1;
   const index = getIndex({current, total});
   const bracket = brackets[index];
 
   analyticsEvent(state, 'navigate', label);
-  dispatch({type: actions.GOTO_INDEX, event: eventId(state), index});
+  dispatch({type: actions.GOTO_INDEX, event: eventSelectors.id(state), index});
   dispatch(updatePath(bracket, state));
 };
 

@@ -1,8 +1,7 @@
 import config from 'config';
 import {createSelector} from 'reselect';
-
 import bh from 'lib/bracket';
-import eventInfo from './event';
+import * as eventSelectors from './event';
 
 const allHelpers = () => config.events.map((e) => {
   const [sport, year] = e.split('-');
@@ -10,7 +9,7 @@ const allHelpers = () => config.events.map((e) => {
 });
 
 export const helpers = createSelector(
-  eventInfo,
+  eventSelectors.info,
   bh
 );
 
@@ -20,6 +19,21 @@ export const locks = createSelector(
 );
 
 export const allLocks = () => allHelpers().map((d) => d.locks);
+
+export const locked = createSelector(
+  eventSelectors.event,
+  eventSelectors.info,
+  locks,
+  ($event, $info, $locks) => {
+    const {locked: $locked} = $event[$info.id] || {};
+    return typeof $locked !== 'undefined' ? $locked : new Date().toJSON() >= $locks;
+  }
+);
+
+export const mocked = createSelector(
+  eventSelectors.info,
+  ($info) => config.mocks.indexOf($info.id) > -1
+);
 
 export const completeDate = createSelector(
   helpers,

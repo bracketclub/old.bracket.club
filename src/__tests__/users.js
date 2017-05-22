@@ -4,7 +4,6 @@
 import nock from 'nock';
 import MockDate from 'mockdate';
 import {transform, without} from 'lodash';
-
 import {fetch as usersFetch} from '../actions/users';
 
 import {

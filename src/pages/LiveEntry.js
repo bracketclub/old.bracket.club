@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
 import {event as aEvent} from 'lib/analytics';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
 import mapSelectorsToProps from 'lib/mapSelectorsToProps';
-
 import * as entrySelectors from '../selectors/entry';
 import * as bracketSelectors from '../selectors/bracket';
+import * as eventSelectors from '../selectors/event';
 import * as entryActionCreators from '../actions/entry';
-
 import Page from '../components/layout/Page';
 import LiveBracket from '../components/bracket/LiveBracket';
 import BracketNav from '../components/bracket/Nav';
@@ -25,12 +23,21 @@ const mapStateToProps = mapSelectorsToProps({
   finalId: bracketSelectors.finalId,
   navigation: entrySelectors.navigation,
   progress: entrySelectors.progress,
-  bestOf: bracketSelectors.bestOf
+  bestOf: bracketSelectors.bestOf,
+  locked: bracketSelectors.locked,
+  mocked: bracketSelectors.mocked,
+  locks: bracketSelectors.locks,
+  event: eventSelectors.info
 });
 
 @connect(mapStateToProps, mapDispatchToProps({entryActions: entryActionCreators}))
 export default class LiveEntryPage extends Component {
   static propTypes = {
+    event: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
+    locks: PropTypes.string.isRequired,
+    locked: PropTypes.bool.isRequired,
+    mocked: PropTypes.bool.isRequired,
     validate: PropTypes.func,
     bracket: PropTypes.string,
     empty: PropTypes.string,
@@ -39,8 +46,6 @@ export default class LiveEntryPage extends Component {
     progress: PropTypes.object,
     bestOf: PropTypes.object
   };
-
-  static getEventPath = (e) => ({pathname: `/${e}`});
 
   componentDidMount() {
     // Mounting with a url bracket means that
@@ -61,7 +66,7 @@ export default class LiveEntryPage extends Component {
 
   pushBracket() {
     const {bracket, empty} = this.props;
-    const {bracket: bracketParam} = this.props.params;
+    const {bracket: bracketParam} = this.props.match.params;
 
     if (bracketParam && bracketParam !== bracket && bracketParam !== empty) {
       this.props.entryActions.pushBracket(bracketParam);
@@ -70,7 +75,7 @@ export default class LiveEntryPage extends Component {
 
   updatePath() {
     const {bracket, empty} = this.props;
-    const {bracket: bracketParam} = this.props.params;
+    const {bracket: bracketParam} = this.props.match.params;
 
     if (bracket && bracket !== bracketParam && bracket !== empty) {
       this.props.entryActions.updatePath(bracket);

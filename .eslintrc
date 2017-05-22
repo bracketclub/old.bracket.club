@@ -5,27 +5,15 @@
     "import/core-modules": ["config"]
   },
   "rules": {
-    "no-case-declarations": 0,
     "react/prop-types": [2, {
       "ignore": [
-        "me",
         "dispatch",
-        "params",
-        "routes",
-        "location",
-        "event",
-        "locks",
-        "locked",
-        "mocked",
+        "canWinActions",
         "entriesActions",
         "entryActions",
         "eventActions",
         "mastersActions",
-        "meActions",
-        "usersActions",
-        "routeActions",
-        "canWinActions",
-        "routerActions"
+        "meActions"
       ]
     }]
   }

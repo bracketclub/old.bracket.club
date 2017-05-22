@@ -1,4 +1,6 @@
-import App from './components/connected/App';
+import {matchPath} from 'react-router-dom';
+import {pick, noop} from 'lodash';
+import * as meSelectors from './selectors/me';
 import Subscribe from './pages/Subscribe';
 import Login from './pages/Login';
 import Results from './pages/Results';
@@ -11,54 +13,110 @@ import FourOhFour from './pages/FourOhFour';
 import Countdown from './pages/Countdown';
 import FAQ from './pages/FAQ';
 import Zentry from './pages/Zentry';
-import {Authed, NotAuthed} from './selectors/me';
 
-const indexRoute = {
-  components: {
-    lockedComponent: MasterBracket,
-    unlockedComponent: LiveEntry
+// By default if a route is missing an eventPath, it will link each event to /:eventId
+// Otherwise it will use this function which will replace all the params with the match
+// and pass through the location.search
+const eventPath = function ({path, location, match}) {
+  const {search} = location;
+  const {params} = match;
+  return (event) => ({
+    search,
+    pathname: (!path || path === '/' ? '/:eventId' : path)
+      .replace(':eventId', event)
+      .replace(/\/(:\w+)/g, (__, name) => `/${params[name.slice(1)]}`)
+  });
+};
+
+const routes = [
+  {
+    exact: true,
+    path: '/',
+    component: (locked) => locked ? MasterBracket : LiveEntry,
+    eventPath
+  },
+  {
+    exact: true,
+    path: '/subscribe',
+    component: Subscribe
+  },
+  {
+    exact: true,
+    path: '/faq',
+    component: FAQ
+  },
+  {
+    exact: true,
+    path: '/login',
+    component: meSelectors.NotAuthed(Login)
+  },
+  {
+    exact: true,
+    path: '/users/:userId',
+    component: UserProfile
+  },
+  {
+    exact: true,
+    path: '/:eventId',
+    component: (locked) => locked ? MasterBracket : LiveEntry,
+    eventPath
+  },
+  {
+    exact: true,
+    path: '/:eventId/zen',
+    component: Zentry,
+    eventPath
+  },
+  {
+    exact: true,
+    path: '/:eventId/countdown',
+    component: Countdown,
+    eventPath
+  },
+  {
+    exact: true,
+    path: '/:eventId/entries',
+    component: Results,
+    eventPath
+  },
+  {
+    exact: true,
+    path: '/:eventId/entries/friends',
+    component: meSelectors.Authed(Results),
+    eventPath
+  },
+  {
+    exact: true,
+    path: '/:eventId/entries/:userId',
+    component: UserEntry,
+    eventPath
+  },
+  {
+    exact: true,
+    path: '/:eventId/entry/:bracket',
+    component: CreatedEntry,
+    eventPath
+  },
+  {
+    exact: true,
+    path: '/:eventId/:bracket',
+    component: (locked) => locked ? CreatedEntry : LiveEntry,
+    eventPath
+  },
+  {
+    component: FourOhFour
   }
-};
+];
 
-const eventRoutes = {
-  // This needs to come last since the eventId is a param that would
-  // otherwise match any path
-  path: ':eventId',
-  indexRoute,
-  childRoutes: [
-    {path: 'zen', component: Zentry},
-    {path: 'countdown', component: Countdown},
-    {path: 'entries', component: Results},
-    {path: 'entries/friends', component: Authed(Results)},
-    {path: 'entries/:userId', component: UserEntry},
-    // These are the links the get posted to twitter
-    {path: 'entry/:bracket', component: CreatedEntry},
-    // These are the local url during a live entry, might as well render
-    // this as an entry if it gets loaded
-    {
-      path: ':bracket',
-      components: {
-        lockedComponent: CreatedEntry,
-        unlockedComponent: LiveEntry
-      }
+export const getEventPath = (location) => {
+  for (let i = 0, m = routes.length; i < m; i++) {
+    const route = routes[i];
+    const match = matchPath(location.pathname, pick(route, 'path', 'exact', 'strict'));
+    if (match) {
+      return route.eventPath ? route.eventPath({path: route.path, location, match}) : noop;
     }
-  ]
+  }
+  return noop;
 };
 
-export default {
-  path: '/',
-  component: App,
-  // The landing page is accessible without an eventId because it defaults
-  // to the active event from the env variables injected by webpack
-  indexRoute,
-  childRoutes: [
-    // Static pages
-    {path: 'subscribe', component: Subscribe},
-    {path: 'login', component: NotAuthed(Login)},
-    {path: 'faq', component: FAQ},
-    // A user profile page doesnt need to live at an event url
-    {path: 'users/:userId', component: UserProfile},
-    eventRoutes,
-    {path: '*', component: FourOhFour}
-  ]
-};
+export default routes;

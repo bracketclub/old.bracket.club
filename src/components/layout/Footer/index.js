@@ -1,13 +1,31 @@
 import config from 'config';
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 import charCodes from 'lib/charCodes';
+import mapSelectorsToProps from 'lib/mapSelectorsToProps';
+import * as bracketSelectors from '../../../selectors/bracket';
+import * as eventSelectors from '../../../selectors/event';
 import styles from './index.less';
 
 const twitter = config.twitter.handle;
 
+const mapStateToProps = mapSelectorsToProps({
+  event: eventSelectors.info,
+  locked: bracketSelectors.locked
+});
+
+@withRouter
+@connect(mapStateToProps)
 @CSSModules(styles)
 export default class Footer extends Component {
+  static propTypes = {
+    event: PropTypes.object.isRequired,
+    locked: PropTypes.bool.isRequired
+  };
+
   render() {
     const {event, locked} = this.props;
 

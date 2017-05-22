@@ -3,7 +3,7 @@ import restActions from 'lib/reduxApiRestActions';
 import {event as aEvent} from 'lib/analytics';
 import es from 'lib/eventSource';
 import bailoutEvent from 'lib/bailoutEvent';
-import {replaceQuery} from './routing';
+import {replaceQuery, location} from './history';
 import {master as schema} from '../schema';
 import * as mastersSelectors from '../selectors/masters';
 import * as bracketSelectors from '../selectors/bracket';
@@ -12,9 +12,8 @@ const endpoint = 'masters';
 
 const routeToIndex = (getIndex, label) => () => (dispatch, getState) => {
   const state = getState();
-  const location = state.routing.location || state.routing.locationBeforeTransitions;
-  const current = mastersSelectors.index(state, {location});
-  const lastIndex = mastersSelectors.lastIndex(state, {location});
+  const current = mastersSelectors.index(state, {location: location()});
+  const lastIndex = mastersSelectors.lastIndex(state, {location: location()});
   const game = getIndex({current, total: lastIndex});
 
   aEvent({state, label, category: 'Masters', action: 'navigate'});

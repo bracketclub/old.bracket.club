@@ -1,6 +1,5 @@
-/* eslint no-magic-numbers:0 */
-
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import raf from 'raf';
 import zero from 'zero-fill';
 
@@ -8,23 +7,32 @@ const LOCK_MSG = 'This event is locked!';
 
 const readable = (date) => {
   const input = (new Date(date)).valueOf() - Date.now();
+  const MS = 1000;
+  const SEC = 60;
+  const MIN = 60;
+  const DIGITS = {h: 2, m: 2, s: 2, ms: 3};
 
-  const hours = input / (1000 * 60 * 60);
+  const hours = input / (MS * SEC * MIN);
   const h = Math.floor(hours);
 
-  const minutes = (hours - h) * 60;
+  const minutes = (hours - h) * MIN;
   const m = Math.floor(minutes);
 
-  const seconds = (minutes - m) * 60;
+  const seconds = (minutes - m) * SEC;
   const s = Math.floor(seconds);
 
-  const milliseconds = (seconds - s) * 1000;
+  const milliseconds = (seconds - s) * MS;
   const ms = Math.floor(milliseconds);
 
-  return `${zero(2, h)}:${zero(2, m)}:${zero(2, s)}.${zero(3, ms)}`;
+  return `${zero(DIGITS.h, h)}:${zero(DIGITS.m, m)}:${zero(DIGITS.s, s)}.${zero(DIGITS.ms, ms)}`;
 };
 
 export default class Countdown extends Component {
+  static propTypes = {
+    locks: PropTypes.string.isRequired,
+    locked: PropTypes.bool.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {

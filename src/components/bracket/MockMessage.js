@@ -2,7 +2,7 @@ import config from 'config';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Alert} from 'react-bootstrap';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 export default class MockMessage extends Component {
   static propTypes = {
