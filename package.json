@@ -138,7 +138,7 @@
     "codeship-test": "npm test && npm run lint",
     "firebase": "firebase",
     "lint": "eslint .",
-    "pr": "open 'https://github.com/bracketclub/bracket.club/compare/development?expand=1'",
+    "pr": "open 'https://github.com/bracketclub/bracket.club/compare/master...development?expand=1'",
     "prebuild": "rm -rf build && mkdir build",
     "start": "hjs-dev-server",
     "test": "jest --config jest/config.json --rootDir . --testPathPattern __tests__/[a-z].*",
