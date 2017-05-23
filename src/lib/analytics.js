@@ -14,6 +14,7 @@ if (process.env.NODE_ENV === 'production' && hostname === config.baseUrl) {
 
 export const pageview = ({pathname, search}) => analytics.pageview(pathname + search);
 export const event = ({state, event: e, category, action, labels = [], label = ''}) => {
+  // TODO: props
   const id = (e && e.id) || eventSelectors.id(Array.isArray(state) ? state[0] : state);
   const displayLabel = label || (Array.isArray(labels) ? labels.join('|') : labels);
   analytics.event({

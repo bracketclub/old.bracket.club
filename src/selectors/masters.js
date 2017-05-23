@@ -6,7 +6,6 @@ import * as bracketSelectors from './bracket';
 import * as visibleSelectors from './visible';
 
 const STATE_KEY = property('masters');
-// TODO
 const urlIndex = (state, props) => parseInt(qs.parse(props.location.search).game, 10);
 const master = visibleSelectors.byId(STATE_KEY, eventSelectors.id);
 

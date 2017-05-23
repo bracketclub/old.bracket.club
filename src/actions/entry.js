@@ -21,12 +21,14 @@ const eventAction = (action) => (bracket, state) => state
 
 // Replace bracket in current url
 export const updatePath = eventAction((bracket, state) => replace({
+  // TODO: props for event id?
   pathname: `/${eventSelectors.id(state)}${bracket ? `/${bracket}` : ''}`
 }));
 
 // Push a bracket onto the stack of entries
 export const pushBracket = eventAction((bracket, state) => ({
   type: actions.PUSH_BRACKET,
+  // TODO: props
   event: eventSelectors.id(state),
   bracket
 }));
@@ -65,6 +67,7 @@ const routeToIndex = (getIndex, label) => () => (dispatch, getState) => {
   const bracket = brackets[index];
 
   analyticsEvent(state, 'navigate', label);
+  // TODO: props
   dispatch({type: actions.GOTO_INDEX, event: eventSelectors.id(state), index});
   dispatch(updatePath(bracket, state));
 };

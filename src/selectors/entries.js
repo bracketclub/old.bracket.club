@@ -15,7 +15,6 @@ const SORT_DIR = 'desc';
 const DEFAULT_SORT = (entry) => entry.score[SORT_KEY] * -1;
 
 const users = (state) => state.users[ENTITIES];
-// TODO
 const urlSort = (state, props) => qs.parse(props.location.search).sort;
 const entries = visibleSelectors.list(STATE_KEY, eventSelectors.id);
 
