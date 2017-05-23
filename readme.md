@@ -1,5 +1,7 @@
 # bracket.club
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/bracketclub/bracket.club.svg)](https://greenkeeper.io/)
+
 [bracket.club](https://bracket.club)
 
 [ ![Codeship Status for lukekarrys/bracket.club](https://codeship.com/projects/5fb60060-d755-0133-0bc1-52d6c6c7e513/status?branch=master)](https://codeship.com/projects/142910)
