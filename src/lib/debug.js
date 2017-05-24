@@ -1,4 +1,3 @@
-
 export default (store) => {
   const actions = ['users', 'masters', 'entries'].reduce((acc, type) => {
     acc[type] = {};

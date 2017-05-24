@@ -7,11 +7,12 @@ const CanWinWorker = require('worker-loader!lib/canWinWorker');
 
 export const canWin = ({entries, id, list}) => (dispatch, getState) => {
   const state = getState();
-  const index = mastersSelectors.index(state, {location: location()});
-  const master = mastersSelectors.bracketString(state, {location: location()});
-  const [sport, year] = eventSelectors.id(state).split('-');
+  const props = {location: location()};
+  const index = mastersSelectors.index(state, props);
+  const master = mastersSelectors.bracketString(state, props);
+  const {sport, year, id: eventId} = eventSelectors.info(state, props);
 
-  const meta = {id, event: `${sport}-${year}`, index, list};
+  const meta = {id, event: eventId, index, list};
 
   dispatch({type: types.CAN_WIN_START, meta});
 
