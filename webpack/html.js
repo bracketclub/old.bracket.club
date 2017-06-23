@@ -1,3 +1,5 @@
+'use strict';
+
 const html = require('html-tagged-literals');
 
 module.exports = (context, isDev) => html[isDev ? 'unindent' : 'minify']`

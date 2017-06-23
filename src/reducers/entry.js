@@ -15,7 +15,6 @@ export default (state = initialState, action) => {
   });
 
   switch (action.type) {
-
   case types.PUSH_BRACKET:
     return updateBrackets(concatOrInsert({
       values: event.brackets,
