@@ -13,7 +13,6 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-
   case LOCATION_CHANGE: {
     // Looks for a pathname that looks like
     // /ncaam-2016 -> {sport: ncaam, year: 2016}

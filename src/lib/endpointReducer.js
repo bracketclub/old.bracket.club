@@ -34,7 +34,6 @@ const recordsReducerFor = (resourceType) => {
     };
 
     switch (action.type) {
-
     case types.fetchStart:
       return updateState({
         syncing: !refresh,
@@ -85,7 +84,6 @@ const entitiesReducerFor = (resourceType) => {
 
   return (state = defaultState, action) => {
     switch (action.type) {
-
     case types.fetchSuccess:
       return mergeEntities(state, get(action, `payload.${ENTITIES}.${resourceType}`));
 

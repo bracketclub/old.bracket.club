@@ -1,0 +1,20 @@
+{
+  "extends": "@lukekarrys/eslint-config",
+  "settings": {
+    "import/external-module-folders": ["node_modules", "lib"],
+    "import/core-modules": ["config"]
+  },
+  "rules": {
+    "react/prop-types": [2, {
+      "ignore": [
+        "dispatch",
+        "canWinActions",
+        "entriesActions",
+        "entryActions",
+        "eventActions",
+        "mastersActions",
+        "meActions"
+      ]
+    }]
+  }
+}

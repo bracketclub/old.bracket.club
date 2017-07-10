@@ -17,7 +17,6 @@ export default (state = initialState, action) => {
   };
 
   switch (type) {
-
   case types.CAN_WIN_SUCCESS:
     return updateId({bracket: payload.bracket, loading: false, error: null});
 
