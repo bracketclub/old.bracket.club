@@ -30,7 +30,7 @@
     "ms": "^2.0.0",
     "normalizr": "^3.2.3",
     "prop-types": "^15.5.10",
-    "query-string": "^4.3.4",
+    "query-string": "^5.0.0",
     "raf": "^3.3.2",
     "react": "^15.6.1",
     "react-body-classname": "^1.2.0",
