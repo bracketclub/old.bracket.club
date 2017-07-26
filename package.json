@@ -82,7 +82,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.1.0",
-    "file-loader": "^0.11.2",
+    "file-loader": "^1.0.0",
     "firebase-tools": "^3.9.1",
     "git-validate": "^2.2.2",
     "hjs-webpack": "^9.1.0",
