@@ -103,8 +103,8 @@
     "worker-loader": "^0.8.1"
   },
   "engines": {
-    "node": "^6.0.0",
-    "npm": "^3.8.7"
+    "node": "^8.2.1",
+    "npm": "^5.3.0"
   },
   "homepage": "https://bracket.club",
   "keywords": [
