@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {findDOMNode} from 'react-dom';
 import MotionScroll from 'lib/MotionScroll';
 
 export default class Rounds extends Component {
@@ -45,7 +44,7 @@ export default class Rounds extends Component {
     }
 
     if (roundChange || roundFull) {
-      const {offsetWidth: width} = findDOMNode(this._scroller);
+      const {offsetWidth: width} = this._scroller;
       const {scroll} = this.state;
       const step = width / 2; // 2 rounds fit at a time
       const visible = Math.round((scroll + width) / step);
