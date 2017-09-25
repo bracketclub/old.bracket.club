@@ -102,7 +102,7 @@
     "surge": "^0.19.0",
     "url-loader": "^0.5.9",
     "webpack-bundle-analyzer": "^2.9.0",
-    "worker-loader": "^0.8.1"
+    "worker-loader": "^1.0.0"
   },
   "engines": {
     "node": "^8.2.1",
