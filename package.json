@@ -32,7 +32,7 @@
     "prop-types": "^15.5.10",
     "query-string": "^5.0.0",
     "raf": "^3.3.2",
-    "react": "^15.6.1",
+    "react": "^16.0.0",
     "react-body-classname": "^1.2.0",
     "react-bootstrap": "^0.31.2",
     "react-css-modules": "^4.7.1",
