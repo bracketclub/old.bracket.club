@@ -84,7 +84,7 @@
     "eslint-plugin-prefer-object-spread": "^1.2.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.2.1",
-    "file-loader": "^0.11.2",
+    "file-loader": "^1.1.4",
     "firebase-tools": "^3.9.2",
     "git-validate": "^2.2.2",
     "hjs-webpack": "^9.1.0",
