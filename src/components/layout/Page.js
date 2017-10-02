@@ -39,18 +39,16 @@ export default class Page extends Component {
       sync = {}
     } = this.props;
 
-    return (
-      <div>
-        <Header />
-        <Grid fluid={width === 'full'} style={{paddingBottom: '50px', minHeight: '300px'}}>
-          <Row>
-            <Col {...this.getColumnWidths()}>
-              <SyncContainer sync={sync}>{children}</SyncContainer>
-            </Col>
-          </Row>
-        </Grid>
-        <Footer />
-      </div>
-    );
+    return [
+      <Header key='page-header' />,
+      <Grid key='page-grid' fluid={width === 'full'} style={{paddingBottom: '50px', minHeight: '300px'}}>
+        <Row>
+          <Col {...this.getColumnWidths()}>
+            <SyncContainer sync={sync}>{children}</SyncContainer>
+          </Col>
+        </Row>
+      </Grid>,
+      <Footer key='page-footer' />
+    ];
   }
 }

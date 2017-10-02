@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 import PropTypes from 'prop-types';
 import raf from 'raf';
 import zero from 'zero-fill';
@@ -75,10 +75,6 @@ export default class Countdown extends Component {
   }
 
   render() {
-    const {message} = this.state;
-
-    return (
-      <span>{message}</span>
-    );
+    return this.state.message;
   }
 }
