@@ -73,7 +73,7 @@
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.24.1",
     "bluebird": "^3.5.0",
-    "cpr": "^2.2.0",
+    "cpr": "^3.0.0",
     "css-loader": "^0.28.7",
     "eslint": "^4.8.0",
     "eslint-import-resolver-webpack": "^0.8.3",
