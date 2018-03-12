@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Button} from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
 import BodyClass from 'react-body-classname';
+import {shuffle} from 'lodash';
 import tweetHref from 'lib/tweetHref';
 import styles from './index.less';
 
@@ -82,7 +83,7 @@ export default class ZenBracket extends Component {
       );
     }
 
-    const [team1, team2] = nextGame;
+    const [team1, team2] = shuffle(nextGame);
     return (
       <span>
         {this.renderButton(team1, 'left')}
