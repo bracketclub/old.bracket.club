@@ -63,7 +63,7 @@ export default class ZenBracket extends Component {
   renderButtons() {
     const {event, bracket, next: getNext} = this.props;
     const {disabled} = this.state;
-    const nextGame = getNext({currentMaster: bracket});
+    const nextGame = getNext({currentMaster: bracket}, true);
 
     if (!nextGame) {
       return (
