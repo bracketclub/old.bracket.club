@@ -22,6 +22,6 @@ export default class SyncContainer extends Component {
     }
 
     // Ensure 1 child is always rendered
-    return <div>{children}</div>;
+    return children;
   }
 }

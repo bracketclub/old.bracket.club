@@ -30,47 +30,43 @@ export default class DiffPick extends Component {
     });
 
     if (!bestOf) {
-      return (
-        <span>
-          <Team className={entryTeamClasses} {...team} />
-          {showShouldBe && <Team className={styles.shouldBe} {...shouldBe} />}
-        </span>
-      );
+      return [
+        <Team key='team-1' className={entryTeamClasses} {...team} />,
+        showShouldBe && <Team key='team-2' className={styles.shouldBe} {...shouldBe} />
+      ];
     }
 
     const wasPicked = isTeamEqual(team, picked);
     const wasWinner = isTeamEqual(team, picked && picked.shouldBe);
     const showWinsIn = wasPicked || wasWinner;
 
-    return (
-      <span>
-        <Team className={entryTeamClasses} {...team}>
-          {showWinsIn &&
-            <span className={cx(styles.winsIn, styles.winsInDiff)}>
-              {wasWinner && picked.winsInCorrect === false &&
-                <span className={styles.winsInActual}>
-                  {picked.shouldBe.winsIn}
-                </span>
-              }
-              {wasPicked &&
-                <span
-                  className={cx({
-                    [styles.winsInCorrect]: picked.winsInCorrect === true,
-                    [styles.winsInIncorrect]: picked.winsInCorrect === false
-                  })}
-                >
-                  {picked.winsIn}
-                </span>
-              }
-            </span>
-          }
-        </Team>
-        {showShouldBe &&
-          <Team className={styles.shouldBe} {...shouldBe}>
-            <span className={styles.winsIn}>{shouldBe.winsIn}</span>
-          </Team>
+    return [
+      <Team key='team-1' className={entryTeamClasses} {...team}>
+        {showWinsIn &&
+          <span className={cx(styles.winsIn, styles.winsInDiff)}>
+            {wasWinner && picked.winsInCorrect === false &&
+              <span className={styles.winsInActual}>
+                {picked.shouldBe.winsIn}
+              </span>
+            }
+            {wasPicked &&
+              <span
+                className={cx({
+                  [styles.winsInCorrect]: picked.winsInCorrect === true,
+                  [styles.winsInIncorrect]: picked.winsInCorrect === false
+                })}
+              >
+                {picked.winsIn}
+              </span>
+            }
+          </span>
         }
-      </span>
-    );
+      </Team>,
+      showShouldBe && (
+        <Team key='team-2' className={styles.shouldBe} {...shouldBe}>
+          <span className={styles.winsIn}>{shouldBe.winsIn}</span>
+        </Team>
+      )
+    ];
   }
 }

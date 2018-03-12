@@ -46,26 +46,25 @@ export default class MasterNav extends Component {
   render() {
     const {navigation, progress, locked, locks, event, mocked, user, bestOf} = this.props;
 
-    return (
-      <div>
-        <BracketHeader>
-          <BracketNav
-            navigation={navigation}
-            onNavigate={this.handleNavigate}
-          />
-          <BracketProgress
-            message={bestOf ? 'series played' : 'games played'}
-            progress={progress}
-          />
-        </BracketHeader>
-        <LockMessage
-          mocked={mocked}
-          locked={locked}
-          locks={locks}
-          event={event}
-          user={user}
+    return [
+      <BracketHeader key='bracket-header'>
+        <BracketNav
+          navigation={navigation}
+          onNavigate={this.handleNavigate}
         />
-      </div>
-    );
+        <BracketProgress
+          message={bestOf ? 'series played' : 'games played'}
+          progress={progress}
+        />
+      </BracketHeader>,
+      <LockMessage
+        key='lock-message'
+        mocked={mocked}
+        locked={locked}
+        locks={locks}
+        event={event}
+        user={user}
+      />
+    ];
   }
 }
