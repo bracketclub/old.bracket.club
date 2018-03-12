@@ -23,7 +23,7 @@ export default {
   localStorage: 'bracketclub',
   baseUrl: 'bracket.club',
   twitter: {
-    handle: 'thebracketclub',
+    handle: 'bracketclub',
     hashtag: 'bracketclub',
     text: {
       ncaam: 'I tweeted my #marchmadness bracket!',
