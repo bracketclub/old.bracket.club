@@ -5,6 +5,7 @@ export default {
   mocks: [],
   events: [
     'ncaam-2018',
+    'ncaaw-2018',
     'nba-2017',
     'nhl-2017',
     'ncaam-2017',
