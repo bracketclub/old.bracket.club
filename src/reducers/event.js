@@ -1,5 +1,4 @@
 import config from 'config';
-import {LOCATION_CHANGE} from '../constants/history';
 import * as types from '../constants/event';
 
 const initialState = {
@@ -13,7 +12,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-  case LOCATION_CHANGE: {
+  case types.CHANGE: {
     // Looks for a pathname that looks like
     // /ncaam-2016 -> {sport: ncaam, year: 2016}
     // The sport is optionally only because previous year urls did not include it

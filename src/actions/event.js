@@ -12,6 +12,11 @@ const unlock = (id) => ({
   payload: {id}
 });
 
+export const change = (payload) => ({
+  type: actions.CHANGE,
+  payload
+});
+
 export const countdown = (id) => (dispatch, getState) => {
   const locks = bracketSelectors.locks(getState(), {match: {params: {eventId: id}}});
   const now = Date.now();
