@@ -24,7 +24,11 @@ const eventPath = function ({path, location, match}) {
     search,
     pathname: (!path || path === '/' ? '/:eventId' : path)
       .replace(':eventId', event)
-      .replace(/\/(:\w+)/g, (__, name) => `/${params[name.slice(1)]}`)
+      .replace(/\/(:\w+)/g, (__, name) => {
+        const param = name.slice(1);
+        if (param === 'bracket') return '';
+        return `/${params[param]}`;
+      })
   });
 };
 
