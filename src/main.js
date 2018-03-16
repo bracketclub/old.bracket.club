@@ -21,9 +21,17 @@ import App from './App';
 
 const store = configureStore();
 
+// Things that should happen on every location change
+const onLocationChange = (location) => {
+  // An analytics pageview
+  pageview(location);
+  // Keeping track of the event based on the url
+  store.dispatch(eventActions.change(location));
+};
+
 // Analytics for each page and current page
-history.listen(pageview);
-pageview(history.location);
+history.listen(onLocationChange);
+onLocationChange(history.location);
 
 // Firebase will trigger the action if the user is logged in from a previous
 // session when first loading the page. Note that this action is slightly different
