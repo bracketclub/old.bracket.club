@@ -88,11 +88,15 @@ export default class Header extends Component {
           </NavbarBrand>
           <Nav className='year-nav'>
             <NavDropdown title={this.getEventTitle()} id='event-nav'>
-              {config.events.map((eventNav) => (
+              {config.navEvents.map((eventNav) => (
                 <IndexLinkContainer key={eventNav} to={this.getEventLink(eventNav)}>
                   <NavItem>{eventDisplayName(eventNav)}</NavItem>
                 </IndexLinkContainer>
               ))}
+              <MenuItem divider />
+              <LinkContainer to='/events'>
+                <NavItem>Previous Years</NavItem>
+              </LinkContainer>
             </NavDropdown>
           </Nav>
           <NavbarToggle />

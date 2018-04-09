@@ -13,6 +13,7 @@ import FourOhFour from './pages/FourOhFour';
 import Countdown from './pages/Countdown';
 import FAQ from './pages/FAQ';
 import Zentry from './pages/Zentry';
+import Events from './pages/Events';
 
 // By default if a route is missing an eventPath, it will link each event to /:eventId
 // Otherwise it will use this function which will replace all the params with the match
@@ -53,6 +54,11 @@ const routes = [
     exact: true,
     path: '/login',
     component: meSelectors.NotAuthed(Login)
+  },
+  {
+    exact: true,
+    path: '/events',
+    component: Events
   },
   {
     exact: true,
