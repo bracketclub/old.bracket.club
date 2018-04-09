@@ -8,6 +8,12 @@ const CHECK_GLYPH = <Glyphicon className='text-muted' glyph='question-sign' />;
 const ELIMINATED_GLYPH = <Glyphicon className='text-danger' glyph='remove-sign' />;
 const ALIVE_GLYPH = <Glyphicon className='text-success' glyph='ok-sign' />;
 
+const hideCanWin = ({remaining, total}) => (
+  remaining > CAN_WIN_MAX_REMAINING ||
+  remaining === 0 ||
+  remaining === total
+);
+
 class CanWinLegend extends Component {
   static propTypes = {
     progress: PropTypes.object
@@ -16,7 +22,7 @@ class CanWinLegend extends Component {
   render() {
     const {progress} = this.props;
 
-    if (progress.remaining > CAN_WIN_MAX_REMAINING) {
+    if (hideCanWin(progress)) {
       return null;
     }
 
@@ -47,7 +53,7 @@ export default class EntryCanWin extends Component {
     const {entry, onCanWinCheck, progress} = this.props;
     const {canWin, id} = entry;
 
-    if (progress.remaining > CAN_WIN_MAX_REMAINING) {
+    if (hideCanWin(progress)) {
       return null;
     }
 
