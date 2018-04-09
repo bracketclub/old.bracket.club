@@ -1,5 +1,16 @@
+const ACTIONS = [
+  'canWin',
+  'entries',
+  'entry',
+  'event',
+  'history',
+  'masters',
+  'me',
+  'users'
+];
+
 export default (store) => {
-  const actions = ['users', 'masters', 'entries'].reduce((acc, type) => {
+  const actions = ACTIONS.reduce((acc, type) => {
     acc[type] = {};
     const actionsFor = require(`../actions/${type}`);
     Object.keys(actionsFor).forEach((name) => {

@@ -1,3 +1,5 @@
+@import '~bootswatch/united/variables.less';
+
 .root {
   margin-top: 15px;
   height: calc(~"100vh - 30px");
@@ -20,6 +22,7 @@
   font-size: 2em;
   transition: opacity 100ms linear;
   white-space: normal;
+  word-wrap: break-word;
 }
 
 .big-button-primary {
@@ -27,13 +30,17 @@
     cursor: default;
   }
 
+  background-color: @btn-primary-bg;
+  border-color: @btn-primary-bg;
+
   &:focus,
   &:hover,
+  &:active,
   &:active:focus,
   &:active:hover {
     outline: none;
-    background-color: #DD4814;
-    border-color: #DD4814;
+    background-color: @btn-primary-bg;;
+    border-color: @btn-primary-bg;;
     box-shadow: none;
   }
 }

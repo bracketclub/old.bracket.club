@@ -1,9 +1,10 @@
 export default {
-  sport: 'ncaam',
+  sport: 'nhl',
   year: '2018',
   ga: 'UA-8402584-9',
   mocks: [],
   events: [
+    'nhl-2018',
     'ncaam-2018',
     'ncaaw-2018',
     'nba-2017',
