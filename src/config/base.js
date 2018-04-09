@@ -3,6 +3,11 @@ export default {
   year: '2018',
   ga: 'UA-8402584-9',
   mocks: [],
+  navEvents: [
+    'nhl-2018',
+    'ncaam-2018',
+    'ncaaw-2018'
+  ],
   events: [
     'nhl-2018',
     'ncaam-2018',
