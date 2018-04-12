@@ -1,14 +1,16 @@
 export default {
-  sport: 'nhl',
+  sport: 'nba',
   year: '2018',
   ga: 'UA-8402584-9',
   mocks: [],
   navEvents: [
+    'nba-2018',
     'nhl-2018',
     'ncaam-2018',
     'ncaaw-2018'
   ],
   events: [
+    'nba-2018',
     'nhl-2018',
     'ncaam-2018',
     'ncaaw-2018',
