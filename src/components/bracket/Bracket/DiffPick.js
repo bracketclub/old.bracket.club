@@ -63,9 +63,7 @@ export default class DiffPick extends Component {
         }
       </Team>,
       showShouldBe && (
-        <Team key='team-2' className={styles.shouldBe} {...shouldBe}>
-          <span className={styles.winsIn}>{shouldBe.winsIn}</span>
-        </Team>
+        <Team key='team-2' className={styles.shouldBe} {...shouldBe} />
       )
     ];
   }
