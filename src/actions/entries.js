@@ -1,6 +1,5 @@
 import config from 'config';
 import restActions from 'lib/reduxApiRestActions';
-import {event as aEvent} from 'lib/analytics';
 import es from 'lib/eventSource';
 import bailoutEvent from 'lib/bailoutEvent';
 import {replaceQuery, location} from './history';
@@ -19,7 +18,6 @@ const sortAction = (sortBy) => (dispatch, getState) => {
   // otherwise use the existing sort direction
   const sort = `${sortBy}|${current.key === sortBy ? reverse(current.dir) : current.dir}`;
 
-  aEvent({state, category: 'Entries', action: 'sort', label: sort});
   dispatch(replaceQuery({location, query: {sort}}));
 };
 

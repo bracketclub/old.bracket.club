@@ -1,6 +1,5 @@
 import config from 'config';
 import restActions from 'lib/reduxApiRestActions';
-import {event as aEvent} from 'lib/analytics';
 import es from 'lib/eventSource';
 import bailoutEvent from 'lib/bailoutEvent';
 import {replaceQuery, location} from './history';
@@ -16,7 +15,6 @@ const routeToIndex = (getIndex, label) => () => (dispatch, getState) => {
   const lastIndex = mastersSelectors.lastIndex(state, {location: location()});
   const game = getIndex({current, total: lastIndex});
 
-  aEvent({state, label, category: 'Masters', action: 'navigate'});
   dispatch(replaceQuery({location, query: {game}}));
 };
 

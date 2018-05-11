@@ -1,16 +1,8 @@
-import {event as aEvent} from 'lib/analytics';
 import {replace, location} from './history';
 import * as bracketSelectors from '../selectors/bracket';
 import * as entrySelectors from '../selectors/entry';
 import * as eventSelectors from '../selectors/event';
 import * as actions from '../constants/entry';
-
-const analyticsEvent = (state, action, ...labels) => aEvent({
-  category: 'Entry',
-  state,
-  action,
-  labels
-});
 
 // Helper to so actions can be called with just a bracket in which case it will
 // use the thunk middleware to get the event from getState,
@@ -42,18 +34,11 @@ const routeToBracket = (getBracket, path = true) => (dispatch, getState) => {
   if (path) dispatch(updatePath(bracket, state));
 };
 
-export const reset = () => routeToBracket((...args) => {
-  analyticsEvent(args, 'reset');
-  return bracketSelectors.empty(...args);
-});
+export const reset = () => routeToBracket((...args) => bracketSelectors.empty(...args));
 
-export const generate = (method) => routeToBracket((...args) => {
-  analyticsEvent(args, 'generate', method);
-  return bracketSelectors.generate(...args)(method);
-});
+export const generate = (method) => routeToBracket((...args) => bracketSelectors.generate(...args)(method));
 
 export const update = (game, path) => routeToBracket((...args) => {
-  analyticsEvent(args, 'update', game.fromRegion, game.winner.seed);
   const current = entrySelectors.bracketString(...args);
   return bracketSelectors.update(...args)({...game, currentMaster: current});
 }, path);
@@ -66,7 +51,6 @@ const routeToIndex = (getIndex, label) => () => (dispatch, getState) => {
   const index = getIndex({current, total});
   const bracket = brackets[index];
 
-  analyticsEvent(state, 'navigate', label);
   // TODO: props
   dispatch({type: actions.GOTO_INDEX, event: eventSelectors.id(state), index});
   dispatch(updatePath(bracket, state));
