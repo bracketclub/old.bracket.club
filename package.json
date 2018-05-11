@@ -37,7 +37,6 @@
     "react-bootstrap": "^0.31.5",
     "react-css-modules": "^4.7.1",
     "react-dom": "^16.2.0",
-    "react-ga": "^2.4.1",
     "react-motion": "^0.5.2",
     "react-overlays": "^0.8.3",
     "react-redux": "^5.0.7",

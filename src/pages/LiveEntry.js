@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {event as aEvent} from 'lib/analytics';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
 import mapSelectorsToProps from 'lib/mapSelectorsToProps';
 import * as entrySelectors from '../selectors/entry';
@@ -82,15 +81,6 @@ export default class LiveEntryPage extends Component {
     }
   }
 
-  handleEnter = (bracket) => {
-    aEvent({
-      event: this.props.event,
-      category: 'Entry',
-      action: 'tweet',
-      label: bracket
-    });
-  };
-
   render() {
     const {
       navigation,
@@ -119,7 +109,6 @@ export default class LiveEntryPage extends Component {
           <BracketEnterButton
             event={event}
             bracket={bracket}
-            onEnter={this.handleEnter}
             locks={locks}
             locked={locked}
             mocked={mocked}

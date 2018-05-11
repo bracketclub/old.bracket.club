@@ -9,7 +9,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {once} from 'lodash';
 import {Provider} from 'react-redux';
-import {pageview} from 'lib/analytics';
 import {auth} from 'lib/firebase';
 import history from 'lib/history';
 import configureStore from './store/configureStore';
@@ -23,8 +22,6 @@ const store = configureStore();
 
 // Things that should happen on every location change
 const onLocationChange = (location) => {
-  // An analytics pageview
-  pageview(location);
   // Keeping track of the event based on the url
   store.dispatch(eventActions.change(location));
 };

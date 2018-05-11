@@ -16,7 +16,6 @@ export default class BracketEnterButton extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
     bracket: PropTypes.string.isRequired,
-    onEnter: PropTypes.func.isRequired,
     locks: PropTypes.string.isRequired,
     locked: PropTypes.bool.isRequired,
     progress: PropTypes.object.isRequired,
@@ -24,7 +23,7 @@ export default class BracketEnterButton extends Component {
   };
 
   getOverlay() {
-    const {onEnter, event, bracket, locks, mocked} = this.props;
+    const {event, bracket, locks, mocked} = this.props;
 
     const popover = (
       <Popover id='enter-popover'>
@@ -58,7 +57,6 @@ export default class BracketEnterButton extends Component {
           bsStyle='primary'
           block
           href={tweetHref({event, bracket})}
-          onClick={() => onEnter(bracket)}
           target='_blank'
           rel='noopener noreferrer'
         >
