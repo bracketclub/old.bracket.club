@@ -42,13 +42,13 @@ This builds the JS and CSS bundles and am html file via [`hjs-webpack`](https://
 
 ### Deployment
 
-Codeship + Surge & Firebase.
+Codeship + Firebase.
 
 Codeship is hooked up to the repo to process all pushes. `npm run codeship-setup` and `npm run codeship-test` and run to get the set ready for deployment.
 
-Pushes on the master branch go to production via `npm run codeship-deploy` which deploys to Firebase. Pushes to the `development` branch deploy via `npm run codeship-beta` and push to Surge which handles the beta url.
+Pushes on the master branch go to production via `npm run codeship-deploy` which deploys to Firebase.
 
-All urls are set to be caught by the `200.html` file. And the bundled CSS and JS filenames are fingerprinted with the hash of the file contents from Webpack.
+All urls are set to be caught by the `index.html` file. And the bundled CSS and JS filenames are fingerprinted with the hash of the file contents from Webpack.
 
 
 

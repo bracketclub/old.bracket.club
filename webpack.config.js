@@ -26,9 +26,7 @@ const config = addStyleLoaders(webpackConfig({
   replace: {
     config: `src/config/${configEnv}.js`
   },
-  html: (context) => ({
-    [isDev ? 'index.html' : '200.html']: renderHTML(context)
-  })
+  html: (context) => ({'index.html': renderHTML(context)})
 }), {src: SRC, isDev});
 
 // Allow for src/lib files to be required without relative paths
