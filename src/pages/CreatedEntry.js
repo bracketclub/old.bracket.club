@@ -30,6 +30,7 @@ export default class CreatedEntryPage extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
+    event: PropTypes.object.isRequired,
     master: PropTypes.string,
     diff: PropTypes.func,
     sync: PropTypes.object,
@@ -43,11 +44,12 @@ export default class CreatedEntryPage extends Component {
       sync,
       bestOf,
       location,
+      event,
       match: {params: {bracket}}
     } = this.props;
 
     return (
-      <Page width='full' sync={sync}>
+      <Page width='full' sync={sync} className={event.id}>
         <MasterNav location={location} />
         <DiffBracket {...{diff, entry: bracket, master, bestOf}} />
       </Page>
