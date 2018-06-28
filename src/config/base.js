@@ -1,15 +1,16 @@
 export default {
-  sport: 'nba',
+  sport: 'wcm',
   year: '2018',
-  ga: 'UA-8402584-9',
   mocks: [],
   navEvents: [
+    'wcm-2018',
     'nba-2018',
     'nhl-2018',
     'ncaam-2018',
     'ncaaw-2018'
   ],
   events: [
+    'wcm-2018',
     'nba-2018',
     'nhl-2018',
     'ncaam-2018',
@@ -35,6 +36,8 @@ export default {
     handle: 'bracketclub',
     hashtag: 'bracketclub',
     text: {
+      wcm: 'I tweeted my #worldcup bracket!',
+      wcw: 'I tweeted my #worldcup bracket!',
       ncaam: 'I tweeted my #marchmadness bracket!',
       ncaaw: 'I tweeted my Women’s #marchmadness bracket!',
       nba: 'I tweeted my #nbaplayoffs bracket',

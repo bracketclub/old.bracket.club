@@ -40,13 +40,15 @@ export default class DiffPick extends Component {
     const wasWinner = isTeamEqual(team, picked && picked.shouldBe);
     const showWinsIn = wasPicked || wasWinner;
 
+    const winsInDisplay = (val) => Array.isArray(bestOf.bestOf) ? bestOf.bestOf[val - 1] : val;
+
     return [
       <Team key='team-1' className={entryTeamClasses} {...team}>
         {showWinsIn &&
           <span className={cx(styles.winsIn, styles.winsInDiff)}>
             {wasWinner && picked.winsInCorrect === false &&
               <span className={styles.winsInActual}>
-                {picked.shouldBe.winsIn}
+                {winsInDisplay(picked.shouldBe.winsIn)}
               </span>
             }
             {wasPicked &&
@@ -56,7 +58,7 @@ export default class DiffPick extends Component {
                   [styles.winsInIncorrect]: picked.winsInCorrect === false
                 })}
               >
-                {picked.winsIn}
+                {winsInDisplay(picked.winsIn)}
               </span>
             }
           </span>

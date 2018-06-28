@@ -60,11 +60,15 @@ export default class Pick extends Component {
         [styles.seriesMenuUp]: !top
       });
 
+      const winsInDisplay = (val) => Array.isArray(bestOf.bestOf) ? bestOf.bestOf[val - 1] : val;
+
       return (
         <Dropdown className={styles.seriesPicker} open={dropdownOpen} onToggle={this.onToggle} id='wins-in-dropdown'>
           <Team bsRole='toggle' className={cx(styles.team, styles.pickable)} {...team}>
             {isWinner && get(winner, 'winsIn') &&
-              <span className={styles.winsIn}>{winner.winsIn}</span>
+              <span className={styles.winsIn}>
+                {winsInDisplay(winner.winsIn)}
+              </span>
             }
           </Team>
           <Dropdown.Menu className={menuClass}>
@@ -76,7 +80,7 @@ export default class Pick extends Component {
                 onClick={(e) => handler(e, {winsIn})}
                 componentClass={(props) => <SafeAnchor {...props} className={styles.seriesItemInner} />}
               >
-                {winsIn}
+                {winsInDisplay(winsIn)}
               </MenuItem>
             ))}
           </Dropdown.Menu>

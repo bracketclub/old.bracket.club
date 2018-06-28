@@ -97,7 +97,7 @@ export default class LiveEntryPage extends Component {
     } = this.props;
 
     return (
-      <Page width='full'>
+      <Page width='full' className={event.id}>
         <BracketHeader>
           <BracketNav
             navigation={navigation}

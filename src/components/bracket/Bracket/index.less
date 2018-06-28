@@ -294,10 +294,17 @@
 .seed {
   font-size: @smallFontSize;
   flex: 0 1 auto;
+  padding-right: @seedSpacing;
+}
+
+:global [class^="wcm-"],
+:global [class^="wcw-"] {
+  :local(.seed) {
+    display: none;
+  }
 }
 
 .name {
-  padding-left: @seedSpacing;
   flex: 0 1 auto;
   min-width: 0;
   white-space: nowrap;
@@ -450,9 +457,9 @@
       right: 0;
     }
 
-    .name {
-      padding-left: 0;
-      padding-right: @seedSpacing;
+    .seed {
+      padding-left: @seedSpacing;
+      padding-right: 0;
     }
 
     .winsIn {

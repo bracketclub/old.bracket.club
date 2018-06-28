@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import styles from './index.less';
 
-export default class DiffPick extends Component {
+export default class Team extends Component {
   static propTypes = {
     className: PropTypes.string,
     seed: PropTypes.number,
@@ -32,7 +32,7 @@ export default class DiffPick extends Component {
       {
         onClick,
         className: cx(styles.team, className),
-        title: seed && name ? `${seed} ${name}` : null
+        title: name || null
       },
       renderedChildren
     );

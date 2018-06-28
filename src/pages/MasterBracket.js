@@ -27,6 +27,7 @@ const mapPropsToActions = (props) => ({
 export default class MasterBracketPage extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
+    event: PropTypes.object.isRequired,
     bracket: PropTypes.object,
     sync: PropTypes.object,
     bestOf: PropTypes.object
@@ -37,11 +38,12 @@ export default class MasterBracketPage extends Component {
       bracket,
       sync,
       bestOf,
-      location
+      location,
+      event
     } = this.props;
 
     return (
-      <Page sync={sync} width='full'>
+      <Page sync={sync} width='full' className={event.id}>
         <MasterNav location={location} />
         <Bracket bracket={bracket} bestOf={bestOf} />
       </Page>

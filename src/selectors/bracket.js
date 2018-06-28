@@ -99,6 +99,7 @@ export const bestOf = createSelector(
   helpers,
   (o) => o.bestOf ? {
     range: o.bestOfRange,
-    wins: o.bestOfWins
+    wins: o.bestOfWins,
+    bestOf: o.bestOf
   } : null
 );

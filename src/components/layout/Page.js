@@ -9,7 +9,8 @@ export default class Page extends Component {
   static propTypes = {
     width: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     sync: PropTypes.object,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string
   };
 
   getColumnWidths = () => {
@@ -36,12 +37,13 @@ export default class Page extends Component {
     const {
       children,
       width,
+      className,
       sync = {}
     } = this.props;
 
     return [
       <Header key='page-header' />,
-      <Grid key='page-grid' fluid={width === 'full'} style={{paddingBottom: '50px', minHeight: '300px'}}>
+      <Grid key='page-grid' fluid={width === 'full'} style={{paddingBottom: '50px', minHeight: '300px'}} className={className}>
         <Row>
           <Col {...this.getColumnWidths()}>
             <SyncContainer sync={sync}>{children}</SyncContainer>

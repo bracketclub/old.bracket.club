@@ -41,7 +41,21 @@ const SIXTEEN_TEAMS_CONFERENCE = {
   ]
 };
 
+const WORLD_CUP_KNOCKOUT = {
+  types: [STANDARD, STANDARD_PPR, ROUNDS],
+  columns: [
+    {key: 'rounds.0', display: 'R16', hideXs: true},
+    {key: 'rounds.1', display: 'QF', hideXs: true},
+    {key: 'rounds.2', display: 'SF', hideXs: true},
+    {key: 'rounds.3', display: 'F', hideXs: true},
+    {key: STANDARD, display: 'Score'},
+    {key: STANDARD_PPR, display: 'PPR'}
+  ]
+};
+
 const SCORES = {
+  wcm: WORLD_CUP_KNOCKOUT,
+  wcw: WORLD_CUP_KNOCKOUT,
   ncaam: NCAA_BB,
   ncaaw: NCAA_BB,
   nhl: SIXTEEN_TEAMS_CONFERENCE,
@@ -119,7 +133,7 @@ export default memoize((options) => {
   const boundScorer = scorer.score.bind(scorer, SCORES[sportYear.sport].types);
   const boundDiff = scorer.diff.bind(scorer);
 
-  const hasBestOf = constants.BEST_OF > 1;
+  const hasBestOf = Array.isArray(constants.BEST_OF) || constants.BEST_OF > 1;
 
   return {
     regex,

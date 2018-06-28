@@ -16,7 +16,6 @@ import LockMessage from './LockMessage';
 const mapStateToProps = mapSelectorsToProps({
   navigation: mastersSelectors.navigation,
   progress: mastersSelectors.progress,
-  bestOf: bracketSelectors.bestOf,
   locked: bracketSelectors.locked,
   locks: bracketSelectors.locks,
   event: eventSelectors.info,
@@ -35,7 +34,6 @@ export default class MasterNav extends Component {
     locks: PropTypes.string.isRequired,
     locked: PropTypes.bool.isRequired,
     mocked: PropTypes.bool.isRequired,
-    bestOf: PropTypes.object,
     user: PropTypes.object
   };
 
@@ -44,7 +42,7 @@ export default class MasterNav extends Component {
   };
 
   render() {
-    const {navigation, progress, locked, locks, event, mocked, user, bestOf} = this.props;
+    const {navigation, progress, locked, locks, event, mocked, user} = this.props;
 
     return [
       <BracketHeader key='bracket-header'>
@@ -53,7 +51,7 @@ export default class MasterNav extends Component {
           onNavigate={this.handleNavigate}
         />
         <BracketProgress
-          message={bestOf ? 'series played' : 'games played'}
+          message='played'
           progress={progress}
         />
       </BracketHeader>,

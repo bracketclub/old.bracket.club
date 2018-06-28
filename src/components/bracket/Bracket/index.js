@@ -47,13 +47,22 @@ export default class Bracket extends Component {
       );
     }
 
+    const winsInDisplay = ({winsIn}) => {
+      if (Array.isArray(bestOf.bestOf)) {
+        return isWinner ? bestOf.bestOf[winsIn - 1] : '';
+      }
+      return isWinner ? bestOf.wins : winsIn - bestOf.wins;
+    };
+
     // This is a master bracket game. It makes the most sense I think to show
     // the winsIn for both teams instead of the number of games the series went.
     // e.g. 4-2 instead of 6
     return (
       <Team {...team}>
         {bestOf && get(winner, 'winsIn') &&
-          <span className={styles.winsIn}>{isWinner ? bestOf.wins : winner.winsIn - bestOf.wins}</span>
+          <span className={styles.winsIn}>
+            {winsInDisplay(winner)}
+          </span>
         }
       </Team>
     );
