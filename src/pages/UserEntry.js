@@ -38,6 +38,7 @@ const mapPropsToActions = (props) => ({
 export default class UserEntryPage extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
+    event: PropTypes.object.isRequired,
     diff: PropTypes.func,
     user: PropTypes.object,
     master: PropTypes.string,
@@ -52,11 +53,12 @@ export default class UserEntryPage extends Component {
       master,
       diff,
       bestOf,
-      location
+      location,
+      event
     } = this.props;
 
     return (
-      <Page sync={sync} width='full'>
+      <Page sync={sync} width='full' className={event.id}>
         <MasterNav location={location} />
         <UserInfo user={user} />
         <ScoreCard score={user.score} />
