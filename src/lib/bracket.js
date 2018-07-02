@@ -42,7 +42,7 @@ const SIXTEEN_TEAMS_CONFERENCE = {
 };
 
 const WORLD_CUP_KNOCKOUT = {
-  types: [STANDARD, STANDARD_PPR, ROUNDS],
+  types: [STANDARD, STANDARD_PPR, ROUNDS, BONUS],
   columns: [
     {key: 'rounds.0', display: 'R16', hideXs: true},
     {key: 'rounds.1', display: 'QF', hideXs: true},
@@ -102,7 +102,7 @@ const globalLocks = {};
 if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line no-unused-vars
   const nowPlus = (str) => new Date(Date.now() + require('ms')(str)).toJSON();
-  // globalLocks['ncaam-2017'] = nowPlus('1d');
+  // globalLocks['wcm-2018'] = nowPlus('1d');
   // globalLocks['ncaaw-2017'] = nowPlus('1d');
   // globalLocks['nba-2017'] = nowPlus('10s');
   // globalLocks['nhl-2017'] = nowPlus('10s');
