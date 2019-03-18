@@ -1,11 +1,9 @@
 export default {
-  sport: 'wcm',
-  year: '2018',
+  sport: 'ncaam',
+  year: '2019',
   mocks: [],
   navEvents: [
-    'wcm-2018',
-    'nba-2018',
-    'nhl-2018',
+    'ncaam-2019',
     'ncaam-2018',
     'ncaaw-2018'
   ],
