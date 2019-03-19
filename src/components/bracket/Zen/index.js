@@ -14,7 +14,8 @@ export default class ZenBracket extends Component {
     locked: PropTypes.bool.isRequired,
     onUpdate: PropTypes.func,
     bracket: PropTypes.string,
-    next: PropTypes.func
+    next: PropTypes.func,
+    sensitive: PropTypes.bool
   };
 
   state = {
@@ -35,7 +36,12 @@ export default class ZenBracket extends Component {
   }
 
   renderButton(team, style) {
+    const {sensitive} = this.props;
     const {disabled} = this.state;
+
+    const handler = {
+      [sensitive ? 'onTouchStart' : 'onClick']: (e) => this.handleUpdate(e, team)
+    };
 
     return (
       <Button
@@ -43,7 +49,7 @@ export default class ZenBracket extends Component {
         disabled={disabled}
         bsStyle='primary'
         styleName={style}
-        onClick={(e) => this.handleUpdate(e, team)}
+        {...handler}
       >
         <span styleName={disabled ? 'text-disabled' : 'text'}>
           {disabled && ''}

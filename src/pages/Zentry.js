@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import qs from 'query-string';
 import mapDispatchToProps from 'lib/mapDispatchToProps';
 import mapSelectorsToProps from 'lib/mapSelectorsToProps';
 import * as eventSelectors from '../selectors/event';
@@ -25,6 +26,7 @@ export default class ZentryPage extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
     locked: PropTypes.bool.isRequired,
+    location: PropTypes.object.isRequired,
     next: PropTypes.func,
     bracket: PropTypes.string
   };
@@ -35,8 +37,11 @@ export default class ZentryPage extends Component {
       next,
       entryActions,
       event,
-      locked
+      locked,
+      location: {search}
     } = this.props;
+
+    const query = qs.parse(search);
 
     return (
       <Page width='full'>
@@ -46,6 +51,7 @@ export default class ZentryPage extends Component {
           bracket={bracket}
           locked={locked}
           onUpdate={(game) => entryActions.update(game, false)}
+          sensitive={!!query.baby}
         />
       </Page>
     );
