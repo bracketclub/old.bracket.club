@@ -4,10 +4,13 @@ export default {
   mocks: [],
   navEvents: [
     'ncaam-2019',
+    'ncaaw-2019',
     'ncaam-2018',
     'ncaaw-2018'
   ],
   events: [
+    'ncaam-2019',
+    'ncaaw-2019',
     'wcm-2018',
     'nba-2018',
     'nhl-2018',
