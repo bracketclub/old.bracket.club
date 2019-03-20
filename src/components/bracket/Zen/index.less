@@ -68,15 +68,19 @@
   }
 }
 
-:global body.hide-all {
+:global html.hide-all,
+:global html.hide-all body,
+:global html.hide-all #root {
   overflow: hidden !important;
+  height: 100%;
+  margin: 0;
+  padding: 0;
   position: static;
+  position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  margin: 0;
-  padding: 0;
 
   .container-fluid {
     padding-bottom: 0 !important;

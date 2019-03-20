@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Button} from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
-import BodyClass from 'react-body-classname';
 import {shuffle} from 'lodash';
 import tweetHref from 'lib/tweetHref';
 import styles from './index.less';
@@ -22,6 +21,23 @@ export default class ZenBracket extends Component {
     disabled: false
   };
 
+  componentDidMount() {
+    const viewport = document.querySelector('meta[name=viewport]');
+    this.previousViewport = viewport.content;
+    viewport.setAttribute('content', `${viewport.content},user-scalable=0`);
+
+    document.documentElement.classList.add('hide-all');
+  }
+
+  componentWillUnmount() {
+    const viewport = document.querySelector('meta[name=viewport]');
+    viewport.setAttribute('content', this.previousViewport);
+
+    document.documentElement.classList.remove('hide-all');
+  }
+
+  previousViewport = '';
+
   handleUpdate(e, team) {
     this.setState({disabled: true});
     this.props.onUpdate({
@@ -39,9 +55,14 @@ export default class ZenBracket extends Component {
     const {sensitive} = this.props;
     const {disabled} = this.state;
 
-    const handler = {
-      [sensitive ? 'onTouchStart' : 'onClick']: (e) => this.handleUpdate(e, team)
-    };
+    const handler = {};
+    if (sensitive) {
+      handler.onTouchStart = (e) => this.handleUpdate(e, team);
+      handler.onTouchEnd = (e) => this.handleUpdate(e, team);
+    }
+    else {
+      handler.onClick = (e) => this.handleUpdate(e, team);
+    }
 
     return (
       <Button
@@ -121,11 +142,9 @@ export default class ZenBracket extends Component {
     if (!bracket || !next || !onUpdate) return null;
 
     return (
-      <BodyClass className='hide-all'>
-        <div styleName='root'>
-          {locked ? this.renderLocked() : this.renderButtons()}
-        </div>
-      </BodyClass>
+      <div styleName='root'>
+        {locked ? this.renderLocked() : this.renderButtons()}
+      </div>
     );
   }
 }
