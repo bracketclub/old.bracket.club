@@ -7,7 +7,7 @@
       "provider": "twitter.com"
     },
     "id": "515832256",
-    "username": "[USER_INFO]"
+    "username": "[USER_INFO]",
     "authenticating": false,
     "syncing": {
       "syncing": false,
@@ -109,54 +109,54 @@
     "entities": {
       "1568": {
         "id": "1568",
-        "username": "[USER_INFO]"
-        "name": "[USER_INFO]"
-        "profile_pic": "[USER_INFO]"
+        "username": "[USER_INFO]",
+        "name": "[USER_INFO]",
+        "profile_pic": "[USER_INFO]",
         "entries": [
           "709621323559927809"
         ]
       },
       "13734": {
         "id": "13734",
-        "username": "[USER_INFO]"
-        "name": "[USER_INFO]"
-        "profile_pic": "[USER_INFO]"
+        "username": "[USER_INFO]",
+        "name": "[USER_INFO]",
+        "profile_pic": "[USER_INFO]",
         "entries": [
           "710193821188038660"
         ]
       },
       "819110": {
         "id": "819110",
-        "username": "[USER_INFO]"
-        "name": "[USER_INFO]"
-        "profile_pic": "[USER_INFO]"
+        "username": "[USER_INFO]",
+        "name": "[USER_INFO]",
+        "profile_pic": "[USER_INFO]",
         "entries": [
           "710136783829270528"
         ]
       },
       "14641997": {
         "id": "14641997",
-        "username": "[USER_INFO]"
-        "name": "[USER_INFO]"
-        "profile_pic": "[USER_INFO]"
+        "username": "[USER_INFO]",
+        "name": "[USER_INFO]",
+        "profile_pic": "[USER_INFO]",
         "entries": [
           "709520301034373120"
         ]
       },
       "15832679": {
         "id": "15832679",
-        "username": "[USER_INFO]"
-        "name": "[USER_INFO]"
-        "profile_pic": "[USER_INFO]"
+        "username": "[USER_INFO]",
+        "name": "[USER_INFO]",
+        "profile_pic": "[USER_INFO]",
         "entries": [
           "710480795538825216"
         ]
       },
       "332423991": {
         "id": "332423991",
-        "username": "[USER_INFO]"
-        "name": "[USER_INFO]"
-        "profile_pic": "[USER_INFO]"
+        "username": "[USER_INFO]",
+        "name": "[USER_INFO]",
+        "profile_pic": "[USER_INFO]",
         "entries": [
           "842385555581149184",
           "709779799414169600",
@@ -166,9 +166,9 @@
       },
       "515832256": {
         "id": "515832256",
-        "username": "[USER_INFO]"
-        "name": "[USER_INFO]"
-        "profile_pic": "[USER_INFO]"
+        "username": "[USER_INFO]",
+        "name": "[USER_INFO]",
+        "profile_pic": "[USER_INFO]",
         "entries": [
           "842387423921233921",
           "710314048890343424"
@@ -176,9 +176,9 @@
       },
       "3096805520": {
         "id": "3096805520",
-        "username": "[USER_INFO]"
-        "name": "[USER_INFO]"
-        "profile_pic": "[USER_INFO]"
+        "username": "[USER_INFO]",
+        "name": "[USER_INFO]",
+        "profile_pic": "[USER_INFO]",
         "entries": [
           "842393059358793729",
           "710281965379801093"

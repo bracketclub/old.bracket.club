@@ -1,14 +1,14 @@
 export default {
   sport: 'ncaam',
-  year: '2019',
+  year: '2021',
   mocks: [],
   navEvents: [
-    'ncaam-2019',
-    'ncaaw-2019',
-    'ncaam-2018',
-    'ncaaw-2018'
+    'ncaam-2021',
+    'ncaaw-2021'
   ],
   events: [
+    'ncaam-2021',
+    'ncaaw-2021',
     'ncaam-2019',
     'ncaaw-2019',
     'wcm-2018',
