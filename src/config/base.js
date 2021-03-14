@@ -3,12 +3,12 @@ export default {
   year: '2021',
   mocks: [],
   navEvents: [
-    'ncaam-2021',
-    'ncaaw-2021'
+    'ncaam-2021'
+    // 'ncaaw-2021'
   ],
   events: [
     'ncaam-2021',
-    'ncaaw-2021',
+    // 'ncaaw-2021',
     'ncaam-2019',
     'ncaaw-2019',
     'wcm-2018',
