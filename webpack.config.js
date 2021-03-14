@@ -26,6 +26,9 @@ const config = addStyleLoaders(webpackConfig({
   replace: {
     config: `src/config/${configEnv}.js`
   },
+  define: {
+    'process.env.API_URL': JSON.stringify(process.env.API_URL)
+  },
   html: (context) => ({'index.html': renderHTML(context)})
 }), {src: SRC, isDev});
 
