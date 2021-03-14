@@ -1,12 +1,10 @@
 export default {
   sport: 'ncaam',
-  year: '2019',
+  year: '2021',
   mocks: [],
-  navEvents: [
-    'ncaam-2019',
-    'ncaaw-2019'
-  ],
+  navEvents: ['ncaam-2021'],
   events: [
+    'ncaam-2021',
     'ncaam-2019',
     'ncaaw-2019',
     'wcm-2018',
@@ -27,7 +25,7 @@ export default {
     'ncaam-2013',
     'ncaam-2012'
   ],
-  sse: false,
+  sse: true,
   'static': false,
   localStorage: 'bracketclub',
   baseUrl: 'bracket.club',
