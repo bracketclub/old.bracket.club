@@ -11,7 +11,8 @@ export default class LockMessage extends Component {
     event: PropTypes.object.isRequired,
     locks: PropTypes.string.isRequired,
     locked: PropTypes.bool.isRequired,
-    user: PropTypes.object,
+    isMe: PropTypes.bool,
+    bracket: PropTypes.string,
   }
 
   constructor(props) {
@@ -24,18 +25,18 @@ export default class LockMessage extends Component {
   }
 
   renderMessage() {
-    const { event, locks, user } = this.props
+    const { event, locks, isMe, bracket } = this.props
 
-    if (user && user.isMe) {
+    if (isMe) {
       return (
         <span>
-          <strong>Want to edit your entry?</strong>
-          <br className="visible-lg-block" /> Entries are still open for the{' '}
-          <strong>{event.display} Bracket</strong> for{' '}
+          <strong>Want to edit your entry?</strong> Entries are still open for
+          the <strong>{event.display} Bracket</strong> for{' '}
           <TimeAgo formatter={formatter} date={locks} />.
           <br className="visible-lg-block" /> Go to{' '}
-          <Link to={`/${event.id}/${user.entry.bracket}`}>your entry page</Link>{' '}
-          and enter your bracket again with any changes you want to make.
+          <Link to={`/${event.id}/${bracket}`}>your entry page</Link> to make
+          any changes you want and tweet your bracket again to update your
+          entry.
         </span>
       )
     }
@@ -45,8 +46,16 @@ export default class LockMessage extends Component {
         Entries are still open for the <strong>{event.display} Bracket</strong>{' '}
         for <TimeAgo formatter={formatter} date={locks} />.
         <br className="visible-lg-block" /> Go to the{' '}
-        <Link to={`/${event.id}`}>entry page</Link> to fill out your bracket
-        before it’s too late!
+        <Link to={`/${event.id}`}>entry page</Link>
+        {bracket ? (
+          <span>
+            {' '}
+            or <Link to={`/${event.id}/${bracket}`}>remix this entry</Link>
+          </span>
+        ) : (
+          ''
+        )}{' '}
+        to fill out your bracket before it’s too late!
       </span>
     )
   }

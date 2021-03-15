@@ -31,7 +31,8 @@ class MasterNav extends Component {
     event: PropTypes.object.isRequired,
     locks: PropTypes.string.isRequired,
     locked: PropTypes.bool.isRequired,
-    user: PropTypes.object,
+    bracket: PropTypes.string,
+    isMe: PropTypes.bool,
   }
 
   handleNavigate = (method) => {
@@ -39,7 +40,15 @@ class MasterNav extends Component {
   }
 
   render() {
-    const { navigation, progress, locked, locks, event, user } = this.props
+    const {
+      navigation,
+      progress,
+      locked,
+      locks,
+      event,
+      isMe,
+      bracket,
+    } = this.props
 
     return [
       <BracketHeader key="bracket-header">
@@ -51,7 +60,8 @@ class MasterNav extends Component {
         locked={locked}
         locks={locks}
         event={event}
-        user={user}
+        isMe={isMe}
+        bracket={bracket}
       />,
     ]
   }

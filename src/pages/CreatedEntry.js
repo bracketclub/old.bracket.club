@@ -52,7 +52,7 @@ export default class CreatedEntryPage extends Component {
 
     return (
       <Page width="full" sync={sync} className={event.id}>
-        <MasterNav location={location} />
+        <MasterNav location={location} bracket={bracket} />
         <DiffBracket {...{ diff, entry: bracket, master, bestOf }} />
       </Page>
     )

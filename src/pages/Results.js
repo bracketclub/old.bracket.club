@@ -103,9 +103,15 @@ export default class ResultsPage extends Component {
       location,
     } = this.props
 
+    const meEntry = entries.find((e) => e.isMe)
+
     return (
       <Page sync={sync}>
-        <MasterNav location={location} />
+        <MasterNav
+          location={location}
+          isMe={!!meEntry}
+          bracket={meEntry && meEntry.bracket}
+        />
         <ResultsTable
           sortParams={sortParams}
           onSort={this.handleSort}
