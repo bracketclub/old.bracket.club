@@ -24,7 +24,7 @@ export default {
     'ncaam-2013',
     'ncaam-2012',
   ],
-  sse: false,
+  sse: true,
   static: false,
   localStorage: 'bracketclub',
   baseUrl: 'bracket.club',

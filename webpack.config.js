@@ -19,6 +19,7 @@ const config = addStyleLoaders(
     isDev,
     in: `${SRC}/main.js`,
     out: 'build',
+    port: 3031,
     urlLoaderLimit: 1,
     clearBeforeBuild: true,
     output: { hash: true },
