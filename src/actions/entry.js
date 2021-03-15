@@ -46,10 +46,19 @@ export const generate = (method) =>
 export const update = (game, path) =>
   routeToBracket((...args) => {
     const current = entrySelectors.bracketString(...args)
-    return bracketSelectors.update(...args)({
-      ...game,
-      currentMaster: current,
-    })
+
+    try {
+      return bracketSelectors.update(...args)({
+        ...game,
+        currentMaster: current,
+      })
+    } catch (e) {
+      // Updater has an error when selecting a team that has already
+      // been selected in a round when they have no opponent in the
+      // next round yet. This should be fixed in the updater
+      // but for now just make it a no-op on the bracket. TODO: 03-14-2021
+      return current
+    }
   }, path)
 
 // Navigate between entry brackets
