@@ -59,7 +59,11 @@ export default class UserEntryPage extends Component {
 
     return (
       <Page sync={sync} width="full" className={event.id}>
-        <MasterNav location={location} user={user} />
+        <MasterNav
+          location={location}
+          isMe={user && user.isMe}
+          bracket={user && user.entry && user.entry.bracket}
+        />
         <UserInfo user={user} />
         <ScoreCard score={user.score} />
         <UserEntry user={user} diff={diff} master={master} bestOf={bestOf} />
