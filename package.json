@@ -132,7 +132,6 @@
     "build-prod": "CONFIG_ENV=live npm run build",
     "build-static": "CONFIG_ENV=static npm run build",
     "lint": "prettier . -l && eslint .",
-    "pr": "open 'https://github.com/bracketclub/bracket.club/compare/master...development?expand=1'",
     "prebuild": "rm -rf build && mkdir build",
     "start": "hjs-dev-server",
     "test": "jest --config jest/config.json --rootDir . --testPathPattern __tests__/[a-z].*",
