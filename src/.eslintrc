@@ -1,20 +1,23 @@
 {
-  "extends": "@lukekarrys/eslint-config",
+  "extends": ["@lukekarrys/eslint-config", "prettier"],
   "settings": {
     "import/external-module-folders": ["node_modules", "lib"],
     "import/core-modules": ["config"]
   },
   "rules": {
-    "react/prop-types": [2, {
-      "ignore": [
-        "dispatch",
-        "canWinActions",
-        "entriesActions",
-        "entryActions",
-        "eventActions",
-        "mastersActions",
-        "meActions"
-      ]
-    }]
+    "react/prop-types": [
+      2,
+      {
+        "ignore": [
+          "dispatch",
+          "canWinActions",
+          "entriesActions",
+          "entryActions",
+          "eventActions",
+          "mastersActions",
+          "meActions"
+        ]
+      }
+    ]
   }
 }

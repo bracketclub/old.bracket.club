@@ -1,6 +1,6 @@
-import base from './base';
+import base from './base'
 
 export default {
   ...base,
-  apiUrl: 'http://localhost:3001'
-};
+  apiUrl: 'http://localhost:3001',
+}

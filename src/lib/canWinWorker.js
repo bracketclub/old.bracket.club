@@ -1,17 +1,19 @@
 /* eslint-env worker */
 
-import BracketPossibilities from 'bracket-possibilities';
+import BracketPossibilities from 'bracket-possibilities'
 
-onmessage = ({data}) => {
-  const {sport, year, entries, master, id} = data;
+onmessage = ({ data }) => {
+  const { sport, year, entries, master, id } = data
 
-  if (!sport || !year) return;
+  if (!sport || !year) return
 
-  const p = new BracketPossibilities({sport, year});
+  const p = new BracketPossibilities({ sport, year })
 
-  postMessage(p.canWin({
-    entries,
-    master,
-    findEntry: (f) => f.id === id
-  }));
-};
+  postMessage(
+    p.canWin({
+      entries,
+      master,
+      findEntry: (f) => f.id === id,
+    })
+  )
+}

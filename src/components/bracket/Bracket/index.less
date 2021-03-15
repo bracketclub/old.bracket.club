@@ -14,7 +14,6 @@
 @seedSpacing: 0.3em;
 @shouldBeSpacing: -14px;
 
-
 // =========================================
 // Media Queries
 // =========================================
@@ -36,7 +35,6 @@
   }
 }
 
-
 // =========================================
 // Bracket
 // =========================================
@@ -50,7 +48,6 @@
     flex-wrap: none;
   });
 }
-
 
 // =========================================
 // Regions
@@ -67,7 +64,6 @@
     .singleRegion & { width: 50%; }
   });
 }
-
 
 // =========================================
 // Region
@@ -98,7 +94,6 @@
   });
 }
 
-
 // =========================================
 // Region Title
 // =========================================
@@ -117,17 +112,36 @@
 // Manually place the title one round away from the end since it is positioned
 // absolutely. Not sure of a better way to do this.
 .titlePlacement(@prop) {
-  .rounds2 .title { left: auto; right: auto; @{prop}: 50%; }
-  .rounds3 .title { left: auto; right: auto; @{prop}: 33.333333333333333%; }
-  .rounds4 .title { left: auto; right: auto; @{prop}: 25%; }
-  .rounds5 .title { left: auto; right: auto; @{prop}: 20%; }
-  .rounds6 .title { left: auto; right: auto; @{prop}: 16.666666666666666%; }
+  .rounds2 .title {
+    left: auto;
+    right: auto;
+    @{prop}: 50%;
+  }
+  .rounds3 .title {
+    left: auto;
+    right: auto;
+    @{prop}: 33.333333333333333%;
+  }
+  .rounds4 .title {
+    left: auto;
+    right: auto;
+    @{prop}: 25%;
+  }
+  .rounds5 .title {
+    left: auto;
+    right: auto;
+    @{prop}: 20%;
+  }
+  .rounds6 .title {
+    left: auto;
+    right: auto;
+    @{prop}: 16.666666666666666%;
+  }
 }
 
 .fullScreenBracket({
   .titlePlacement(right);
 });
-
 
 // =========================================
 // Round
@@ -146,8 +160,12 @@
   // of the first and last child
   padding-left: @roundSpacing;
   padding-right: @roundSpacing;
-  &:first-child { padding-left: 0; }
-  &:last-child { padding-right: 0; }
+  &:first-child {
+    padding-left: 0;
+  }
+  &:last-child {
+    padding-right: 0;
+  }
 
   .fullScreenBracket({
     // When going full screen the last children need their padding added back
@@ -163,7 +181,6 @@
     }
   });
 }
-
 
 // =========================================
 // Matchup
@@ -219,7 +236,6 @@
   .fullScreenBracket({ .connector(~'.regionsRight', left, right); });
 }
 
-
 // =========================================
 // Team Box
 // =========================================
@@ -236,14 +252,22 @@
   // These offsets make the team spacing lineup with the previous round
   // when using justify-content: space-around
   .round:not(:first-child):not(:last-child) .matchup & {
-    &:first-child { margin-top: @matchupSpacing * -1; }
-    &:last-child { margin-bottom: @matchupSpacing * -1; }
+    &:first-child {
+      margin-top: @matchupSpacing * -1;
+    }
+    &:last-child {
+      margin-bottom: @matchupSpacing * -1;
+    }
   }
 
   // Only if there are two regions per side does the last round in those
   // need to be offset
-  .regionTop .round:last-child .matchup & { margin-top: @matchupSpacing * -1; }
-  .regionBottom .round:last-child .matchup & { margin-bottom: @matchupSpacing * -1; }
+  .regionTop .round:last-child .matchup & {
+    margin-top: @matchupSpacing * -1;
+  }
+  .regionBottom .round:last-child .matchup & {
+    margin-bottom: @matchupSpacing * -1;
+  }
 
   // These are the two horizontal lines that come out of each side of the box
   .connector() {
@@ -270,11 +294,19 @@
   // Let's see if I can explain this...
   // Normally when moving left to right all rounds have the connectors except
   // the first and last children on their "outside" (right and left respectively)
-  .round:first-child &:after { .rightConnector(); }
-  .round:last-child &:before { .leftConnector(); }
+  .round:first-child &:after {
+    .rightConnector();
+  }
+  .round:last-child &:before {
+    .leftConnector();
+  }
   .round:not(:first-child):not(:last-child) & {
-    &:before { .leftConnector(); }
-    &:after { .rightConnector(); }
+    &:before {
+      .leftConnector();
+    }
+    &:after {
+      .rightConnector();
+    }
   }
 
   .fullScreenBracket({
@@ -284,9 +316,8 @@
     // Then the right side regions need thier connectors reversed
     .regionsRight .round:first-child &:after { .leftConnector(); }
     .regionsRight .round:last-child &:before { .leftConnector(); }
-  })
+  });
 }
-
 
 // =========================================
 // Team
@@ -297,8 +328,8 @@
   padding-right: @seedSpacing;
 }
 
-:global [class^="wcm-"],
-:global [class^="wcw-"] {
+:global [class^='wcm-'],
+:global [class^='wcw-'] {
   :local(.seed) {
     display: none;
   }
@@ -331,7 +362,7 @@
 .seriesMenuUp {
   top: auto;
   bottom: calc(100% ~'-' 1px);
-  box-shadow: 0 -6px 12px rgba(0, 0, 0, .175);
+  box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.175);
 }
 
 .seriesMenuOpen {
@@ -428,7 +459,6 @@
 .winsInActual {
   background: @borderColor;
 }
-
 
 // =========================================
 // Side Right

@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const html = require('html-tagged-literals');
+const html = require('html-tagged-literals')
 
 module.exports = (context, isDev) => html[isDev ? 'unindent' : 'minify']`
   <!DOCTYPE html>
@@ -24,4 +24,4 @@ module.exports = (context, isDev) => html[isDev ? 'unindent' : 'minify']`
     <script src="/${context.main}"></script>
   </body>
   </html>
-`;
+`

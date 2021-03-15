@@ -21,10 +21,7 @@
   "entry": {
     "nhl-2017": {
       "index": 1,
-      "brackets": [
-        "C17XXPXXXAXXXMXXXFXXX",
-        "C1735XPXXXAXXXMXXXFXXX"
-      ]
+      "brackets": ["C17XXPXXXAXXXMXXXFXXX", "C1735XPXXXAXXXMXXXFXXX"]
     }
   },
   "canWin": {
@@ -112,45 +109,35 @@
         "username": "[USER_INFO]",
         "name": "[USER_INFO]",
         "profile_pic": "[USER_INFO]",
-        "entries": [
-          "709621323559927809"
-        ]
+        "entries": ["709621323559927809"]
       },
       "13734": {
         "id": "13734",
         "username": "[USER_INFO]",
         "name": "[USER_INFO]",
         "profile_pic": "[USER_INFO]",
-        "entries": [
-          "710193821188038660"
-        ]
+        "entries": ["710193821188038660"]
       },
       "819110": {
         "id": "819110",
         "username": "[USER_INFO]",
         "name": "[USER_INFO]",
         "profile_pic": "[USER_INFO]",
-        "entries": [
-          "710136783829270528"
-        ]
+        "entries": ["710136783829270528"]
       },
       "14641997": {
         "id": "14641997",
         "username": "[USER_INFO]",
         "name": "[USER_INFO]",
         "profile_pic": "[USER_INFO]",
-        "entries": [
-          "709520301034373120"
-        ]
+        "entries": ["709520301034373120"]
       },
       "15832679": {
         "id": "15832679",
         "username": "[USER_INFO]",
         "name": "[USER_INFO]",
         "profile_pic": "[USER_INFO]",
-        "entries": [
-          "710480795538825216"
-        ]
+        "entries": ["710480795538825216"]
       },
       "332423991": {
         "id": "332423991",
@@ -169,20 +156,14 @@
         "username": "[USER_INFO]",
         "name": "[USER_INFO]",
         "profile_pic": "[USER_INFO]",
-        "entries": [
-          "842387423921233921",
-          "710314048890343424"
-        ]
+        "entries": ["842387423921233921", "710314048890343424"]
       },
       "3096805520": {
         "id": "3096805520",
         "username": "[USER_INFO]",
         "name": "[USER_INFO]",
         "profile_pic": "[USER_INFO]",
-        "entries": [
-          "842393059358793729",
-          "710281965379801093"
-        ]
+        "entries": ["842393059358793729", "710281965379801093"]
       }
     }
   },
@@ -457,9 +438,7 @@
         "id": "nhl-2016"
       },
       "nhl-2017": {
-        "brackets": [
-          "CXXXPXXXAXXXMXXXFXXX"
-        ],
+        "brackets": ["CXXXPXXXAXXXMXXXFXXX"],
         "sport": "nhl",
         "year": "2017",
         "id": "nhl-2017"
@@ -472,9 +451,7 @@
         "syncing": false,
         "refreshing": false,
         "fetchError": null,
-        "result": [
-          "851549655158538240"
-        ],
+        "result": ["851549655158538240"],
         "sse": true
       },
       "ncaaw-2017": {
@@ -535,9 +512,7 @@
         "syncing": false,
         "refreshing": false,
         "fetchError": null,
-        "result": [
-          "720340649787035648"
-        ]
+        "result": ["720340649787035648"]
       }
     },
     "entities": {

@@ -1,57 +1,57 @@
-import {memoize, find, partial, without} from 'lodash';
-import bracketData from 'bracket-data';
-import BracketUpdater from 'bracket-updater';
-import BracketGenerator from 'bracket-generator';
-import BracketValidator from 'bracket-validator';
-import BracketScorer from 'bracket-scorer';
+import { memoize, find, partial, without } from 'lodash'
+import bracketData from 'bracket-data'
+import BracketUpdater from 'bracket-updater'
+import BracketGenerator from 'bracket-generator'
+import BracketValidator from 'bracket-validator'
+import BracketScorer from 'bracket-scorer'
 
 // Columns and scoring keys for each sport
-const STANDARD = 'standard';
-const STANDARD_PPR = `${STANDARD}PPR`;
-const GOOLEY = 'gooley';
-const GOOLEY_PPR = `${GOOLEY}PPR`;
-const ROUNDS = 'rounds';
-const BONUS = 'bonus';
+const STANDARD = 'standard'
+const STANDARD_PPR = `${STANDARD}PPR`
+const GOOLEY = 'gooley'
+const GOOLEY_PPR = `${GOOLEY}PPR`
+const ROUNDS = 'rounds'
+const BONUS = 'bonus'
 
 const NCAA_BB = {
   types: [STANDARD, STANDARD_PPR, ROUNDS, GOOLEY, GOOLEY_PPR],
   columns: [
-    {key: 'rounds.0', display: 'Rd 1', hideXs: true},
-    {key: 'rounds.1', display: 'Rd 2', hideXs: true},
-    {key: 'rounds.2', display: 'S16', hideXs: true},
-    {key: 'rounds.3', display: 'E8', hideXs: true},
-    {key: 'rounds.4', display: 'FF', hideXs: true},
-    {key: 'rounds.5', display: 'NC', hideXs: true},
-    {key: STANDARD, display: 'Score'},
-    {key: STANDARD_PPR, display: 'PPR'},
-    {key: GOOLEY, display: 'Gooley', hideXs: true, hideSm: true},
-    {key: GOOLEY_PPR, display: 'Gooley PPR', hideXs: true, hideSm: true}
-  ]
-};
+    { key: 'rounds.0', display: 'Rd 1', hideXs: true },
+    { key: 'rounds.1', display: 'Rd 2', hideXs: true },
+    { key: 'rounds.2', display: 'S16', hideXs: true },
+    { key: 'rounds.3', display: 'E8', hideXs: true },
+    { key: 'rounds.4', display: 'FF', hideXs: true },
+    { key: 'rounds.5', display: 'NC', hideXs: true },
+    { key: STANDARD, display: 'Score' },
+    { key: STANDARD_PPR, display: 'PPR' },
+    { key: GOOLEY, display: 'Gooley', hideXs: true, hideSm: true },
+    { key: GOOLEY_PPR, display: 'Gooley PPR', hideXs: true, hideSm: true },
+  ],
+}
 
 const SIXTEEN_TEAMS_CONFERENCE = {
   types: [STANDARD, STANDARD_PPR, ROUNDS, BONUS],
   columns: [
-    {key: 'rounds.0', display: 'CQF', hideXs: true},
-    {key: 'rounds.1', display: 'CSF', hideXs: true},
-    {key: 'rounds.2', display: 'CF', hideXs: true},
-    {key: 'rounds.3', display: 'F', hideXs: true},
-    {key: STANDARD, display: 'Score'},
-    {key: STANDARD_PPR, display: 'PPR'}
-  ]
-};
+    { key: 'rounds.0', display: 'CQF', hideXs: true },
+    { key: 'rounds.1', display: 'CSF', hideXs: true },
+    { key: 'rounds.2', display: 'CF', hideXs: true },
+    { key: 'rounds.3', display: 'F', hideXs: true },
+    { key: STANDARD, display: 'Score' },
+    { key: STANDARD_PPR, display: 'PPR' },
+  ],
+}
 
 const WORLD_CUP_KNOCKOUT = {
   types: [STANDARD, STANDARD_PPR, ROUNDS, BONUS],
   columns: [
-    {key: 'rounds.0', display: 'R16', hideXs: true},
-    {key: 'rounds.1', display: 'QF', hideXs: true},
-    {key: 'rounds.2', display: 'SF', hideXs: true},
-    {key: 'rounds.3', display: 'F', hideXs: true},
-    {key: STANDARD, display: 'Score'},
-    {key: STANDARD_PPR, display: 'PPR'}
-  ]
-};
+    { key: 'rounds.0', display: 'R16', hideXs: true },
+    { key: 'rounds.1', display: 'QF', hideXs: true },
+    { key: 'rounds.2', display: 'SF', hideXs: true },
+    { key: 'rounds.3', display: 'F', hideXs: true },
+    { key: STANDARD, display: 'Score' },
+    { key: STANDARD_PPR, display: 'PPR' },
+  ],
+}
 
 const SCORES = {
   wcm: WORLD_CUP_KNOCKOUT,
@@ -59,49 +59,53 @@ const SCORES = {
   ncaam: NCAA_BB,
   ncaaw: NCAA_BB,
   nhl: SIXTEEN_TEAMS_CONFERENCE,
-  nba: SIXTEEN_TEAMS_CONFERENCE
-};
+  nba: SIXTEEN_TEAMS_CONFERENCE,
+}
 
 // These help format validated brackets and scored brackets into a normalized
 // object for use by our views
 const findNextRegion = (bracket, regions) =>
-  find(bracket, (region) => regions.indexOf(region.id) === -1);
+  find(bracket, (region) => regions.indexOf(region.id) === -1)
 
 const getRegionsFor = (finalId, firstId, bracket) => {
   if (bracket instanceof Error) {
-    return bracket;
+    return bracket
   }
 
-  const regionFinal = bracket[finalId];
-  const output = {regions: {left: [], right: []}, regionFinal};
+  const regionFinal = bracket[finalId]
+  const output = { regions: { left: [], right: [] }, regionFinal }
   const getRegion = {
     1: () => bracket[firstId],
     2: () => bracket[getRegion['1']().sameSideAs],
-    3: () => findNextRegion(bracket, [getRegion['1']().id, getRegion['2']().id, finalId]),
-    4: () => bracket[getRegion['3']().sameSideAs]
-  };
+    3: () =>
+      findNextRegion(bracket, [
+        getRegion['1']().id,
+        getRegion['2']().id,
+        finalId,
+      ]),
+    4: () => bracket[getRegion['3']().sameSideAs],
+  }
 
-  const regionIds = without(Object.keys(bracket), finalId);
+  const regionIds = without(Object.keys(bracket), finalId)
 
   if (regionIds.length === 2) {
-    output.regions.left.push(getRegion['1']());
-    output.regions.right.push(getRegion['2']());
-  }
-  else {
-    output.regions.left.push(getRegion['1'](), getRegion['2']());
-    output.regions.right.push(getRegion['3'](), getRegion['4']());
+    output.regions.left.push(getRegion['1']())
+    output.regions.right.push(getRegion['2']())
+  } else {
+    output.regions.left.push(getRegion['1'](), getRegion['2']())
+    output.regions.right.push(getRegion['3'](), getRegion['4']())
   }
 
-  return output;
-};
+  return output
+}
 
-const idResolver = (o) => `${o.sport}-${o.year}`;
+const idResolver = (o) => `${o.sport}-${o.year}`
 
 // Make it easy to test when the app locks soon
-const globalLocks = {};
+const globalLocks = {}
 if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line no-unused-vars
-  const nowPlus = (str) => new Date(Date.now() + require('ms')(str)).toJSON();
+  const nowPlus = (str) => new Date(Date.now() + require('ms')(str)).toJSON()
   // globalLocks['wcm-2018'] = nowPlus('1d');
   // globalLocks['ncaaw-2017'] = nowPlus('1d');
   // globalLocks['nba-2017'] = nowPlus('10s');
@@ -114,26 +118,37 @@ if (process.env.NODE_ENV !== 'production') {
 export default memoize((options) => {
   const sportYear = {
     sport: options.sport,
-    year: options.year
-  };
-  const id = idResolver(sportYear);
+    year: options.year,
+  }
+  const id = idResolver(sportYear)
 
-  const {constants, scoring, regex, locks, complete, bracket: bracketObj} = bracketData(sportYear);
+  const {
+    constants,
+    scoring,
+    regex,
+    locks,
+    complete,
+    bracket: bracketObj,
+  } = bracketData(sportYear)
 
-  const validator = new BracketValidator(sportYear);
-  const updater = new BracketUpdater(sportYear);
-  const generator = new BracketGenerator(sportYear);
-  const scorer = new BracketScorer(sportYear);
-  const getRegions = partial(getRegionsFor, constants.FINAL_ID, constants.REGION_IDS[0]);
+  const validator = new BracketValidator(sportYear)
+  const updater = new BracketUpdater(sportYear)
+  const generator = new BracketGenerator(sportYear)
+  const scorer = new BracketScorer(sportYear)
+  const getRegions = partial(
+    getRegionsFor,
+    constants.FINAL_ID,
+    constants.REGION_IDS[0]
+  )
 
-  const boundValidator = validator.validate.bind(validator);
-  const boundUpdater = updater.update.bind(updater);
-  const boundNext = updater.next.bind(updater);
-  const boundGenerator = generator.generate.bind(generator);
-  const boundScorer = scorer.score.bind(scorer, SCORES[sportYear.sport].types);
-  const boundDiff = scorer.diff.bind(scorer);
+  const boundValidator = validator.validate.bind(validator)
+  const boundUpdater = updater.update.bind(updater)
+  const boundNext = updater.next.bind(updater)
+  const boundGenerator = generator.generate.bind(generator)
+  const boundScorer = scorer.score.bind(scorer, SCORES[sportYear.sport].types)
+  const boundDiff = scorer.diff.bind(scorer)
 
-  const hasBestOf = Array.isArray(constants.BEST_OF) || constants.BEST_OF > 1;
+  const hasBestOf = Array.isArray(constants.BEST_OF) || constants.BEST_OF > 1
 
   return {
     regex,
@@ -142,7 +157,7 @@ export default memoize((options) => {
     locks: globalLocks[id] || locks,
     bracket: bracketObj,
     emptyBracket: constants.EMPTY,
-    totalGames: (constants.TEAMS_PER_REGION * constants.REGION_COUNT) - 1,
+    totalGames: constants.TEAMS_PER_REGION * constants.REGION_COUNT - 1,
     unpickedChar: constants.UNPICKED_MATCH,
     finalId: constants.FINAL_ID,
     bestOf: hasBestOf && constants.BEST_OF,
@@ -154,10 +169,16 @@ export default memoize((options) => {
     generate: boundGenerator,
 
     // Memoized by id plus the bracket argument
-    validate: memoize((bracket) => getRegions(boundValidator(bracket)), (bracket) => id + bracket),
+    validate: memoize(
+      (bracket) => getRegions(boundValidator(bracket)),
+      (bracket) => id + bracket
+    ),
 
     // Memoized by id and the two brackets passed in
-    diff: memoize((o) => getRegions(boundDiff(o)), (o) => id + o.master + o.entry),
+    diff: memoize(
+      (o) => getRegions(boundDiff(o)),
+      (o) => id + o.master + o.entry
+    ),
 
     // Memoized by stringifying the options
     update: memoize(boundUpdater, (o) => id + JSON.stringify(o)),
@@ -166,8 +187,10 @@ export default memoize((options) => {
     // Memoized by types (array), master (string), and entry (array)
     // Important: this only allows it to be used by passing the entry
     // as a string
-    score: memoize(boundScorer, (o) =>
-      id + o.master + (typeof o.entry === 'string' ? o.entry : Math.random())
-    )
-  };
-}, idResolver);
+    score: memoize(
+      boundScorer,
+      (o) =>
+        id + o.master + (typeof o.entry === 'string' ? o.entry : Math.random())
+    ),
+  }
+}, idResolver)

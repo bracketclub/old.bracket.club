@@ -1,20 +1,20 @@
-import raf from 'raf';
+import raf from 'raf'
 
 export default (time, cb) => {
-  let rafId;
-  const date = new Date(time);
+  let rafId
+  const date = new Date(time)
 
   const countdown = () => {
-    if ((date - Date.now()) <= 0) {
-      raf.cancel(rafId);
-      cb();
-      return;
+    if (date - Date.now() <= 0) {
+      raf.cancel(rafId)
+      cb()
+      return
     }
 
-    rafId = raf(countdown);
-  };
+    rafId = raf(countdown)
+  }
 
-  countdown();
+  countdown()
 
-  return () => raf.cancel(rafId);
-};
+  return () => raf.cancel(rafId)
+}

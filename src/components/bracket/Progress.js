@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {ProgressBar} from 'react-bootstrap';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { ProgressBar } from 'react-bootstrap'
 
 export default class BracketProgress extends Component {
   static propTypes = {
     progress: PropTypes.object.isRequired,
-    message: PropTypes.string.isRequired
-  };
+    message: PropTypes.string.isRequired,
+  }
 
   render() {
-    const {progress, message} = this.props;
+    const { progress, message } = this.props
 
     return (
-      <div className='bracket-progress'>
+      <div className="bracket-progress">
         <ProgressBar
           striped
           now={progress.current}
@@ -21,6 +21,6 @@ export default class BracketProgress extends Component {
           label={`${progress.current} of ${progress.total} ${message}`}
         />
       </div>
-    );
+    )
   }
 }

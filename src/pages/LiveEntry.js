@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import mapDispatchToProps from 'lib/mapDispatchToProps';
-import mapSelectorsToProps from 'lib/mapSelectorsToProps';
-import * as entrySelectors from '../selectors/entry';
-import * as bracketSelectors from '../selectors/bracket';
-import * as eventSelectors from '../selectors/event';
-import * as entryActionCreators from '../actions/entry';
-import Page from '../components/layout/Page';
-import LiveBracket from '../components/bracket/LiveBracket';
-import BracketNav from '../components/bracket/Nav';
-import BracketProgress from '../components/bracket/Progress';
-import BracketHeader from '../components/bracket/Header';
-import BracketEnterButton from '../components/bracket/EnterButton';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import mapDispatchToProps from 'lib/mapDispatchToProps'
+import mapSelectorsToProps from 'lib/mapSelectorsToProps'
+import * as entrySelectors from '../selectors/entry'
+import * as bracketSelectors from '../selectors/bracket'
+import * as eventSelectors from '../selectors/event'
+import * as entryActionCreators from '../actions/entry'
+import Page from '../components/layout/Page'
+import LiveBracket from '../components/bracket/LiveBracket'
+import BracketNav from '../components/bracket/Nav'
+import BracketProgress from '../components/bracket/Progress'
+import BracketHeader from '../components/bracket/Header'
+import BracketEnterButton from '../components/bracket/EnterButton'
 
 const mapStateToProps = mapSelectorsToProps({
   validate: bracketSelectors.validate,
@@ -24,10 +24,13 @@ const mapStateToProps = mapSelectorsToProps({
   bestOf: bracketSelectors.bestOf,
   locked: bracketSelectors.locked,
   locks: bracketSelectors.locks,
-  event: eventSelectors.info
-});
+  event: eventSelectors.info,
+})
 
-@connect(mapStateToProps, mapDispatchToProps({entryActions: entryActionCreators}))
+@connect(
+  mapStateToProps,
+  mapDispatchToProps({ entryActions: entryActionCreators })
+)
 export default class LiveEntryPage extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
@@ -40,41 +43,41 @@ export default class LiveEntryPage extends Component {
     finalId: PropTypes.string,
     navigation: PropTypes.object,
     progress: PropTypes.object,
-    bestOf: PropTypes.object
-  };
+    bestOf: PropTypes.object,
+  }
 
   componentDidMount() {
     // Mounting with a url bracket means that
     // bracket needs to be added to the store
-    this.pushBracket();
+    this.pushBracket()
     // Or the bracket in the store might need
     // to be synced to the url on mount
-    this.updatePath();
+    this.updatePath()
   }
 
   componentDidUpdate(prevProps) {
     // Changing events means that the url needs to be
     // synced with the store if there is an entry need to sync the
     if (prevProps.event.id !== this.props.event.id) {
-      this.updatePath();
+      this.updatePath()
     }
   }
 
   pushBracket() {
-    const {bracket, empty} = this.props;
-    const {bracket: bracketParam} = this.props.match.params;
+    const { bracket, empty } = this.props
+    const { bracket: bracketParam } = this.props.match.params
 
     if (bracketParam && bracketParam !== bracket && bracketParam !== empty) {
-      this.props.entryActions.pushBracket(bracketParam);
+      this.props.entryActions.pushBracket(bracketParam)
     }
   }
 
   updatePath() {
-    const {bracket, empty} = this.props;
-    const {bracket: bracketParam} = this.props.match.params;
+    const { bracket, empty } = this.props
+    const { bracket: bracketParam } = this.props.match.params
 
     if (bracket && bracket !== bracketParam && bracket !== empty) {
-      this.props.entryActions.updatePath(bracket);
+      this.props.entryActions.updatePath(bracket)
     }
   }
 
@@ -89,11 +92,11 @@ export default class LiveEntryPage extends Component {
       validate,
       entryActions,
       finalId,
-      bestOf
-    } = this.props;
+      bestOf,
+    } = this.props
 
     return (
-      <Page width='full' className={event.id}>
+      <Page width="full" className={event.id}>
         <BracketHeader>
           <BracketNav
             navigation={navigation}
@@ -109,10 +112,7 @@ export default class LiveEntryPage extends Component {
             locked={locked}
             progress={progress}
           />
-          <BracketProgress
-            message='picks made'
-            progress={progress}
-          />
+          <BracketProgress message="picks made" progress={progress} />
         </BracketHeader>
         <LiveBracket
           validate={validate}
@@ -122,6 +122,6 @@ export default class LiveEntryPage extends Component {
           onUpdate={entryActions.update}
         />
       </Page>
-    );
+    )
   }
 }

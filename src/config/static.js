@@ -1,8 +1,8 @@
-import base from './base';
+import base from './base'
 
 export default {
   ...base,
   apiUrl: '/json',
   sse: false,
-  'static': true
-};
+  static: true,
+}
