@@ -45,7 +45,8 @@ export const navigate = (method) => navigationActions[method]()
 export const sse = (event) => (dispatch, getState) => {
   const state = getState()
 
-  if (bailout(state, event, { timeOnly: true })) return null
+  const shouldBailout = bailout(state, event, { timeOnly: true })
+  if (shouldBailout) return null
 
   return es(
     {
