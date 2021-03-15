@@ -7,6 +7,7 @@ import {
   ButtonGroup,
   Button,
 } from 'react-bootstrap'
+import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import dateFormat from 'dateformat'
@@ -85,17 +86,21 @@ export default class ResultsTable extends Component {
             <tr>
               <th>Rank</th>
               <th>Username</th>
-              {columns.map((column) => (
-                <SortableTh
-                  {...headerProps}
-                  hideXs={column.hideXs}
-                  hideSm={column.hideSm}
-                  key={column.key}
-                  sortKey={column.key}
-                >
-                  {column.display}
-                </SortableTh>
-              ))}
+              {columns
+                .map((column) =>
+                  column.key.indexOf('gooley') === 0 && !locked ? null : (
+                    <SortableTh
+                      {...headerProps}
+                      hideXs={column.hideXs}
+                      hideSm={column.hideSm}
+                      key={column.key}
+                      sortKey={column.key}
+                    >
+                      {column.display}
+                    </SortableTh>
+                  )
+                )
+                .filter(Boolean)}
             </tr>
           </thead>
           <tbody>
@@ -127,30 +132,50 @@ export default class ResultsTable extends Component {
                     entry.user.username
                   )}
                 </td>
-                {entry.score.rounds.map((round, roundIndex) => (
-                  <td key={roundIndex} className="hidden-xs">
-                    {round}
-                    {entry.score.bonus
-                      ? ` (${entry.score.bonus[roundIndex]})`
-                      : ''}
-                  </td>
-                ))}
-                <td>
-                  {entry.score.standard}{' '}
-                  <EntryCanWin
-                    {...{ event, progress, entry }}
-                    onCanWinCheck={this.handleCanWinCheck}
-                  />
-                </td>
-                <td>{entry.score.standardPPR}</td>
-                {typeof entry.score.gooley !== undefined && (
-                  <td className="hidden-xs hidden-sm">{entry.score.gooley}</td>
-                )}
-                {typeof entry.score.gooleyPPR !== undefined && (
-                  <td className="hidden-xs hidden-sm">
-                    {entry.score.gooleyPPR}
-                  </td>
-                )}
+                {columns
+                  .map((c, index) => {
+                    const { key, hideSm, hideXs } = c
+                    const classes = cx({
+                      'hidden-xs': hideXs,
+                      'hidden-sm': hideSm,
+                    })
+
+                    let result = null
+
+                    if (key.indexOf('rounds.') === 0) {
+                      result = (
+                        <span>
+                          {entry.score.rounds[index]}
+                          {entry.score.bonus
+                            ? ` (${entry.score.bonus[index]})`
+                            : ''}
+                        </span>
+                      )
+                    } else if (c.key === 'standard') {
+                      result = (
+                        <span>
+                          {entry.score.standard}{' '}
+                          <EntryCanWin
+                            {...{ event, progress, entry }}
+                            onCanWinCheck={this.handleCanWinCheck}
+                          />
+                        </span>
+                      )
+                    } else if (key.indexOf('gooley') === 0 && !locked) {
+                      result = null
+                    } else {
+                      result = entry.score[key]
+                    }
+
+                    return (
+                      result != null && (
+                        <td key={key} className={classes}>
+                          {result}
+                        </td>
+                      )
+                    )
+                  })
+                  .filter(Boolean)}
               </tr>
             ))}
           </tbody>
