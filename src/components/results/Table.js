@@ -80,74 +80,81 @@ export default class ResultsTable extends Component {
             to see all the entries and the live results.
           </p>
         )}
-        {locked && (
-          <Table condensed striped className="results-table">
-            <thead>
+        <Table condensed striped className="results-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Username</th>
+              {columns.map((column) => (
+                <SortableTh
+                  {...headerProps}
+                  hideXs={column.hideXs}
+                  hideSm={column.hideSm}
+                  key={column.key}
+                  sortKey={column.key}
+                >
+                  {column.display}
+                </SortableTh>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {!hasResults && (
               <tr>
-                <th>Rank</th>
-                <th>Username</th>
-                {columns.map((column) => (
-                  <SortableTh
-                    {...headerProps}
-                    hideXs={column.hideXs}
-                    hideSm={column.hideSm}
-                    key={column.key}
-                    sortKey={column.key}
-                  >
-                    {column.display}
-                  </SortableTh>
-                ))}
+                <td colSpan="99">{`There are no results yet ${
+                  friends ? 'from your friends ' : ''
+                }for this event.`}</td>
               </tr>
-            </thead>
-            <tbody>
-              {!hasResults && (
-                <tr>
-                  <td colSpan="99">{`There are no results yet ${
-                    friends ? 'from your friends ' : ''
-                  }for this event.`}</td>
-                </tr>
-              )}
-              {entries.map((entry) => (
-                <tr key={entry.id} className={entry.isMe ? 'info' : ''}>
-                  <td>{entry.score.index}</td>
-                  <td>
+            )}
+            {entries.map((entry) => (
+              <tr key={entry.id} className={entry.isMe ? 'info' : ''}>
+                <td>{entry.score.index}</td>
+                <td>
+                  {/* Only show links if locked or if the user is logged in and it is their entry.
+                   * Obviously this isn't secure and the brackets are fetched and in the data store
+                   * but this is just to make it obvious that entries aren't open and that you probably
+                   * shouldn't look at anyone else's entry yet. This also makes it so that the SSE fetching
+                   * for entries actually does something because prior to this change I don't think there was
+                   * anywhere to actually see that data.
+                   */}
+                  {locked || entry.isMe ? (
                     <Link
                       to={`/${entry.sport}-${entry.year}/entries/${entry.user.id}`}
                     >
                       {entry.user.username}
                     </Link>
-                  </td>
-                  {entry.score.rounds.map((round, roundIndex) => (
-                    <td key={roundIndex} className="hidden-xs">
-                      {round}
-                      {entry.score.bonus
-                        ? ` (${entry.score.bonus[roundIndex]})`
-                        : ''}
-                    </td>
-                  ))}
-                  <td>
-                    {entry.score.standard}{' '}
-                    <EntryCanWin
-                      {...{ event, progress, entry }}
-                      onCanWinCheck={this.handleCanWinCheck}
-                    />
-                  </td>
-                  <td>{entry.score.standardPPR}</td>
-                  {typeof entry.score.gooley !== undefined && (
-                    <td className="hidden-xs hidden-sm">
-                      {entry.score.gooley}
-                    </td>
+                  ) : (
+                    entry.user.username
                   )}
-                  {typeof entry.score.gooleyPPR !== undefined && (
-                    <td className="hidden-xs hidden-sm">
-                      {entry.score.gooleyPPR}
-                    </td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        )}
+                </td>
+                {entry.score.rounds.map((round, roundIndex) => (
+                  <td key={roundIndex} className="hidden-xs">
+                    {round}
+                    {entry.score.bonus
+                      ? ` (${entry.score.bonus[roundIndex]})`
+                      : ''}
+                  </td>
+                ))}
+                <td>
+                  {entry.score.standard}{' '}
+                  <EntryCanWin
+                    {...{ event, progress, entry }}
+                    onCanWinCheck={this.handleCanWinCheck}
+                  />
+                </td>
+                <td>{entry.score.standardPPR}</td>
+                {typeof entry.score.gooley !== undefined && (
+                  <td className="hidden-xs hidden-sm">{entry.score.gooley}</td>
+                )}
+                {typeof entry.score.gooleyPPR !== undefined && (
+                  <td className="hidden-xs hidden-sm">
+                    {entry.score.gooleyPPR}
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </div>
     )
   }
