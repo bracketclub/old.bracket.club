@@ -23,9 +23,8 @@ const mapStateToProps = mapSelectorsToProps({
   me: meSelectors.me,
 })
 
-@withRouter
 @connect(mapStateToProps, mapDispatchToProps({ meActions }))
-export default class Header extends Component {
+class Header extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
     me: PropTypes.object,
@@ -126,3 +125,5 @@ export default class Header extends Component {
     )
   }
 }
+
+export default withRouter(Header)

@@ -21,9 +21,8 @@ const mapStateToProps = mapSelectorsToProps({
   event: eventSelectors.info,
 })
 
-@withRouter
 @connect(mapStateToProps, mapDispatchToProps({ mastersActions }))
-export default class MasterNav extends Component {
+class MasterNav extends Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types, (gets used by selectors)
     location: PropTypes.object.isRequired,
@@ -57,3 +56,5 @@ export default class MasterNav extends Component {
     ]
   }
 }
+
+export default withRouter(MasterNav)

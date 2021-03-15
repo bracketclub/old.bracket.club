@@ -2,7 +2,6 @@ import config from 'config'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import charCodes from 'lib/charCodes'
 import mapSelectorsToProps from 'lib/mapSelectorsToProps'
@@ -17,10 +16,9 @@ const mapStateToProps = mapSelectorsToProps({
   locked: bracketSelectors.locked,
 })
 
-@withRouter
 @connect(mapStateToProps)
 @CSSModules(styles)
-export default class Footer extends Component {
+class Footer extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
     locked: PropTypes.bool.isRequired,
@@ -90,3 +88,5 @@ export default class Footer extends Component {
     )
   }
 }
+
+export default Footer
