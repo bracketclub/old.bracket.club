@@ -13,7 +13,6 @@ import BracketNav from '../components/bracket/Nav';
 import BracketProgress from '../components/bracket/Progress';
 import BracketHeader from '../components/bracket/Header';
 import BracketEnterButton from '../components/bracket/EnterButton';
-import MockMessage from '../components/bracket/MockMessage';
 
 const mapStateToProps = mapSelectorsToProps({
   validate: bracketSelectors.validate,
@@ -24,7 +23,6 @@ const mapStateToProps = mapSelectorsToProps({
   progress: entrySelectors.progress,
   bestOf: bracketSelectors.bestOf,
   locked: bracketSelectors.locked,
-  mocked: bracketSelectors.mocked,
   locks: bracketSelectors.locks,
   event: eventSelectors.info
 });
@@ -36,7 +34,6 @@ export default class LiveEntryPage extends Component {
     match: PropTypes.object.isRequired,
     locks: PropTypes.string.isRequired,
     locked: PropTypes.bool.isRequired,
-    mocked: PropTypes.bool.isRequired,
     validate: PropTypes.func,
     bracket: PropTypes.string,
     empty: PropTypes.string,
@@ -87,7 +84,6 @@ export default class LiveEntryPage extends Component {
       event,
       progress,
       locks,
-      mocked,
       locked,
       bracket,
       validate,
@@ -111,7 +107,6 @@ export default class LiveEntryPage extends Component {
             bracket={bracket}
             locks={locks}
             locked={locked}
-            mocked={mocked}
             progress={progress}
           />
           <BracketProgress
@@ -119,7 +114,6 @@ export default class LiveEntryPage extends Component {
             progress={progress}
           />
         </BracketHeader>
-        <MockMessage mocked={mocked} />
         <LiveBracket
           validate={validate}
           bracket={bracket}

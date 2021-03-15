@@ -18,8 +18,7 @@ const mapStateToProps = mapSelectorsToProps({
   progress: mastersSelectors.progress,
   locked: bracketSelectors.locked,
   locks: bracketSelectors.locks,
-  event: eventSelectors.info,
-  mocked: bracketSelectors.mocked
+  event: eventSelectors.info
 });
 
 @withRouter
@@ -33,7 +32,6 @@ export default class MasterNav extends Component {
     event: PropTypes.object.isRequired,
     locks: PropTypes.string.isRequired,
     locked: PropTypes.bool.isRequired,
-    mocked: PropTypes.bool.isRequired,
     user: PropTypes.object
   };
 
@@ -42,7 +40,7 @@ export default class MasterNav extends Component {
   };
 
   render() {
-    const {navigation, progress, locked, locks, event, mocked, user} = this.props;
+    const {navigation, progress, locked, locks, event, user} = this.props;
 
     return [
       <BracketHeader key='bracket-header'>
@@ -57,7 +55,6 @@ export default class MasterNav extends Component {
       </BracketHeader>,
       <LockMessage
         key='lock-message'
-        mocked={mocked}
         locked={locked}
         locks={locks}
         event={event}

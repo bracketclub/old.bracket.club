@@ -30,11 +30,6 @@ export const locked = createSelector(
   }
 );
 
-export const mocked = createSelector(
-  eventSelectors.info,
-  ($info) => config.mocks.indexOf($info.id) > -1
-);
-
 export const completeDate = createSelector(
   helpers,
   (o) => o.complete

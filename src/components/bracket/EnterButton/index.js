@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Button, Popover, Alert, OverlayTrigger, Glyphicon} from 'react-bootstrap';
 import TimeAgo from 'react-timeago';
-import dateFormat from 'dateformat';
 import CSSModules from 'react-css-modules';
 import tweetHref from 'lib/tweetHref';
 import Countdown from '../../event/Countdown';
@@ -18,35 +17,20 @@ export default class BracketEnterButton extends Component {
     bracket: PropTypes.string.isRequired,
     locks: PropTypes.string.isRequired,
     locked: PropTypes.bool.isRequired,
-    progress: PropTypes.object.isRequired,
-    mocked: PropTypes.bool.isRequired
+    progress: PropTypes.object.isRequired
   };
 
   getOverlay() {
-    const {event, bracket, locks, mocked} = this.props;
+    const {event, bracket} = this.props;
 
     const popover = (
       <Popover id='enter-popover'>
         <p>You’ll be taken to <strong>twitter.com</strong> to tweet your bracket!</p>
-        {!mocked &&
-          <Alert bsStyle='info'>
-            Don’t alter the <strong>url</strong> or <strong>#{config.twitter.hashtag} hashtag</strong> of the tweet.
-            {' '}
-            Those are used to verify your entry.
-          </Alert>
-        }
-        {mocked &&
-          <Alert bsStyle='info'>
-            <strong>Hey!</strong>
-            {' '}
-            Entries aren’t open yet (this is just the the latest projected bracket).
-            You’re welcome to tweet it, but make sure to come back before
-            {' '}
-            <strong>{dateFormat(new Date(locks), 'mmmm dS h:MMTT')}</strong>
-            {' '}
-            to tweet your bracket for real.
-          </Alert>
-        }
+        <Alert bsStyle='info'>
+          Don’t alter the <strong>url</strong> or <strong>#{config.twitter.hashtag} hashtag</strong> of the tweet.
+          {' '}
+          Those are used to verify your entry.
+        </Alert>
       </Popover>
     );
 

@@ -1,7 +1,6 @@
 export default {
   sport: 'ncaam',
   year: '2021',
-  mocks: [],
   navEvents: ['ncaam-2021'],
   events: [
     'ncaam-2021',

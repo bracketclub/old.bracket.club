@@ -11,7 +11,6 @@ export default class LockMessage extends Component {
     event: PropTypes.object.isRequired,
     locks: PropTypes.string.isRequired,
     locked: PropTypes.bool.isRequired,
-    mocked: PropTypes.bool.isRequired,
     user: PropTypes.object
   };
 
@@ -53,15 +52,14 @@ export default class LockMessage extends Component {
 
   render() {
     const {
-      locked,
-      mocked
+      locked
     } = this.props;
 
     const {
       visible
     } = this.state;
 
-    if (locked || mocked || !visible) {
+    if (locked || !visible) {
       return null;
     }
 
