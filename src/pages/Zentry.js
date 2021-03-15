@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import qs from 'query-string';
-import mapDispatchToProps from 'lib/mapDispatchToProps';
-import mapSelectorsToProps from 'lib/mapSelectorsToProps';
-import * as eventSelectors from '../selectors/event';
-import * as entrySelectors from '../selectors/entry';
-import * as bracketSelectors from '../selectors/bracket';
-import * as entryActionCreators from '../actions/entry';
-import ZenBracket from '../components/bracket/Zen';
-import Page from '../components/layout/Page';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import qs from 'query-string'
+import mapDispatchToProps from 'lib/mapDispatchToProps'
+import mapSelectorsToProps from 'lib/mapSelectorsToProps'
+import * as eventSelectors from '../selectors/event'
+import * as entrySelectors from '../selectors/entry'
+import * as bracketSelectors from '../selectors/bracket'
+import * as entryActionCreators from '../actions/entry'
+import ZenBracket from '../components/bracket/Zen'
+import Page from '../components/layout/Page'
 
 const mapStateToProps = mapSelectorsToProps({
   next: bracketSelectors.next,
@@ -18,18 +18,21 @@ const mapStateToProps = mapSelectorsToProps({
   navigation: entrySelectors.navigation,
   progress: entrySelectors.progress,
   event: eventSelectors.info,
-  locked: bracketSelectors.locked
-});
+  locked: bracketSelectors.locked,
+})
 
-@connect(mapStateToProps, mapDispatchToProps({entryActions: entryActionCreators}))
+@connect(
+  mapStateToProps,
+  mapDispatchToProps({ entryActions: entryActionCreators })
+)
 export default class ZentryPage extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
     locked: PropTypes.bool.isRequired,
     location: PropTypes.object.isRequired,
     next: PropTypes.func,
-    bracket: PropTypes.string
-  };
+    bracket: PropTypes.string,
+  }
 
   render() {
     const {
@@ -38,13 +41,13 @@ export default class ZentryPage extends Component {
       entryActions,
       event,
       locked,
-      location: {search}
-    } = this.props;
+      location: { search },
+    } = this.props
 
-    const query = qs.parse(search);
+    const query = qs.parse(search)
 
     return (
-      <Page width='full'>
+      <Page width="full">
         <ZenBracket
           event={event}
           next={next}
@@ -54,6 +57,6 @@ export default class ZentryPage extends Component {
           sensitive={!!query.baby}
         />
       </Page>
-    );
+    )
   }
 }

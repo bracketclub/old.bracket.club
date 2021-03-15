@@ -1,7 +1,7 @@
-import config from 'config';
-import qs from 'query-string';
+import config from 'config'
+import qs from 'query-string'
 
-export default ({event, bracket}) => {
+export default ({ event, bracket }) => {
   const tweetQs = qs.stringify({
     text: config.twitter.text[event.sport] || config.twitter.text.default,
     url: `https://${config.baseUrl}/${event.id}/entry/${bracket}`,
@@ -9,8 +9,8 @@ export default ({event, bracket}) => {
     lang: 'en',
     related: config.twitter.handle,
     via: config.twitter.handle,
-    count: 'none'
-  });
+    count: 'none',
+  })
 
-  return `https://twitter.com/share?${tweetQs}`;
-};
+  return `https://twitter.com/share?${tweetQs}`
+}

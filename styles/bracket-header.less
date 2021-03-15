@@ -25,7 +25,7 @@
   .bracket-nav,
   .bracket-enter,
   .bracket-progress {
-    float: left
+    float: left;
   }
 
   .bracket-nav {
@@ -35,7 +35,7 @@
   .bracket-progress {
     margin-top: 9px;
     padding-left: (@grid-gutter-width / 2);
-    width: calc(~"100% - 172px");
+    width: calc(~'100% - 172px');
 
     @media (min-width: @screen-sm) {
       float: right;
@@ -48,12 +48,12 @@
 
     .progress-bar {
       overflow: hidden;
-      .transition(width .3s);
+      .transition(width 0.3s);
     }
   }
 
   &.three-columns {
-    .bracket-nav ,
+    .bracket-nav,
     .bracket-progress {
       display: none;
     }
@@ -72,7 +72,7 @@
       }
 
       .bracket-enter {
-        width: calc(~"100% - 172px");
+        width: calc(~'100% - 172px');
       }
     }
 
@@ -86,7 +86,7 @@
       }
 
       .bracket-enter {
-        width: calc(~"100% - 457px");
+        width: calc(~'100% - 457px');
       }
 
       .bracket-progress {
@@ -105,7 +105,7 @@
       }
 
       .bracket-enter {
-        width: calc(~"100% - 650px");
+        width: calc(~'100% - 650px');
       }
 
       .bracket-progress {

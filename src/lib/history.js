@@ -1,6 +1,6 @@
-import createBrowserHistory from 'history/createBrowserHistory';
+import createBrowserHistory from 'history/createBrowserHistory'
 
 // Export history singleton to be used by the <Router>
-const history = createBrowserHistory();
+const history = createBrowserHistory()
 
-export default history;
+export default history

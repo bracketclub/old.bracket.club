@@ -1,7 +1,6 @@
 export default {
   sport: 'ncaam',
   year: '2021',
-  mocks: [],
   navEvents: ['ncaam-2021'],
   events: [
     'ncaam-2021',
@@ -23,10 +22,10 @@ export default {
     'ncaam-2015',
     'ncaam-2014',
     'ncaam-2013',
-    'ncaam-2012'
+    'ncaam-2012',
   ],
-  sse: false,
-  'static': false,
+  sse: true,
+  static: false,
   localStorage: 'bracketclub',
   baseUrl: 'bracket.club',
   twitter: {
@@ -38,12 +37,12 @@ export default {
       ncaam: 'I tweeted my #marchmadness bracket!',
       ncaaw: 'I tweeted my Women’s #marchmadness bracket!',
       nba: 'I tweeted my #nbaplayoffs bracket',
-      nhl: 'I tweeted my #nhlplayoffs bracket'
-    }
+      nhl: 'I tweeted my #nhlplayoffs bracket',
+    },
   },
   mailchimp: {
     url: 'https://tweetyourbracket.us5.list-manage.com/subscribe/post',
     u: '3357cbc15c95f163a6fff3a84',
-    id: '2259ac644a'
-  }
-};
+    id: '2259ac644a',
+  },
+}

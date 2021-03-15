@@ -1,11 +1,11 @@
-import React, {Component, cloneElement, Children} from 'react';
-import PropTypes from 'prop-types';
-import {debounce} from 'lodash';
-import {Motion, spring} from 'react-motion';
+import React, { Component, cloneElement, Children } from 'react'
+import PropTypes from 'prop-types'
+import { debounce } from 'lodash'
+import { Motion, spring } from 'react-motion'
 
-const DEBOUNCE_MS = 50;
-const SCROLL_REF = '_scroller';
-const CONTROLLED_FLAG = '_componentIsScrolling';
+const DEBOUNCE_MS = 50
+const SCROLL_REF = '_scroller'
+const CONTROLLED_FLAG = '_componentIsScrolling'
 
 // The scroller does two things:
 
@@ -23,49 +23,49 @@ class Scroller extends Component {
     animate: PropTypes.bool.isRequired,
     onScrollReset: PropTypes.func.isRequired,
     children: PropTypes.element.isRequired,
-    scrollNode: PropTypes.func.isRequired
-  };
+    scrollNode: PropTypes.func.isRequired,
+  }
 
   componentDidMount() {
-    this[SCROLL_REF].addEventListener('scroll', this.handleScroll, false);
+    this[SCROLL_REF].addEventListener('scroll', this.handleScroll, false)
   }
 
   componentDidUpdate(prevProps) {
-    const {scroll, animate} = this.props;
+    const { scroll, animate } = this.props
 
     if (!animate || scroll === prevProps.scroll) {
-      return;
+      return
     }
 
-    this.startScrolling();
-    this[SCROLL_REF].scrollLeft = scroll;
-    this.endScrolling();
+    this.startScrolling()
+    this[SCROLL_REF].scrollLeft = scroll
+    this.endScrolling()
   }
 
   componentWillUnmount() {
-    this[SCROLL_REF].removeEventListener('scroll', this.handleScroll, false);
+    this[SCROLL_REF].removeEventListener('scroll', this.handleScroll, false)
   }
 
   handleScroll = debounce((e) => {
     // Do nothing if the node is being controlled by componentDidUpdate
-    if (this[CONTROLLED_FLAG]) return;
-    this.props.onScrollReset(e.target.scrollLeft);
-  }, DEBOUNCE_MS);
+    if (this[CONTROLLED_FLAG]) return
+    this.props.onScrollReset(e.target.scrollLeft)
+  }, DEBOUNCE_MS)
 
   startScrolling() {
-    this[CONTROLLED_FLAG] = true;
+    this[CONTROLLED_FLAG] = true
   }
 
   endScrolling = debounce(() => {
     // Reset the controlled flag so that user interactions are listened fro again
-    this[CONTROLLED_FLAG] = false;
-  }, DEBOUNCE_MS);
+    this[CONTROLLED_FLAG] = false
+  }, DEBOUNCE_MS)
 
   render() {
-    const {children, scrollNode} = this.props;
+    const { children, scrollNode } = this.props
     return cloneElement(Children.only(children), {
-      ref: (c) => (this[SCROLL_REF] = c && scrollNode(c))
-    });
+      ref: (c) => (this[SCROLL_REF] = c && scrollNode(c)),
+    })
   }
 }
 
@@ -74,49 +74,53 @@ export default class MotionScroll extends Component {
     children: PropTypes.element.isRequired,
     scroll: PropTypes.number.isRequired,
     onScrollReset: PropTypes.func.isRequired,
-    scrollNode: PropTypes.func.isRequired
-  };
+    scrollNode: PropTypes.func.isRequired,
+  }
 
   constructor(props) {
-    super(props);
-    this.state = {scroll: 0, animate: false};
+    super(props)
+    this.state = { scroll: 0, animate: false }
   }
 
   componentWillReceiveProps(nextProps) {
-    const {scroll} = nextProps;
+    const { scroll } = nextProps
     if (scroll !== this.state.scroll) {
       // Respond to prop updates by setting the internal scroll state
-      this.setState({scroll, animate: true});
+      this.setState({ scroll, animate: true })
     }
   }
 
   handleScrollReset = (scroll) => {
     // Reset the internal scroll state with animate false so nothing is animated
-    this.setState({scroll, animate: false});
+    this.setState({ scroll, animate: false })
     // Also report to this parent in case it needs to reset its state
-    const {onScrollReset} = this.props;
+    const { onScrollReset } = this.props
     if (onScrollReset) {
-      onScrollReset(scroll);
+      onScrollReset(scroll)
     }
-  };
+  }
 
   render() {
-    const {children, scrollNode} = this.props;
-    const {animate, scroll} = this.state;
+    const { children, scrollNode } = this.props
+    const { animate, scroll } = this.state
 
     // During animations it uses react-motions spring, otherwise it is just
     // resetting internal state of <Motion>
-    const scrollStyle = animate ? spring(scroll) : scroll;
+    const scrollStyle = animate ? spring(scroll) : scroll
 
     return (
-      <Motion defaultStyle={{scroll: 0}} style={{scroll: scrollStyle}}>
+      <Motion defaultStyle={{ scroll: 0 }} style={{ scroll: scrollStyle }}>
         {(value) => (
-          <Scroller onScrollReset={this.handleScrollReset} scrollNode={scrollNode} scroll={value.scroll} animate={animate}>
+          <Scroller
+            onScrollReset={this.handleScrollReset}
+            scrollNode={scrollNode}
+            scroll={value.scroll}
+            animate={animate}
+          >
             {children}
           </Scroller>
         )}
       </Motion>
-    );
+    )
   }
 }
-
