@@ -25,16 +25,7 @@ export default {
     'ncaam-2013',
     'ncaam-2012',
   ],
-  sse:
-    // SSE is broken when there are multiple live events. Safari on iOS
-    // hits a connection-per-host limit at 6, so in practice with 2 live
-    // events and they each open two SSE streams (scores and entries), the
-    // request limit will be reached on the results page where two more requests
-    // are made. The solution should be to open a single SSE stream and then conditionally
-    // fetch based on the events/data received, but for now the architecture makes
-    // some assumptions that make that difficult.
-    typeof window.localStorage !== 'undefined' &&
-    window.localStorage.getItem('sse') === 'true',
+  sse: true,
   static: false,
   localStorage: 'bracketclub',
   baseUrl: 'bracket.club',
