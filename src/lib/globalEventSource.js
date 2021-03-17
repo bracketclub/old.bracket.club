@@ -42,6 +42,19 @@ export default (dispatch, getState) => {
     )
   })
 
+  let totalRetryCount = 0
+  source.addEventListener('error', () => {
+    totalRetryCount++
+
+    // SSE reconnects on its own, but if we get too
+    // many errors then manually close the connection.
+    // This will resume each page being fetched on load
+    // eslint-disable-next-line no-magic-numbers
+    if (totalRetryCount > 5) {
+      close()
+    }
+  })
+
   source.addEventListener('end', close)
 
   return close
