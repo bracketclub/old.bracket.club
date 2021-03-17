@@ -15,7 +15,7 @@ const mapStateToProps = mapSelectorsToProps({
 })
 
 const mapPropsToActions = (props) => ({
-  users: [usersActions.fetch, props.match.params.userId, usersActions.sse],
+  users: [usersActions.fetch, props.match.params.userId],
 })
 
 @connect(mapStateToProps)

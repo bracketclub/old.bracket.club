@@ -4,20 +4,16 @@ import { RECORDS, RESULT } from './endpointReducer'
 const d = (t) => new Date(t).getTime()
 
 // Return true to bailout on the request
-export default (key, selector, parseId = identity) => (
-  state,
-  params,
-  { timeOnly = false } = {}
-) => {
-  const { [RESULT]: result, sse } = state[key][RECORDS][params] || {}
+export default (key, selector, parseId = identity) => (state, params) => {
+  const hasSSE = state.sse.sse
+  const { [RESULT]: result } = state[key][RECORDS][params] || {}
 
-  if (!timeOnly) {
-    // If there is no result, always fetch
-    if (!result) return false
-    // If the result has successfully hooked up to the live event stream
-    // then always bailout since it has the latest
-    if (sse === true) return true
-  }
+  // If there is no result, always fetch
+  if (!result) return false
+
+  // If the result has successfully hooked up to the live event stream
+  // then always bailout since it has the latest
+  if (hasSSE === true) return true
 
   // Otherwise use the time and the selector's time to determine if the request
   // should be made

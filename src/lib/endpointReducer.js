@@ -64,11 +64,6 @@ const recordsReducerFor = (resourceType) => {
           fetchError: action.payload,
         })
 
-      case types.sse:
-        return updateState({
-          sse: !!action.payload,
-        })
-
       default:
         return state
     }

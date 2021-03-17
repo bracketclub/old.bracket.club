@@ -11,10 +11,9 @@ import { once } from 'lodash'
 import { Provider } from 'react-redux'
 import { auth } from 'lib/firebase'
 import history from 'lib/history'
+import globalEventSource from 'lib/globalEventSource'
 import configureStore from './store/configureStore'
 import * as meActions from './actions/me'
-import * as mastersActions from './actions/masters'
-import * as entriesActions from './actions/entries'
 import * as eventActions from './actions/event'
 import App from './App'
 
@@ -46,9 +45,9 @@ if (process.env.NODE_ENV !== 'production')
 // Start SSE handlers for things that will be used across multiple pages
 // These can be called for all events because the SSE handlers will bailout
 // based on if the event is live or not
+globalEventSource(store.dispatch, store.getState)
+
 config.events.forEach((event) => {
-  mastersActions.sse(event)(store.dispatch, store.getState)
-  entriesActions.sse(event)(store.dispatch, store.getState)
   eventActions.countdown(event)(store.dispatch, store.getState)
 })
 

@@ -1,4 +1,3 @@
-import config from 'config'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import hoistStatics from 'hoist-non-react-statics'
@@ -17,9 +16,8 @@ export default (mapPropsToActions) => (WrappedComponent) => {
     componentDidMount() {
       const { dispatch } = this.props
 
-      this.forEachAction(({ key, action, param, sse }) => {
+      this.forEachAction(({ key, action, param }) => {
         dispatch(action(param))
-        this.eventSource({ key, param, sse })
       })
     }
 
@@ -27,38 +25,12 @@ export default (mapPropsToActions) => (WrappedComponent) => {
       const { dispatch } = this.props
       const prevActions = mapPropsToActions(prevProps)
 
-      this.forEachAction(({ key, action, param, sse }) => {
+      this.forEachAction(({ key, action, param }) => {
         const prevParam = prevActions[key][1]
         if (param !== prevParam) {
           dispatch(action(param))
-          this.eventSource({ key, prevParam, param, sse })
         }
       })
-    }
-
-    componentWillUnmount() {
-      this.forEachAction(({ key, action, param }) => {
-        this.eventSource({ key, param })
-      })
-    }
-
-    eventSource({ key, prevParam, param, sse }) {
-      if (config.sse) {
-        const SSEKey = `_sse_${param}_${key}`
-        const prevSSEKey = `_sse_${prevParam}_${key}`
-
-        if (typeof this[SSEKey] === 'function') {
-          this[SSEKey]()
-        }
-
-        if (typeof this[prevSSEKey] === 'function') {
-          this[prevSSEKey]()
-        }
-
-        if (sse) {
-          this[SSEKey] = this.props.dispatch(sse(param))
-        }
-      }
     }
 
     forEachAction(iterator) {
@@ -68,7 +40,6 @@ export default (mapPropsToActions) => (WrappedComponent) => {
           key,
           action: actions[key][0],
           param: actions[key][1],
-          sse: actions[key][2],
         })
       )
     }

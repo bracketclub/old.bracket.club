@@ -1,6 +1,5 @@
 import config from 'config'
 import restActions from 'lib/reduxApiRestActions'
-import es from 'lib/eventSource'
 import bailoutEvent from 'lib/bailoutEvent'
 import { replaceQuery, location } from './history'
 import { master as schema } from '../schema'
@@ -41,21 +40,3 @@ export const fetch = restActions({
 })
 
 export const navigate = (method) => navigationActions[method]()
-
-export const sse = (event) => (dispatch, getState) => {
-  const state = getState()
-
-  const shouldBailout = bailout(state, event, { timeOnly: true })
-  if (shouldBailout) return null
-
-  return es(
-    {
-      id: event,
-      dispatch,
-      endpoint,
-    },
-    () => {
-      dispatch(fetch(event, { refresh: true }))
-    }
-  )
-}
