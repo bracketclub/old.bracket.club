@@ -111,73 +111,78 @@ export default class ResultsTable extends Component {
                 }for this event.`}</td>
               </tr>
             )}
-            {entries.map((entry) => (
-              <tr key={entry.id} className={entry.isMe ? 'info' : ''}>
-                <td>{entry.score.index}</td>
-                <td>
-                  {/* Only show links if locked or if the user is logged in and it is their entry.
-                   * Obviously this isn't secure and the brackets are fetched and in the data store
-                   * but this is just to make it obvious that entries aren't open and that you probably
-                   * shouldn't look at anyone else's entry yet. This also makes it so that the SSE fetching
-                   * for entries actually does something because prior to this change I don't think there was
-                   * anywhere to actually see that data.
-                   */}
-                  {locked || entry.isMe ? (
-                    <Link
-                      to={`/${entry.sport}-${entry.year}/entries/${entry.user.id}`}
-                    >
-                      {entry.user.username}
-                    </Link>
-                  ) : (
-                    entry.user.username
-                  )}
-                </td>
-                {columns
-                  .map((c, index) => {
-                    const { key, hideSm, hideXs } = c
-                    const classes = cx({
-                      'hidden-xs': hideXs,
-                      'hidden-sm': hideSm,
+            {entries.map((entry) =>
+              // Race condition! Currently this component can be rendered with entries before
+              // the scores are loaded. This causes the entries to be in their correct shape
+              // except for the score. So for now just dont render a row if there is no score.
+              entry.score ? (
+                <tr key={entry.id} className={entry.isMe ? 'info' : ''}>
+                  <td>{entry.score.index}</td>
+                  <td>
+                    {/* Only show links if locked or if the user is logged in and it is their entry.
+                     * Obviously this isn't secure and the brackets are fetched and in the data store
+                     * but this is just to make it obvious that entries aren't open and that you probably
+                     * shouldn't look at anyone else's entry yet. This also makes it so that the SSE fetching
+                     * for entries actually does something because prior to this change I don't think there was
+                     * anywhere to actually see that data.
+                     */}
+                    {locked || entry.isMe ? (
+                      <Link
+                        to={`/${entry.sport}-${entry.year}/entries/${entry.user.id}`}
+                      >
+                        {entry.user.username}
+                      </Link>
+                    ) : (
+                      entry.user.username
+                    )}
+                  </td>
+                  {columns
+                    .map((c, index) => {
+                      const { key, hideSm, hideXs } = c
+                      const classes = cx({
+                        'hidden-xs': hideXs,
+                        'hidden-sm': hideSm,
+                      })
+
+                      let result = null
+
+                      if (key.indexOf('rounds.') === 0) {
+                        result = (
+                          <span>
+                            {entry.score.rounds[index]}
+                            {entry.score.bonus
+                              ? ` (${entry.score.bonus[index]})`
+                              : ''}
+                          </span>
+                        )
+                      } else if (c.key === 'standard') {
+                        result = (
+                          <span>
+                            {entry.score.standard}{' '}
+                            <EntryCanWin
+                              {...{ event, progress, entry }}
+                              onCanWinCheck={this.handleCanWinCheck}
+                            />
+                          </span>
+                        )
+                      } else if (key.indexOf('gooley') === 0 && !locked) {
+                        result = null
+                      } else {
+                        result = entry.score[key]
+                      }
+
+                      return (
+                        result != null && (
+                          <td key={key} className={classes}>
+                            {result}
+                          </td>
+                        )
+                      )
                     })
-
-                    let result = null
-
-                    if (key.indexOf('rounds.') === 0) {
-                      result = (
-                        <span>
-                          {entry.score.rounds[index]}
-                          {entry.score.bonus
-                            ? ` (${entry.score.bonus[index]})`
-                            : ''}
-                        </span>
-                      )
-                    } else if (c.key === 'standard') {
-                      result = (
-                        <span>
-                          {entry.score.standard}{' '}
-                          <EntryCanWin
-                            {...{ event, progress, entry }}
-                            onCanWinCheck={this.handleCanWinCheck}
-                          />
-                        </span>
-                      )
-                    } else if (key.indexOf('gooley') === 0 && !locked) {
-                      result = null
-                    } else {
-                      result = entry.score[key]
-                    }
-
-                    return (
-                      result != null && (
-                        <td key={key} className={classes}>
-                          {result}
-                        </td>
-                      )
-                    )
-                  })
-                  .filter(Boolean)}
-              </tr>
-            ))}
+                    .filter(Boolean)}
+                </tr>
+              ) : null
+            )}
           </tbody>
         </Table>
       </div>
