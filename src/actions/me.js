@@ -20,9 +20,11 @@ export const getFriends = () => (dispatch, getState) => {
 
   return dispatch({
     [CALL_API]: {
-      endpoint: `https://wt-lukekarrys-gmail_com-0.sandbox.auth0-extend.com/twitter-friends-webtask?${qs.stringify(
-        { id, token, secret }
-      )}`,
+      endpoint: `/.netlify/functions/twitter-friends?${qs.stringify({
+        id,
+        token,
+        secret,
+      })}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',

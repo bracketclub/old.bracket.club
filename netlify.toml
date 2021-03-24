@@ -1,11 +1,12 @@
 [build]
   publish = "build/"
   command = "npm test && npm run lint && npm run build-prod"
+  functions = "functions/"
 
 [[redirects]]
-  from="/*"
-  to="/index.html"
-  status=200
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 [context.staging.environment]
   API_URL = "https://bracketclub-staging.herokuapp.com"
