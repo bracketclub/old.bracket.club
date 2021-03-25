@@ -9,6 +9,9 @@ const { TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET } = process.env
 
 const res = (body, statusCode = 200) => ({
   statusCode,
+  headers: {
+    'Content-Type': 'application/json',
+  },
   body: JSON.stringify(body),
 })
 
@@ -30,9 +33,12 @@ exports.handler = async (event) => {
   }
 
   if (!TWITTER_CONSUMER_KEY || !TWITTER_CONSUMER_SECRET) {
-    return res({
-      error: 'Consumer key or consumer secret env variables are not set',
-    })
+    return res(
+      {
+        error: 'Consumer key or consumer secret env variables are not set',
+      },
+      400
+    )
   }
 
   try {
@@ -46,7 +52,7 @@ exports.handler = async (event) => {
       user_id: id,
       stringify_ids: true,
     })
-    return res(result.data)
+    return res({ ids: result.data.ids })
   } catch (err) {
     return res({ error: err.message }, 500)
   }

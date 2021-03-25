@@ -27,9 +27,6 @@ export default ({ schema, url, bailout = stubFalse } = {}) => {
         [CALL_API]: {
           method: 'GET',
           endpoint: `${url}/${id}${config.static ? '.json' : ''}`,
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
           types: [
             {
               meta,

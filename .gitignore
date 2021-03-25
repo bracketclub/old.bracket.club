@@ -29,3 +29,6 @@ node_modules
 # Built project dirs
 build
 .firebase
+
+# Local Netlify folder
+.netlify

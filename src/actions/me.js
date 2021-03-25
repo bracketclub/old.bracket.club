@@ -26,9 +26,6 @@ export const getFriends = () => (dispatch, getState) => {
         secret,
       })}`,
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
       // Cache friends forever
       bailout: meSelectors.friends,
       types: [

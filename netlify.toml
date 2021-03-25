@@ -10,3 +10,8 @@
 
 [context.staging.environment]
   API_URL = "https://bracketclub-staging.herokuapp.com"
+
+[dev]
+  framework = "#custom"
+  command = "npm start"
+  targetPort = 3031
