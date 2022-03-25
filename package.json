@@ -15,7 +15,7 @@
     "bootstrap": "^3.3.7",
     "bootswatch": "^3.3.7",
     "bows": "^1.7.0",
-    "bracket-data": "^4.6.10",
+    "bracket-data": "^4.7.0",
     "bracket-generator": "^3.1.1",
     "bracket-possibilities": "^1.4.0",
     "bracket-scorer": "^3.4.2",
@@ -23,7 +23,6 @@
     "bracket-validator": "^3.1.1",
     "classnames": "^2.2.5",
     "dateformat": "^3.0.3",
-    "firebase": "^4.11.0",
     "history": "^4.7.2",
     "hoist-non-react-statics": "^2.5.0",
     "lodash": "^4.17.5",
@@ -138,5 +137,9 @@
     "test": "jest --config jest/config.json --rootDir . --testPathPattern __tests__/[a-z].*",
     "test:watch": "npm test -- --watch",
     "validate": "npm ls >/dev/null; exit 0"
+  },
+  "volta": {
+    "node": "14.19.1",
+    "npm": "6.14.16"
   }
 }

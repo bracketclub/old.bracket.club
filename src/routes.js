@@ -14,6 +14,7 @@ import Countdown from './pages/Countdown'
 import FAQ from './pages/FAQ'
 import Zentry from './pages/Zentry'
 import Events from './pages/Events'
+import PlainBracket from './pages/PlainBracket'
 
 // By default if a route is missing an eventPath, it will link each event to /:eventId
 // Otherwise it will use this function which will replace all the params with the match
@@ -105,6 +106,12 @@ const routes = [
     exact: true,
     path: '/:eventId/entry/:bracket',
     component: CreatedEntry,
+    eventPath,
+  },
+  {
+    exact: true,
+    path: '/:eventId/plain/:bracket',
+    component: PlainBracket,
     eventPath,
   },
   {

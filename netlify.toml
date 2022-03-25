@@ -1,6 +1,7 @@
 [build]
   publish = "build/"
-  command = "npm test && npm run lint && npm run build-prod"
+  # command = "npm test && npm run lint && npm run build-prod"
+  command = "npm run build-prod"
   functions = "functions/"
 
 [[redirects]]

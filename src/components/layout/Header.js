@@ -114,11 +114,11 @@ class Header extends Component {
             <LinkContainer to={`/${event.id}/entries`}>
               <NavItem>Results</NavItem>
             </LinkContainer>
-            {me.id ? (
+            {/* {me.id ? (
               this.getMeDropdown()
             ) : (
               <NavItem onClick={this.handleLogin}>Login</NavItem>
-            )}
+            )} */}
           </Nav>
         </NavbarCollapse>
       </Navbar>

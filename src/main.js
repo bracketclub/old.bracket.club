@@ -7,13 +7,13 @@ import 'babel-polyfill'
 import config from 'config'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { once } from 'lodash'
+// import { once } from 'lodash'
 import { Provider } from 'react-redux'
-import { auth } from 'lib/firebase'
+// import { auth } from 'lib/firebase'
 import history from 'lib/history'
-import globalEventSource from 'lib/globalEventSource'
+// import globalEventSource from 'lib/globalEventSource'
 import configureStore from './store/configureStore'
-import * as meActions from './actions/me'
+// import * as meActions from './actions/me'
 import * as eventActions from './actions/event'
 import App from './App'
 
@@ -34,9 +34,9 @@ onLocationChange(history.location)
 // than the login action which contains the user and the twitter credentials
 // This is also wrapped in once, so that it only happens for the intial load
 // and everything else is handled as part of the me actions
-auth.onAuthStateChanged(
-  once((user) => store.dispatch(meActions.initialAuth(user)))
-)
+// auth.onAuthStateChanged(
+//   once((user) => store.dispatch(meActions.initialAuth(user)))
+// )
 
 // Add debugging helperts to global
 if (process.env.NODE_ENV !== 'production')
@@ -45,7 +45,7 @@ if (process.env.NODE_ENV !== 'production')
 // Start SSE handlers for things that will be used across multiple pages
 // These can be called for all events because the SSE handlers will bailout
 // based on if the event is live or not
-globalEventSource(store.dispatch, store.getState)
+// globalEventSource(store.dispatch, store.getState)
 
 config.events.forEach((event) => {
   eventActions.countdown(event)(store.dispatch, store.getState)

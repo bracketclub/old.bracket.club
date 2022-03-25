@@ -1,8 +1,9 @@
 export default {
   sport: 'ncaam',
-  year: '2021',
-  navEvents: ['ncaam-2021', 'ncaaw-2021'],
+  year: '2022',
+  navEvents: ['ncaam-2022'],
   events: [
+    'ncaam-2022',
     'ncaam-2021',
     'ncaaw-2021',
     'ncaam-2019',
